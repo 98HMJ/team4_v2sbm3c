@@ -4,7 +4,6 @@ build/
 !**/src/test/**/build/
 
 ### STS ###
-application.properties
 .apt_generated
 .factorypath
 .springBeans
@@ -31,3 +30,4 @@ out/
 
 ### VS Code ###
 .vscode/
+application.properties
