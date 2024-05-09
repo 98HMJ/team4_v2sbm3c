@@ -2,8 +2,7 @@ package dev.mvc.reply;
 
 import java.util.ArrayList;
 
-public interface ReplyDAOInter {
-  
+public interface ReplyProcInter {
   /**
    * 댓글 등록
    * @param replyVO
@@ -38,5 +37,4 @@ public interface ReplyDAOInter {
    * @return 
    */
   public int count_by_communityno(int communityno);
-  
 }

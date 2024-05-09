@@ -18,7 +18,7 @@
   </select>
   
   <!-- 댓글 수정 -->
-  <update id="update_text" parameterType="dev.mvc.reply.ReplyVO">
+  <update id="update_contents" parameterType="dev.mvc.reply.ReplyVO">
     UPDATE reply 
     set contents = #{contents}
     WHERE replyno = #{replyno}
