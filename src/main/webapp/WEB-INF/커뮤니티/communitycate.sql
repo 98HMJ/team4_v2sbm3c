@@ -20,3 +20,12 @@ CREATE SEQUENCE communitycate_seq
   MAXVALUE 9999999999  -- 최대값: 9999999999 --> NUMBER(10) 대응
   CACHE 2                        -- 2번은 메모리에서만 계산
   NOCYCLE;                      -- 다시 1부터 생성되는 것을 방지
+  
+--커뮤니티 카테고리 조회--
+SELECT * FROM COMMUNITYCATE;
+  
+--커뮤니티 카테고리 삽입--
+INSERT INTO COMMUNITYCATE(COMMUNITYCATENO,NAME)
+VALUES(communitycate_seq.nextval,'잡담');
+
+commit;

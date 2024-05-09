@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev.mvc.communitycate.CommunityCateDAOInter">
+
+    <!--커뮤니티 카테고리 수정-->
+    <update id="update" parameterType="dev.mvc.communitycate.CommunityCateVO">
+        UPDATE communitycate
+        SET name=#{name}
+        WHERE communitycateno=#{commnuitycateno}
+    </update>
+
+    <!--커뮤니티 카테고리 삭제-->
+    <delete id="delete" parameterType="int">
+        DELETE FROM communitycate
+        CASCADE WHERE communitycateno=#{communitycateno}
+    </delete>
+
+    <!--커뮤니티 카테고리 목록-->
+    <select id="list" resultType="dev.mvc.communitycate.CommunityCateVO">
+        SELECT *
+        FROM communitycate
+    </select>
+
+</mapper> 

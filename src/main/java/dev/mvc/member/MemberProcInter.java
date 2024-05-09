@@ -2,11 +2,8 @@ package dev.mvc.member;
 
 import java.util.ArrayList;
 
-/**
- * MemberDAOInter
- */
-public interface MemberDAOInter {
-
+public interface MemberProcInter {
+    
     /**
      * 회원가입
      * @param memberVO
@@ -55,4 +52,5 @@ public interface MemberDAOInter {
      * @return int
      */
     public int delete(int memberno);
+    
 } 
