@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev.mvc.community.CommunityDAOInter">
+
+    <!--글 등록-->
+    <insert id="create" parameterType="dev.mvc.community.CommunityVO">
+        INSERT INTO community(commnuityno, title, contents, rdate, files, filesaved, thumb, filesize, map, youtube, mp4, memberno, communitycateno)
+        VALUES(community_seq.nextval, #{title}, #{contents}, sysdate, #{files}, #{filesaved}, #{thumb}, #{filesize}, #{map}, #{youtube}, #{mp4}, #{memberno}, #{communitycateno})
+    </insert>
+
+    <!--글 조회-->
+    <select id="read" resultType="dev.mvc.community.CommunityVO" parameterType="int">
+        SELECT *
+        FROM commnuity
+        WEHRE commnuityno=#{commnuityno}
+    </select>
+
+    <!--글 작성 목록-->
+    <select id="list" resultType="dev.mvc.community.CommunityVO">
+        SELECT title, rdate, memberno, communitycateno
+        FROM commnuity
+        ORDER BY rdate ASC
+    </select>
+
+    <!--글 수정-->
+    <updtae id="update" parameterType="dev.mvc.community.CommunityVO">
+        UPDATE commnuity
+        SET title=#{title}, contents=#{contents}, files=#{files}, filesaved=#{filesaved}, map=#{map}, youtube=#{youtube}, mp4=#{map}
+        WEHRE commnuityno=#{commnuityno}
+    </update>
+
+    <!--글 삭제-->
+    <delete id="delete" parameterType="int">
+        DELETE FROM commnuity
+        WEHRE commnuityno=#{commnuityno}
+    </delete>
+
+    <!--글 검색(제목/내용)-->
+    <select id="search" resultType="dev.mvc.community.CommunityVO" parameterType="String">
+        SELECT title, rdate, memberno, communitycateno
+        FROM commnuity
+        WEHRE title LIKE '%' || #{word} || '%' OR contents LIKE '%' || #{word} || '%'
+        ORDER BY rdate ASC
+    </select>
+
+</mapper> 

@@ -1,15 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?>
- 
+<?xml version="1.0" encoding="UTF-8"?> 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- 
-<mapper namespace="dev.mvc.contents.MemberDAOInter">
+
+<mapper namespace="dev.mvc.member.MemberDAOInter">
+
+  <!--회원가입-->
   <insert id="create" parameterType="dev.mvc.member.MemberVO">
-    INSERT INTO member(memberno, name, sex, age, id, password, ninckname, tel, address1, address2, email, rdate)
+    INSERT INTO member(memberno, name, sex, age, id, password, nickname, tel, address1, address2, email, rdate)
     VALUES (member_seq.nextval, #{name}, #{sex}, #{age}, #{id}, #{password}, 
                  #{ninckname}, #{tel}, #{address1}, #{address2}, #{email}, #{rdate})
   </insert>
-  
-  <select>
+
+  <!--회원가입시 중복 아이디 확인-->
+  <select id="checkid" resultType="int" parameterType="String">
+    SELECT COUNT(memberno) as cnt
+    FROM member
+    WHERE id=#{id}
   </select>
-          
+
+  <!--회원 로그인-->
+  <select id="login" resultType="int" parameterType="dev.mvc.member.MemberVO">
+    SELECT COUNT(memberno) as cnt
+    FROM member
+    WHERE id=#{id} AND password=#{password}
+  </select>
+
+  <!--회원 목록 조회-->
+  <select id="list" resultType="dev.mvc.member.MemberVO">
+    SELECT *
+    FROM member
+    ORDER BY memberno ASC
+  </select>
+
+  <!--회원 정보 조회-->
+  <select id="read" resultType="memberVO" parameterType="int">
+    SELECT *
+    FROM member
+    WHERE memberno=#{memberno}
+  </select>
+
+  <!--회원 정보 수정-->
+  <update id="update" parameterType="dev.mvc.member.MemberVO">
+    UPDATE member 
+    SET password=#{password}, ninckname=#{ninckname}, tel=#{tel}, address1=#{address1}, address2=#{address2}, email=#{email}
+    WHERE memberno=#{memberno}
+  </update>
+
+  <!--회원 삭제-->
+  <delete id="delete" parameterType="int">
+    DELETE FROM member
+    CASCADE WHERE memberno=#{memberno}
+  </delete>
+
 </mapper> 
