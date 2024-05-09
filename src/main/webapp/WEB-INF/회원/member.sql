@@ -13,7 +13,7 @@ CREATE TABLE MEMBER(
 		PASSWORD                      		VARCHAR2(20)		 NOT NULL,
 		NICKNAME                     		VARCHAR2(30)		 NOT NULL,
 		TEL                           		VARCHAR2(20)		 NOT NULL,
-		ADDRESS1                      		VARCHAR2(30)		 NOT NULL,
+		ADDRESS1                      		VARCHAR2(60)		 NOT NULL,
 		ADDRESS2                      		VARCHAR2(30)		 NOT NULL,
 		EMAIL                         		VARCHAR2(30)		 NOT NULL,
 		RDATE                         		DATE		 NOT NULL
