@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="dev.mvc.contents.MemberDAOInter">
+  <insert id="create" parameterType="dev.mvc.member.MemberVO">
+    INSERT INTO member(memberno, name, sex, age, id, password, ninckname, tel, address1, address2, email, rdate)
+    VALUES (member_seq.nextval, #{name}, #{sex}, #{age}, #{id}, #{password}, 
+                 #{ninckname}, #{tel}, #{address1}, #{address2}, #{email}, #{rdate})
+  </insert>
+  
+  <select>
+  </select>
+          
+</mapper> 
