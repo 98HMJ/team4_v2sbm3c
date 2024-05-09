@@ -3,11 +3,13 @@ package dev.mvc.admin;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public interface AdminDAOInter {
+import jakarta.servlet.http.HttpSession;
+
+public interface AdminProcInter {
   /**
    * 중복 아이디 검사
    * @param id
-   * @return id 개수
+   * @return id 개수, 0: 중복 없음 1 이상: 중복
    */
   public int checkID(String id);
 
@@ -70,4 +72,12 @@ public interface AdminDAOInter {
    * 로그인 처리
    */
   public int login(HashMap<String, Object> map);
+
+  /**
+   * 로그인된 관리자 검사
+   * @param session
+   * @return true: 관리자 false: 관리자 X 
+   */
+  public boolean isAdmin(HttpSession session);
+  
 }
