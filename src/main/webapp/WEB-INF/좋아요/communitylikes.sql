@@ -26,3 +26,36 @@ CREATE SEQUENCE communitylikes_seq
   MAXVALUE 9999999999  -- 최대값: 9999999999 --> NUMBER(10) 대응
   CACHE 2                        -- 2번은 메모리에서만 계산
   NOCYCLE;                  -- 다시 1부터 생성되는 것을 방지 
+
+-- CREATE: 커뮤니티 게시글의 좋아요
+INSERT INTO communitylikes(communitylikesno, cnt, communityno, memberno)
+VALUES(communitylikes_seq.nextval, 1, 3, 2);
+
+commit;
+
+-- READ(목록) : 모든 좋아요 목록 
+SELECT * FROM communitylikes;
+
+-- READ(조회): 특정 커뮤니티 글의 좋아요 수
+SELECT cnt
+FROM communitylikes
+WHERE communityno = 3;
+
+-- UPDATE : 커뮤니티 게시글의 좋아요 수 증가
+UPDATE communitylikes
+SET cnt = cnt + 1
+WHERE communityno = 3 AND memberno = 2;
+
+-- UPDATE : 커뮤니티 게시글의 좋아요 수 감소
+UPDATE communitylikes
+SET cnt = cnt - 1
+WHERE communityno = 3 AND memberno = 2 AND cnt > 0;
+
+-----------------------------------
+-- DELETE: 커뮤니티 게시글의 좋아요 
+-- 회원 삭제시 회원의 좋아요 취소?
+-- ex)B회원의 개시글에 회원A가 좋아요 한 경우 취소 
+------------------------------------
+
+
+rollback;

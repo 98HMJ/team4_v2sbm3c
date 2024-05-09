@@ -27,4 +27,30 @@ CREATE SEQUENCE reply_seq
   INCREMENT BY 1            -- 증가값
   MAXVALUE 9999999999  -- 최대값: 9999999999 --> NUMBER(10) 대응
   CACHE 2                        -- 2번은 메모리에서만 계산
-  NOCYCLE;                      -- 다시 1부터 생성되는 것을 방지 
+  NOCYCLE;                      -- 다시 1부터 생성되는 것을 방지
+
+INSERT INTO REPLY(replyno, contents, rdate, communityno, memberno)
+VALUES (reply_seq.nextval, '댓글 test1', SYSDATE, 3, 2);
+
+commit;
+
+SELECT replyno, contents, rdate, communityno, memberno
+FROM REPLY
+WHERE replyno = 3
+ORDER BY REPLYNO;
+
+SELECT replyno, contents, rdate, communityno, memberno
+FROM REPLY
+ORDER BY REPLYNO;
+
+UPDATE reply 
+set contents = '업데이트 댓글 test1'
+WHERE replyno = 3;
+
+SELECT replyno, contents, rdate, communityno, memberno
+FROM REPLY
+ORDER BY REPLYNO;
+
+DELETE FROM reply WHERE replyno = 3;
+
+rollback;

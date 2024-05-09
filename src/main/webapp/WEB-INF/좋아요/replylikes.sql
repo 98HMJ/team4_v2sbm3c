@@ -27,4 +27,34 @@ CREATE SEQUENCE replylikes_seq
   INCREMENT BY 1            -- 증가값
   MAXVALUE 9999999999  -- 최대값: 9999999999 --> NUMBER(10) 대응
   CACHE 2                        -- 2번은 메모리에서만 계산
-  NOCYCLE;                  -- 다시 1부터 생성되는 것을 방지 
+  NOCYCLE;                  -- 다시 1부터 생성되는 것을 방지
+  
+-- CREATE: 댓글의 좋아요
+INSERT INTO replylikes(replylikesno, cnt, replyno, memberno)
+VALUES(replylikes_seq.nextval, 1, 3, 2);
+
+commit;
+
+-- READ(목록) : 모든 좋아요 목록 
+SELECT * FROM replylikes;
+
+-- READ(조회): 댓글의 좋아요 수(cnt)
+SELECT cnt
+FROM replylikes
+WHERE replyno = 3;
+
+-- UPDATE : 댓글의 좋아요 수 증가
+UPDATE replylikes
+SET cnt = cnt + 1
+WHERE replyno = 3 AND memberno = 2;
+
+-- UPDATE : 댓글의 좋아요 수 감소
+UPDATE replylikes
+SET cnt = cnt - 1
+WHERE replyno = 3 AND memberno = 2 AND cnt > 0;
+
+-- DELETE: 댓글의 좋아요 취소
+DELETE replylikes
+WHERE replyno = 3 AND memberno = 2;
+
+rollback;
