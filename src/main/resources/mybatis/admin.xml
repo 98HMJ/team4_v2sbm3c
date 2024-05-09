@@ -3,6 +3,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="dev.mvc.admin.AdminDAOInter">
+  <!-- id 중복 검사를 위한 id 개수 -->
+  <select id="checkID" resultType="int" parameterType="String">
+    SELECT COUNT(id) as cnt
+    FROM member
+    WHERE id=#{id}
+  </select>
+
   <!-- insert 데이터 삽입 -->
   <insert id="create" parameterType="dev.mvc.admin.AdminVO">
     INSERT INTO admin(adminno, name, id, password, rdate)
