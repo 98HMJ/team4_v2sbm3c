@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="dev.mvc.trash.TrashDAOInter">
+  <!-- 쓰레기 등록 -->
+  <insert id="create" parameterType="dev.mvc.trash.TrashVO">
+    INSERT INTO trash(trashno, name, isrecycle, tag, process, tip, photo, trashcateno)
+    VALUES(trash_seq.nextval, #{name}, #{isrecycle}, #{tag}, #{process}, #{tip}, #{photo}, #{trashcateno})
+  </insert>
+  
+  <!-- 쓰레기 목록 -->
+  <select id="trash_list_all" resultType="dev.mvc.trash.TrashVO">
+    SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+    FROM trash
+    ORDER BY trashno ASC
+  </select>  
+  
+  <!-- 쓰레기 조회 -->
+  <select id="trash_read" resultType="dev.mvc.trash.TrashVO" parameterType="int">
+    SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+    FROM trash
+    WHERE trashno = #{trashno}
+  </select>
+  
+  <!-- 쓰레기 검색 -->
+  <select id="trash_list_search" resultType="dev.mvc.trash.TrashVO" parameterType="String">
+    SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+    FROM trash
+    
+    WHERE (UPPER(name) LIKE '%' || UPPER(#{word}) || '%'
+            OR UPPER(tag) LIKE '%' || UPPER(#{word}) || '%')
+
+    ORDER BY trashno DESC  
+  </select>
+  
+  <!-- 쓰레기 수정 -->
+  <update id="trash_update" parameterType="dev.mvc.trash.TrashVO">
+    UPDATE trash
+    SET tag =#{tag}, tip=#{tip}, photo=#{photo}
+    WHERE trashno = #{trashno}
+  </update>
+  
+  <!-- 쓰레기 삭제 -->  
+  <delete id="trash_delete" parameterType="int">
+    DELETE FROM trash
+    WHERE trashno = #{trashno}
+  </delete>
+          
+</mapper> 

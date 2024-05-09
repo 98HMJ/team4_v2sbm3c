@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="dev.mvc.trashcate.TrashcateDAOInter">
+  <!-- 쓰레기 카테고리 등록 -->
+  <insert id="create" parameterType="dev.mvc.trashcate.TrashcateVO">
+    INSERT INTO trashcate(trashcateno, name)
+    VALUES(trashcate_seq.nextval, #{name})
+  </insert>
+    
+  <!-- 쓰레기 카테고리 목록 -->
+  <select id="trashcate_list_all" resultType="dev.mvc.trashcate.TrashcateVO">
+    SELECT trashcateno, name
+    FROM trashcate
+    ORDER BY trashcateno ASC
+  </select>  
+  
+  <!-- 쓰레기 카테고리 조회 -->
+  <select id="trashcate_read" resultType="dev.mvc.trashcate.TrashcateVO" parameterType="int">
+    SELECT trashcateno, name
+    FROM trashcate
+    WHERE trashcateno = #{trashcateno}
+  </select>
+  
+  <!-- 카테고리 수정 -->
+  <update id="trashcate_update" parameterType="dev.mvc.trashcate.TrashcateVO">
+    UPDATE trashcate
+    SET name =#{name}
+    WHERE trashcateno = #{trashcateno}
+  </update>
+  
+  <!-- 쓰레기 카테고리 삭제 -->  
+  <delete id="trashcate_delete" parameterType="int">
+    DELETE FROM trashcate
+    WHERE trashcateno = #{trashcateno}
+  </delete>
+          
+</mapper> 

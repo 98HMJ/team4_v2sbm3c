@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="dev.mvc.search.SearchDAOInter">
+  <!-- 검색 기록 등록 -->
+  <insert id="search_create" parameterType="dev.mvc.search.SearchVO">
+    INSERT INTO SEARCH(searchno, search_word, rdate) 
+    VALUES (search_seq.nextval, #{search_word}, sysdate)
+  </insert>
+  
+  <!-- 검색 기록 목록 -->
+  <select id="search_list_all" resultType="dev.mvc.search.SearchVO">
+    SELECT searchno, search_word, rdate
+    FROM search
+    ORDER BY searchno ASC
+  </select>
+
+  <!-- 검색 기록 삭제 -->  
+  <delete id="search_delete" parameterType="int">
+    DELETE FROM search
+    WHERE searchno = #{searchno}    
+  </delete>
+</mapper>

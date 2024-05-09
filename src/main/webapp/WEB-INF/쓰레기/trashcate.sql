@@ -23,4 +23,30 @@ CREATE SEQUENCE trashcate_seq
   NOCYCLE;                  -- 다시 1부터 생성되는 것을 방지  
   
 --삽입--  
-INSERT INTO TRASHCATE(TRASHCATENO,NAME) VALUES (trashcate_seq.nextval,'기타');
+INSERT INTO TRASHCATE(TRASHCATENO,NAME) 
+VALUES (trashcate_seq.nextval,'기타');
+
+-- 전체 목록
+SELECT trashcateno, name
+FROM trashcate
+ORDER BY trashcateno ASC;
+
+-- 조회
+SELECT trashcateno, name
+FROM trashcate
+WHERE trashcateno=1;
+
+-- 삭제
+DELETE FROM trashcate
+WHERE trashcateno = 25;
+
+-- 수정
+
+UPDATE trashcate
+SET name = '박스'
+WHERE trashcateno = 12;
+
+
+
+
+

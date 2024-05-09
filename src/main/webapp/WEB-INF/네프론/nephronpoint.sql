@@ -22,3 +22,39 @@ CREATE SEQUENCE nephronpoint_seq
   MAXVALUE 9999999999  -- 최대값: 9999999999 --> NUMBER(10) 대응
   CACHE 2                        -- 2번은 메모리에서만 계산
   NOCYCLE;                  -- 다시 1부터 생성되는 것을 방지 
+  
+SELECT nephronno, roadaddress, detailaddress
+FROM nephronpoint;
+
+
+  -- 등록
+INSERT INTO nephronpoint(nephronno, roadaddress, detailaddress)
+VALUES(nephron_seq.nextval, '서울특별시', '주민센터');
+
+-- 전체 목록
+SELECT nephronno, roadaddress, detailaddress
+FROM nephronpoint
+ORDER BY nephronno ASC;
+
+-- 1번 trashno 만 출력
+SELECT nephronno, roadaddress, detailaddress
+FROM nephronpoint
+WHERE nephronno=1
+ORDER BY nephronno ASC;
+
+-- 삭제
+DELETE FROM nephronpoint
+WHERE nephronno = 25;
+
+
+-- 검색
+SELECT nephronno, roadaddress, detailaddress
+FROM nephronpoint
+WHERE roadaddress LIKE UPPER('%종로%') OR detailaddress LIKE UPPER('%종로%')
+ORDER BY nephronno ASC;
+
+-- MyBATIS 사용
+SELECT nephronno, roadaddress, detailaddress
+FROM nephronpoint
+WHERE UPPER(roadaddress) LIKE '%' || UPPER('휴지') || '%' OR UPPER(detailaddress) LIKE '%' || UPPER('휴지') || '%'
+ORDER BY nephronno ASC;

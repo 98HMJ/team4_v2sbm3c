@@ -34,3 +34,42 @@ CREATE SEQUENCE trash_seq
   MAXVALUE 9999999999  -- 최대값: 9999999999 --> NUMBER(10) 대응
   CACHE 2                        -- 2번은 메모리에서만 계산
   NOCYCLE;                  -- 다시 1부터 생성되는 것을 방지 
+  
+  
+  -- 등록
+INSERT INTO trash(trashno, name, isrecycle, tag, process, tip, photo, trashcateno)
+VALUES(trash_seq.nextval, '휴지', 'N', '#일반쓰레기', '종량제 봉투에 넣어서 일반 쓰레기로 배출', '발로 밟아 압축하면 쓰레기 봉투를 아낄 수 있어요.', 'tissue.jpg', 1);
+
+-- 전체 목록
+SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+FROM trash
+ORDER BY trashno ASC;
+
+-- 1번 trashno 만 출력
+SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+FROM trash
+WHERE trashno=1;
+
+-- 삭제
+DELETE FROM trash
+WHERE trashno = 25;
+
+DELETE FROM contents
+WHERE trash=12 AND trash <= 41;
+
+-- 수정
+UPDATE trash
+SET tag ='#휴지 #일반쓰레기 #종량제봉투', tip='', photo='tissue2.jpg'
+WHERE trashno = 1;
+
+-- 검색
+SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+FROM trash
+WHERE name LIKE UPPER('%휴지%') OR tag LIKE UPPER('%휴지%')
+ORDER BY trashno ASC;
+
+-- MyBATIS 사용
+SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+FROM trash
+WHERE UPPER(name) LIKE '%' || UPPER('휴지') || '%' OR UPPER(tag) LIKE '%' || UPPER('휴지') || '%'
+ORDER BY trashno ASC;
