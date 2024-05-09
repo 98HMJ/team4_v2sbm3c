@@ -11,7 +11,7 @@ CREATE TABLE MEMBER(
 		AGE                           		NUMBER(3)		 NOT NULL,
 		ID                            		VARCHAR2(30)		 NOT NULL,
 		PASSWORD                      		VARCHAR2(20)		 NOT NULL,
-		NINCKNAME                     		VARCHAR2(30)		 NOT NULL,
+		NICKNAME                     		VARCHAR2(30)		 NOT NULL,
 		TEL                           		VARCHAR2(20)		 NOT NULL,
 		ADDRESS1                      		VARCHAR2(30)		 NOT NULL,
 		ADDRESS2                      		VARCHAR2(30)		 NOT NULL,
@@ -26,7 +26,7 @@ COMMENT ON COLUMN MEMBER.SEX is '성별';
 COMMENT ON COLUMN MEMBER.AGE is '나이';
 COMMENT ON COLUMN MEMBER.ID is 'id';
 COMMENT ON COLUMN MEMBER.PASSWORD is '비밀번호';
-COMMENT ON COLUMN MEMBER.NINCKNAME is '닉네임';
+COMMENT ON COLUMN MEMBER.NICKNAME is '닉네임';
 COMMENT ON COLUMN MEMBER.TEL is '전화번호';
 COMMENT ON COLUMN MEMBER.ADDRESS1 is '주소';
 COMMENT ON COLUMN MEMBER.ADDRESS2 is '상세주소';
