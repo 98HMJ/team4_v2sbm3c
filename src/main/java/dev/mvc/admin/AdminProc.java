@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.mvc.tool.Security;
 import jakarta.servlet.http.HttpSession;
 
 @Service("dev.mvc.admin.AdminProc")
@@ -31,7 +32,6 @@ public class AdminProc implements AdminProcInter{
    */
   @Override
   public int create(AdminVO adminVO) {
-    String password = adminVO.getPassword();
     adminVO.setPassword(security.aesEncode(adminVO.getPassword()));
     int cnt = this.adminDAO.create(adminVO);
     return cnt;
@@ -95,6 +95,7 @@ public class AdminProc implements AdminProcInter{
   @Override
   public int password_update(HashMap<String, Object> map) {
     int cnt = this.adminDAO.password_update(map);
+    return cnt;
   }
 
   @Override

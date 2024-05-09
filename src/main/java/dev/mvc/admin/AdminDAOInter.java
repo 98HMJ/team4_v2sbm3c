@@ -2,7 +2,6 @@ package dev.mvc.admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public interface AdminDAOInter {
   /**
