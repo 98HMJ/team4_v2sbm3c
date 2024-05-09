@@ -13,7 +13,7 @@
     <select id="read" resultType="dev.mvc.community.CommunityVO" parameterType="int">
         SELECT *
         FROM commnuity
-        WEHRE commnuityno=#{commnuityno}
+        WHERE commnuityno=#{commnuityno}
     </select>
 
     <!--글 작성 목록-->
@@ -24,23 +24,23 @@
     </select>
 
     <!--글 수정-->
-    <updtae id="update" parameterType="dev.mvc.community.CommunityVO">
+    <update id="update" parameterType="dev.mvc.community.CommunityVO">
         UPDATE commnuity
         SET title=#{title}, contents=#{contents}, files=#{files}, filesaved=#{filesaved}, map=#{map}, youtube=#{youtube}, mp4=#{map}
-        WEHRE commnuityno=#{commnuityno}
+        WHERE commnuityno=#{commnuityno}
     </update>
 
     <!--글 삭제-->
     <delete id="delete" parameterType="int">
         DELETE FROM commnuity
-        WEHRE commnuityno=#{commnuityno}
+        WHERE commnuityno=#{commnuityno}
     </delete>
 
     <!--글 검색(제목/내용)-->
     <select id="search" resultType="dev.mvc.community.CommunityVO" parameterType="String">
         SELECT title, rdate, memberno, communitycateno
         FROM commnuity
-        WEHRE title LIKE '%' || #{word} || '%' OR contents LIKE '%' || #{word} || '%'
+        WHERE title LIKE '%' || #{word} || '%' OR contents LIKE '%' || #{word} || '%'
         ORDER BY rdate ASC
     </select>
 

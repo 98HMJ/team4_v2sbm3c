@@ -1,4 +1,4 @@
-package dev.mvc.commnuitycate;
+package dev.mvc.communitycate;
 
 import lombok.Getter;
 import lombok.Setter;
