@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<script>
+    window.onload = () => {
+        document.querySelector('#id').addEventListener('keypress', (event) => {
+            // document.getElementById('passwd').addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                document.getElementById('btn_checkID').focus();
+            }
+        });
+
+        document.querySelector('#password').addEventListener('keypress', (event) => {
+            // document.getElementById('passwd').addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                document.getElementById('passwd2').focus();
+            }
+        });
+    }
+
+    function send() {
+        let id = document.getElementById('id');
+        let id_msg = document.getElementById('id_msg');
+
+        if (id.value.trim().length == 0) {
+            id_msg.innerHTML = 'ID가 누락됐습니다.';
+            id_msg.classList.add('span_warning');    // class 적용
+            id.focus();
+
+            return false;  // 회원 가입 진행 중지
+
+        } else{
+            id_msg.innerHTML = '';
+        }
+
+        let passwd = document.getElementById('password');
+        let passwd_msg = document.getElementById('password_msg');
+
+        if (passwd.value.trim().length == 0) {
+            passwd_msg.innerHTML = '패스워드가 누락됐습니다.';
+            passwd_msg.classList.add('span_warning');    // class 적용
+            passwd.focus();
+
+            return false;  // 회원 가입 진행 중지
+        } else{
+            passwd_msg.innerHTML = '';
+        }
+
+        document.getElementById('frm').submit(); // required="required" 작동 안됨.
+    }
+</script>
+<form th:object="${memberVO}" id="frm" name="frm" method="post" action="/member/login">
+    <div>
+        <div>
+            <label>아이디(이메일)*</label>
+        </div>
+        <input type="text" id="id" name="id" th:value="${ck_id}" autofocus="autofocus"
+            class="form-control form-control-sm" style="width: 50%;">
+        <label><input type="checkbox" name="id_save" id="id_save" value="Y"
+                th:checked="${ck_id_save=='Y'}">저장</label>
+        <span id='id_msg'></span>
+    </div>
+    <br>
+
+    <div class="form-group">
+        <label>패스워드*</label>
+        <input type='password' class="form-control form-control-sm" name='password' id='password'
+            th:value="${ck_password}" required="required" placeholder="패스워드" style="width: 50%;">
+        <label><input type="checkbox" name="password_save" id="password_save" value="Y"
+                th:checked="${ck_password_save=='Y'}">저장</label>
+        <span id='password_msg'></span>
+    </div>
+    <br>
+
+    <div class="content_body_bottom">
+        <button type="button" onclick="send();" class="btn btn-secondary btn-sm">로그인</button>
+        <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
+    </div>
+</form>

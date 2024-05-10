@@ -9,6 +9,6 @@ public class HomeCont {
     //main.html 이동
     @GetMapping("/")
     public String home() { 
-        return "main";
+        return "index";
     }
 }
