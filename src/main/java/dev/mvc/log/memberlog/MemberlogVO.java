@@ -1,5 +1,9 @@
 package dev.mvc.log.memberlog;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class MemberlogVO {
   // CREATE TABLE MEMBERLOG(
 	// 	MEMBERLOGNO                   		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
