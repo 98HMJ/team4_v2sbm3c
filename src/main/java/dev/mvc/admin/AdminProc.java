@@ -2,7 +2,6 @@ package dev.mvc.admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -108,7 +107,7 @@ public class AdminProc implements AdminProcInter{
   @Override
   public boolean isAdmin(HttpSession session) {
     boolean isAdmin = false; //관리자가 아닌 것으로 초기화
-    isAdmin = session.getAttribute("userId") == null ? false : true;
+    isAdmin = session.getAttribute("Admin") == null ? false : true;
     return isAdmin;
   }
   

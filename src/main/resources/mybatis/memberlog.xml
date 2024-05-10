@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="dev.mvc.memberlog.MemberlogDAOInter">
+  <!-- insert 데이터 삽입 -->
+  <insert id="create" parameterType="dev.mvc.memberlog.MemberlogVO">
+    INSERT INTO memberlog(memberlogno, ip, rdate, memberno)
+    VALUES (memberlog_seq.nextval, #{ip}, sysdate, #{memberno})
+  </insert>
+
+  <!-- memberlog 데이터 전체 조회 -->
+  <select id="list" resultType="dev.mvc.memberlog.MemberlogVO">
+    SELECT memberlogno, ip, rdate, memberno
+    FROM memberlog
+    ORDER BY memberno ASC, rdate DESC
+  </select>
+          
+  <!-- memberlogno로 회원 로그 정보 조회 -->
+  <select id="read" resultType="dev.mvc.memberlog.MemberlogVO" parameterType="int">
+    SELECT memberlogno, ip, rdate, memberno
+    FROM memberlog
+    WHERE memberlogno = #{memberlogno}
+  </select>  
+
+  <!-- memberno로 회원 로그 정보 조회 -->
+  <select id="read" resultType="dev.mvc.memberlog.MemberlogVO" parameterType="int">
+    SELECT memberlogno, ip, rdate, memberno
+    FROM memberlog
+    WHERE memberno = #{memberno}
+    ORDER BY memberno ASC, rdate DESC
+  </select>
+</mapper> 

@@ -12,34 +12,34 @@
 
   <!-- insert 데이터 삽입 -->
   <insert id="create" parameterType="dev.mvc.admin.AdminVO">
-    INSERT INTO admin(adminno, name, id, password, rdate)
-    VALUES (admin_seq.nextval, #{name}, #{id}, #{password}, #{rdate})
+    INSERT INTO admin(adminno, name, id, password, email, rdate)
+    VALUES (admin_seq.nextval, #{name}, #{id}, #{password}, #{email}, sysdate)
   </insert>
 
   <!-- admin 데이터 전체 조회 -->
   <select id="list" resultType="dev.mvc.admin.AdminVO">
-    SELECT adminno, name, id, password, rdate
+    SELECT adminno, name, id, password, email, rdate
     FROM admin
     ORDER BY id ASC
   </select>
           
   <!-- adminno로 관리자 정보 조회 -->
   <select id="read" resultType="dev.mvc.admin.AdminVO" parameterType="int">
-    SELECT adminno, name, id, password, rdate
+    SELECT adminno, name, id, password, email, rdate
     FROM admin
     WHERE adminno = #{adminno}
   </select>  
 
   <!-- id(이메일)로 회원 정보 조회 -->
   <select id="readById" resultType="dev.mvc.admin.AdminVO" parameterType="String">
-    SELECT adminno, name, id, password, rdate
+    SELECT adminno, name, id, password, email, rdate 
     FROM admin
     WHERE id = #{id}
   </select>
   <!-- 관리자 정보 변경 -->
   <update id="update" parameterType="dev.mvc.admin.AdminVO">
     UPDATE admin 
-    SET name=#{name}
+    SET name=#{name}, email=#{email}
     WHERE adminno=#{adminno}
   </update>
 
