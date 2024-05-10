@@ -2,7 +2,7 @@
  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
-<mapper namespace="dev.mvc.nephroncate.nephroncateDAOInter">
+<mapper namespace="dev.mvc.nephroncate.NephroncateDAOInter">
   <!-- 네프론 카테고리 등록 -->
   <insert id="create" parameterType="dev.mvc.nephroncate.NephroncateVO">
     INSERT INTO nephroncate(nephroncateno, name)

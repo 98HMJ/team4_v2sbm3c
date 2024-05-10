@@ -2,7 +2,7 @@
  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
-<mapper namespace="dev.mvc.nephron.nephronDAOInter">
+<mapper namespace="dev.mvc.nephron.NephronDAOInter">
   <!-- 네프론 정보 등록 -->
   <insert id="create" parameterType="dev.mvc.nephron.NephronVO">
     INSERT INTO nephronpoint(nephronno, roadaddress, detailaddress)
