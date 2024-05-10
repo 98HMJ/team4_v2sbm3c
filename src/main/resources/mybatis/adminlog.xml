@@ -24,7 +24,7 @@
   </select>  
 
   <!-- adminno로 관리자 로그 정보 조회 -->
-  <select id="read" resultType="dev.mvc.adminlog.AdminlogVO" parameterType="int">
+  <select id="list_adminno" resultType="dev.mvc.adminlog.AdminlogVO" parameterType="int">
     SELECT adminlogno, ip, rdate, adminno
     FROM adminlog
     WHERE adminno = #{adminno}

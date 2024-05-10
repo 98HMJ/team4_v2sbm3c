@@ -16,14 +16,14 @@
     ORDER BY memberno ASC, rdate DESC
   </select>
           
-  <!-- memberlogno로 관리자 로그 정보 조회 -->
+  <!-- memberlogno로 회원 로그 정보 조회 -->
   <select id="read" resultType="dev.mvc.memberlog.MemberlogVO" parameterType="int">
     SELECT memberlogno, ip, rdate, memberno
     FROM memberlog
     WHERE memberlogno = #{memberlogno}
   </select>  
 
-  <!-- memberno로 관리자 로그 정보 조회 -->
+  <!-- memberno로 회원 로그 정보 조회 -->
   <select id="read" resultType="dev.mvc.memberlog.MemberlogVO" parameterType="int">
     SELECT memberlogno, ip, rdate, memberno
     FROM memberlog
