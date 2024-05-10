@@ -24,7 +24,7 @@ CREATE SEQUENCE trashcate_seq
   
 --삽입--  
 INSERT INTO TRASHCATE(TRASHCATENO,NAME) 
-VALUES (trashcate_seq.nextval,'기타');
+VALUES (trashcate_seq.nextval,'대형생활폐기물');
 
 -- 전체 목록
 SELECT trashcateno, name
@@ -43,10 +43,10 @@ WHERE trashcateno = 25;
 -- 수정
 
 UPDATE trashcate
-SET name = '박스'
-WHERE trashcateno = 12;
+SET name = '형광등'
+WHERE trashcateno = 7;
 
-
+commit;
 
 
 

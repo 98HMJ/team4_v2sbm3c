@@ -1,6 +1,7 @@
 package dev.mvc.member;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,8 @@ public class MemberProc implements MemberProcInter  {
     }
 
     @Override
-    public int login(MemberVO memberVO) {
-        return this.memberDAO.login(memberVO);
+    public int login(HashMap<String, Object> map) {
+        return this.memberDAO.login(map);
     }
 
     @Override
@@ -37,6 +38,11 @@ public class MemberProc implements MemberProcInter  {
     @Override
     public MemberVO read(int memberno) {
         return this.memberDAO.read(memberno);
+    }
+
+    @Override
+    public MemberVO readByid(String id) {
+        return this.memberDAO.readByid(id);
     }
 
     @Override
