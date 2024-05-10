@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="dev.mvc.nephroncate.nephroncateDAOInter">
+  <!-- 네프론 카테고리 등록 -->
+  <insert id="create" parameterType="dev.mvc.nephroncate.NephroncateVO">
+    INSERT INTO nephroncate(nephroncateno, name)
+    VALUES(nephroncate_seq.nextval, #{name})
+  </insert>
+    
+  <!-- 네프론 카테고리 목록 -->
+  <select id="nephroncate_list_all" resultType="dev.mvc.nephroncate.NephroncateVO">
+    SELECT nephroncateno, name
+    FROM nephroncate
+    ORDER BY nephroncateno ASC
+  </select>  
+  
+  <!-- 네프론 카테고리 조회 -->
+  <select id="nephroncate_read" resultType="dev.mvc.nephroncate.NephroncateVO" parameterType="int">
+    SELECT nephroncateno, name
+    FROM nephroncate
+    WHERE nephroncateno = #{nephroncateno}
+  </select>
+  
+  <!-- 카테고리 수정 -->
+  <update id="nephroncate_update" parameterType="dev.mvc.nephroncate.NephroncateVO">
+    UPDATE nephroncate
+    SET name =#{name}
+    WHERE nephroncateno = #{nephroncateno}
+  </update>
+  
+  <!-- 네프론 카테고리 삭제 -->  
+  <delete id="nephroncate_delete" parameterType="int">
+    DELETE FROM nephroncate
+    WHERE nephroncateno = #{nephroncateno}
+  </delete>
+          
+</mapper> 

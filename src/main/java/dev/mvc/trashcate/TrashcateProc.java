@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service("dev.mvc.trashcate.TrashcateProc")
 public class TrashcateProc implements TrashcateProcInter{
   @Autowired
-  public TrashcateDAOInter trashcateDAO;
+  private TrashcateDAOInter trashcateDAO;
   
   public TrashcateProc() {
     

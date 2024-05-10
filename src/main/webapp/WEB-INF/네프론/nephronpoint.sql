@@ -36,11 +36,10 @@ SELECT nephronno, roadaddress, detailaddress
 FROM nephronpoint
 ORDER BY nephronno ASC;
 
--- 1번 trashno 만 출력
+-- 1번만 출력
 SELECT nephronno, roadaddress, detailaddress
 FROM nephronpoint
-WHERE nephronno=1
-ORDER BY nephronno ASC;
+WHERE nephronno=1;
 
 -- 삭제
 DELETE FROM nephronpoint

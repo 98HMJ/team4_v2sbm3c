@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="dev.mvc.nephron.nephronDAOInter">
+  <!-- 네프론 정보 등록 -->
+  <insert id="create" parameterType="dev.mvc.nephron.NephronVO">
+    INSERT INTO nephronpoint(nephronno, roadaddress, detailaddress)
+    VALUES(nephron_seq.nextval, '#{roadaddress}', '#{detailaddress}')
+  </insert>
+    
+  <!-- 네프론 목록 -->
+  <select id="nephron_list_all" resultType="dev.mvc.nephron.NephronVO">
+    SELECT nephronno, roadaddress, detailaddress
+    FROM nephronpoint
+    ORDER BY nephronno ASC
+  </select>  
+  
+  <!-- 네프론 조회 -->
+  <select id="nephron_read" resultType="dev.mvc.nephron.NephronVO" parameterType="int">
+    SELECT nephronno, roadaddress, detailaddress
+    FROM nephronpoint
+    WHERE nephronno= #{nephronno}
+  </select>
+  
+  <!-- 네프론 삭제 -->  
+  <delete id="nephron_delete" parameterType="int">
+    DELETE FROM nephronpoint
+    WHERE nephronno = #{nephronno}
+  </delete>
+          
+  <!-- 네프론 검색 -->
+  <select id="nephron_search" resultType="dev.mvc.nephron.NephronVO" parameterType="String">
+    SELECT nephronno, roadaddress, detailaddress
+    FROM nephronpoint
+    WHERE UPPER(roadaddress) LIKE '%' || UPPER('#{roadaddress}') || '%' OR UPPER(detailaddress) LIKE '%' || UPPER('#{detailaddress}') || '%'
+    ORDER BY nephronno ASC
+  </select>
+</mapper> 
