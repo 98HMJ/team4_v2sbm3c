@@ -44,12 +44,12 @@ WHERE communityno = 3;
 -- UPDATE : 커뮤니티 게시글의 좋아요 수 증가
 UPDATE communitylikes
 SET cnt = cnt + 1
-WHERE communityno = 3 AND memberno = 2;
+WHERE communityno = 3;
 
 -- UPDATE : 커뮤니티 게시글의 좋아요 수 감소
 UPDATE communitylikes
 SET cnt = cnt - 1
-WHERE communityno = 3 AND memberno = 2 AND cnt > 0;
+WHERE communityno = 3 AND cnt > 0;
 
 -----------------------------------
 -- DELETE: 커뮤니티 게시글의 좋아요 
