@@ -16,6 +16,11 @@ public interface ReplyProcInter {
    */
   public ArrayList<ReplyVO> list_all();
   
+  /**
+   * 특정 커뮤니티의 댓글 목록
+   * @return ArrayList<ReplyVO> 
+   */
+  public ArrayList<ReplyVO> list_by_community();
   
   /**
    * 댓글 내용 업데이트
