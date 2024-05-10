@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+// import org.springframework.stereotype.Service;
 
 import dev.mvc.tool.Security;
 import jakarta.servlet.http.HttpSession;
 
-@Service("dev.mvc.admin.AdminProc")
+@Component("dev.mvc.admin.AdminProc")
 public class AdminProc implements AdminProcInter{
+
   @Autowired
   private AdminDAOInter adminDAO;
 
