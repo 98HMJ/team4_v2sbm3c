@@ -7,7 +7,7 @@ CREATE TABLE REPLY(
 		REPLYNO                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		CONTENTS                      		VARCHAR2(2000)		 NOT NULL,
 		RDATE                         		DATE		 NOT NULL,
-    PHOTO                             VARCHAR2(1000) NULL,
+        PHOTO                             VARCHAR2(1000) NULL,
 		COMMUNITYNO                   		NUMBER(10)		 NULL ,
 		MEMBERNO                      		NUMBER(10)		 NULL ,
   FOREIGN KEY (COMMUNITYNO) REFERENCES COMMUNITY (COMMUNITYNO),
@@ -32,31 +32,25 @@ CREATE SEQUENCE reply_seq
   NOCYCLE;                      -- 다시 1부터 생성되는 것을 방지
 
 -- CREATE
-INSERT INTO REPLY(replyno, contents, rdate, communityno, memberno)
-VALUES (reply_seq.nextval, '댓글 test1', SYSDATE, 3, 2);
+INSERT INTO REPLY(replyno, contents, rdate, photo, communityno, memberno)
+VALUES (reply_seq.nextval, '댓글 test1', SYSDATE, '사진1', 1, 1);
 
 commit;
 
 -- READ: 모든 댓글 목록
-SELECT replyno, contents, rdate, communityno, memberno
+SELECT replyno, contents, rdate, photo, communityno, memberno
 FROM REPLY
 ORDER BY REPLYNO;
 
 -- READ(조회) : 특정 커뮤니티의 댓글 목록
-SELECT replyno, contents, rdate, communityno, memberno
+SELECT replyno, contents, rdate,photo, communityno, memberno
 FROM REPLY
-WHERE communityno = 3
+WHERE communityno = 1
 ORDER BY REPLYNO;
-
-SELECT replyno, contents, rdate, communityno, memberno
-FROM REPLY
-WHERE communityno = 3
-ORDER BY REPLYNO;
-
 
 -- UPDATE : 수정
 UPDATE reply 
-set contents = '업데이트 댓글 test1'
+set contents = '업데이트 댓글 test1', photo = '업데이트 사진2'
 WHERE replyno = 3;
 
 -- DELETE: 삭제
