@@ -11,6 +11,7 @@ public class AdminVO {
 // 		NAME                          		VARCHAR2(42)		 NOT NULL,
 // 		ID                            		VARCHAR2(30)		 NOT NULL,
 // 		PASSWORD                        		VARCHAR2(20)		 NOT NULL,
+//    EMAIL                              VARCHAR2(30)     NULL,
 // 		RDATE                         		DATE		 NOT NULL
 // );
   /** 관리자 번호 */
@@ -21,6 +22,8 @@ public class AdminVO {
   private String id = "";
   /** 관리자 password */
   private String password = "";
+  /** 이메일 */
+  private String email = "";
   /** 등록일 */
   private String rdate = "";
 }
