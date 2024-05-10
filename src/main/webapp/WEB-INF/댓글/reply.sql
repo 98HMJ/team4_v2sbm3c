@@ -31,28 +31,47 @@ CREATE SEQUENCE reply_seq
   CACHE 2                        -- 2번은 메모리에서만 계산
   NOCYCLE;                      -- 다시 1부터 생성되는 것을 방지
 
+-- CREATE
 INSERT INTO REPLY(replyno, contents, rdate, communityno, memberno)
 VALUES (reply_seq.nextval, '댓글 test1', SYSDATE, 3, 2);
 
 commit;
 
-SELECT replyno, contents, rdate, communityno, memberno
-FROM REPLY
-WHERE replyno = 3
-ORDER BY REPLYNO;
-
+-- READ: 모든 댓글 목록
 SELECT replyno, contents, rdate, communityno, memberno
 FROM REPLY
 ORDER BY REPLYNO;
 
+-- READ(조회) : 특정 커뮤니티의 댓글 목록
+SELECT replyno, contents, rdate, communityno, memberno
+FROM REPLY
+WHERE communityno = 3
+ORDER BY REPLYNO;
+
+SELECT replyno, contents, rdate, communityno, memberno
+FROM REPLY
+WHERE communityno = 3
+ORDER BY REPLYNO;
+
+
+-- UPDATE : 수정
 UPDATE reply 
 set contents = '업데이트 댓글 test1'
 WHERE replyno = 3;
 
-SELECT replyno, contents, rdate, communityno, memberno
-FROM REPLY
-ORDER BY REPLYNO;
-
-DELETE FROM reply WHERE replyno = 3;
+-- DELETE: 삭제
+DELETE FROM reply 
+WHERE replyno = 3;
 
 rollback;
+
+-- 특정 커뮤니티 게시글의 댓글 수
+SELECT COUNT(*) as cnt 
+FROM reply
+WHERE communityno = 3;
+
+--       CNT
+------------
+--         1
+
+commit;

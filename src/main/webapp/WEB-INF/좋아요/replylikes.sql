@@ -46,15 +46,16 @@ WHERE replyno = 3;
 -- UPDATE : 댓글의 좋아요 수 증가
 UPDATE replylikes
 SET cnt = cnt + 1
-WHERE replyno = 3 AND memberno = 2;
+WHERE replyno = 3;
 
 -- UPDATE : 댓글의 좋아요 수 감소
 UPDATE replylikes
 SET cnt = cnt - 1
 WHERE replyno = 3 AND memberno = 2 AND cnt > 0;
 
--- DELETE: 댓글의 좋아요 취소
-DELETE replylikes
-WHERE replyno = 3 AND memberno = 2;
-
+-----------------------------------
+-- DELETE: 댓글의 좋아요 
+-- 회원 삭제시 회원의 모든 좋아요 취소?
+-- ex)B회원의 개시글에 회원A가 좋아요 한 경우 취소 
+------------------------------------
 rollback;
