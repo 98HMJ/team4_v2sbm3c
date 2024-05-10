@@ -32,14 +32,14 @@
   </select>
 
   <!--회원 정보 조회-->
-  <select id="read" resultType="memberVO" parameterType="int">
+  <select id="read" resultType="dev.mvc.member.MemberVO" parameterType="int">
     SELECT *
     FROM member
     WHERE memberno=#{memberno}
   </select>
 
   <!--회원 정보 수정-->
-  <update id="update" parameterType="dev.mvc.member.MemberVO">
+  <update id="update" parameterType="int">
     UPDATE member 
     SET password=#{password}, ninckname=#{ninckname}, tel=#{tel}, address1=#{address1}, address2=#{address2}, email=#{email}
     WHERE memberno=#{memberno}
