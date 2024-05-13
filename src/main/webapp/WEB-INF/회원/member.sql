@@ -10,7 +10,7 @@ CREATE TABLE MEMBER(
 		SEX                           		CHAR(1)		 NOT NULL,
 		AGE                           		NUMBER(3)		 NOT NULL,
 		ID                            		VARCHAR2(30)		 NOT NULL,
-		PASSWORD                      		VARCHAR2(20)		 NOT NULL,
+		PASSWORD                      		VARCHAR2(120)		 NOT NULL,
 		NICKNAME                     		VARCHAR2(30)		 NOT NULL,
 		TEL                           		VARCHAR2(20)		 NOT NULL,
 		ADDRESS1                      		VARCHAR2(120)		 NOT NULL,
