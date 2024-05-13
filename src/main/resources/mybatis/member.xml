@@ -7,7 +7,7 @@
   <insert id="create" parameterType="dev.mvc.member.MemberVO">
     INSERT INTO member(memberno, name, sex, age, id, password, nickname, tel, address1, address2, email, rdate)
     VALUES (member_seq.nextval, #{name}, #{sex}, #{age}, #{id}, #{password}, 
-                 #{ninckname}, #{tel}, #{address1}, #{address2}, #{email}, #{rdate})
+                 #{nickname}, #{tel}, #{address1}, #{address2}, #{email}, sysdate)
   </insert>
 
   <!--회원가입시 중복 아이디 확인-->

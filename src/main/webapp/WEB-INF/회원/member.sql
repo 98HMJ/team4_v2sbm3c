@@ -41,3 +41,13 @@ CREATE SEQUENCE member_seq
   MAXVALUE 9999999999  -- 최대값: 9999999999 --> NUMBER(10) 대응
   CACHE 2                        -- 2번은 메모리에서만 계산
   NOCYCLE;                      -- 다시 1부터 생성되는 것을 방지
+  
+--삽입--
+INSERT INTO member(memberno,name,sex,age,id,password,nickname,tel,address1,address2,email,rdate) 
+VALUES(member_seq.nextval,'홍민재','M',27,'user1','1234','홍당무','01098244577','경기도 용인시 수지구 정평로41','605동 1105호','good7min@naver.com',sysdate);
+
+--검색--
+SELECT *
+FROM member;
+
+commit;
