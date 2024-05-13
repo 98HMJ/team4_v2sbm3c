@@ -47,9 +47,9 @@ public class MemberCont {
                     ck_id = cookie.getValue();
                 } else if (cookie.getName().equals("ck_id_save")) {
                     ck_id_save = cookie.getValue(); // Y, N
-                } else if (cookie.getName().equals("ck_passwd")) {
+                } else if (cookie.getName().equals("ck_password")) {
                     ck_password = cookie.getValue(); // 1234
-                } else if (cookie.getName().equals("ck_passwd_save")) {
+                } else if (cookie.getName().equals("ck_password_save")) {
                     ck_password_save = cookie.getValue(); // Y, N
                 }
             }
@@ -107,7 +107,7 @@ public class MemberCont {
             // Password 관련 쿠기 저장
             // -------------------------------------------------------------------
             if (password_save.equals("Y")) { // 패스워드 저장할 경우
-                Cookie ck_password = new Cookie("ckpassword", password);
+                Cookie ck_password = new Cookie("ck_password", password);
                 ck_password.setPath("/");
                 ck_password.setMaxAge(60 * 60 * 24 * 30); // 30 day
                 response.addCookie(ck_password);
