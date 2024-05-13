@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import dev.mvc.log.adminlog.AdminlogProcInter;
+import dev.mvc.log.adminlog.AdminlogVO;
 import dev.mvc.tool.Security;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +30,10 @@ public class AdminCont {
   @Autowired
   @Qualifier("dev.mvc.admin.AdminProc")
   private AdminProcInter adminProc;
+
+  @Autowired
+  @Qualifier("dev.mvc.log.adminlog.AdminlogProc")
+  private AdminlogProcInter adminlogProc;
 
   @Autowired
   Security security;
@@ -49,23 +55,7 @@ public class AdminCont {
       return obj.toString();
   }
 
-  // /**
-  //  * 회원가입 폼
-  //  * @param model
-  //  * @param adminVO
-  //  * @return 회원가입 폼 html
-  //  */
-  // @GetMapping(value="/signup")
-  // public String create(Model model, AdminVO adminVO) {
-  //   return "admin/signup";
-  // }
-  
-  // @PostMapping(value="/signup")
-  // public String postMethodName(Model model, AdminVO adminVO) {
-  //     //TODO: process POST request
-      
-  //     return entity;
-  // }
+
   
   /**
    * 로그인 폼
@@ -139,7 +129,7 @@ public class AdminCont {
       session.setAttribute("adminno", adminVO.getAdminno());
       session.setAttribute("id", adminVO.getId());
       session.setAttribute("name", adminVO.getName());
-      session.setAttribute("grade", "admin");
+      session.setAttribute("admin", "admin");
 
       //Cookie저장
 
@@ -180,10 +170,58 @@ public class AdminCont {
     check_password_save.setPath("/");
     check_password_save.setMaxAge(60 * 60 * 24 * 30); // 30 day
     response.addCookie(check_password_save);
-    return "redirect:/";
+    
+    //로그 기록
+    AdminlogVO adminlogVO = new AdminlogVO();
+    adminlogVO.setAdminno(adminVO.getAdminno());
+    adminlogVO.setIp(request.getRemoteAddr());
+    int log_cnt = this.adminlogProc.create(adminlogVO);
+    if( log_cnt==1){
+      return "redirect:/";
+    } else {
+      model.addAttribute("code","adminlog_fail");
+    return "msg";
+    }
   } else {
     model.addAttribute("code","login_fail");
     return "msg";
     }
+  }
+
+
+  /**
+   * 회원가입 폼
+   * @param model
+   * @param adminVO
+   * @return 회원가입 폼 html
+   */
+  @GetMapping(value="/signup")
+  public String signup(Model model, 
+                       HttpSession session,
+                       AdminVO adminVO) {
+    if(this.adminProc.isAdmin(session)){
+      return "admin/signup";
+    } else{
+      return "redirect:/admin/login";
+    }
+  }
+  
+  @PostMapping(value="/signup")
+  public String signup(Model model, AdminVO adminVO) {
+      int checkID_cnt = this.adminProc.checkID(adminVO.getId());
+      if(checkID_cnt==0){
+        int cnt = this.adminProc.create(adminVO);
+        if(cnt == 1){
+          model.addAttribute("code", "signup_success");
+          model.addAttribute("name", adminVO.getName());
+          model.addAttribute("id", adminVO.getId());
+        } else{
+          model.addAttribute("code", "create_fail");
+        }
+      } else{
+        model.addAttribute("code", "duplicate_fail");
+        model.addAttribute("cnt", 0);
+      }
+      return "msg";
   }
 }
