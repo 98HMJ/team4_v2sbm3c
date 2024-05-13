@@ -222,6 +222,6 @@ public class AdminCont {
         model.addAttribute("code", "duplicate_fail");
         model.addAttribute("cnt", 0);
       }
-      return "msg";
+      return "admin/msg";
   }
 }
