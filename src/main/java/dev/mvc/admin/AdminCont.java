@@ -1,5 +1,6 @@
 package dev.mvc.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONObject;
@@ -119,13 +120,16 @@ public class AdminCont {
     HashMap<String,Object> hm = new HashMap<String, Object>();
     hm.put("id", id);
     hm.put("password", this.security.aesEncode(password));  
-    
     int cnt = this.adminProc.login(hm);
     model.addAttribute("cnt", cnt);
 
     if(cnt==1){
       //id를 이용하여 관리자 정보 조회
+      System.out.println("-> id" + id +"end");
+      //AdminVO adminVO = this.adminProc.readById(id); //오류 why?
+      System.out.println(this.adminProc.readById(id));
       AdminVO adminVO = this.adminProc.readById(id);
+      System.out.println("-> 이름" + adminVO.getName());
       session.setAttribute("adminno", adminVO.getAdminno());
       session.setAttribute("id", adminVO.getId());
       session.setAttribute("name", adminVO.getName());
@@ -177,7 +181,7 @@ public class AdminCont {
     adminlogVO.setIp(request.getRemoteAddr());
     int log_cnt = this.adminlogProc.create(adminlogVO);
     if( log_cnt==1){
-      return "redirect:/";
+      return "redirect:/admin";
     } else {
       model.addAttribute("code","adminlog_fail");
     return "msg";
