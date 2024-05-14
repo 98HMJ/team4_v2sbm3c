@@ -39,7 +39,7 @@ public class AdminCont {
   Security security;
   
   public AdminCont() {
-    System.out.println("-> AdminCont created!");
+    // System.out.println("-> AdminCont created!");
   }
   /**
    * 중복 아이디 검사
@@ -107,7 +107,7 @@ public class AdminCont {
    * @param password_save
    * @return
    */
-  @PostMapping(value="login")
+  @PostMapping(value="/login")
   public String login(HttpSession session,
                       HttpServletRequest request,
                       HttpServletResponse response,
@@ -206,7 +206,6 @@ public class AdminCont {
                        HttpSession session,
                        AdminVO adminVO) {
     if(!this.adminProc.isAdmin(session)){
-      System.out.println("-> session "+session);
       return "redirect:/admin/login";
     } 
     return "admin/signup";
