@@ -199,11 +199,11 @@ public class AdminCont {
   public String signup(Model model, 
                        HttpSession session,
                        AdminVO adminVO) {
-    if(this.adminProc.isAdmin(session)){
-      return "admin/signup";
-    } else{
+    if(!this.adminProc.isAdmin(session)){
+      System.out.println("-> session "+session);
       return "redirect:/admin/login";
-    }
+    } 
+    return "admin/signup";
   }
   
   @PostMapping(value="/signup")

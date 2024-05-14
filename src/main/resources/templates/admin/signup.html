@@ -66,12 +66,12 @@
         .then(rdata => {
           if (rdata.cnt > 0) { // 아이디 중복
             id_msg.innerHTML= '이미 사용중인 ID 입니다. 다른 ID 를 지정해주세요.';
-            id_msg.classList.add('span_warning');
+            // id_msg.classList.add('span_warning');
             id.focus();
               
           } else { // 아이디 중복 안됨.
             id_msg.innerHTML= '사용 가능한 ID 입니다.';
-            id_msg.classList.add('span_info');
+            // id_msg.classList.add('span_info');
             document.getElementById('passwd').focus(); 
           }
         })
@@ -89,45 +89,45 @@
       }
     }
     
-    function send() { // 회원 가입 처리
-      let id = document.getElementById('id');
-      let id_msg = document.getElementById('id_msg');
+    // function send() { // 회원 가입 처리
+    //   let id = document.getElementById('id');
+    //   let id_msg = document.getElementById('id_msg');
   
-      if (id.value.trim().length == 0) {
-        id_msg.innerHTML= 'ID 입력은 필수 입니다. ID 는 3자이상 권장합니다.';
-        id_msg.classList.add('span_warning');    // class 적용
-        id.focus();
+    //   if (id.value.trim().length == 0) {
+    //     id_msg.innerHTML= 'ID 입력은 필수 입니다. ID 는 3자이상 권장합니다.';
+    //     // id_msg.classList.add('span_warning');    // class 적용
+    //     id.focus();
   
-        return false;  // 회원 가입 진행 중지
+    //     return false;  // 회원 가입 진행 중지
         
-      }
+    //   }
   
-      // 비밀번호를 정상적으로 2번 입력했는지 확인
-      let passwd = document.getElementById('passwd');
-      let passwd2 = document.getElementById('passwd2');
-      let passwd2_msg = document.getElementById('passwd2_msg');
+    //   // 비밀번호를 정상적으로 2번 입력했는지 확인
+    //   let passwd = document.getElementById('passwd');
+    //   let passwd2 = document.getElementById('passwd2');
+    //   let passwd2_msg = document.getElementById('passwd2_msg');
   
-      if (passwd.value != passwd2.value) {
-        passwd2_msg.innerHTML= '입력된 비밀번호가 일치하지 않습니다.';
-        passwd2_msg.classList.add('span_warning');    // class 적용
-        passwd.focus();  // 첫번째 비밀번호로 focus 설정
+    //   if (passwd.value != passwd2.value) {
+    //     passwd2_msg.innerHTML= '입력된 비밀번호가 일치하지 않습니다.';
+    //     // passwd2_msg.classList.add('span_warning');    // class 적용
+    //     passwd.focus();  // 첫번째 비밀번호로 focus 설정
   
-        return false;  // 회원 가입 진행 중지
-      }
+    //     return false;  // 회원 가입 진행 중지
+    //   }
   
-      let name = document.getElementById('name');
-      let name_msg = document.getElementById('name_msg');
+    //   let name = document.getElementById('name');
+    //   let name_msg = document.getElementById('name_msg');
   
-      if (name.value.length == 0) {
-        name_msg.innerHTML= '이름 입력은 필수입니다.';
-        name_msg.classList.add('span_warning');    // class 적용
-        name.focus();
+    //   if (name.value.length == 0) {
+    //     name_msg.innerHTML= '이름 입력은 필수입니다.';
+    //     // name_msg.classList.add('span_warning');    // class 적용
+    //     name.focus();
   
-        return false;  // 회원 가입 진행 중지
-      }
+    //     return false;  // 회원 가입 진행 중지
+    //   }
   
-      document.getElementById('frm').submit(); // required="required" 작동 안됨.
-    }    
+    //   document.getElementById('frm').submit(); // required="required" 작동 안됨.
+    // }    
   </script>
 
   <div>회원 가입(*: 필수)</div>
@@ -143,37 +143,37 @@
         <span id='id_msg'></span>  
       </div>
       
-      <div class="form-group">
+      <div>
         <label for="password">패스워드*</label> 
         <input type='password' name='passwd' id='password' value='' required="required" 
-               placeholder="비밀번호" class="form-control form-control-sm" style="width: 30%;">
+               placeholder="비밀번호" style="width: 30%;">
       </div>
 
-      <div class="form-group">
+      <div>
         <label for="password2">패스워드 확인*</label>
         <input type='password' name='password2' id='password2' value='1' required="required" 
                   placeholder="비밀번호 확인" style="width: 30%;">
         <span id='password2_msg'></span>
       </div>
 
-      <div class="form-group">
+      <div>
         <label for="name">성명*</label>
         <input type='text' name='name' id='name' value='관리자' required="required" 
                    placeholder="이름" style="width: 30%;">
         <span id='name_msg'></span>
       </div>   
   
-      <div class="form-group">
+      <div>
         <label for="email">이메일*</label>
-        <input type='text' name='tel' id='tel' value='' required="required" 
+        <input type='text' name='email' id='email' value='' required="required" 
                   placeholder="이메일" style="width: 30%;">
         예) abc123@sseubak.com
       </div>
         
 
-      <div class="content_body_bottom">
-        <button type="button" id="btn" onclick="send();" class="btn btn-secondary btn-sm">가입</button>
-        <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
+      <div>
+        <button type="submit" id="btn">가입</button>
+        <button type="button" onclick="history.back();">취소</button>
       </div>
 
 
