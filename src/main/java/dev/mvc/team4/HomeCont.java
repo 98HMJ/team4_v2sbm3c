@@ -11,4 +11,9 @@ public class HomeCont {
     public String home() { 
         return "index";
     }
+    
+    @GetMapping("/main")
+    public String main() {
+      return "main";
+    }
 }

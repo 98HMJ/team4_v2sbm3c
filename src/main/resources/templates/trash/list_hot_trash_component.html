@@ -1,0 +1,27 @@
+<div th:fragment="list_hot_trash_fragment"> <!-- <div th:replace=... -->
+    <table class="table table-hover">
+      <colgroup>
+        <col style='width: 15%;'/>
+        <col style='width: 10%;'/>    
+        <col style='width: 45%;'/>
+        <col style='width: 30%;'/>
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="th_bs">순위</th>
+          <th class="th_bs" colspan="2"></th>
+          <th class="th_bs">쓰레기 분류</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td_bs_num">1</td>
+          <td class="td_bs"><a  style="display: block;">
+            <img src="images/sample_garbage2.png">
+          </a></td>
+          <td class="td_bs"><a style="display: block;">패트병</a></td>
+          <td class="td_bs_right">일반쓰레기</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
