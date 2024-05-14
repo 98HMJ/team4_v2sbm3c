@@ -5,41 +5,42 @@
 
     <!--글 등록-->
     <insert id="create" parameterType="dev.mvc.community.CommunityVO">
-        INSERT INTO community(commnuityno, title, contents, rdate, files, filesaved, thumb, filesize, map, youtube, mp4, memberno, communitycateno)
+        INSERT INTO community(communityno, title, contents, rdate, files, filesaved, thumb, filesize, map, youtube, mp4, memberno, communitycateno)
         VALUES(community_seq.nextval, #{title}, #{contents}, sysdate, #{files}, #{filesaved}, #{thumb}, #{filesize}, #{map}, #{youtube}, #{mp4}, #{memberno}, #{communitycateno})
     </insert>
 
     <!--글 조회-->
     <select id="read" resultType="dev.mvc.community.CommunityVO" parameterType="int">
         SELECT *
-        FROM commnuity
-        WHERE commnuityno=#{commnuityno}
+        FROM community
+        WHERE communityno=#{communityno}
     </select>
 
     <!--글 작성 목록-->
     <select id="list" resultType="dev.mvc.community.CommunityVO">
-        SELECT title, rdate, memberno, communitycateno
-        FROM commnuity
+        SELECT community.communityno, community.title, community.rdate, member.nickname, communitycate.name, community.memberno, community.communitycateno
+        FROM community,communitycate,member
+        WHERE community.communitycateno=communitycate.communitycateno AND community.memberno=member.memberno
         ORDER BY rdate ASC
     </select>
 
     <!--글 수정-->
     <update id="update" parameterType="dev.mvc.community.CommunityVO">
-        UPDATE commnuity
+        UPDATE community
         SET title=#{title}, contents=#{contents}, files=#{files}, filesaved=#{filesaved}, map=#{map}, youtube=#{youtube}, mp4=#{map}
-        WHERE commnuityno=#{commnuityno}
+        WHERE communityno=#{communityno}
     </update>
 
     <!--글 삭제-->
     <delete id="delete" parameterType="int">
-        DELETE FROM commnuity
-        WHERE commnuityno=#{commnuityno}
+        DELETE FROM community
+        WHERE communityno=#{communityno}
     </delete>
 
     <!--글 검색(제목/내용)-->
     <select id="search" resultType="dev.mvc.community.CommunityVO" parameterType="String">
         SELECT title, rdate, memberno, communitycateno
-        FROM commnuity
+        FROM community
         WHERE title LIKE '%' || #{word} || '%' OR contents LIKE '%' || #{word} || '%'
         ORDER BY rdate ASC
     </select>
