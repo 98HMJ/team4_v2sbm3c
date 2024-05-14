@@ -43,7 +43,7 @@ FROM REPLY
 ORDER BY REPLYNO;
 
 -- READ(조회) : 특정 커뮤니티의 댓글 목록
-SELECT replyno, contents, rdate,photo, communityno, memberno
+SELECT replyno, contents, rdate, photo, communityno, memberno
 FROM REPLY
 WHERE communityno = 1
 ORDER BY REPLYNO;
@@ -62,7 +62,7 @@ rollback;
 -- 특정 커뮤니티 게시글의 댓글 수
 SELECT COUNT(*) as cnt 
 FROM reply
-WHERE communityno = 3;
+WHERE communityno = 1;
 
 --       CNT
 ------------

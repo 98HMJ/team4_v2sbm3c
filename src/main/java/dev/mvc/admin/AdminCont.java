@@ -188,6 +188,12 @@ public class AdminCont {
     }
   }
 
+  @GetMapping(value="/logout")
+  public String logout(HttpSession session, Model model) {
+    session.invalidate(); //모든 세션 변수 삭제
+      return "redirect:/admin";
+  }
+  
 
   /**
    * 회원가입 폼
