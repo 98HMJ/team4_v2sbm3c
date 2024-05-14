@@ -8,7 +8,7 @@ CREATE TABLE ADMIN(
 		ADMINNO                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		NAME                          		VARCHAR2(42)		 NOT NULL,
 		ID                            		VARCHAR2(30)		 NOT NULL,
-		PASSWORD                        		VARCHAR2(20)		 NOT NULL,
+		PASSWORD                        		VARCHAR2(120)		 NOT NULL,
     EMAIL                             VARCHAR2(30)      NULL,
 		RDATE                         		DATE		 NOT NULL
 );

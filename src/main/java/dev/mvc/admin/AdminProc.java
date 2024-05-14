@@ -107,7 +107,7 @@ public class AdminProc implements AdminProcInter{
   @Override
   public boolean isAdmin(HttpSession session) {
     boolean isAdmin = false; //관리자가 아닌 것으로 초기화
-    isAdmin = session.getAttribute("Admin") == null ? false : true;
+    isAdmin = session.getAttribute("admin") == null ? false : true;
     return isAdmin;
   }
   
