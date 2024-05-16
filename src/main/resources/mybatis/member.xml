@@ -58,4 +58,25 @@
     CASCADE WHERE memberno=#{memberno}
   </delete>
 
+  <!--회원 아이디 찾기-->
+  <select id="findid" resultType="dev.mvc.member.MemberVO" parameterType="HashMap">
+    SELECT *
+    FROM member
+    WHERE name=#{name} AND tel=#{tel}
+  </select>
+
+  <!--회원 패스워드 찾기-->
+  <select id="findpassword" resultType="dev.mvc.member.MemberVO" parameterType="HashMap">
+    SELECT *
+    FROM member
+    WHERE name=#{name} AND id=#{id}
+  </select>
+
+  <!--회원 정보 수정-->
+  <update id="chagepassword" parameterType="int">
+    UPDATE member 
+    SET password=#{password}
+    WHERE memberno=#{memberno}
+  </update>
+
 </mapper> 

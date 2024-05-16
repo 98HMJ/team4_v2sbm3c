@@ -3,8 +3,9 @@ package dev.mvc.community;
 import java.util.ArrayList;
 
 public interface CommunityProcInter {
-/**
+    /**
      * 글 등록
+     * 
      * @param communityVO
      * @return int
      */
@@ -12,6 +13,7 @@ public interface CommunityProcInter {
 
     /**
      * 글 조회
+     * 
      * @param communityno
      * @return CommunityVO
      */
@@ -19,12 +21,14 @@ public interface CommunityProcInter {
 
     /**
      * 글 작성 목록
+     * 
      * @return ArrayList<CommunityVO>
      */
     public ArrayList<CommunityVO> list();
 
     /**
      * 글 수정
+     * 
      * @param communityVO
      * @return int
      */
@@ -32,15 +36,18 @@ public interface CommunityProcInter {
 
     /**
      * 글 삭제
+     * 
      * @param communityno
-     * @return int 
+     * @return int
      */
     public int delete(int communityno);
 
     /**
      * 글 검색
+     * 
      * @param word
      * @return ArrayList<CommunityVO>
      */
     public ArrayList<CommunityVO> search(String word);
+    
 }

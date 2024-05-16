@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import dev.mvc.tool.MailTool;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -143,7 +144,7 @@ public class MemberCont {
         int cnt = this.memberProc.create(memberVO);
 
         if (cnt == 1) {
-            model.addAttribute("code", "successful");
+            model.addAttribute("code", "singupsuccessful");
         } else {
             model.addAttribute("code", "signupfail");
         }
@@ -162,4 +163,86 @@ public class MemberCont {
         return obj.toString();
     }
 
+    @GetMapping("/findid")
+    public String findid(){
+        return "member/findid";
+    }
+
+    @PostMapping("findid")
+    public String findid(String name, String tel, Model model) {
+        HashMap<String,String> map = new HashMap<String, String>();
+        map.put("name", name);
+        map.put("tel",tel);
+
+        try{
+            MemberVO memberVO = this.memberProc.findid(map);
+            System.out.println("-> findid: " + memberVO.getId());
+            model.addAttribute("memberVO", memberVO);
+            model.addAttribute("code", "findid");
+        } catch(Exception e){
+            model.addAttribute("code", "findidfail");
+        }
+        return "member/msg";
+    }
+
+    @GetMapping("/findpassword")
+    public String findpassword(){
+        return "member/findpassword";
+    }
+
+    @PostMapping("/findpassword")
+    public String findpassword(String id, String name, Model model) {
+        HashMap<String,String> map = new HashMap<String, String>();
+        map.put("id", id);
+        map.put("name",name);
+
+        try{
+            MemberVO memberVO = this.memberProc.findpassword(map);
+            System.out.println("-> findpassword get id " + memberVO.getId());
+            MailTool mailTool = new MailTool();
+            String contents;
+            contents="""
+                    <!DOCTYPE html>
+                    <html>
+                    <div style="text-align: center;">
+                    <b><u>회원 패스워드 안내</u><b><br>
+                    <a href="localhost:9093/member/changepassword?id=
+                    """;
+            contents+=id;
+            contents+="""
+                    >패스워드 변경하러 가기</a>
+                    </div>
+                    </html>
+                    """;
+            mailTool.send(memberVO.getEmail(), "mjhong1998@gmail.com", "패스워드 확인 안내",contents);
+            model.addAttribute("email", memberVO.getEmail());
+            System.out.println("-> findpassword email successful");
+        } catch(Exception e){
+            model.addAttribute("code", "findidfail");
+        }
+
+        return "member/msg";
+    }
+
+    @GetMapping("/changepassword")
+    public String changepassword(String id, Model model) {
+        MemberVO memberVO = this.memberProc.readByid(id);
+        model.addAttribute("memberVO", memberVO);
+        return "member/chagepassword";
+    }
+
+    @PostMapping("/changepassword")
+    public String changepassword(int memberno, String password, Model model) {
+        int cnt = this.memberProc.chagepassword(memberno);
+        System.out.println("-> changepassword: " + cnt);
+        if(cnt==1){
+            model.addAttribute("code", "chagepassword");
+        }else{
+            model.addAttribute("code", "chagepasswordfail");
+        }
+        return "member/msg";
+    }
+    
+    
+    
 }

@@ -43,4 +43,10 @@ public class CommunityVO {
 
     /* 커뮤니티카테번호 */
     private int coummnitycateno;
+
+    /** 카뮤니티 글 작성 닉네임 */
+    private String nickname = "";
+
+    /** 커뮤니티 카테고리 */
+    private String name = "";
 }

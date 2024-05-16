@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+
+
+<div>
+  <script>
+    window.onload = () => {
+      document.querySelector('#name').addEventListener('keypress', (event) => {
+      // document.getElementById('passwd').addEventListener('keypress', (event) => {
+        if(event.key === 'Enter') {
+          document.getElementById('email').focus();
+        }
+      });
+    }
+    
+    function send() { // 회원 가입 처리
+      let name = document.getElementById('name');
+      let name_msg = document.getElementById('name_msg');
+  
+      if (name.value.length == 0) {
+        name_msg.innerHTML= '이름 입력은 필수입니다.';
+        name_msg.classList.add('span_warning');    // class 적용
+        name.focus();
+  
+        return false;  // 회원 가입 진행 중지
+      }
+  
+      document.getElementById('frm').submit(); // required="required" 작동 안됨.
+    }    
+  </script>
+
+  <div class="title_line">회원 정보 조회 및 수정(*: 필수) > <span th:text="@{|${adminVO.name} (${adminVO.id})|}"></span></div>
+
+  <div class='menu_line'></div>
+  
+  <div style="width: 60%; margin: 0px auto ">
+    <form name="frm" id="frm" th:object="${adminVO}" method="post" action="/admin/update">
+      <input type="hidden" name="adminno" th:value="${adminVO.adminno}">
+      
+      <div class="form-group">
+        <label for="name">성명*</label>
+        <input type='text' name='name' id='name' th:value='${adminVO.name}' required="required" 
+                   placeholder="성명" class="form-control form-control-sm" style="width: 30%;">
+        <span id='name_msg'></span>
+      </div>   
+  
+     
+  
+      <div class="form-group">
+        <label for="email" style="width: 100%;">주소</label>
+        <input type='text' name='email' id='email' th:value='${adminVO.email}' placeholder="이메일"
+                   class="form-control form-control-sm">
+      </div>   
+  
+
+
+
+      <div class="content_body_bottom">
+        <button type="button" onclick="send();" class="btn btn-secondary btn-sm">저장</button>
+        <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
+      </div>
+
+
+    </form>
+  </div>
+    
+</div>
+</html>
+

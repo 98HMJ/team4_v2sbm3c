@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
 
-<div layout:fragment="content">
-  
-  <!-- 검색 버튼 -->
-  <div th:replace="~{search/search_component::search_fragment}"></div>
-  
-  <div class="second_header" style="margin-top: 50px; margin-bottom: 11px;">
-    분리수거 방법 알아보기
-  </div>
-  <div th:replace="~{trash/slider_component::slider_fragment}"></div>
-  
-  <!-- 인기 쓰레기 순위-->
-  <div class="second_header" style="margin-top: 20px; margin-bottom: 5px;">
-    Today`s Hot 쓰레기
-  </div>
-  <!-- 인기 쓰레기 순위 표 -->
-  <div th:replace="~{trash/list_hot_trash_component::list_hot_trash_fragment}"></div>
-
-  <!-- 커뮤니티 글 -->
-  <div class="community_header">
-    커뮤니티
-  </div>
-  <div th:replace="~{community/list_menu_component::list_menu_fragment}"></div>
-  
-  <div class="second_header" style="padding-left: 10px; justify-content: start;">
-    네프론 쓰레기 수거함
-  </div>
-  <div class="nefhorne_block">
-    올바른 분리수거로<br>포인트를 얻어보세요!
-  </div>
-
-  <div th:replace="~{trash/modal_slider_component::modal_slider_fragment}"></div>
-</div> <!-- container_main 종료 -->   
+<table class="table table_hover">
+    <colgroup>
+        <col style='width: 10%;' />
+        <col style='width: 20%;' />
+        <col style='width: 20%;' />
+        <col style='width: 10%;' />
+        <col style='width: 15%;' />
+        <col style='width: 5%;' />
+        <col style='width: 20%;' />
+    </colgroup>
+    <thead>
+        <tr>
+            <th class="th_bs">분류</th>
+            <th class="th_bs">제목</th>
+            <th class="th_bs">작성자</th>
+            <th class="th_bs">등록일</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="CommunityVO, status:${list}">
+            <td class="td_bs"><a th:href="@{|/community/read/${CommunityVO.communityno}?word=${word}&now_page=${now_page}|}"
+                    style="display: block;" th:text="${CommunityVO.name}"></td>
+            <td class="td_bs"><a th:href="@{|/community/read/${CommunityVO.communityno}|}"
+                    style="display: block;" th:text="${CommunityVO.title}"></td>
+            <td class="td_bs" th:text="${CommunityVO.nickname}"></td>
+            <td class="td_bs" th:text="${CommunityVO.rdate.substring(0,10)}"></td>
+        </tr>
+    </tbody>
+</table>
+<!-- <div th:text="${now_pages}"></div> -->
+<!-- 페이지 버튼 목록 출력 시작-->
+<!-- <div class="Bottom_menu" th:utext="${paging}"></div> -->
+<!-- 페이지 버튼 목록 출력 종료 -->
 
 </html>
 
