@@ -55,4 +55,18 @@ public class MemberProc implements MemberProcInter  {
         return this.memberDAO.delete(memberno);
     }
     
+    @Override
+    public MemberVO findid(HashMap<String,String> map){
+        return this.memberDAO.findid(map);
+    }
+
+    @Override
+    public MemberVO findpassword(HashMap<String,String> map){
+        return this.memberDAO.findpassword(map);
+    }
+
+    @Override
+    public int chagepassword(int memberno){
+        return this.memberDAO.chagepassword(memberno);
+    }
 }

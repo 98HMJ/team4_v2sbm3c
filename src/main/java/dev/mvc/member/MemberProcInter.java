@@ -60,5 +60,26 @@ public interface MemberProcInter {
      * @return int
      */
     public int delete(int memberno);
+
+    /**
+     * 회원 아이디 찾기
+     * @param map
+     * @return memberVO
+     */
+    public MemberVO findid(HashMap<String,String> map);
+
+    /**
+     * 회원 패스워드 찾기
+     * @param map
+     * @return memberVO
+     */
+    public MemberVO findpassword(HashMap<String,String> map);
+
+    /**
+     * 회원 패스워드 수정
+     * @param map
+     * @return memberVO
+     */
+    public int chagepassword(int memberno);
     
 } 
