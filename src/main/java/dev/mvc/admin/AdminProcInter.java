@@ -79,5 +79,12 @@ public interface AdminProcInter {
    * @return true: 관리자 false: 관리자 X 
    */
   public boolean isAdmin(HttpSession session);
+
+  /**
+   * 통합관리자 검사
+   * @param session
+   * @return true: 통합관리자 false: 통합관리자 X
+   */
+  public boolean isPermission(HttpSession session);
   
 }

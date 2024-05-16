@@ -111,4 +111,10 @@ public class AdminProc implements AdminProcInter{
     return isAdmin;
   }
   
+  @Override
+  public boolean isPermission(HttpSession session) {
+    boolean isPermission = false; //통합관리자가 아닌 것으로 초기화
+    isPermission = ((int)session.getAttribute("adminno") == 1) ? true: false;
+    return isPermission;
+  }
 }
