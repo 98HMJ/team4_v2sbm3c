@@ -1,0 +1,33 @@
+<!-- modal 영역 -->
+<div th:fragment="modal_slider_fragment">
+  <div id = "modal_image" class="modal_overlay">
+    <div class="modal_window">
+      <div class="swiper modalSwiper">
+        <!-- wrapper 추가 필수 -->
+        <div class="swiper-wrapper">
+          <!-- 실제 이미지나 컨텐츠가 들어갈 slide들 -->
+          <!-- 실제로는 이미지마다 div 의 id 가 매핑 되야함 -->
+          <div class="swiper-slide">
+            <a href="#" ><img src="/images/popup1.png"></a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#"><img src="/images/popup2.png"></a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#"><img src="/images/popup3.png"></a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#"><img src="/images/sample_garbage2.png"></a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#"><img src="/images/sample_garbage2.png"></a>
+          </div>
+        </div>
+        <!-- pagination 필요할 경우 추가 -->
+        <div class="swiper-pagination"></div>
+    </div>
+  </div>
+  
+  <script> src="/js/modal_swiper.js"</script>
+</div>
+<!-- modal 영역 -->

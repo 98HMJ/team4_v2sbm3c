@@ -1,19 +1,10 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+
 <div layout:fragment="content">
   
   <!-- 검색 버튼 -->
   <div th:replace="~{search/search_component::search_fragment}"></div>
-  
-  <!-- ai 쓰레기 분류 -->
-  <div class="ai_search">
-    <div style="display: flex; align-items: center; justify-content: center;">
-      <a href="#" style="font-family: 'Giants-Bold'; color: black;">
-        <img src="images/ic_ai.svg" alt="Example Image">
-        AI로 쓰레기 분류하기
-      </a>
-    </div>
-  </div>
   
   <div class="second_header" style="margin-top: 50px; margin-bottom: 11px;">
     분리수거 방법 알아보기
