@@ -1,0 +1,44 @@
+<!-- TEST HTML -->
+<!DOCTYPE html>
+  <div>관리자 전용</div>
+   
+  <table style='width: 100%;'>
+    <colgroup>
+      <col style='width: 10%;'/>
+      <col style='width: 15%;'/>
+      <col style='width: 15%;'/>
+      <col style='width: 30%;'/>
+      <col style='width: 15%;'/>
+      <col style='width: 15%;'/>
+    </colgroup>
+    <tr>
+      <th class='th_bs'> </TH>
+      <th class='th_bs'>ID</th>
+      <th class='th_bs'>성명</th>
+      <th class='th_bs'>이메일</th>
+      <th class='th_bs'>등록일</th>
+      <th class='th_bs'> </th>
+    </tr>
+   
+    <tr th:each="adminVO, status:${list}">
+      <td> </td>
+      <td ><a th:href="@{|./read?adminno=${adminVO.adminno}|}" th:text="${adminVO.id}"></a></td>
+      <td><a th:href="@{|./read?adminno=${adminVO.adminno}|}" th:text="${adminVO.name}"></a></td>
+      <td th:text="${adminVO.email}"></td>
+      <td th:text="${adminVO.rdate.substring(0, 10)}"></td>
+      <td >
+        <a th:href="@{|./read?adminno=${adminVO.adminno}|}"><img src='/admin/images/update.png' title='수정' class="icon"></a>
+        <a th:href="@{|./delete?adminno=${adminVO.adminno}|}"><img src='/admin/images/delete.png' title='삭제' class="icon"></a>
+      </td>
+      
+    </tr>
+  </table>
+   
+  <div class='bottom_menu'>
+    <button type='button' onclick="location.reload();" class="btn btn-primary btn-sm">새로 고침</button>
+  </div>
+
+</div>
+</html>
+
+

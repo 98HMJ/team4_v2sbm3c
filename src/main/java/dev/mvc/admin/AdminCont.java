@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.mvc.log.adminlog.AdminlogProcInter;
 import dev.mvc.log.adminlog.AdminlogVO;
+import dev.mvc.member.MemberVO;
 import dev.mvc.tool.Security;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -233,4 +236,91 @@ public class AdminCont {
       }
       return "admin/msg";
   }
+
+  /**
+   * 관리자 정보 조회 및 수정 폼
+   * @param session
+   * @param model
+   * @param adminno
+   * @return
+   */
+  @GetMapping(value="/read")
+  public String read(HttpSession session, Model model, int adminno) {
+    boolean isPermission = this.adminProc.isPermission(session);
+    if(adminno == (int)session.getAttribute("adminno") || isPermission) {
+      AdminVO adminVO = this.adminProc.read(adminno);
+      model.addAttribute("adminVO", adminVO);
+      return "admin/read";
+    } else {
+      return "redirect:/admin/login";
+    }
+  }
+
+  @GetMapping(value="/list")
+  public String list(HttpSession session, Model model) {
+    //통합관리자 권한 확인
+    boolean isPermission = this.adminProc.isPermission(session);
+    if (isPermission) { 
+      ArrayList<AdminVO> list = this.adminProc.list();
+      model.addAttribute("list", list);
+      
+      return "admin/list";   
+    } else {
+      model.addAttribute("code", "permission_error");
+      return "admin/msg";
+    }  
+
+  }
+
+  /**
+   * 관리자 정보 수정 처리
+   * @param model
+   * @param adminVO
+   * @return
+   */
+  @PostMapping(value="/update")
+  public String update(Model model, AdminVO adminVO) {
+    int cnt = this.adminProc.update(adminVO);
+    if(cnt == 1){
+      model.addAttribute("code", "update_success");
+      model.addAttribute("name", adminVO.getName());
+      model.addAttribute("id", adminVO.getId());
+    } else{
+      model.addAttribute("code", "update_fail");
+    }
+    model.addAttribute("cnt", cnt);
+    return "admin/msg";
+  }
+  
+  /**
+   * 관리자 정보 삭제 폼
+   * @param model
+   * @param adminno
+   * @return
+   */
+  @GetMapping(value="/delete")
+  public String delete(HttpSession session, Model model, int adminno) {
+    boolean isPermission = this.adminProc.isPermission(session);
+    if(adminno == (int)session.getAttribute("adminno") || isPermission) {
+      AdminVO adminVO = this.adminProc.read(adminno);
+      model.addAttribute("adminVO", adminVO);
+      return "admin/delete";
+    } else{
+      model.addAttribute("code", "update_fail");
+    }
+    return "admin/msg";
+  }
+  
+  @PostMapping(value="/delete")
+  public String delete(Model model, Integer adminno) {
+    int cnt = this.adminProc.delete(adminno);
+    if(cnt == 1){
+      return "redirect:/admin/list";
+    } else{
+      model.addAttribute("code", "delete_fail");
+      return "admin/msg";
+    }
+  }
+  
 }
+

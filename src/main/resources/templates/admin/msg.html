@@ -40,6 +40,15 @@
             수정된 회원 정보: <span th:text="${mname}"></span>
           </div>
 
+          <div th:case="permission_error">
+            <span style="font-weight: bold;
+            background: url('/css/images/url8.png') left center no-repeat;
+            background-size: 10px;
+            padding-top: 0px;
+            padding-left: 20px;
+            margin-top: 2px; ">권한이 없습니다.</span><br>
+          </div>
+
           
       </ul>
     </fieldset>
