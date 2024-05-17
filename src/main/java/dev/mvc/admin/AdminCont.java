@@ -311,13 +311,16 @@ public class AdminCont {
    */
   @GetMapping(value="password_update")
   public String password_update(HttpSession session, Model model, int adminno) {
+    if(session.getAttribute("adminno")==null){
+      return "redirect:/admin/login";
+    }
     if(adminno == (int)session.getAttribute("adminno")) {
       AdminVO adminVO = this.adminProc.read(adminno);
       model.addAttribute("adminVO", adminVO);
       return "admin/password_update";
     } else {
       model.addAttribute("code", "matching_error");
-      return "redirect:/admin/msg";
+      return "admin/msg";
     }
   }
   
@@ -354,7 +357,7 @@ public class AdminCont {
       int adminno = (int)session.getAttribute("adminno");
       HashMap<String, Object> hm = new HashMap<>();
       hm.put("adminno", adminno);
-      hm.put("passwd", this.security.aesEncode(current_password));
+      hm.put("password", this.security.aesEncode(current_password));
 
       int cnt = this. adminProc.password_check(hm);
       if(cnt == 0){ //현재 비밀번호 불일치
