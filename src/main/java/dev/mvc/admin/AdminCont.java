@@ -203,10 +203,10 @@ public class AdminCont {
   
 
   /**
-   * 회원가입 폼
+   * 관리자 등록 폼
    * @param model
    * @param adminVO
-   * @return 회원가입 폼 html
+   * @return 관리자 등록 폼 html
    */
   @GetMapping(value="/signup")
   public String signup(Model model, 
@@ -214,10 +214,21 @@ public class AdminCont {
                        AdminVO adminVO) {
     if(!this.adminProc.isAdmin(session)){
       return "redirect:/admin/login";
-    } 
-    return "admin/signup";
+    } else if(this.adminProc.isPermission(session)) {
+      return "admin/signup";
+    } else {
+      model.addAttribute("code", "permission_error");
+      return "admin/msg";
+    }
+
   }
   
+  /**
+   * 관리자 등록
+   * @param model
+   * @param adminVO
+   * @return
+   */
   @PostMapping(value="/signup")
   public String signup(Model model, AdminVO adminVO) {
       int checkID_cnt = this.adminProc.checkID(adminVO.getId());
@@ -291,6 +302,87 @@ public class AdminCont {
     model.addAttribute("cnt", cnt);
     return "admin/msg";
   }
+
+  /**
+   * 비밀번호 변경 폼
+   * @param session
+   * @param model
+   * @return
+   */
+  @GetMapping(value="password_update")
+  public String password_update(HttpSession session, Model model, int adminno) {
+    if(adminno == (int)session.getAttribute("adminno")) {
+      AdminVO adminVO = this.adminProc.read(adminno);
+      model.addAttribute("adminVO", adminVO);
+      return "admin/password_update";
+    } else {
+      model.addAttribute("code", "matching_error");
+      return "redirect:/admin/msg";
+    }
+  }
+  
+  /**
+   * 현재 비밀번호 확인
+   * @param session
+   * @param json_src
+   * @return
+   */
+  @PostMapping(value = "/password_check")
+  @ResponseBody
+  public String password_check(HttpSession session, @RequestBody String json_src) {
+    JSONObject src = new JSONObject(json_src);
+    String current_password = (String)src.get("current_password");
+    
+    int adminno = (int)session.getAttribute("adminno");
+    HashMap<String, Object> hm = new HashMap<>();
+    hm.put("adminno",adminno);
+    hm.put("password", this.security.aesEncode(current_password));
+
+    int cnt = this.adminProc.password_check(hm);
+    JSONObject json = new JSONObject();
+    json.put("cnt", cnt);
+    
+    return json.toString();
+  }
+  
+  @PostMapping(value="/password_update")
+  public String password_update(HttpSession session,
+                                Model model,
+                                String current_password,
+                                String password) {
+    if(this.adminProc.isAdmin(session)){
+      int adminno = (int)session.getAttribute("adminno");
+      HashMap<String, Object> hm = new HashMap<>();
+      hm.put("adminno", adminno);
+      hm.put("passwd", this.security.aesEncode(current_password));
+
+      int cnt = this. adminProc.password_check(hm);
+      if(cnt == 0){ //현재 비밀번호 불일치
+        model.addAttribute("code", "pasword_not_equal");
+        model.addAttribute("cnt", 0);
+      } else{ //현재 비밀번호 일치
+        HashMap<String,Object> hm_new_password = new HashMap<>();
+        hm_new_password.put("adminno", adminno);
+        hm_new_password.put("password", this.security.aesEncode(password));
+
+        int change_password_cnt = this.adminProc.password_update(hm_new_password);
+
+        if(change_password_cnt == 1){ //비밀번호 변경 성공
+          model.addAttribute("code", "password_change_success");
+          model.addAttribute("cnt", 1);
+        } else { // 비밀번호 변경 실패
+          model.addAttribute("code", "password_change_fail");
+          model.addAttribute("cnt", 0);
+        }
+      }
+      return "admin/msg";
+    } else{
+      return "redirect:/admin/login";
+    }
+      
+  }
+  
+
   
   /**
    * 관리자 정보 삭제 폼
