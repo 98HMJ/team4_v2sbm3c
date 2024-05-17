@@ -12,5 +12,5 @@ var mySwiper = new Swiper('.modalSwiper', {
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
-    },
+    }
 });
