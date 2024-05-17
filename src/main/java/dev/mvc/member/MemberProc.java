@@ -6,10 +6,15 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import dev.mvc.tool.Security;
+
 @Component("dev.mvc.member.MemberProc")
 public class MemberProc implements MemberProcInter  {
     @Autowired
     private MemberDAOInter memberDAO;
+
+    @Autowired
+    Security security;
 
     public MemberProc(){
         //System.out.println("-> MemberProc created.");
@@ -17,6 +22,7 @@ public class MemberProc implements MemberProcInter  {
 
     @Override
     public int create(MemberVO memberVO) {
+        memberVO.setPassword(security.aesEncode(memberVO.getPassword()));
         return this.memberDAO.create(memberVO);
     }
 
@@ -61,12 +67,14 @@ public class MemberProc implements MemberProcInter  {
     }
 
     @Override
-    public MemberVO findpassword(HashMap<String,String> map){
+    public MemberVO findpassword(HashMap<String,Object> map){
         return this.memberDAO.findpassword(map);
     }
 
     @Override
-    public int chagepassword(int memberno){
-        return this.memberDAO.chagepassword(memberno);
+    public int chagepassword(HashMap<String,Object> map){
+        String key = security.aesEncode((String) map.get("password"));
+        map.put("password", key);
+        return this.memberDAO.chagepassword(map);
     }
 }

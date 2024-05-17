@@ -73,13 +73,13 @@ public interface MemberProcInter {
      * @param map
      * @return memberVO
      */
-    public MemberVO findpassword(HashMap<String,String> map);
+    public MemberVO findpassword(HashMap<String,Object> map);
 
     /**
      * 회원 패스워드 수정
      * @param map
      * @return memberVO
      */
-    public int chagepassword(int memberno);
+    public int chagepassword(HashMap<String,Object> map);
     
 } 

@@ -23,7 +23,7 @@ public class CommunityCont {
         // System.out.println("-> CommunityCont created.");
     }
 
-    @GetMapping("")
+    @GetMapping("/main")
     public String main(Model model) {
         ArrayList<CommunityVO> list = this.communityProc.list();
         model.addAttribute("list", list);

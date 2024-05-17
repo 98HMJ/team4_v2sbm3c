@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.mvc.tool.MailTool;
+import dev.mvc.tool.Security;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,6 +29,9 @@ public class MemberCont {
     @Autowired
     @Qualifier("dev.mvc.member.MemberProc")
     private MemberProcInter memberProc;
+
+    @Autowired
+    Security security;
 
     @GetMapping("/login")
     public String login(Model model, HttpServletRequest request) {
@@ -192,51 +196,75 @@ public class MemberCont {
 
     @PostMapping("/findpassword")
     public String findpassword(String id, String name, Model model) {
-        HashMap<String,String> map = new HashMap<String, String>();
+        HashMap<String,Object> map = new HashMap<String, Object>();
         map.put("id", id);
         map.put("name",name);
 
         try{
             MemberVO memberVO = this.memberProc.findpassword(map);
-            System.out.println("-> findpassword get id " + memberVO.getId());
+            map.put("memberno", memberVO.getMemberno());
+            map.put("password",memberVO.getPassword());
+
+            String key = this.security.aesEncode(memberVO.getPassword());
+
+            int cnt = this.memberProc.chagepassword(map);
+            if(cnt!=1){
+                model.addAttribute("code", "findpasswordfail");
+                return "member/msg";
+            }
+
             MailTool mailTool = new MailTool();
-            String contents;
-            contents="""
-                    <!DOCTYPE html>
-                    <html>
+            String content;
+            content="""
                     <div style="text-align: center;">
-                    <b><u>회원 패스워드 안내</u><b><br>
-                    <a href="localhost:9093/member/changepassword?id=
+                    <h1>패스워드 변경 안내</h1>
+                    <span>
                     """;
-            contents+=id;
-            contents+="""
-                    >패스워드 변경하러 가기</a>
+            content+=key;
+            content+="""
+                    </span>
                     </div>
-                    </html>
                     """;
-            mailTool.send(memberVO.getEmail(), "mjhong1998@gmail.com", "패스워드 확인 안내",contents);
+            mailTool.send(memberVO.getEmail(), "mjhon1998@gmail.com", "패스워드 변경 안내", content);
             model.addAttribute("email", memberVO.getEmail());
-            System.out.println("-> findpassword email successful");
         } catch(Exception e){
-            model.addAttribute("code", "findidfail");
+            model.addAttribute("code", "findpasswordfail");
         }
 
-        return "member/msg";
+        return "member/again_login";
     }
 
-    @GetMapping("/changepassword")
-    public String changepassword(String id, Model model) {
-        MemberVO memberVO = this.memberProc.readByid(id);
-        model.addAttribute("memberVO", memberVO);
-        return "member/chagepassword";
-    }
-
-    @PostMapping("/changepassword")
-    public String changepassword(int memberno, String password, Model model) {
-        int cnt = this.memberProc.chagepassword(memberno);
-        System.out.println("-> changepassword: " + cnt);
+    @PostMapping("again_login")
+    public String again_login(String id, String password, Model model) {
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("id", id);
+        map.put("password", password);
+        
+        int cnt = this.memberProc.login(map);
         if(cnt==1){
-            model.addAttribute("code", "chagepassword");
+            model.addAttribute("id", id);
+            return "member/chagepassword";
+        }else{
+            model.addAttribute("code", "again_loginfail");
+            return "member/msg";
+        }
+    }
+    
+    @PostMapping("/changepassword")
+    public String changepassword(HttpSession session, String id, String password, Model model) {
+        MemberVO memberVO = this.memberProc.readByid(id);
+
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("memberno", memberVO.getMemberno());
+        map.put("password", password);
+
+        int cnt = this.memberProc.chagepassword(map);
+        if(cnt==1){
+            session.setAttribute("memberno", memberVO.getMemberno());
+            session.setAttribute("id", memberVO.getId());
+            session.setAttribute("password", memberVO.getPassword());
+            session.setAttribute("nickname", memberVO.getNickname());
+            return "main";
         }else{
             model.addAttribute("code", "chagepasswordfail");
         }

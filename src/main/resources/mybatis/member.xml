@@ -73,7 +73,7 @@
   </select>
 
   <!--회원 정보 수정-->
-  <update id="chagepassword" parameterType="int">
+  <update id="chagepassword" parameterType="HashMap">
     UPDATE member 
     SET password=#{password}
     WHERE memberno=#{memberno}
