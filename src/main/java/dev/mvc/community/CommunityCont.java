@@ -59,12 +59,12 @@ public class CommunityCont {
           int reply_cnt = this.replyProc.count_by_communityno(communityno);
           model.addAttribute("reply_cnt", reply_cnt);
 
-          CommunityVO communityVO = this.communityProc.read(communityno);
-          if(communityVO.getMemberno() == (int)session.getAttribute("memberno")){
-              model.addAttribute("bool", true);
-          }
-          model.addAttribute("communityVO", communityVO);
-          return "community/read_c";
+            CommunityVO communityVO = this.communityProc.read(communityno);
+            if(communityVO.getMemberno() == (int)session.getAttribute("memberno")){
+                model.addAttribute("bool", true);
+            }
+            model.addAttribute("communityVO", communityVO);
+            return "community/read_r";
         } else {
             model.addAttribute("code", "no_login");
             return "member/login";

@@ -9,7 +9,7 @@ import lombok.ToString;
     REPLYNO                           NUMBER(10)     NOT NULL    PRIMARY KEY,
     CONTENTS                          VARCHAR2(2000)     NOT NULL,
     RDATE                             DATE     NOT NULL,
-    PHOTO                             VARCHAR2(1000) NULL,
+    PHOTO                             VARCHAR2(1000)  NULL,
     COMMUNITYNO                       NUMBER(10)     NULL ,
     MEMBERNO                          NUMBER(10)     NULL ,
   FOREIGN KEY (COMMUNITYNO) REFERENCES COMMUNITY (COMMUNITYNO),
@@ -29,7 +29,7 @@ public class ReplyVO {
   private String rdate;
   
   /** 사진 */
-  private String photo;
+  private String photo = "";
   
   /** 댓글이 속한 커뮤니티 번호 */
   private int communityno;

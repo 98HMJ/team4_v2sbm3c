@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import dev.mvc.community.CommunityProcInter;
 import dev.mvc.member.MemberProc;
 import jakarta.servlet.http.HttpSession;
@@ -44,7 +46,11 @@ public class ReplyCont {
   // - 1. 정상적으로 등록 되는지 test
   // - 2. 댓글 등록 실패는 알림으로 대체
   @PostMapping(value = "/create") // http://localhost:9091/cate/create
-  public String create(HttpSession session, Model model, ReplyVO replyVO, int communityno) {
+  public String create(RedirectAttributes ra, 
+                            HttpSession session, 
+                            Model model, 
+                            ReplyVO replyVO) {
+    System.out.println("-> communityno: "+ replyVO.getCommunityno());
       
     // form 에 등록된 text 를 가져오는 방법
     // contents 가 text 로 등록이 되는지 확인
@@ -56,7 +62,7 @@ public class ReplyCont {
     // 커뮤니티 read.html의 form 태그 안에 
     // <input type="hidden" name="communityno" th:value="${param.CommunityVO.communitino}">
     // param 으로 커뮤니티 no 를 가져올 수 있는가?
-    replyVO.setCommunityno(communityno);
+    replyVO.setCommunityno(replyVO.getCommunityno());
     
     // 2)멤버no 의 번호를  session 에서 받아옴
     int memberno = (int) session.getAttribute("memberno");      
@@ -72,6 +78,7 @@ public class ReplyCont {
       
 
     model.addAttribute("cnt", cnt);
+    ra.addAttribute("communityno", replyVO.getCommunityno());
     
     // 
     return "redirect:/community/read"; // /templates/reply/create.html
