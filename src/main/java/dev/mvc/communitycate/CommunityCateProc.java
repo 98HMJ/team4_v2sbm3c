@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component("dev.mvc.communitycate.CommunityCateProc")
 public class CommunityCateProc implements CommunityCateProcInter{
     @Autowired
-    private CommunityCateDAO communityCateDAO;
+    private CommunityCateDAOInter communityCateDAO;
 
     @Override
     public int update(CommunityCateVO commnuityCateVO) {

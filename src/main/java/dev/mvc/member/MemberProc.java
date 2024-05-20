@@ -14,7 +14,7 @@ public class MemberProc implements MemberProcInter  {
     private MemberDAOInter memberDAO;
 
     @Autowired
-    Security security;
+    private Security security;
 
     public MemberProc(){
         //System.out.println("-> MemberProc created.");
@@ -33,6 +33,7 @@ public class MemberProc implements MemberProcInter  {
 
     @Override
     public int login(HashMap<String, Object> map) {
+        map.put("password", security.aesEncode((String)map.get("password")));
         return this.memberDAO.login(map);
     }
 
