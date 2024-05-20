@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+
+  <header style="margin-top: 25px; padding-left: 5%; padding-right: 5%; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/style.css" rel="Stylesheet" type="text/css"> <!-- /static 기준 -->
+    <div>
+        <h1>Dr. Echo's Club</h1>
+        <span>쓰레기 버리는 방법,</span><br>
+        <span> 환경적인 라이프 스타일에 관한</span><br>
+        <span>커뮤니티회원만 글과 댓글을 남길 수 있습니다.</span><br>
+    </div>
+  </header>
+  
+  <!-- 커뮤니티 글-->
+  <div>
+    <div class="community_read_header_title">
+      <span th:text="${communityVO.title}"> </span>
+    </div>
+
+    <!-- 반응형 UI 구성 필요 -->
+    <!-- 카테고리, 작성자, 작성일 정보 -->
+    <div class="community_read_header_box">
+      <div class="community_read_header_info">
+        <div class="community_read_header">분류</div> 
+        <div style="display: flex;">질문</div>
+      </div>
+      <div class="community_read_header_info">
+        <div class="community_read_header">작성자</div>
+        <div style="display: flex; float:left;">kbs</div>
+      </div>
+      <div class="community_read_header_info">
+        <div class="community_read_header">작성일</div><div style="display: flex; float: left;">2024-05-20</div>
+      </div>
+    </div>
+
+    <!-- 본문 contents 영역 -->
+    <div class="community_read_contents">
+      <p>커뮤니티 글 내용</p>
+    </div>
+
+    <!-- 커뮤니티 좋아요 영역 -->
+    <div class="community_like_board">
+      <a href="#"><img src="/images/like_unable.png">좋아요 2</a>
+    </div>
+
+    <!-- 댓글 조회 영역 -->
+    <div th:each="replyVO, status:${list}" class="community_comment_board">
+      
+      <div class="community_comment_header">
+        <!-- 댓글 수 -->
+        <div class="community_comment_cnt">전체<span th:text="${reply_cnt}"></span></div>
+      </div>
+      <hr>
+      <div class="community_comment_contents">
+        <!-- 댓글 작성자 -->  <!-- 댓글 작성일자 -->
+        <div style="display: flex; padding: 10px;">
+          <div style="margin-right: 10px; ">kbs</div>
+          <span th:text="${replyVO.rdate}"></div>
+      </div>
+      
+      <!-- 댓글 내용 -->
+      <div style="padding: 10px;" th:text="${replyVO.contents}">댓글 내용</div>
+
+      <!-- 댓글 좋아요 -->
+      <div class="community_like_board" >
+        <a href="#"><img src="/images/like_unable.png">좋아요 2</a>
+      </div>
+
+    </div>
+      
+      <!-- 댓글 등록 영역 -->
+      <form name='frm' method='post' th:object="${replyVO}" action='/reply/create'>
+        <input type="hidden" name="communityno" th:value="${communityVO.communityno}">
+        <div style="margin: 10px;">
+            <input type="text" name="contents" placeholder="댓글을 입력하세요.">
+            <button type="submit" style="margin: 10px;">댓글쓰기</button>
+          </div>
+      </form>
+    </div>
+
+  </div>
+</html>

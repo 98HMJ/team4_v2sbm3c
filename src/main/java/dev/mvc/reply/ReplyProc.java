@@ -27,8 +27,8 @@ public class ReplyProc implements ReplyProcInter {
   }
   
   @Override
-  public ArrayList<ReplyVO> list_by_community() {
-    ArrayList<ReplyVO> list = this.replyDAOInter.list_by_community();
+  public ArrayList<ReplyVO> list_by_community(int communityno) {
+    ArrayList<ReplyVO> list = this.replyDAOInter.list_by_community(communityno);
     return list;
   }
 
