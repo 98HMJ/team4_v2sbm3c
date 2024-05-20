@@ -21,7 +21,7 @@
         SELECT community.communityno, community.title, community.rdate, member.nickname, communitycate.name, community.memberno, community.communitycateno
         FROM community,communitycate,member
         WHERE community.communitycateno=communitycate.communitycateno AND community.memberno=member.memberno
-        ORDER BY rdate ASC
+        ORDER BY rdate DESC
     </select>
 
     <!--글 수정-->

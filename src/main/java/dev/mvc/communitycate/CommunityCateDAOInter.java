@@ -2,7 +2,7 @@ package dev.mvc.communitycate;
 
 import java.util.ArrayList;
 
-public interface CommunityCateDAO {
+public interface CommunityCateDAOInter {
     /**
      * 커뮤니티 카데고리 수정
      * @param commnuityCateVO
