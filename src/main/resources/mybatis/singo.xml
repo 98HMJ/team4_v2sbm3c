@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev.mvc.singo.SingoDAOInter">
+
+    <!--글 등록-->
+    <insert id="create" parameterType="dev.mvc.singo.SingoVO">
+        INSERT INTO singo(singono, contents, rdate, memberno, trashno, photo)
+        VALUES(community_seq.nextval, #{contents}, sysdate, #{memberno}, #{trashno}, #{photo})
+    </insert>
+
+    <!-- 글 전체 조회 -->
+    <select id="list" resultType="dev.mvc.singo.SingoVO">
+        SELECT *
+        FROM singo
+        ORDER BY rdate DESC
+    </select>
+    <!--글 조회-->
+    <select id="read" resultType="dev.mvc.singo.SingoVO" parameterType="int">
+        SELECT *
+        FROM singo
+        WHERE singono=#{singono}
+    </select>
+
+    <!--글 수정-->
+    <update id="update" parameterType="dev.mvc.singo.SingoVO">
+        UPDATE singo
+        SET contents=#{contents}, rdate=sysdate, trashno=#{trashno}, photo=#{photo}
+        WHERE singono=#{singono}
+    </update>
+
+    <!--글 삭제-->
+    <delete id="delete" parameterType="int">
+        DELETE FROM singo
+        WHERE singono=#{singono}
+    </delete>
+
+    <!--글 검색(쓰레기명/작성자/내용)-->
+    <select id="search" resultType="dev.mvc.singo.SingoVO" parameterType="String">
+        SELECT singono, contents, rdate, memberno, trashno, photo
+        FROM singo
+        WHERE trashno IN (SELECT trashno FROM trash WHERE name LIKE '%' || #{word} || '%')
+        OR memberno IN (SELECT memberno FROM member WHERE name LIKE '%' || #{word}|| '%')
+        OR contents LIKE '%' || #{word} || '%'
+        ORDER BY rdate ASC
+    </select>
+
+</mapper> 

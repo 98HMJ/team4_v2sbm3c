@@ -39,22 +39,30 @@
                     text-align: center; font-family: 'Giants-Bold';
                     color: white; margin-right: 10px;">
           <!-- 오른쪽에 위치할 요소들 -->
-          <div style="margin-right: 10px;">
-            <a href="/">회원 가입</a>
+          <div th:if="${session.adminno == 1}"
+          style="margin-right: 10px;">
+            <a href="/admin/signup">관리자 등록</a>
           </div>
-          <div>
-            <a href="/">로그인</a>
+          <div th:if="${session.admin != null}"
+          style="margin-right: 10px;">
+            <a th:href="@{|/admin/read?adminno=${session.adminno}|}">관리자 정보 수정</a>
           </div>
-          <div>
+          <div th:if="${session.admin == null}">
+            <a href="/admin/login">로그인</a>
+          </div>
+          <div th:if="${session.admin != null}">
             <a href="/admin/logout">로그아웃</a>
           </div>
+          
         </div>
         
       </div>
       
     </nav>
   </div>
-
+  <div style="text-align: center;" th:if="${session.adminno==1}">
+    <a href="/admin/list">Test용 관리자 전체 조회</a>
+  </div>
   <!-- 검색 컨테이너 -->
   <div class="search_container" style="margin-bottom: 40px;">
     <div style="margin: 25px 57px; display: flex; align-items: center; justify-content: center;

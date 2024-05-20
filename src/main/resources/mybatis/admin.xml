@@ -6,7 +6,7 @@
   <!-- id 중복 검사를 위한 id 개수 -->
   <select id="checkID" resultType="int" parameterType="String">
     SELECT COUNT(id) as cnt
-    FROM member
+    FROM admin
     WHERE id=#{id}
   </select>
 

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.mvc.log.adminlog.AdminlogProcInter;
 import dev.mvc.log.adminlog.AdminlogVO;
-import dev.mvc.member.MemberVO;
 import dev.mvc.tool.Security;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -187,11 +186,11 @@ public class AdminCont {
       return "redirect:/admin";
     } else {
       model.addAttribute("code","adminlog_fail");
-    return "msg";
+    return "admin/msg";
     }
   } else {
     model.addAttribute("code","login_fail");
-    return "msg";
+    return "admin/msg";
     }
   }
 
