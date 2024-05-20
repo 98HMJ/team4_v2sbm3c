@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<link href="/admin/css/login.css" rel="Stylesheet" type="text/css"> <!-- /static 기준 -->
 <script>
     window.onload = () => {
         document.querySelector('#id').addEventListener('keypress', (event) => {
@@ -46,31 +47,35 @@
         document.getElementById('frm').submit(); // required="required" 작동 안됨.
     }
 </script>
-<form th:object="${adminVO}" id="frm" name="frm" method="post" action="/admin/login">
-    <div>
-        <div>
-            <label>아이디(이메일)*</label>
-        </div>
-        <input type="text" id="id" name="id" th:value="${check_id}" autofocus="autofocus"
-            class="form-control form-control-sm" style="width: 50%;" placeholder="test">
-        <label><input type="checkbox" name="id_save" id="id_save" value="Y"
-                th:checked="${check_id_save=='Y'}">저장</label>
-        <span id='id_msg'></span>
+<div class = "cotainer">
+    <div id ="loginform">
+        <form th:object="${adminVO}" id="frm" name="frm" method="post" action="/admin/login">
+            <div>
+                <div>
+                    <label>아이디(이메일)*</label>
+                </div>
+                <input type="text" id="id" name="id" th:value="${check_id}" autofocus="autofocus"
+                    class="form-control form-control-sm" style="width: 50%;" placeholder="test">
+                <label><input type="checkbox" name="id_save" id="id_save" value="Y"
+                        th:checked="${check_id_save=='Y'}">저장</label>
+                <span id='id_msg'></span>
+            </div>
+            <br>
+        
+            <div class="form-group">
+                <label>패스워드*</label>
+                <input type='password' class="form-control form-control-sm" name='password' id='password'
+                    th:value="${check_password}" required="required" placeholder="1234" style="width: 50%;" >
+                <label><input type="checkbox" name="password_save" id="password_save" value="Y"
+                        th:checked="${check_password_save=='Y'}">저장</label>
+                <span id='password_msg'></span>
+            </div>
+            <br>
+        
+            <div class="content_body_bottom">
+                <button type="button" id="btn_login" onclick="send();" class="btn btn-secondary btn-sm">로그인</button>
+                <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
+            </div>
+        </form>
     </div>
-    <br>
-
-    <div class="form-group">
-        <label>패스워드*</label>
-        <input type='password' class="form-control form-control-sm" name='password' id='password'
-            th:value="${check_password}" required="required" placeholder="1234" style="width: 50%;" >
-        <label><input type="checkbox" name="password_save" id="password_save" value="Y"
-                th:checked="${check_password_save=='Y'}">저장</label>
-        <span id='password_msg'></span>
-    </div>
-    <br>
-
-    <div class="content_body_bottom">
-        <button type="button" id="btn_login" onclick="send();" class="btn btn-secondary btn-sm">로그인</button>
-        <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
-    </div>
-</form>
+</div>
