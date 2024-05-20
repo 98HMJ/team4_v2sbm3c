@@ -52,7 +52,7 @@
             <label>아이디(이메일)*</label>
         </div>
         <input type="text" id="id" name="id" th:value="${check_id}" autofocus="autofocus"
-            class="form-control form-control-sm" style="width: 50%;">
+            class="form-control form-control-sm" style="width: 50%;" placeholder="test">
         <label><input type="checkbox" name="id_save" id="id_save" value="Y"
                 th:checked="${check_id_save=='Y'}">저장</label>
         <span id='id_msg'></span>
@@ -62,7 +62,7 @@
     <div class="form-group">
         <label>패스워드*</label>
         <input type='password' class="form-control form-control-sm" name='password' id='password'
-            th:value="${check_password}" required="required" placeholder="패스워드" style="width: 50%;">
+            th:value="${check_password}" required="required" placeholder="1234" style="width: 50%;" >
         <label><input type="checkbox" name="password_save" id="password_save" value="Y"
                 th:checked="${check_password_save=='Y'}">저장</label>
         <span id='password_msg'></span>
