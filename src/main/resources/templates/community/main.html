@@ -1,38 +1,37 @@
 <!DOCTYPE html>
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
 
-<table class="table table_hover">
-    <colgroup>
-        <col style='width: 10%;' />
-        <col style='width: 20%;' />
-        <col style='width: 20%;' />
-        <col style='width: 10%;' />
-        <col style='width: 15%;' />
-        <col style='width: 5%;' />
-        <col style='width: 20%;' />
-    </colgroup>
-    <thead>
-        <tr>
-            <th class="th_bs">분류</th>
-            <th class="th_bs">제목</th>
-            <th class="th_bs">작성자</th>
-            <th class="th_bs">등록일</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="CommunityVO, status:${list}">
-            <td class="td_bs"><a th:href="@{|/community/read/${CommunityVO.communityno}?word=${word}&now_page=${now_page}|}"
-                    style="display: block;" th:text="${CommunityVO.name}"></td>
-            <td class="td_bs"><a th:href="@{|/community/read/${CommunityVO.communityno}|}"
-                    style="display: block;" th:text="${CommunityVO.title}"></td>
-            <td class="td_bs" th:text="${CommunityVO.nickname}"></td>
-            <td class="td_bs" th:text="${CommunityVO.rdate.substring(0,10)}"></td>
-        </tr>
-    </tbody>
-</table>
-<!-- <div th:text="${now_pages}"></div> -->
-<!-- 페이지 버튼 목록 출력 시작-->
-<!-- <div class="Bottom_menu" th:utext="${paging}"></div> -->
-<!-- 페이지 버튼 목록 출력 종료 -->
+  <header style="margin-top: 25px; padding-left: 5%; padding-right: 5%; ">
+    <div>
+      <h1>Dr. Echo's Club</h1>
+      <span>쓰레기 버리는 방법,</span><br>
+      <span> 환경적인 라이프 스타일에 관한</span><br>
+      <span>커뮤니티회원만 글과 댓글을 남길 수 있습니다.</span><br>
+    </div>
+  </header>
+  
+  <div style="margin: 25px 57px; display: flex; align-items: center; justify-content: center;
+              font-family: 'Giants-Bold'; font-size: 25px;">
+      <span class="second_header">커뮤니티 글 검색</span>
+  </div>
+  <!-- 검색 버튼 -->
+  <div th:replace="~{search/search_component::search_fragment}"></div>
+  
+  <!-- 커뮤니티 글 목록-->
+  <div class="community_header">
+    커뮤니티
+  </div>
+  <div th:replace="~{community/list_all_component::list_all_fragment}"></div>
+  
+  <div class="btn_more">
+      <span>
+        더보기
+      </span>
+  </div>
+
+  <div th:replace="~{trash/modal_slider_component::modal_slider_fragment}"></div>
+</div> <!-- container_main 종료 -->   
 
 </html>
 

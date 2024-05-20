@@ -7,6 +7,55 @@
     font-style: normal;
   }
   
+  h1{
+    font-family: 'Giants-Bold';
+  }
+
+  header span{
+    color: #A49E9E;
+  }
+
+  .search_container{
+    display: flex; 
+    justify-content: center;
+    margin-top: 33px;
+    margin-bottom: 33px;
+  }
+
+  .td_bs_info{
+    text-align: left;
+  }
+
+  .td_bs_info > div{
+    display: flex; 
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .td_bs_info .category{
+    background-color: #8C8C8C;
+    padding: 3px 5px;
+    color: white;
+    font-weight: 700;
+    margin-right: 5px;
+  }
+
+  .btn_more{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-weight: 700;
+  }
+
+  .btn_more > span{
+    color: greenyellow;
+    border-radius: 10%;
+    border: 3px solid #8C8C8C;
+    padding: 5px 20px;
+
+  }
+  
   .navbar{
     display: flex;
     justify-content: space-between; 
@@ -197,6 +246,11 @@
   }
   
   .td_bs_right {
+    text-align: center;
+    vertical-align: top;
+  }
+  
+  .td_bs_trash_cate{
     text-align: center;
     vertical-align: middle;
   }

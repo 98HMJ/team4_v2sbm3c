@@ -2,6 +2,10 @@
 <html layout:decorate="~{layout}"> <!-- layout.html 상속-->
 <div layout:fragment="content">
   
+  <div style="margin: 25px 57px; display: flex; align-items: center; justify-content: center;
+              font-family: 'Giants-Bold'; font-size: 25px;">
+      <span class="second_header">쓰레기 검색</span>
+  </div>
   <!-- 검색 버튼 -->
   <div th:replace="~{search/search_component::search_fragment}"></div>
   
