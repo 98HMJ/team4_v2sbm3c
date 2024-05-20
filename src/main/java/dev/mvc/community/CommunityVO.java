@@ -1,5 +1,7 @@
 package dev.mvc.community;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +18,14 @@ public class CommunityVO {
 
     /* 등록일 */
     private String rdate;
+
+    private MultipartFile file1MF = null;
+
+    /** 실제 저장된 메인 이미지 */
+    private String filesaved = "";
+
+    /** 메인 이미지 크기 */
+    private long size1 = 0;
 
     /* 원본 파일명 */
     private String files = "";
@@ -42,7 +52,7 @@ public class CommunityVO {
     private int memberno;
 
     /* 커뮤니티카테번호 */
-    private int coummnitycateno;
+    private int communitycateno;
 
     /** 카뮤니티 글 작성 닉네임 */
     private String nickname = "";

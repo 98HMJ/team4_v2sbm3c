@@ -10,8 +10,18 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class MailTool {
+@Component
+public class Mail {
+    private final MyAppProperties myAppProperties;
+
+    @Autowired
+    public Mail(MyAppProperties myAppProperties) {
+        this.myAppProperties = myAppProperties;
+    }
+
     /**
      * 메일 전송
      * @param receiver 메일 받을 이메일 주소
@@ -30,9 +40,7 @@ public class MailTool {
       // 3. SMTP 서버정보와 사용자 정보를 기반으로 Session 클래스의 인스턴스 생성
       Session session = Session.getInstance(props, new Authenticator() {
           protected PasswordAuthentication getPasswordAuthentication() {
-              String user="mjhong1998@gmail.com";
-              String password="xmkg ywnn zxts wzps";
-              return new PasswordAuthentication(user, password);
+            return new PasswordAuthentication(myAppProperties.getEmail(), myAppProperties.getKey());
           }
       });
     

@@ -8,19 +8,21 @@
       <tbody>
         <tr th:each="communityVO, status:${list}">
           <td class="td_bs">
-            <!-- th:attr="onclick=|location.href='/contents/read?contentsno=${contentsVO.contentsno}'|" -->
-            <a th:href="@{|/community/read/${communityVO.communityno}}">
-              <img src="/images/sample_garbage2.png">
+
+            <!-- th:href="@{|/cate/read/${cateVO.cateno}?word=${word}&now_page=${now_page}|}" -->
+            <!-- th:text="${cateVO.name}" -->
+            <a th:href="@{|/community/read?${communityVO.communityno}|}">
+              <img src="images/sample_garbage2.png">
             </a>
           </td>
-          <td class="td_bs_info">
+          <td class="td_bs_info" th:onclick="|location.href='@{read(communityno=${communityVO.communityno})}'|">
             <!-- 유저 ID --> <!-- (현재 시간 - 게시글 upload time) -->
             <div class="sub_info" style="margin-bottom: 5px;">
               <span class="td_bs_id" th:text="${communityVO.nickname}"></span> · <span class="td_bs_uptime" th:text="${communityVO.rdate.substring(0,10)}"></span>
             </div>
             <!-- 게시글 카테고리 --> <!-- 게시글 내용 -->
             <div class="main_info">
-              <div class="category">잡담</div> <div class="content" th:text="${communityVO.title}"></div>
+              <div class="category" th:text="${communityVO.title}"></div> <div class="content" th:text="${communityVO.contents}"></div>
             </div>
           </td>
           <td>

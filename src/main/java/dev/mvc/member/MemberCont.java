@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import dev.mvc.tool.MailTool;
+import dev.mvc.tool.Mail;
 import dev.mvc.tool.Security;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +31,10 @@ public class MemberCont {
     private MemberProcInter memberProc;
 
     @Autowired
-    Security security;
+    private Security security;
+
+    @Autowired
+    private Mail mail;
 
     @GetMapping("/login")
     public String login(Model model, HttpServletRequest request) {
@@ -78,7 +81,6 @@ public class MemberCont {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", id);
         map.put("password", password);
-        System.out.println(map);
         int cnt = this.memberProc.login(map);
 
         if (cnt == 1) {
@@ -180,7 +182,6 @@ public class MemberCont {
 
         try{
             MemberVO memberVO = this.memberProc.findid(map);
-            System.out.println("-> findid: " + memberVO.getId());
             model.addAttribute("memberVO", memberVO);
             model.addAttribute("code", "findid");
         } catch(Exception e){
@@ -213,7 +214,6 @@ public class MemberCont {
                 return "member/msg";
             }
 
-            MailTool mailTool = new MailTool();
             String content;
             content="""
                     <div style="text-align: center;">
@@ -225,7 +225,8 @@ public class MemberCont {
                     </span>
                     </div>
                     """;
-            mailTool.send(memberVO.getEmail(), "mjhon1998@gmail.com", "패스워드 변경 안내", content);
+                    
+            mail.send(memberVO.getEmail(), "mjhon1998@gmail.com", "패스워드 변경 안내", content);
             model.addAttribute("email", memberVO.getEmail());
         } catch(Exception e){
             model.addAttribute("code", "findpasswordfail");
