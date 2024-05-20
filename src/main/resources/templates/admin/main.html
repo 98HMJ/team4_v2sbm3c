@@ -1,83 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, width=device-width" /> 
-<title>Spark 1.0</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-/>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-<link href="/css/style.css" rel="Stylesheet" type="text/css"> <!-- /static 기준 -->
-<link rel="shortcut icon" href="/images/fabicon.svg" />
-
-</head>
-<body>
-<div class='container_main'>
-  <div th:fragment="navbarFragment">
-    <nav>
-      <div class="navbar" style="background-color: #4FA040;">
-        <!-- 왼쪽에 위치할 요소들 -->
-        <div style="display: flex; align-items: center;">
-          <div style="margin-right: 5px; height: auto;">
-            <img src="images/ic_main.svg" alt="메인 아이콘">
-          </div>
-          <div style="text-align: center;">
-            <span>쓰레기 박사</span>
-          </div>
-        </div>
-        
-        <!-- 메뉴 시작 -->
-        <!-- 로그인 하지 않았을 때 -->
-        <div style="display: flex; justify-content: flex-end; 
-                    text-align: center; font-family: 'Giants-Bold';
-                    color: white; margin-right: 10px;">
-          <!-- 오른쪽에 위치할 요소들 -->
-          <div th:if="${session.adminno == 1}"
-          style="margin-right: 10px;">
-            <a href="/admin/signup">관리자 등록</a>
-          </div>
-          <div th:if="${session.admin != null}"
-          style="margin-right: 10px;">
-            <a th:href="@{|/admin/read?adminno=${session.adminno}|}">관리자 정보 수정</a>
-          </div>
-          <div th:if="${session.admin == null}">
-            <a href="/admin/login">로그인</a>
-          </div>
-          <div th:if="${session.admin != null}">
-            <a href="/admin/logout">로그아웃</a>
-          </div>
-          
-        </div>
-        
-      </div>
-      
-    </nav>
-  </div>
-  <div style="text-align: center;" th:if="${session.adminno==1}">
-    <a href="/admin/list">Test용 관리자 전체 조회</a>
-  </div>
-  <!-- 검색 컨테이너 -->
-  <div class="search_container" style="margin-bottom: 40px;">
-    <div style="margin: 25px 57px; display: flex; align-items: center; justify-content: center;
+<html layout:decorate="~{admin/layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+  
+  <div style="margin: 25px 57px; display: flex; align-items: center; justify-content: center;
               font-family: 'Giants-Bold'; font-size: 25px;">
-      <span>쓰레기 검색</span>
-    </div>
-    <div style="display: flex; justify-content: center;">
-      <form name="frm" method="post" action="#">
-        <div class="search">
-          <img src="images/ic_search.svg">
-          <input type="text" placeholder="예) 형광등, 고추장">
-        </div>
-      </form>
-    </div>
+      <span class="second_header">쓰레기 검색</span>
   </div>
+  <!-- 검색 버튼 -->
+  <div th:replace="~{search/search_component::search_fragment}"></div>
   
   <!-- ai 쓰레기 분류 -->
   <div class="ai_search">
@@ -88,32 +18,34 @@
       </a>
     </div>
   </div>
-
-  <!-- 쓰레기 항목 슬라이드 뷰-->
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">Slide 1</div>
-      <div class="swiper-slide">Slide 2</div>
-      <div class="swiper-slide">Slide 3</div>
-      <div class="swiper-slide">Slide 4</div>
-      <div class="swiper-slide">Slide 5</div>
-      <div class="swiper-slide">Slide 6</div>
-      <div class="swiper-slide">Slide 7</div>
-      <div class="swiper-slide">Slide 8</div>
-      <div class="swiper-slide">Slide 9</div>
-    </div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-pagination"></div>
+  
+  <div class="second_header" style="margin-top: 50px; margin-bottom: 11px;">
+    분리수거 방법 알아보기
   </div>
+  <div th:replace="~{trash/slider_component::slider_fragment}"></div>
   
+  <!-- 인기 쓰레기 순위-->
+  <div class="second_header" style="margin-top: 20px; margin-bottom: 5px;">
+    Today`s Hot 쓰레기
+  </div>
+  <!-- 인기 쓰레기 순위 표 -->
+  <div th:replace="~{trash/list_hot_trash_component::list_hot_trash_fragment}"></div>
 
-  <div class='content_body'>
-    <th:block layout:fragment="content"></th:block> <!-- 각 파일의 내용 출력 -->
-  </div> <!-- content_body 종료 --> 
+  <!-- 커뮤니티 글 -->
+  <div class="community_header">
+    커뮤니티
+  </div>
+  <div th:replace="~{community/list_menu_component::list_menu_fragment}"></div>
   
+  <div class="second_header" style="padding-left: 10px; justify-content: start;">
+    네프론 쓰레기 수거함
+  </div>
+  <div class="nefhorne_block">
+    올바른 분리수거로<br>포인트를 얻어보세요!
+  </div>
+
+  <div th:replace="~{trash/modal_slider_component::modal_slider_fragment}"></div>
 </div> <!-- container_main 종료 -->   
 
-</body>
 </html>
 
