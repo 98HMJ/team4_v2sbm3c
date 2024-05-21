@@ -1,7 +1,5 @@
 package dev.mvc.reply;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -9,11 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import dev.mvc.community.CommunityProcInter;
 import dev.mvc.member.MemberProc;
+import dev.mvc.tool.Tool;
+import dev.mvc.tool.Upload;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -41,7 +40,7 @@ public class ReplyCont {
   }
 
   // 등록 폼 처리
-  // - 5. 댓글 등록 실패는 알림으로 대체
+  // todo. 댓글 등록 실패는 알림으로 대체
   @PostMapping(value = "/create") // http://localhost:9091/cate/create
   public String create(RedirectAttributes ra, 
                             HttpSession session, 
@@ -58,24 +57,76 @@ public class ReplyCont {
       replyVO.setMemberno(memberno);
       
       // 1. 이미지 등록 처리
-      // - 이미지 파일 등록 처리하기
-      // - 1) 이미지를 등록할 html 만들기
-      // model.addAttribute("imgs", replyVO.getPhoto());
       // - advance) 우측에 드래앤 드롭으로 이미지 기능 제작
-      int cnt = this.replyProc.create(replyVO);
-      System.out.println("-> cnt: "+ cnt);
-    
-      model.addAttribute("cnt", cnt);
-      ra.addAttribute("communityno", replyVO.getCommunityno());
+      // ------------------------------------------------------------------------------
+      // 파일 전송 코드 시작
+      // ------------------------------------------------------------------------------
+      String file1 = ""; // 원본 파일명 image
+      String file1saved = ""; // 저장된 파일명, image
+      String thumb1 = ""; // preview image
+
+      String upDir = Reply.getUploadDir(); // 파일을 업로드할 폴더 준비
+      System.out.println("-> upDir: " + upDir);
+
+      // 전송 파일이 없어도 file1MF 객체가 생성됨.
+      // <input type='file' class="form-control" name='file1MF' id='file1MF'
+      // value='' placeholder="파일 선택">
+      MultipartFile mf = replyVO.getFile1MF();
+      file1 = mf.getOriginalFilename(); // 원본 파일명 산출, 01.jpg
+      System.out.println("-> 원본 파일명 산출 file1: " + file1);
+
+      long size1 = mf.getSize(); // 파일 크기
+      if (size1 > 0) { // 파일 크기 체크, 파일을 올리는 경우
+        if (Tool.checkUploadFile(file1) == true) { // 업로드 가능한 파일인지 검사
+          // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg, spring_2.jpg...
+          file1saved = Upload.saveFileSpring(mf, upDir);
+
+          if (Tool.isImage(file1saved)) { // 이미지인지 검사
+            // thumb 이미지 생성후 파일명 리턴됨, width: 200, height: 150
+            thumb1 = Tool.preview(upDir, file1saved, 200, 150);
+          }
+
+          replyVO.setPhoto(upDir); // 순수 원본 파일명
+          replyVO.setPhoto1saved(file1saved); // 저장된 파일명(파일명 중복 처리)
+          replyVO.setThumb1(thumb1); // 원본이미지 축소판
+          replyVO.setFilesize(size1); // 파일 크기
+
+        } else { // 전송 못하는 파일 형식
+          // ra.addFlashAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
+          ra.addFlashAttribute("cnt", 0); // 업로드 실패
+          // ra.addFlashAttribute("url", "/contents/msg"); // msg.html, redirect parameter 적용
+          return "redirect:/reply/msg"; // Post -> Get - param...
+        }
+      } else { // 글만 등록하는 경우
+        System.out.println("-> 글만 등록");
+      }
+      // ------------------------------------------------------------------------------
+      // 파일 전송 코드 종료
+      // ------------------------------------------------------------------------------
+
       
-      return "redirect:/community/read"; // /templates/community/read.html 
+      int cnt = this.replyProc.create(replyVO);
+      // System.out.println("-> cnt: "+ cnt);
+      model.addAttribute("cnt", cnt);
+      
+      if(cnt == 1) {
+        ra.addAttribute("communityno", replyVO.getCommunityno());
+        return "redirect:/community/read"; // /templates/community/read.html 
+
+      }else {
+        // 등록 실패시
+        // ra.addFlashAttribute("code", "create_fail"); // DBMS 등록 실패
+        ra.addFlashAttribute("cnt", 0); // 업로드 실패
+        // ra.addFlashAttribute("url", "/contents/msg"); // msg.html, redirect parameter 적용
+        return "redirect:/reply/msg"; // Post -> Get - param...
+      }
+      
     }else {
       model.addAttribute("code", "no_login");
       return "member/login";
     }
 
   }
-  
   
   // 2. 수정 제작
   

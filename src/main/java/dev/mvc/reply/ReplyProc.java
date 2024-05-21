@@ -39,6 +39,12 @@ public class ReplyProc implements ReplyProcInter {
   }
   
   @Override
+  public int update_file(ReplyVO replyVO) {
+    int cnt = this.replyDAOInter.update_file(replyVO);
+    return cnt;
+  }
+
+  @Override
   public int count_by_communityno(int communityno) {
     int cnt = this.replyDAOInter.count_by_communityno(communityno);
     return cnt;
@@ -48,5 +54,6 @@ public class ReplyProc implements ReplyProcInter {
     int cnt = this.replyDAOInter.delete_reply(replyno);
     return cnt;
   }
+
   
 }

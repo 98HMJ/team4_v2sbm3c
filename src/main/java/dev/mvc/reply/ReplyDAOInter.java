@@ -31,6 +31,13 @@ public interface ReplyDAOInter {
   public int update_contents(ReplyVO replyVO);
   
   /**
+   * 댓글 사진 업데이트
+   * @param replyVO
+   * @return
+   */
+  public int update_file(ReplyVO replyVO);
+  
+  /**
    * 댓글 삭제 
    * @param replyno
    * @return
