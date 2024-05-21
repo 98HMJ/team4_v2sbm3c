@@ -17,13 +17,12 @@
 <link href="/css/style.css" rel="Stylesheet" type="text/css"> <!-- /static 기준 -->
 <link rel="shortcut icon" href="/images/fabicon.png" />
 <script> src="/js/modal.js"</script>
-
 </head>
 <body>
 <div class='container_main'>
 
   <div th:replace="~{navbar::navbarFragment}"></div> <!-- navbar.html navbarFragment import -->
-
+  
   <div class='content_body'>
     <th:block layout:fragment="content"></th:block> <!-- 각 파일의 내용 출력 -->
   </div> <!-- content_body 종료 -->

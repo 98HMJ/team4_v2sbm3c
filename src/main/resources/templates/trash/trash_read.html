@@ -1,6 +1,8 @@
 <!DOCTYPE html> 
 
 <html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+
+
 <div layout:fragment="content">
   
   <aside class="aside_right" style="float: right;">
@@ -36,12 +38,11 @@
         <div style="white-space: pre-wrap;"><span th:text="${trashVO.process}"></span></div><br>
         <span style="font-size: 1.5em;">유의할 점</span><br><br>
         <div style="white-space: pre-wrap;"><span th:text="${trashVO.tip}"></span></div><br>
+        <a th:href="@{|/singo/create?trashno=${trashVO.trashno}|}"> 수정 요청 </a>
       </div>
     </div>
   </div>
 </div>
-
-
 </div>
 
 </html>
