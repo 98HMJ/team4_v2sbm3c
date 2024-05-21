@@ -28,4 +28,9 @@ public class SingoVO {
   private int trashno;
   /** 이미지 */
   private String photo = "";
+
+  /** member의 닉네임 */
+  private String nickname="";
+  /** trash 이름 */
+  private String name="";
 }

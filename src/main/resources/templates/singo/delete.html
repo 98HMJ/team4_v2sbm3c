@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, width=device-width" />
+
+<div>
+  
+
+  <div class='menu_line'></div>
+  
+  <div style="width: 60%; margin: 0px auto ">
+    <form name="frm" id="frm" th:object="${singoVO}" method="post" action="/singo/delete">
+      <input type="hidden" name="singono" th:value="${singoVO.singono}">
+      
+      <div class="msg_warning">신고내용은 삭제하면 복구 할 수 없습니다.<br>그래도 삭제하시겠습니까?</div>
+      
+      <div class="content_body_bottom">
+        <button type="submit" class="btn btn-secondary btn-sm">삭제</button>
+        <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
+      </div>
+
+    </form>
+  </div>
+    
+</div>
+</html>
+

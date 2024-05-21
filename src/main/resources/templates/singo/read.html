@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+  <div class="title_line">신고내용</div>
+  <div class ="container mt-3"> <!-- margin top 16px-->
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"> 번호:<span th:text="${singoVO.singono}"> </span></li>
+        <li class="list-group-item"> 작성자:<span th:text="${singoVO.nickname}"> </span></li>
+        <li class="list-group-item"> 쓰레기이름:<span th:text="${singoVO.name}"> </span></li>
+        <li class="list-group-item"> 신고 내용:<span th:text="${singoVO.contents}"> </span></li>
+        <li class="list-group-item"> 등록일:<span th:text="${singoVO.rdate}"> </span></li>
+    </ul>
+  </div>
+  <div>
+    <a th:href="@{|/trash/trash_update?trashno=${singoVO.trashno}|}">쓰레기 수정하러 가기</a>
+  </div>
+  
+</div>
+</html>
