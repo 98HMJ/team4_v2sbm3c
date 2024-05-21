@@ -83,5 +83,5 @@ public interface MemberDAOInter {
      * @param map
      * @return memberVO
      */
-    public int chagepassword(HashMap<String,Object> map);
+    public int changepassword(HashMap<String,Object> map);
 } 
