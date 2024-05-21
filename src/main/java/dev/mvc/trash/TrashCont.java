@@ -165,25 +165,24 @@ public class TrashCont {
   }
 
   @PostMapping(value = "/trash_update")
-  public String trash_update(Model model, TrashVO trashVO, HttpSession session, BindingResult bindingresult,
-      RedirectAttributes ra) {
-    int cnt = this.trashProc.trash_update(trashVO);
-    System.out.println("->update cnt:" + cnt);
-    
-    if (cnt == 1) {
-      ra.addAttribute("trashVO", trashVO);
-      return "redirect:/trash/read";
+  public String trash_update(Model model, TrashVO trashVO, HttpSession session, BindingResult bindingResult, RedirectAttributes ra) {
+      int cnt = this.trashProc.trash_update(trashVO);
+      System.out.println("->update cnt:" + cnt);
       
-    } else {
-      ra.addFlashAttribute("code", "update_fail");
-      ra.addFlashAttribute("cnt", 0);
-      ra.addFlashAttribute("name", trashVO.getName());
-      ra.addFlashAttribute("url", "/trash/msg");
-      
-      return "redirect:/trash/msg";
-    }
-
+      if (cnt == 1) {
+        ra.addAttribute("trashno", trashVO.getTrashno());
+        return "redirect:/trash/trash_read";
+        
+      } else {
+        ra.addFlashAttribute("code", "update_fail");
+        ra.addFlashAttribute("cnt", 0);
+        ra.addFlashAttribute("name", trashVO.getName());
+        ra.addFlashAttribute("url", "/trash/msg");
+        
+        return "redirect:/trash/msg";
+      }
   }
+
 
   @GetMapping(value = "/trash_delete")
   public String trash_delete(Model model, @RequestParam(value = "trashno") int trashno) {
