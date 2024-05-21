@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import dev.mvc.log.memberlog.MemberlogProcInter;
+import dev.mvc.log.memberlog.MemberlogVO;
 import dev.mvc.tool.Mail;
 import dev.mvc.tool.Security;
 import jakarta.servlet.http.Cookie;
@@ -29,6 +31,10 @@ public class MemberCont {
     @Autowired
     @Qualifier("dev.mvc.member.MemberProc")
     private MemberProcInter memberProc;
+
+    @Autowired
+    @Qualifier("dev.mvc.log.memberlog.MemberlogProc")
+    private MemberlogProcInter memberlogProc;
 
     @Autowired
     private Security security;
@@ -127,13 +133,22 @@ public class MemberCont {
             // -------------------------------------------------------------------
 
             // passwd를 저장할지 선택하는 CheckBox 체크 여부
-            Cookie ck_password_save = new Cookie("ck_password_save", password_save);
-            ck_password_save.setPath("/");
-            ck_password_save.setMaxAge(60 * 60 * 24 * 30); // 30 day
-            response.addCookie(ck_password_save);
-            // -------------------------------------------------------------------
+            Cookie check_password_save = new Cookie("check_password_save", password_save);
+            check_password_save.setPath("/");
+            check_password_save.setMaxAge(60 * 60 * 24 * 30); // 30 day
+            response.addCookie(check_password_save);
 
-            return "redirect:/";
+            // 로그 기록
+            MemberlogVO memberlogVO = new MemberlogVO();
+            memberlogVO.setMemberno(memberVO.getMemberno());
+            memberlogVO.setIp(request.getRemoteAddr());
+            int log_cnt = this.memberlogProc.create(memberlogVO);
+            if (log_cnt == 1) {
+                return "redirect:/community/main";
+            } else {
+                model.addAttribute("code", "memberlog_fail");
+                return "msg";
+            }
         } else {
             model.addAttribute("code", "login_fail");
             return "msg";
@@ -170,65 +185,65 @@ public class MemberCont {
     }
 
     @GetMapping("/findid")
-    public String findid(){
+    public String findid() {
         return "member/findid";
     }
 
     @PostMapping("findid")
     public String findid(String name, String tel, Model model) {
-        HashMap<String,String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<String, String>();
         map.put("name", name);
-        map.put("tel",tel);
+        map.put("tel", tel);
 
-        try{
+        try {
             MemberVO memberVO = this.memberProc.findid(map);
             model.addAttribute("memberVO", memberVO);
             model.addAttribute("code", "findid");
-        } catch(Exception e){
+        } catch (Exception e) {
             model.addAttribute("code", "findidfail");
         }
         return "member/msg";
     }
 
     @GetMapping("/findpassword")
-    public String findpassword(){
+    public String findpassword() {
         return "member/findpassword";
     }
 
     @PostMapping("/findpassword")
     public String findpassword(String id, String name, Model model) {
-        HashMap<String,Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", id);
-        map.put("name",name);
+        map.put("name", name);
 
-        try{
+        try {
             MemberVO memberVO = this.memberProc.findpassword(map);
             map.put("memberno", memberVO.getMemberno());
-            map.put("password",memberVO.getPassword());
+            map.put("password", memberVO.getPassword());
 
             String key = this.security.aesEncode(memberVO.getPassword());
 
-            int cnt = this.memberProc.chagepassword(map);
-            if(cnt!=1){
+            int cnt = this.memberProc.changepassword(map);
+            if (cnt != 1) {
                 model.addAttribute("code", "findpasswordfail");
                 return "member/msg";
             }
 
             String content;
-            content="""
+            content = """
                     <div style="text-align: center;">
                     <h1>패스워드 변경 안내</h1>
                     <span>
                     """;
-            content+=key;
-            content+="""
+            content += key;
+            content += """
                     </span>
                     </div>
                     """;
-                    
+
             mail.send(memberVO.getEmail(), "mjhon1998@gmail.com", "패스워드 변경 안내", content);
             model.addAttribute("email", memberVO.getEmail());
-        } catch(Exception e){
+        } catch (Exception e) {
             model.addAttribute("code", "findpasswordfail");
         }
 
@@ -237,41 +252,39 @@ public class MemberCont {
 
     @PostMapping("again_login")
     public String again_login(String id, String password, Model model) {
-        HashMap<String,Object> map = new HashMap<String,Object>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", id);
         map.put("password", password);
-        
+
         int cnt = this.memberProc.login(map);
-        if(cnt==1){
+        if (cnt == 1) {
             model.addAttribute("id", id);
             return "member/chagepassword";
-        }else{
+        } else {
             model.addAttribute("code", "again_loginfail");
             return "member/msg";
         }
     }
-    
+
     @PostMapping("/changepassword")
     public String changepassword(HttpSession session, String id, String password, Model model) {
         MemberVO memberVO = this.memberProc.readByid(id);
 
-        HashMap<String,Object> map = new HashMap<String,Object>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("memberno", memberVO.getMemberno());
         map.put("password", password);
 
-        int cnt = this.memberProc.chagepassword(map);
-        if(cnt==1){
+        int cnt = this.memberProc.changepassword(map);
+        if (cnt == 1) {
             session.setAttribute("memberno", memberVO.getMemberno());
             session.setAttribute("id", memberVO.getId());
             session.setAttribute("password", memberVO.getPassword());
             session.setAttribute("nickname", memberVO.getNickname());
             return "main";
-        }else{
+        } else {
             model.addAttribute("code", "chagepasswordfail");
         }
         return "member/msg";
     }
-    
-    
-    
+
 }

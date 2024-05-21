@@ -52,7 +52,7 @@ WHERE trashno=1;
 
 -- 삭제
 DELETE FROM trash
-WHERE trashno = 25;
+WHERE trashno = 1;
 
 DELETE FROM contents
 WHERE trash=12 AND trash <= 41;
@@ -73,3 +73,24 @@ SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
 FROM trash
 WHERE UPPER(name) LIKE '%' || UPPER('휴지') || '%' OR UPPER(tag) LIKE '%' || UPPER('휴지') || '%'
 ORDER BY trashno ASC;
+
+file1                                   VARCHAR(100)          NULL,  -- 원본 파일명 image
+file1saved                            VARCHAR(100)          NULL,  -- 저장된 파일명, image
+thumb1                              VARCHAR(100)          NULL,   -- preview image
+size1                                 NUMBER(10)      DEFAULT 0 NULL,  -- 파일 사이즈
+
+ALTER TABLE trash rename column PHOTO to FILE1;
+ALTER TABLE trash ADD FILE1SAVED varchar(100) not null;
+ALTER TABLE trash ADD THUMB1 varchar(100) not null;
+ALTER TABLE trash ADD SIZE1 NUMBER(10) NOT NULL;
+
+alter table trash modify file1saved null;
+alter table trash modify thumb1  null;
+alter table trash modify size1 null;
+
+select * from trash;
+
+commit;
+
+delete from trash
+where trashno between 6 and 14;

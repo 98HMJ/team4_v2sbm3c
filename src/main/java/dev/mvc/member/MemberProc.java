@@ -73,9 +73,9 @@ public class MemberProc implements MemberProcInter  {
     }
 
     @Override
-    public int chagepassword(HashMap<String,Object> map){
+    public int changepassword(HashMap<String,Object> map){
         String key = security.aesEncode((String) map.get("password"));
         map.put("password", key);
-        return this.memberDAO.chagepassword(map);
+        return this.memberDAO.changepassword(map);
     }
 }

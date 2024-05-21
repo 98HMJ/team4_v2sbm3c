@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+
+  <div class='title_line' style="font-size: 20px;">전체 쓰레기 목록</div>
+       
+  <aside class="aside_right" style="float: right;">
+    <a th:href="@{|./create|}">등록</a>
+    <span class='menu_divide' >│</span>
+    <a href="javascript:location.reload();">새로고침</a>
+  </aside>
+  <br>
+  <div class='menu_line'></div>
+  
+  <div style='width: 100%;'> <!-- 갤러리 Layout  시작 -->
+    <div th:if="${list.size() > 0}"  th:each="trashVO, status:${list}" 
+         th:attr="onclick=|location.href='/trash/trash_read?trashno=${trashVO.trashno}'|"
+         style='width: 24%; height: 190px; float: left; margin: 0.5%; padding: 0.5%; background-color:whitesmoke; text-align: left; cursor: pointer;'>
+
+      <div th:if="${trashVO.file1.endsWith('jpg') or trashVO.file1.endsWith('png')  or trashVO.file1.endsWith('gif') or trashVO.file1.endsWith('jpeg')}"
+           style="width: 100%; height: 100px;">
+        <img th:src="@{|/trash/storage/${trashVO.thumb1}|}" style="width: 100%; height: 100%;">
+      </div>
+      <div>
+        <span th:text="${trashVO.name}" style="font-weight: bold;"></span><br>
+      </div>
+      
+      <div style="width: 100%; text-align: right;" th:text="${trashVO.tag}"></div>
+      
+    </div>
+    
+    <div th:if="${list.size() == 0}" style="text-align: center; padding: 50px 0px;">
+      <span>관련 글이 등록되지 않았습니다.</span>
+    </div> 
+  </div> 
+   
+  <div class='bottom_menu'>
+  </div>
+
+</div>
+</html>
+

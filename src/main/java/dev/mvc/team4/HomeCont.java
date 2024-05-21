@@ -1,6 +1,8 @@
 package dev.mvc.team4;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,7 +23,8 @@ public class HomeCont {
     @GetMapping("/")
     public String home(Model model) { 
         ArrayList<CommunityVO> community_list = this.communityProc.list();
-        model.addAttribute("community_list", community_list);
+        List<CommunityVO> limitedList = community_list.stream().limit(5).collect(Collectors.toList());
+        model.addAttribute("limitedList", limitedList);
         return "main";
     }
 
