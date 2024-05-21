@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+  <div class='title_line' style="font-size: 200%;">
+    <span th:text="${trashVO.name}" class="title_line_text"></span > 
+     > 수정
+  </div>
+  
+  <aside class="aside_right" style="float: right;">
+    <a th:href="@{|./create|}">등록</a>
+    <span class='menu_divide' >│</span>
+    <a th:href="@{|./trash_update?trashno=${trashVO.trashno}|}">수정</a>
+    <span class='menu_divide' >│</span>
+    <a th:href="@{|./trash_list_all|}">목록</a>
+    <span class='menu_divide' >│</span>
+    <a th:href="@{|./trash_delete?trashno=${trashVO.trashno}|}">삭제</a>
+    <span class='menu_divide' >│</span>
+    <a href="javascript:location.reload();">새로고침</a>
+  </aside>
+  <br>
+  
+  <div class='menu_line'></div>
+  
+  <form name='frm' method='post' th:object="${trashVO}" action='./trash_update'>
+    <input type="hidden" name="trashno" th:value="${trashVO.trashno}">
+    <div>
+       <label>태그</label>
+       <textarea name='tag' required="required" class="form-control" rows="1" th:text='${trashVO.tag}' style='width: 50%;'></textarea>
+    </div>
+    <div>
+       <label>재활용:</label>
+       <input type='text' name='isrecycle' th:value='${trashVO.isrecycle}' required="required" 
+                 class="form-control" style='width: 15%;'>
+    </div>
+    <div>
+       <label>쓰레기 버리는 법</label>
+       <textarea name='process' required="required" class="form-control" rows="7" th:text='${trashVO.process}' style='width: 100%;'></textarea>
+    </div>
+    <div>
+       <label>유의할 점</label>
+       <textarea name='tip' required="required" class="form-control" rows="7" th:text='${trashVO.tip}' style='width: 100%;'></textarea>
+    </div>  
+      
+
+    <div class="content_body_bottom">
+      <button type="submit" class="btn btn-secondary btn-sm">저장</button>
+      <button type="button" th:attr="onclick=|location.href='./trash_list_all'|" class="btn btn-secondary btn-sm">목록</button>
+    </div>
+  
+  </form>
+
+</div>
+
+
+  
