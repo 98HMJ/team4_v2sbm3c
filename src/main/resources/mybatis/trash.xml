@@ -5,27 +5,27 @@
 <mapper namespace="dev.mvc.trash.TrashDAOInter">
   <!-- 쓰레기 등록 -->
   <insert id="create" parameterType="dev.mvc.trash.TrashVO">
-    INSERT INTO trash(trashno, name, isrecycle, tag, process, tip, photo, trashcateno)
-    VALUES(trash_seq.nextval, #{name}, #{isrecycle}, #{tag}, #{process}, #{tip}, #{photo}, #{trashcateno})
+    INSERT INTO trash(trashno, name, isrecycle, tag, process, tip, file1, trashcateno, file1saved, thumb1, size1)
+    VALUES(trash_seq.nextval, #{name}, #{isrecycle}, #{tag}, #{process}, #{tip}, #{file1}, #{trashcateno}, #{file1saved}, #{thumb1}, #{size1})
   </insert>
   
   <!-- 쓰레기 목록 -->
   <select id="trash_list_all" resultType="dev.mvc.trash.TrashVO">
-    SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+    SELECT trashno, name, isrecycle, tag, process, tip, file1, trashcateno, file1saved, thumb1, size1
     FROM trash
-    ORDER BY trashno ASC
+    ORDER BY trashcateno ASC
   </select>  
   
   <!-- 쓰레기 조회 -->
   <select id="trash_read" resultType="dev.mvc.trash.TrashVO" parameterType="int">
-    SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+    SELECT trashno, name, isrecycle, tag, process, tip, file1, trashcateno, file1saved, thumb1, size1
     FROM trash
     WHERE trashno = #{trashno}
   </select>
   
   <!-- 쓰레기 검색 -->
   <select id="trash_list_search" resultType="dev.mvc.trash.TrashVO" parameterType="String">
-    SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+    SELECT trashno, name, isrecycle, tag, process, tip, file1, trashcateno, file1saved, thumb1, size1
     FROM trash
     
     WHERE (UPPER(name) LIKE '%' || UPPER(#{word}) || '%'
@@ -37,7 +37,7 @@
   <!-- 쓰레기 수정 -->
   <update id="trash_update" parameterType="dev.mvc.trash.TrashVO">
     UPDATE trash
-    SET tag =#{tag}, tip=#{tip}, photo=#{photo}
+    SET isrecycle = #{isrecycle}, tag =#{tag}, process = #{process}, tip=#{tip}
     WHERE trashno = #{trashno}
   </update>
   
