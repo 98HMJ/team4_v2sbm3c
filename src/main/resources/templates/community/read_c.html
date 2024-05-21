@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <div layout:fragment="content">
   <div class='menu_line'></div>
-  
-    <div>
-       <label>제목</label><br>
-       <span type='text' name='title' required="required" th:text="${communityVO.title}"
-                 autofocus="autofocus" class="form-control" style='width: 100%;'></span>
-    </div>
-    <br>
-    <div>
-       <label>내용</label><br>
-       <span type='text' name='contents' required="required" th:text="${communityVO.contents}"
-                 autofocus="autofocus" class="form-control" style='width: 100%;'></span>
-    </div>
-    <div class="content_body_bottom" th:if="${bool}">
-      <button type="button" class="btn btn-secondary btn-sm" th:onclick="|location.href='@{/community/delete(communityno=${communityVO.communityno})}'|">삭제</button>
-      <button type="button" class="btn btn-secondary btn-sm" th:onclick="|location.href='@{/community/update(communityno=${communityVO.communityno})}'|">수정</button>
-    </div>
+
+  <div>
+    <label>제목</label><br>
+    <span type='text' name='title' required="required" th:text="${communityVO.title}" autofocus="autofocus"
+      class="form-control" style='width: 100%;'></span>
+  </div>
+  <br>
+  <div>
+    <label>내용</label><br>
+    <span type='text' name='contents' required="required" th:text="${communityVO.contents}" autofocus="autofocus"
+      class="form-control" style='width: 100%;'></span>
+  </div>
+  <img th:src="@{|/images/contents/storage/${communityVO.thumb}|}">
+  <div>
+    <!-- ServletRegister.java: registrationBean.addUrlMappings("/download"); -->
+    첨부 파일: <a href='/download?dir=/contents/storage&filename=${communityVO.filesaved}&downname=${communityVO.files}'
+      th:text="${communityVO.files}"></a>
+  </div>
+  <div class="content_body_bottom" th:if="${bool}">
+    <button type="button" class="btn btn-secondary btn-sm"
+      th:onclick="|location.href='@{/community/delete(communityno=${communityVO.communityno})}'|">삭제</button>
+    <button type="button" class="btn btn-secondary btn-sm"
+      th:onclick="|location.href='@{/community/update(communityno=${communityVO.communityno})}'|">수정</button>
+  </div>
 
 </div>

@@ -70,7 +70,7 @@ public class CommunityCont {
             }
             
             model.addAttribute("communityVO", communityVO);
-            return "community/read_r";
+            return "community/read_c";
         } else {
             model.addAttribute("code", "no_login");
             return "member/login";

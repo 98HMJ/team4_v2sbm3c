@@ -20,7 +20,10 @@
             <a href="/community/main">커뮤니티</a>
           </div>
           <div>
-            <a href="/">네프론</a>
+            <a href="/nephron/nephron_list_all">네프론</a>
+          </div>
+          <div  th:if="${session.adminno == 1}">
+            <a href="/trash/trash_list_all">&nbsp;&nbsp;쓰레기 목록</a>
           </div>
         </div>
         
