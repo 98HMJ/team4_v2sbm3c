@@ -68,4 +68,5 @@
     SET password=#{password}
     WHERE adminno=#{adminno}
   </update>
+
 </mapper> 

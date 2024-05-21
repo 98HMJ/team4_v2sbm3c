@@ -7,6 +7,33 @@
     font-style: normal;
   }
   
+  .community_comment_board{
+    background-color: #F0EEEE;
+    padding: 10px 5px;
+  }
+
+  .community_read_contents{
+    min-height: 200px; /* 기본 높이 설정 */
+  }
+
+  .community_read_header_box{
+    background-color: #F0EEEE;
+    display: flex; 
+    align-items: center; 
+    justify-content: space-around;
+    padding : 5% 10%;
+  }
+
+  .community_read_header_info{
+    display: flex;
+  }
+
+  .community_read_header{
+    display: flex;
+    font-weight: 700;
+    margin-right: 5px;
+  }
+  
   h1{
     font-family: 'Giants-Bold';
   }

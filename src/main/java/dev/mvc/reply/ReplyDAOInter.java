@@ -21,7 +21,7 @@ public interface ReplyDAOInter {
    * 특정 커뮤니티의 댓글 목록
    * @return ArrayList<ReplyVO> 
    */
-  public ArrayList<ReplyVO> list_by_community();
+  public ArrayList<ReplyVO> list_by_community(int communityno);
   
   /**
    * 댓글 내용 업데이트

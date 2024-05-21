@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+  <div class="title_line">댓글 등록</div>
+  <form name="frm" th:object="${replyVO}" method="post" action="/reply/create">
+    <div>
+      <label>댓글 내용</label>
+      <input type="text" name="contents" value="" autofocus="autofocus"
+              class="form-control fom-control-sm" style="width: 50%;">
+      <!-- <div th:if="${#fields.hasErrors('contents')}" class="alert alert-danger" role="alert" style="margin-top: 5px;">
+        <div th:each="err : ${#lists.sort(#fields.errors('contents'))}" th:text="${err}"></div>
+      </div>   -->
+    </div>
+  <!-- <div>
+      <label>등록한 이미지</label>
+    <input type="text" name="namesub" value="" 
+            class="form-control fom-control-sm" style="width: 50%;" th:field="*{namesub}">
+    <div th:if="${#fields.hasErrors('namesub')}" class="alert alert-danger" role="alert" style="margin-top: 5px;">
+      <div th:each="err : ${#lists.sort(#fields.errors('namesub'))}" th:text="${err}"></div>
+    </div>             
+  </div> -->
+    
+  <div class="content_body_bottom">
+    <button type="submit" class="btn btn-secondary btn-sm">등록</button>
+    <button type="button" onclick="location.href='./list_all'" class="btn btn-secondary btn-sm">목록</button>
+  </div>
+  </form>     
+</div>
+</html>

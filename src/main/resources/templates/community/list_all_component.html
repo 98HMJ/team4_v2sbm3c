@@ -8,6 +8,7 @@
       <tbody>
         <tr th:each="communityVO, status:${list}">
           <td class="td_bs">
+
             <!-- th:href="@{|/cate/read/${cateVO.cateno}?word=${word}&now_page=${now_page}|}" -->
             <!-- th:text="${cateVO.name}" -->
             <a th:href="@{|/community/read?${communityVO.communityno}|}">
@@ -26,8 +27,8 @@
           </td>
           <td>
             <!-- 좋아요 버튼 --> <!-- 좋아요 숫자 --> <!-- 댓글 아이콘 --> <!-- 댓글 숫자  -->
-            <a href="#"><img src="images/like_unable.png">2</a>
-            <a href="#"><img src="images/comment.png">2</a>
+            <a href="#"><img src="/images/like_unable.png">2</a>
+            <a href="#"><img src="/images/comment.png">2</a>
           </td>
         </tr>
 

@@ -1,0 +1,47 @@
+<div th:fragment="adminNavbarFragment">
+    <nav>
+      <div class="navbar">
+        <!-- 왼쪽에 위치할 요소들 -->
+        <div class="navbar_label">
+          <div style="margin-right: 5px; height: auto;">
+            <img src="images/ic_main.svg" alt="메인 아이콘">
+          </div>
+          <div style="text-align: center;">
+            <span style="font-size: 24px;">쓰레기 박사</span>
+          </div>
+        </div>
+        
+        <!-- 메뉴 시작 -->
+        <div class="navbar_menu">
+          <div th:if="${session.adminno == 1}"
+          style="margin-right: 10px;">
+            <a href="/admin/signup">관리자 등록</a>
+          </div>
+          <div th:if="${session.adminno == 1}"
+          style="margin-right: 10px;">
+            <a href="/admin/list">관리자 전체 조회</a>
+          </div>
+          <div th:if="${session.admin != null}"
+          style="margin-right: 10px;">
+            <a th:href="@{|/admin/read?adminno=${session.adminno}|}">관리자 정보 수정</a>
+          </div>
+          <div th:if="${session.admin != null}"
+          style="margin-right: 10px;">
+            <a th:href="@{|/admin/password_update?adminno=${session.adminno}|}">비밀번호 변경</a>
+          </div>
+          <div th:if="${session.admin == null}">
+            <a href="/admin/login">로그인</a>
+          </div>
+          <div th:if="${session.admin != null}">
+            <a href="/admin/logout">로그아웃</a>
+          </div>
+        </div>
+        
+        <!-- 로그인 하지 않았을 때 -->
+        <!-- 커뮤니티 - main.html 일때 -->
+        
+      </div>
+      
+    </nav>
+
+  </div>

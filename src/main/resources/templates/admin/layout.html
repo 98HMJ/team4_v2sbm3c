@@ -22,11 +22,11 @@
 <body>
 <div class='container_main'>
 
-  <div th:replace="~{navbar::navbarFragment}"></div> <!-- navbar.html navbarFragment import -->
+  <div th:replace="~{admin/navbar::adminNavbarFragment}"></div> <!-- navbar.html navbarFragment import -->
 
   <div class='content_body'>
     <th:block layout:fragment="content"></th:block> <!-- 각 파일의 내용 출력 -->
-  </div> <!-- content_body 종료 -->
+  </div> <!-- content_body 종료 --> 
   
 </div> <!-- container_main 종료 -->
 
