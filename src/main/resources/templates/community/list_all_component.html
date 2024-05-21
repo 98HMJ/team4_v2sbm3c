@@ -6,22 +6,22 @@
         <col style='width: 20%;'/>
       </colgroup>
       <tbody>
-        <tr th:each="CommunityVO, status:${list}">
+        <tr th:each="communityVO, status:${list}">
           <td class="td_bs">
             <!-- th:href="@{|/cate/read/${cateVO.cateno}?word=${word}&now_page=${now_page}|}" -->
             <!-- th:text="${cateVO.name}" -->
-            <a th:href="@{|/community/read?${CommunityVO.communityno}|}">
+            <a th:href="@{|/community/read?${communityVO.communityno}|}">
               <img src="images/sample_garbage2.png">
             </a>
           </td>
-          <td class="td_bs_info" th:onclick="|location.href='@{read(communityno=${CommunityVO.communityno})}'|">
+          <td class="td_bs_info" th:onclick="|location.href='@{read(communityno=${communityVO.communityno})}'|">
             <!-- 유저 ID --> <!-- (현재 시간 - 게시글 upload time) -->
             <div class="sub_info" style="margin-bottom: 5px;">
-              <span class="td_bs_id" th:text="${CommunityVO.nickname}"></span> · <span class="td_bs_uptime" th:text="${CommunityVO.rdate.substring(0,10)}"></span>
+              <span class="td_bs_id" th:text="${communityVO.nickname}"></span> · <span class="td_bs_uptime" th:text="${communityVO.rdate.substring(0,10)}"></span>
             </div>
             <!-- 게시글 카테고리 --> <!-- 게시글 내용 -->
             <div class="main_info">
-              <div class="category" th:text="${CommunityVO.title}"></div> <div class="content" th:text="${CommunityVO.contents}"></div>
+              <div class="category" th:text="${communityVO.title}"></div> <div class="content" th:text="${communityVO.contents}"></div>
             </div>
           </td>
           <td>
