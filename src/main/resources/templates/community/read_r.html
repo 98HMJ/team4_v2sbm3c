@@ -60,7 +60,7 @@
         </div>
         <!-- 수정 아이콘 : 멤버가 일치할 때 표시 -->
         <div th:if="${replyVO.memberno == memberno}" style="display: flex; align-items: center;">
-          <a href="#" th:href="@{/reply/update}" title="수정">
+          <a th:href="@{|/reply/update?communityno=${communityVO.communityno}|}" title="수정">
             <img src="/images/update.png" alt="Edit">
           </a>
         </div>

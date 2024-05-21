@@ -70,7 +70,7 @@ public class CommunityCont {
             }
             
             model.addAttribute("communityVO", communityVO);
-            return "community/read_c";
+            return "community/read_r";
         } else {
             model.addAttribute("code", "no_login");
             return "member/login";
@@ -99,13 +99,6 @@ public class CommunityCont {
         String thumb1 = ""; // preview image
 
         String upDir = Community.getUploadDir(); // 파일을 업로드할 폴더 준비
-
-        // 전송 파일이 없어도 file1MF 객체가 생성됨.
-        // <input type='file' class="form-control" name='file1MF' id='file1MF'
-        // value='' placeholder="파일 선택">
-        ArrayList<MultipartFile> mf_list = new ArrayList<MultipartFile>();
-        mf_list.add(communityVO.getFile1MF());
-        mf_list.add(communityVO.getFile2MF());
 
         // 전송 파일이 없어도 file1MF 객체가 생성됨.
         // <input type='file' class="form-control" name='file1MF' id='file1MF'
@@ -146,63 +139,50 @@ public class CommunityCont {
         }
     }
 
-    @GetMapping("update")
-    public String update(HttpSession session, int communityno, Model model) {
-        CommunityVO communityVO = this.communityProc.read(communityno);
-        if (session.getAttribute("id") != null) {
-            if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
-                model.addAttribute("communityVO", communityVO);
-                model.addAttribute("memberno", session.getAttribute("memberno"));
-                return "community/update";
-            } else {
-                model.addAttribute("code", "not_access");
-                return "msg";
-            }
-        } else {
-            model.addAttribute("code", "no_login");
-            return "member/login";
-        }
-    }
-
     @PostMapping("update")
     public String update(CommunityVO communityVO, Model model) {
         // ------------------------------------------------------------------------------
         // 파일 전송 코드 시작
         // ------------------------------------------------------------------------------
-        String file1 = ""; // 원본 파일명 image
-        String file1saved = ""; // 저장된 파일명, image
-        String thumb1 = ""; // preview image
+        String file = ""; // 원본 파일명 image
+        String filesaved = ""; // 저장된 파일명, image
+        String thumb = ""; // preview image
 
         String upDir = Community.getUploadDir(); // 파일을 업로드할 폴더 준비
 
         // 전송 파일이 없어도 file1MF 객체가 생성됨.
         // <input type='file' class="form-control" name='file1MF' id='file1MF'
         // value='' placeholder="파일 선택">
-        MultipartFile mf = communityVO.getFile1MF();
+        ArrayList<MultipartFile> mf_list = new ArrayList<MultipartFile>();
+        mf_list.add(communityVO.getFile1MF());
+        mf_list.add(communityVO.getFile2MF());
 
-        file1 = mf.getOriginalFilename(); // 원본 파일명 산출, 01.jpg
+        for (MultipartFile mf : mf_list) {
+            file = mf.getOriginalFilename(); // 원본 파일명 산출, 01.jpg
+            System.out.println("---------------------------->>>" + file);
+            long size = mf.getSize(); // 파일 크기
+            if (size > 0 && file != null) { // 파일 크기 체크
+                if (Tool.checkUploadFile(file) == true) { // 업로드 가능한 파일인지 검사
+                    // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg...
+                    filesaved = Upload.saveFileSpring(mf, upDir);
 
-        long size1 = mf.getSize(); // 파일 크기
-        if (size1 > 0) { // 파일 크기 체크
-            if (Tool.checkUploadFile(file1) == true) { // 업로드 가능한 파일인지 검사
-                // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg...
-                file1saved = Upload.saveFileSpring(mf, upDir);
-
-                if (Tool.isImage(file1saved)) { // 이미지인지 검사
-                    // thumb 이미지 생성후 파일명 리턴됨, width: 200, height: 150
-                    thumb1 = Tool.preview(upDir, file1saved, 200, 150);
+                    if (Tool.isImage(filesaved)) { // 이미지인지 검사
+                        // thumb 이미지 생성후 파일명 리턴됨, width: 200, height: 150
+                        thumb = Tool.preview(upDir, filesaved, 200, 150);
+                        communityVO.setFiles(file); // 순수 원본 파일명
+                        communityVO.setFilesaved(filesaved); // 저장된 파일명(파일명 중복 처리)
+                        communityVO.setThumb(thumb); // 원본이미지 축소판
+                        communityVO.setSize1(size); // 파일 크기
+                    } else {
+                        communityVO.setMp4(file);
+                    }
+                } else { // 전송 못하는 파일 형식
+                    model.addAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
+                    return "member/msg"; // Post -> Get - param...
                 }
-
-                communityVO.setFiles(file1); // 순수 원본 파일명
-                communityVO.setFilesaved(file1saved); // 저장된 파일명(파일명 중복 처리)
-                communityVO.setThumb(thumb1); // 원본이미지 축소판
-                communityVO.setSize1(size1); // 파일 크기
-
-            } else { // 전송 못하는 파일 형식
-                model.addAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
-                return "member/msg"; // Post -> Get - param...
             }
         }
+
         int cnt = this.communityProc.update(communityVO);
         if (cnt == 1) {
             return "redirect:/community/main";
@@ -238,8 +218,7 @@ public class CommunityCont {
     public String search(String word, Model model) {
         ArrayList<CommunityVO> list = this.communityProc.search(word);
         model.addAttribute("list", list);
-        model.addAttribute("word", word);
-        return "community/main";
+        return "community";
     }
 
 }

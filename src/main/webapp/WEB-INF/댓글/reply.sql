@@ -54,6 +54,12 @@ FROM REPLY
 WHERE communityno = 1
 ORDER BY REPLYNO;
 
+-- READ(조회) :  reply + member join + community join 목록
+SELECT m.id, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize
+FROM member m,  reply r
+WHERE m.memberno = r.memberno and r.memberno = 10 and  r.communityno = 6
+ORDER BY r.replyno DESC;
+
 -- UPDATE : 텍스트 수정
 UPDATE reply 
 set contents = '업데이트 댓글 test1'
