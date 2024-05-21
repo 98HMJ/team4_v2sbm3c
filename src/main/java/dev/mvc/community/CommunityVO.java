@@ -21,6 +21,8 @@ public class CommunityVO {
 
     private MultipartFile file1MF = null;
 
+    private MultipartFile file2MF = null;
+
     /** 실제 저장된 메인 이미지 */
     private String filesaved = "";
 

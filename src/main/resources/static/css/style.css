@@ -7,6 +7,11 @@
     font-style: normal;
   }
   
+  .community_comment_contents{
+    display: flex;
+    align-items: flex-end;
+  }
+  
   .community_comment_board{
     background-color: #F0EEEE;
     padding: 10px 5px;

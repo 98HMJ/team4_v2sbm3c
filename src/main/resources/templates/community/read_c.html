@@ -14,16 +14,24 @@
       class="form-control" style='width: 100%;'></span>
   </div>
   <img th:src="@{|/images/contents/storage/${communityVO.thumb}|}">
-  <div>
-    <!-- ServletRegister.java: registrationBean.addUrlMappings("/download"); -->
-    첨부 파일: <a href='/download?dir=/contents/storage&filename=${communityVO.filesaved}&downname=${communityVO.files}'
-      th:text="${communityVO.files}"></a>
+  <div th:if="${communityVO.youtube != ''}">
+    <iframe width="560" height="315"
+      th:src="'https://www.youtube.com/embed/' + ${#strings.substringAfter(communityVO.youtube, 'v=')}" frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </div>
-  <div class="content_body_bottom" th:if="${bool}">
-    <button type="button" class="btn btn-secondary btn-sm"
-      th:onclick="|location.href='@{/community/delete(communityno=${communityVO.communityno})}'|">삭제</button>
-    <button type="button" class="btn btn-secondary btn-sm"
-      th:onclick="|location.href='@{/community/update(communityno=${communityVO.communityno})}'|">수정</button>
+  <div th:if="${communityVO.mp4 != ''}">
+    <video controls>
+      <source th:src='@{|/images/contents/storage/${communityVO.mp4}|}' type="video/webm" />
+    </video> 
   </div>
-
+  <!-- ServletRegister.java: registrationBean.addUrlMappings("/download"); -->
+  첨부 파일: <a href='/download?dir=/contents/storage&filename=${communityVO.filesaved}&downname=${communityVO.files}'
+    th:text="${communityVO.files}"></a>
+</div>
+<div class="content_body_bottom" th:if="${bool}">
+  <button type="button" class="btn btn-secondary btn-sm"
+    th:onclick="|location.href='@{/community/delete(communityno=${communityVO.communityno})}'|">삭제</button>
+  <button type="button" class="btn btn-secondary btn-sm"
+    th:onclick="|location.href='@{/community/update(communityno=${communityVO.communityno})}'|">수정</button>
+</div>
 </div>
