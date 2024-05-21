@@ -34,7 +34,7 @@ public interface MemberDAOInter {
      * @param memberVO
      * @return ArrayList<MemberVO>
      */
-    public ArrayList<MemberVO> list(MemberVO memberVO);
+    public ArrayList<MemberVO> list();
 
     /**
      * 회원 정보 조회(회원 번호)

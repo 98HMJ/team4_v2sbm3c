@@ -38,8 +38,8 @@ public class MemberProc implements MemberProcInter  {
     }
 
     @Override
-    public ArrayList<MemberVO> list(MemberVO memberVO) {
-        return this.memberDAO.list(memberVO);
+    public ArrayList<MemberVO> list() {
+        return this.memberDAO.list();
     }
 
     @Override
