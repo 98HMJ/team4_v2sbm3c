@@ -49,16 +49,26 @@ public class CommunityCont {
     @GetMapping("/read")
     public String read(HttpSession session, int communityno, Model model) {
         if (session.getAttribute("id") != null) {
+            
+            // 현제 memberno 조회 하여 일치할때 수정 아이콘 표시
             ArrayList<ReplyVO> list = this.replyProc.list_by_community(communityno);
             model.addAttribute("list", list);
+            for(ReplyVO item : list) {
+              System.out.println(item.getMemberno());
+            }
 
             int reply_cnt = this.replyProc.count_by_communityno(communityno);
             model.addAttribute("reply_cnt", reply_cnt);
+            
+            int memberno = (int) session.getAttribute("memberno");
+            model.addAttribute("memberno", memberno);
+            System.out.println("-> memberno: "+ memberno);
 
             CommunityVO communityVO = this.communityProc.read(communityno);
             if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
                 model.addAttribute("bool", true);
             }
+            
             model.addAttribute("communityVO", communityVO);
             return "community/read_c";
         } else {

@@ -6,32 +6,39 @@
   
   <!-- return 값(int: 1),  댓글 등록-->
   <insert id="create" parameterType="dev.mvc.reply.ReplyVO">
-    INSERT INTO REPLY(replyno, contents, rdate, photo, communityno, memberno)
-    VALUES (reply_seq.nextval, #{contents}, SYSDATE, #{photo}, #{communityno}, #{memberno})
+    INSERT INTO REPLY(replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize)
+    VALUES (reply_seq.nextval, #{contents}, SYSDATE, #{photo}, #{communityno}, #{memberno}, #{photo1saved}, #{thumb1}, #{filesize})
   </insert>
   
   <!-- 모든 댓글 목록 -->
   <select id="list_all"  resultType="dev.mvc.reply.ReplyVO">
-    SELECT replyno, contents, rdate, photo, communityno, memberno
+    SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize
     FROM REPLY
     ORDER BY REPLYNO
   </select>
   
   <!-- 특정 커뮤니티의 댓글 목록 -->
   <select id="list_by_community" resultType="dev.mvc.reply.ReplyVO" parameterType="int">
-    SELECT replyno, contents, rdate, photo, communityno, memberno
+    SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize
     FROM REPLY
     WHERE communityno = #{communityno}
     ORDER BY REPLYNO
   </select>
   
-  <!-- 댓글 수정 -->
+  <!-- 댓글 : 텍스트 수정 -->
   <update id="update_contents" parameterType="dev.mvc.reply.ReplyVO">
     UPDATE reply 
-    set contents = #{contents}, photo= #{photo}
+    set contents = #{contents}
     WHERE replyno = #{replyno}
   </update>
 
+  <!-- 댓글 : 사진 수정 -->
+  <update id="update_file" parameterType="dev.mvc.reply.ReplyVO">
+    UPDATE reply 
+    set photo = #{photo}, photo1saved=#{photo1saved}, thumb1=#{thumb1}, filesize=#{filesize}
+    WHERE replyno = #{replyno}
+  </update>
+  
   <!-- 댓글 삭제 -->
    <delete id="delete_reply" parameterType="int">
     DELETE FROM reply
