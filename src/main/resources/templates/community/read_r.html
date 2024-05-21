@@ -52,11 +52,18 @@
     <hr>
     <!-- 댓글 조회 영역 -->
     <div th:each="replyVO, status:${list}" class="community_comment_board">      
-      <div class="community_comment_contents">
+      <div class="community_comment_contents" style="background: green; display: flex; justify-content: space-between; align-items: center; padding: 10px;">
         <!-- 댓글 작성자 -->  <!-- 댓글 작성일자 -->
-        <div style="display: flex; padding: 10px;">
+        <div style="display: flex; padding: 10px; align-items: center;">
           <div style="margin-right: 10px; ">kbs</div>
-          <span th:text="${replyVO.rdate}"></div>
+          <span th:text="${replyVO.rdate}">
+        </div>
+        <!-- 수정 아이콘 : 멤버가 일치할 때 표시 -->
+        <div th:if="${replyVO.memberno == memberno}" style="display: flex; align-items: center;">
+          <a href="#" th:href="@{/reply/update}" title="수정">
+            <img src="/images/update.png" alt="Edit">
+          </a>
+        </div>
       </div>
       
       <!-- 댓글 내용 -->
@@ -68,15 +75,13 @@
       </div>
       
 
-      <div th:if="${((replyVO.photo.endsWith('jpg') or replyVO.photo.endsWith('png')  or replyVO.photo.endsWith('gif')) == false) and (contentsVO.size1 > 0)}">
-        <span th:text="${replyVO.photo.file1}"></span>
+      <div th:if="${((replyVO.photo.endsWith('jpg') or replyVO.photo.endsWith('png')  or replyVO.photo.endsWith('gif')) == false) and (replyVO.filesize> 0)}">
+        <span th:text="${replyVO.photo}"></span>
       </div>
 
-      <div th:if="${replyVO.size1 == 0}">
-        <img src="/replys/images/none.png" style="width: 120px; height: 90px;">
+      <div th:if="${replyVO.filesize == 0}">
+        <img src="/images/none.png" style="width: 120px; height: 90px;">
       </div>
-      
-      
       
       <!-- 댓글 좋아요 -->
       <div class="community_like_board" >

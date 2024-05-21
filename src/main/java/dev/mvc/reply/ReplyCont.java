@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import dev.mvc.community.CommunityVO;
 import dev.mvc.member.MemberProc;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
@@ -34,13 +35,14 @@ public class ReplyCont {
     System.out.println("-> CateCont created.");
   }
 
-  @GetMapping(value = "/create")
-  public String create() {
-    return "reply/create";
-  }
+//  @GetMapping(value = "/create")
+//  public String create() {
+//    return "reply/create";
+//  }
 
   // 등록 폼 처리
   // todo. 댓글 등록 실패는 알림으로 대체
+  // todo. 글을 작성하지 않으면 작성하라는 알림 띄우기
   @PostMapping(value = "/create") // http://localhost:9091/cate/create
   public String create(RedirectAttributes ra, 
                             HttpSession session, 
@@ -86,7 +88,7 @@ public class ReplyCont {
             thumb1 = Tool.preview(upDir, file1saved, 200, 150);
           }
 
-          replyVO.setPhoto(upDir); // 순수 원본 파일명
+          replyVO.setPhoto(file1); // 순수 원본 파일명
           replyVO.setPhoto1saved(file1saved); // 저장된 파일명(파일명 중복 처리)
           replyVO.setThumb1(thumb1); // 원본이미지 축소판
           replyVO.setFilesize(size1); // 파일 크기
@@ -94,7 +96,7 @@ public class ReplyCont {
         } else { // 전송 못하는 파일 형식
           // ra.addFlashAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
           ra.addFlashAttribute("cnt", 0); // 업로드 실패
-          // ra.addFlashAttribute("url", "/contents/msg"); // msg.html, redirect parameter 적용
+          ra.addFlashAttribute("url", "/reply/msg"); // msg.html, redirect parameter 적용
           return "redirect:/reply/msg"; // Post -> Get - param...
         }
       } else { // 글만 등록하는 경우
@@ -107,17 +109,19 @@ public class ReplyCont {
       
       int cnt = this.replyProc.create(replyVO);
       // System.out.println("-> cnt: "+ cnt);
-      model.addAttribute("cnt", cnt);
+      ra.addAttribute("cnt", cnt);
       
       if(cnt == 1) {
         ra.addAttribute("communityno", replyVO.getCommunityno());
+        
         return "redirect:/community/read"; // /templates/community/read.html 
 
       }else {
         // 등록 실패시
-        // ra.addFlashAttribute("code", "create_fail"); // DBMS 등록 실패
+        ra.addFlashAttribute("code", "reply_create_fail"); // DBMS 등록 실패
         ra.addFlashAttribute("cnt", 0); // 업로드 실패
-        // ra.addFlashAttribute("url", "/contents/msg"); // msg.html, redirect parameter 적용
+        ra.addFlashAttribute("url", "/reply/msg"); // msg.html, redirect parameter 적용
+        
         return "redirect:/reply/msg"; // Post -> Get - param...
       }
       
@@ -128,7 +132,52 @@ public class ReplyCont {
 
   }
   
+  
   // 2. 수정 제작
+  // 수정 form 
+  @GetMapping("update")
+  public String update(Model model, ReplyVO replyVO) {
+    
+    return "reply/update";
+  }
+  
+  // 수정 fom 처리
+  @PostMapping("update")
+  public String update(HttpSession session, 
+                            ReplyVO replyVO, 
+                            Model model,
+                            int communityno) {
+    
+    if (session.getAttribute("id") != null) {
+      // 1. 로그인 되었고 작성한 댓글의 memberno 조회 
+      // 현제 memberno 조회 하여 일치할때 수정 아이콘 표시
+      if (replyVO.getMemberno() == (int) session.getAttribute("memberno")) {
+        int cnt = this.replyProc.update_contents(replyVO);
+        if (cnt == 1) {
+          // update 처리 과정 진행
+          
+          
+          return "redirect:/community/read";
+        
+        } else {
+            model.addAttribute("code", "update_fail");
+            return "msg";
+            
+        }
+        
+      }else { // 댓글을 글쓴이가 아닐때
+        model.addAttribute("code", "update_fail");
+        return "msg";
+      }
+      
+    }else {
+      model.addAttribute("code", "no_login");
+      return "member/login";
+    }
+    
+    
+  }
+  
   
   // 3. 삭제 제작
 }

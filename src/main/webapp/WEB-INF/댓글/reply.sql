@@ -65,7 +65,7 @@ SET photo='train.jpg', photo1saved='train.jpg', thumb1='train_t.jpg', filesize=5
 WHERE replyno = 5;
 
 -- DELETE: 삭제
-DELETE FROM reply 
+DELETE FROM reply
 WHERE replyno = 3;
 
 rollback;
