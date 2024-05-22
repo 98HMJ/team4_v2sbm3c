@@ -11,8 +11,26 @@
 
     <!--글 조회-->
     <select id="read" resultType="dev.mvc.community.CommunityVO" parameterType="int">
-        SELECT *
-        FROM community
+        SELECT 
+            community.communityno, 
+            community.title, 
+            community.rdate, 
+            member.nickname, 
+            communitycate.name, 
+            community.memberno, 
+            community.communitycateno, 
+            community.files, 
+            community.communitylikes, 
+            community.mp4,
+            community.youtube,
+            community.thumb,
+            community.contents
+        FROM 
+            community
+        JOIN 
+            communitycate ON community.communitycateno = communitycate.communitycateno
+        JOIN 
+            member ON community.memberno = member.memberno
         WHERE communityno=#{communityno}
     </select>
 

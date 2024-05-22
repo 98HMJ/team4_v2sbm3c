@@ -62,7 +62,17 @@ public class ReplyProc implements ReplyProcInter {
     return cnt;
   }
 
-  
+  @Override
+  public ReplyVO read(int replyno) {
+    ReplyVO replyVO = this.replyDAOInter.read(replyno);
+    return replyVO;
+  }
+
+  @Override
+  public int update_increase_cnt_like(int replyno) {
+    int cnt = this.replyDAOInter.update_increase_cnt_like(replyno);
+    return cnt;
+  }
 
   
 }

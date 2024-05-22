@@ -33,6 +33,8 @@ public class ReplyVO {
   /** 댓글 작성일 */
   private String rdate;
   
+  private int likecnt;
+  
   /** 사진 업로드 관련 */
   private MultipartFile file1MF = null;
   

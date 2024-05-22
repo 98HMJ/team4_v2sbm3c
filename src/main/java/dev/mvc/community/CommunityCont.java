@@ -52,9 +52,6 @@ public class CommunityCont {
             // 현제 memberno 조회 하여 일치할때 수정 아이콘 표시
             ArrayList<ReplyVO> list = this.replyProc.list_by_community(communityno);
             model.addAttribute("list", list);
-            for (ReplyVO item : list) {
-                System.out.println(item.getMemberno());
-            }
 
             int reply_cnt = this.replyProc.count_by_communityno(communityno);
             model.addAttribute("reply_cnt", reply_cnt);
@@ -69,7 +66,7 @@ public class CommunityCont {
             }
 
             model.addAttribute("communityVO", communityVO);
-            return "community/read_c";
+            return "community/read";
         } else {
             model.addAttribute("code", "no_login");
             return "member/login";
