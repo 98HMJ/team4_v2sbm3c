@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<div layout:fragment="content">
+  <div class='menu_line'></div>
+  
+  <form name='frm' method='post' th:object="${singoVO}" action='./create' enctype="multipart/form-data">
+    <input type="hidden" name="trashno" th:value="${trashno}" />
+    <input type="hidden" name="memberno" th:value="${memberno}" />
+    <div>
+       <label>내용</label>
+       <textarea name='contents' required="required" class="form-control" rows="12" style='width: 100%;'></textarea>
+    </div> 
+    <div class="content_body_bottom">
+      <button type="submit" class="btn btn-secondary btn-sm">등록</button>
+    </div>
+  
+  </form>
+
+</div>

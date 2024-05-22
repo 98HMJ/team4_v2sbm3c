@@ -11,21 +11,22 @@
 
     <!-- 글 전체 조회 -->
     <select id="list" resultType="dev.mvc.singo.SingoVO">
-        SELECT *
-        FROM singo
+        SELECT singo.singono, singo.contents, singo.rdate, singo.memberno, singo.trashno, singo.photo, member.nickname, trash.name 
+        FROM singo,member,trash
+        where singo.memberno=member.memberno AND singo.trashno=trash.trashno
         ORDER BY rdate DESC
     </select>
     <!--글 조회-->
     <select id="read" resultType="dev.mvc.singo.SingoVO" parameterType="int">
-        SELECT *
-        FROM singo
-        WHERE singono=#{singono}
+        SELECT singo.singono, singo.contents, singo.rdate, singo.memberno, singo.trashno, singo.photo, member.nickname, trash.name 
+        FROM singo,member,trash
+        WHERE singo.memberno=member.memberno AND singo.trashno=trash.trashno AND singo.singono=#{singono}
     </select>
 
     <!--글 수정-->
     <update id="update" parameterType="dev.mvc.singo.SingoVO">
         UPDATE singo
-        SET contents=#{contents}, rdate=sysdate, trashno=#{trashno}, photo=#{photo}
+        SET contents=#{contents}, rdate=sysdate, photo=#{photo}
         WHERE singono=#{singono}
     </update>
 
@@ -44,5 +45,6 @@
         OR contents LIKE '%' || #{word} || '%'
         ORDER BY rdate ASC
     </select>
+
 
 </mapper> 

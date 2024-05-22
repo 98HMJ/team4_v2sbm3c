@@ -61,4 +61,10 @@ public class CommunityVO {
 
     /** 커뮤니티 카테고리 */
     private String name = "";
+
+    /** 글 좋아요 수 */
+    private int communitylikes = 0;
+
+    /** 댓글 수 */
+    private int total = 0;
 }

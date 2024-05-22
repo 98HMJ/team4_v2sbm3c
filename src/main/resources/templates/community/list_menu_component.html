@@ -21,8 +21,8 @@
           </td>
           <td class="td_bs_right">
             <!-- 좋아요 버튼 --> <!-- 좋아요 숫자 --> <!-- 댓글 아이콘 --> <!-- 댓글 숫자  -->
-            <a href="#"><img src="/images/like_unable.png"></a><span>2</span>
-            <a href="#"><img src="/images/comment.png"></a><span>2</span>
+            <img src="/images/like_unable.png"><span th:text="${communityVO.communitylikes}"></span>
+            <img src="/images/comment.png"><span th:text="${communityVO.total}"></span>
           </td>
         </tr>
       </tbody>

@@ -44,4 +44,8 @@ public class CommunityProc implements CommunityProcInter {
         return this.communityDAO.search(word);
     }
     
+    @Override
+    public int update_likes(int communityno){
+        return this.communityDAO.update_likes(communityno);
+    }
 }

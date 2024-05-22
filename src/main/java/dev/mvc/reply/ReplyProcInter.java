@@ -1,6 +1,7 @@
 package dev.mvc.reply;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface ReplyProcInter {
   /**
@@ -21,6 +22,13 @@ public interface ReplyProcInter {
    * @return ArrayList<ReplyVO> 
    */
   public ArrayList<ReplyVO> list_by_community(int communityno);
+  
+  /**
+   * 특정 커뮤니티의 특정 멤버의 댓글 목록
+   * @param map
+   * @return
+   */
+  public ArrayList<ReplyVO> list_by_community_join_member(HashMap<Integer, Object> map);
   
   /**
    * 댓글 내용 업데이트

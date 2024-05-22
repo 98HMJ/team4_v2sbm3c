@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
 <div layout:fragment="content">
   <div class='menu_line'></div>
-
+  <br>
   <form name='frm' method='post' th:object="${communityVO}" action='./create' enctype="multipart/form-data">
     <select name="communitycateno" id="communitycateno">
       <option th:each="communitycateVO, status:${list}" th:value="${status.count}" th:text="${communitycateVO.name}">
@@ -35,3 +36,4 @@
   </form>
 
 </div>
+</html>

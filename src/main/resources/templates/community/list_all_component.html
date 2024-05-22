@@ -7,6 +7,7 @@
       </colgroup>
       <tbody>
         <tr th:each="communityVO, status:${list}">
+          <input type="hidden" name="communityno" th:value="${communityVO.communityno}">
           <td class="td_bs">
               <img th:if="${communityVO.files != ''}" th:src="@{|/Desktop/teamfile/${communityVO.files}|}">
           </td>
@@ -22,8 +23,8 @@
           </td>
           <td>
             <!-- 좋아요 버튼 --> <!-- 좋아요 숫자 --> <!-- 댓글 아이콘 --> <!-- 댓글 숫자  -->
-            <a href="#"><img src="/images/like_unable.png">2</a>
-            <a href="#"><img src="/images/comment.png">2</a>
+            <img src="/images/like_unable.png"><span th:text="${communityVO.communitylikes}"></span>
+            <img src="/images/comment.png"><span th:text="${communityVO.total}"></span>
           </td>
         </tr>
 

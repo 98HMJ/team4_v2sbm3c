@@ -42,7 +42,6 @@ public class CommunityCont {
     public String main(Model model) {
         ArrayList<CommunityVO> list = this.communityProc.list();
         model.addAttribute("list", list);
-
         return "community/main";
     }
 
@@ -135,28 +134,11 @@ public class CommunityCont {
         communityVO.setMemberno((int) session.getAttribute("memberno"));
         int cnt = this.communityProc.create(communityVO);
         if (cnt == 1) {
+
             return "redirect:/community/main";
         } else {
             model.addAttribute("code", "community_create_fail");
             return "msg";
-        }
-    }
-
-    @GetMapping("update")
-    public String update(HttpSession session, int communityno, Model model) {
-        CommunityVO communityVO = this.communityProc.read(communityno);
-        if (session.getAttribute("id") != null) {
-            if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
-                model.addAttribute("communityVO", communityVO);
-                model.addAttribute("memberno", session.getAttribute("memberno"));
-                return "community/update";
-            } else {
-                model.addAttribute("code", "not_access");
-                return "msg";
-            }
-        } else {
-            model.addAttribute("code", "no_login");
-            return "member/login";
         }
     }
 
