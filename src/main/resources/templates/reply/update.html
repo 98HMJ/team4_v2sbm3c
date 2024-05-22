@@ -4,12 +4,13 @@
   <form name='frm' method='post' th:object="${replyVO}" action='/reply/update' enctype="multipart/form-data">
     <input type="hidden" name="communityno" th:value="${communityno}">
     <input type="hidden" name="memberno" th:value="${session.memberno}">
+    <input type="hidden" name="replyno" th:value="${replyno}">    
     
     <!-- 댓글 input 창 -->
     <div class="comment_input_container">
         <div class="comment_input">
             <img src="images/ic_comment.svg" alt="댓글 아이콘">
-            <input type="text" placeholder="업데이트할 댓글 내용">
+            <input type="text" name="contents" id="contents" required="required" placeholder="업데이트할 댓글 내용">
         </div>
     </div>
     <!-- 이미지 업로드 파일 창 -->

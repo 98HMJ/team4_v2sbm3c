@@ -54,6 +54,8 @@ public class CommunityCont {
             ArrayList<ReplyVO> list = this.replyProc.list_by_community(communityno);
             model.addAttribute("list", list);
             for(ReplyVO item : list) {
+              System.out.println(item.getReplyno());
+              model.addAttribute("replyVO", item);
               System.out.println(item.getMemberno());
             }
 

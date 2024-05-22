@@ -32,6 +32,13 @@ public interface ReplyDAOInter {
   public ArrayList<ReplyVO> list_by_community_join_member(HashMap<Integer, Object> map);
   
   /**
+   * 댓글 조회(댓글 번호)
+   * @param replyno
+   * @return
+   */
+  public ReplyVO read(int replyno);
+  
+  /**
    * 댓글 내용 업데이트
    * @param replyVO
    * @return
@@ -58,5 +65,12 @@ public interface ReplyDAOInter {
    * @return 
    */
   public int count_by_communityno(int communityno);
+  
+  /**
+   * 댓글의 좋아요 수 증가
+   * @param replyno
+   * @return
+   */
+  public int update_increase_cnt_like(int replyno);
   
 }

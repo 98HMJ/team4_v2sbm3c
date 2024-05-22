@@ -1,8 +1,5 @@
 package dev.mvc.reply;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -10,10 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import dev.mvc.community.CommunityVO;
 import dev.mvc.member.MemberProc;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
@@ -141,9 +138,11 @@ public class ReplyCont {
   @GetMapping("update")
   public String update(Model model, 
                             ReplyVO replyVO,
-                            int communityno) {
+                            int communityno,
+                            int replyno) {
     System.out.println("-> communityno: " + replyVO.getCommunityno());
     model.addAttribute("communityno", communityno);
+    model.addAttribute("replyno", replyno);
     
     return "reply/update";
   }
@@ -166,7 +165,7 @@ public class ReplyCont {
         
         // update 처리 과정 진행
         System.out.println("-> communityno: " + replyVO.getCommunityno());
-        model.addAttribute("contents", replyVO.getContents());
+        System.out.println("-> replyno: " + replyVO.getReplyno());
         
         // 1. 이미지 업데이트 처리
         // - advance) 우측에 드래앤 드롭으로 이미지 기능 제작
@@ -212,12 +211,12 @@ public class ReplyCont {
           this.replyProc.update_contents(replyVO);
           this.replyProc.update_file(replyVO);
           
-        } else { // 글만 등록하는 경우
-          // 댓글이 없을 때
-          System.out.println("-> 글만 등록");
-          this.replyProc.update_contents(replyVO);
+        } else { 
+          // System.out.println("-> 글만 수정");
+          int update_cnt = this.replyProc.update_contents(replyVO);
+          System.out.println("-> update_cnt: "+ update_cnt);
         }
-        
+ 
         return "redirect:/community/read?communityno="+ communityno;
 
       } else { // 댓글을 글쓴이가 아닐때
@@ -233,6 +232,82 @@ public class ReplyCont {
     
   }
   
+  /**
+   * 파일 삭제 폼
+   * http://localhost:9091/contents/delete?contentsno=1
+   * 
+   * @return
+   */
+  @GetMapping(value = "/delete")
+  public String delete(Model model, 
+                              ReplyVO replyVO,
+                              int communityno,
+                              int replyno
+                              ) {
+    System.out.println("-> communityno: " + replyVO.getCommunityno());
+    model.addAttribute("communityno", communityno);
+    model.addAttribute("replyno", replyno);
+    
+    return "reply/delete";
+  }
   
-  // 3. 삭제 제작
+ // 3. 삭제 제작
+  /**
+   * 삭제 처리 http://localhost:9091/contents/delete
+   * 
+   * @return
+   */
+  @PostMapping(value = "/delete")
+  public String delete(RedirectAttributes ra,
+                            HttpSession session,
+                            Model model,
+                            ReplyVO replyVO,
+                            int communityno,
+                            int replyno) {
+    // 1. 로그인 되었고 작성한 댓글의 memberno 조회
+    if (replyVO.getMemberno() == (int) session.getAttribute("memberno")) {
+      // -------------------------------------------------------------------
+      // 파일 삭제 시작
+      // -------------------------------------------------------------------
+      // 삭제할 파일 정보를 읽어옴.
+      ReplyVO replyVO_read = this.replyProc.read(replyno);
+      
+      String file1saved = replyVO_read.getPhoto1saved();
+      String thumb1 = replyVO_read.getThumb1();
+      
+      String uploadDir = Reply.getUploadDir();
+      Tool.deleteFile(uploadDir, file1saved);  // 실제 저장된 파일삭제
+      Tool.deleteFile(uploadDir, thumb1);     // preview 이미지 삭제
+      // -------------------------------------------------------------------
+      // 파일 삭제 종료
+      // -------------------------------------------------------------------
+      
+      this.replyProc.delete_reply(replyno); // DBMS 삭제
+      
+    } else {
+      model.addAttribute("code", "no_login");
+      return "member/login";
+    }
+       
+    
+    return "redirect:/community/read?communityno="+ communityno; 
+    
+  }
+  
+  @GetMapping(value = "/update_increase_cnt_like")
+  public String update_increase_cnt_like(Model model, 
+                                                  ReplyVO replyVO,
+                                                  int communityno,
+                                                  @RequestParam(name="replyno", defaultValue = "1") int replyno
+        ) {
+    
+    int cnt =  this.replyProc.update_increase_cnt_like(replyno);
+    System.out.println("-> cnt: "+ cnt);
+    
+    System.out.println("-> replyno: "+replyno);
+    return "redirect:/community/read?communityno="+ communityno;
+  }
+ 
+  
+  
 }

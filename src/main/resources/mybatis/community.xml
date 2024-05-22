@@ -44,5 +44,5 @@
         WHERE title LIKE '%' || #{word} || '%' OR contents LIKE '%' || #{word} || '%'
         ORDER BY rdate ASC
     </select>
-
+    
 </mapper> 

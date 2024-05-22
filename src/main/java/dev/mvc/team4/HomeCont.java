@@ -12,12 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import dev.mvc.community.CommunityProcInter;
 import dev.mvc.community.CommunityVO;
+import dev.mvc.like.community.CommunityLikesProc;
 
 @Controller
 public class HomeCont {
     @Autowired
     @Qualifier("dev.mvc.community.CommunityProc")
     private CommunityProcInter communityProc;
+    
+    @Autowired
+    @Qualifier("dev.mvc.like.community.CommunityLikesProc")
+    private CommunityLikesProc communityLikesProc;
+    
     //http://localhost:9093
     //main.html 이동
     @GetMapping("/")
@@ -25,6 +31,12 @@ public class HomeCont {
         ArrayList<CommunityVO> community_list = this.communityProc.list();
         List<CommunityVO> limitedList = community_list.stream().limit(5).collect(Collectors.toList());
         model.addAttribute("limitedList", limitedList);
+        
+        for(CommunityVO item : limitedList) {
+          this.communityLikesProc.count_by_communityno(item.getCommunityno());
+          
+        }
+        
         return "main";
     }
 
