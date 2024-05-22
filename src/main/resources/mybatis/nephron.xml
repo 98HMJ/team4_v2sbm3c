@@ -11,9 +11,9 @@
     
   <!-- 네프론 목록 -->
   <select id="nephron_list_all" resultType="dev.mvc.nephron.NephronVO">
-    SELECT nephronno, roadaddress, detailaddress
-    FROM nephronpoint
-    ORDER BY nephronno ASC
+    SELECT a.nephronno, b.total, a.roadaddress, a.detailaddress
+    FROM nephronpoint a,(SELECT nephronno, sum(nephroncate.trashcateno) AS total FROM nephroncate GROUP BY nephronno) b
+    WHERE a.nephronno = b.nephronno
   </select>  
   
   <!-- 네프론 조회 -->

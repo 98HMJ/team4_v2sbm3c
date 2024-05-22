@@ -39,7 +39,7 @@
     var geocoder = new kakao.maps.services.Geocoder();
 
     // 마커이미지의 주소입니다. 스프라이트 이미지입니다
-    var markerImageSrc = '/images/nephroncategory1.png';
+    var markerImageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';
 
     // 마커 이미지 생성 함수
     function createMarkerImage(src, size, options) {
@@ -57,13 +57,12 @@
     // 일반화된 마커 생성 함수
     function createMarkers(positions, spriteOriginY, callback) {
       var markerArray = [];
-      var imageSize = new kakao.maps.Size(35, 33);
+      var imageSize = new kakao.maps.Size(22, 26);
       var imageOptions = {
-        spriteOrigin: new kakao.maps.Point(0, spriteOriginY),
+        spriteOrigin: new kakao.maps.Point(10, spriteOriginY),
         spriteSize: new kakao.maps.Size(36, 98)
       };
 
-      var remaining = positions.length; // 남은 위치 수를 추적
       positions.forEach(function (position) {
         geocoder.addressSearch(position.roadaddress, function (result, status) {
           if (status === kakao.maps.services.Status.OK) {
@@ -72,15 +71,13 @@
             var marker = createMarker(coords, markerImage);
             addMarkerClickEvent(marker, position);
             markerArray.push(marker);
-          }
-          remaining--; // 하나의 위치 처리가 완료되면 감소
-          if (remaining === 0 && callback) {
-            callback(markerArray);
+            if (callback) callback(marker);
           }
         });
       });
-    }
 
+      return markerArray;
+    }
 
     // 마커 클릭 이벤트 부여 함수
     function addMarkerClickEvent(marker, position) {
@@ -99,7 +96,7 @@
     // 마커 배열 변수 초기화
     var plasticMarkers = [];
     var canMarkers = [];
-    var plasticandcanMarkers = [];
+    var interMarkers = [];
 
     // 서버에서 위치 데이터를 가져옵니다
     fetch('/nephronmap/nephron_list_all')
@@ -117,23 +114,14 @@
           } else if (position.total === 4) {
             canPositions.push(position);
           } else if (position.total === 7) {
-            plasticPositions.push(position);
-            canPositions.push(position);
             plasticAndCanPositions.push(position);
           }
         });
 
         // 각 위치 배열에 대해 마커를 생성하고 클릭 이벤트를 부여합니다.
-        createMarkers(plasticPositions, 0, function (markers) {
-          plasticMarkers = markers;
-          changeMarker('plastic'); // 플라스틱 마커가 모두 생성된 후 호출
-        });
-        createMarkers(canPositions, 33, function (markers) {
-          canMarkers = markers;
-        });
-        createMarkers(plasticAndCanPositions, 66, function (markers) {
-          plasticandcanMarkers = markers;
-        });
+        plasticMarkers = createMarkers(plasticPositions, 0);
+        canMarkers = createMarkers(canPositions, 36);
+        interMarkers = createMarkers(plasticAndCanPositions, 72);
       })
       .catch(error => console.error('Error fetching data:', error));
 
@@ -143,10 +131,10 @@
       var canMenu = document.getElementById('canMenu');
       var plasticandcanMenu = document.getElementById('plasticandcanMenu');
 
-      // 모든 마커 표시
+      // 모든 마커 제거
       setMarkers(plasticMarkers, null);
       setMarkers(canMarkers, null);
-      setMarkers(plasticandcanMarkers, null);
+      setMarkers(interMarkers, null);
 
       if (type === 'plastic') {
         plasticMenu.className = 'menu_selected';
@@ -162,10 +150,11 @@
         plasticMenu.className = '';
         canMenu.className = '';
         plasticandcanMenu.className = 'menu_selected';
-        setMarkers(plasticandcanMarkers, map);
+        setMarkers(interMarkers, map);
       }
     }
-
+    
+    changeMarker('plasticandcan');
      /*
     // 사용자의 현재 위치를 가져옵니다
     if (navigator.geolocation) {
