@@ -8,12 +8,7 @@
       <tbody>
         <tr th:each="communityVO, status:${list}">
           <td class="td_bs">
-
-            <!-- th:href="@{|/cate/read/${cateVO.cateno}?word=${word}&now_page=${now_page}|}" -->
-            <!-- th:text="${cateVO.name}" -->
-            <a th:href="@{|/community/read?${communityVO.communityno}|}">
-              <img src="images/sample_garbage2.png">
-            </a>
+              <img th:if="${communityVO.files != ''}" th:src="@{|/Desktop/teamfile/${communityVO.files}|}">
           </td>
           <td class="td_bs_info" th:onclick="|location.href='@{read(communityno=${communityVO.communityno})}'|">
             <!-- 유저 ID --> <!-- (현재 시간 - 게시글 upload time) -->

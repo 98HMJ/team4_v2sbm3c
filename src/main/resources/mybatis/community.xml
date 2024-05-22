@@ -18,7 +18,7 @@
 
     <!--글 작성 목록-->
     <select id="list" resultType="dev.mvc.community.CommunityVO">
-        SELECT community.communityno, community.title, community.rdate, member.nickname, communitycate.name, community.memberno, community.communitycateno
+        SELECT community.communityno, community.title, community.rdate, member.nickname, communitycate.name, community.memberno, community.communitycateno, community.files
         FROM community,communitycate,member
         WHERE community.communitycateno=communitycate.communitycateno AND community.memberno=member.memberno
         ORDER BY rdate DESC
@@ -27,7 +27,7 @@
     <!--글 수정-->
     <update id="update" parameterType="dev.mvc.community.CommunityVO">
         UPDATE community
-        SET title=#{title}, contents=#{contents}, files=#{files}, filesaved=#{filesaved}, map=#{map}, youtube=#{youtube}, mp4=#{map}
+        SET title=#{title}, contents=#{contents}, files=#{files}, filesaved=#{filesaved}, map=#{map}, youtube=#{youtube}, mp4=#{mp4}
         WHERE communityno=#{communityno}
     </update>
 

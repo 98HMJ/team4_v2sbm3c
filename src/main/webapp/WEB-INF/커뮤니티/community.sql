@@ -53,7 +53,7 @@ INSERT INTO community(communityno, title, contents, rdate, memberno, communityca
 VALUES(community_seq.nextval,'안녕하세요','처음 글을 씁니다.',sysdate,1,3);
 
 --조회--
-SELECT * FROM community;
+SELECT files FROM community;
 
 SELECT CONSTRAINT_NAME
 FROM USER_CONSTRAINTS

@@ -8,9 +8,9 @@
       <tbody>
         <tr th:each="communityVO:${limitedList}">
           <td class="td_bs"><a style="display: block;">
-            <img src="/images/sample_garbage2.png">
+            <img th:if="${communityVO.files != ''}" th:src="@{|/Desktop/teamfile/${communityVO.files}|}">
           </a></td>
-          <td class="td_bs">
+          <td class="td_bs" th:onclick="|location.href='@{community/read(communityno=${communityVO.communityno})}'|">
             <!-- 유저 ID --> <!-- 현재 시간 - 게시글 upload time -->
             <!-- 게시글 내용 -->
             <div class="td_bs_sub_info" style="margin-bottom: 5px;">
