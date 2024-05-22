@@ -19,5 +19,5 @@ public class NephronapiCont {
   public ArrayList<NephronVO> nephron_list_all() {
     return nephronProc.nephron_list_all();
   }
-
+  
 }

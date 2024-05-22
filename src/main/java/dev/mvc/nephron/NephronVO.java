@@ -12,7 +12,12 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 public class NephronVO {
+  /** 네프론 번호 */
   private int nephronno;
+  /** 도로명 주소 */
   private String roadaddress;
+  /** 상세 주소 */
   private String detailaddress;
+  /** 재활용 품목 표시용 합계치 */
+  private int total;
 }
