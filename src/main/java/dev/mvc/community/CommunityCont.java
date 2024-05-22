@@ -18,6 +18,8 @@ import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RequestMapping("/community")
 @Controller
@@ -220,5 +222,17 @@ public class CommunityCont {
         model.addAttribute("word", word);
         return "community/main";
     }
+
+    @GetMapping("update_increase_cnt_like")
+    public String update_likes(int communityno, Model model) {
+        int cnt = this.communityProc.update_likes(communityno);
+        if(cnt==1){
+            return "redirect:/community/read?communityno=" + communityno;
+        }else{
+            model.addAttribute("code", "update_likes_error");
+            return "community/msg";
+        }
+    }
+    
 
 }

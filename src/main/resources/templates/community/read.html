@@ -62,7 +62,7 @@
     
     <!-- 커뮤니티 좋아요 영역 -->
     <div class="community_like_board">
-      <a href="#"><img src="/images/like_unable.png"><span th:text="${communityVO.communitylikes}"></span></a>
+      <a th:href="@{|/community/update_increase_cnt_like?communityno=${communityVO.communityno}|}"><img src="/images/like_unable.png"><span th:text="${communityVO.communitylikes}"></span></a>
     </div>
 
     <div class="community_comment_header">
