@@ -59,7 +59,9 @@ public class TrashCont {
   @PostMapping(value = "/create")
   public String create(HttpServletRequest request, HttpSession session, Model model, TrashVO trashVO,
       BindingResult bindingResult, RedirectAttributes ra) {
-    // if(adminProc.isAdmin(session)) { // 관리자로 로그인한경우
+    boolean isPermission = this.adminProc.isPermission(session);
+    
+    if(this.adminProc.isAdmin(session) || isPermission) { // 관리자로 로그인한경우
     // ------------------------------------------------------------------------------
     // 파일 전송 코드 시작
     // ------------------------------------------------------------------------------
@@ -104,7 +106,10 @@ public class TrashCont {
       System.out.println("-> 글만 등록");
     }
 
-    // }
+    } else {
+      return "redirect:/admin/login";
+    }
+    
     int cnt = this.trashProc.create(trashVO);
     System.out.println("-> cnt: " + cnt);
 
@@ -153,54 +158,71 @@ public class TrashCont {
   }
 
   @GetMapping(value = "/trash_update")
-  public String trash_update(Model model, int trashno, RedirectAttributes ra) {
-
+  public String trash_update(HttpSession session, Model model, int trashno) {
+    boolean isPermission = this.adminProc.isPermission(session);
+    
+    if(this.adminProc.isAdmin(session) || isPermission) {
     TrashVO trashVO = this.trashProc.trash_read(trashno);
     model.addAttribute("trashVO", trashVO);
     
     TrashcateVO trashcateVO = this.trashcateProc.trashcate_read(trashVO.getTrashcateno());
     model.addAttribute("trashcateVO", trashcateVO);
-
+    }else {
+      return "redirect:/admin/login";
+    }
     return "trash/trash_update";
   }
 
   @PostMapping(value = "/trash_update")
-  public String trash_update(Model model, TrashVO trashVO, HttpSession session, BindingResult bindingResult, RedirectAttributes ra) {
+  public String trash_update(Model model, TrashVO trashVO, HttpSession session, BindingResult bindingResult,
+      RedirectAttributes ra) {
+    boolean isPermission = this.adminProc.isPermission(session);
+    
+    if(this.adminProc.isAdmin(session) || isPermission) {
       int cnt = this.trashProc.trash_update(trashVO);
       System.out.println("->update cnt:" + cnt);
-      
+    
       if (cnt == 1) {
         ra.addAttribute("trashno", trashVO.getTrashno());
         return "redirect:/trash/trash_read";
-        
+
       } else {
         ra.addFlashAttribute("code", "update_fail");
         ra.addFlashAttribute("cnt", 0);
         ra.addFlashAttribute("name", trashVO.getName());
         ra.addFlashAttribute("url", "/trash/msg");
-        
+
         return "redirect:/trash/msg";
       }
+    } else {
+      return "redirect:/admin/login";
+    }
   }
 
-
   @GetMapping(value = "/trash_delete")
-  public String trash_delete(Model model, @RequestParam(value = "trashno") int trashno) {
+  public String trash_delete(HttpSession session, Model model, @RequestParam(value = "trashno") int trashno) {
+    boolean isPermission = this.adminProc.isPermission(session);
+    
+    if(this.adminProc.isAdmin(session) || isPermission)  {
     TrashVO trashVO = this.trashProc.trash_read(trashno);
     model.addAttribute("trashVO", trashVO);
     model.addAttribute("trashno", trashno);
     
     TrashcateVO trashcateVO = this.trashcateProc.trashcate_read(trashVO.getTrashcateno());
     model.addAttribute("trashcateVO", trashcateVO);
-
+    }else {
+      return "redirect:/admin/login";
+    }
     return "trash/trash_delete";
   }
 
 
   @PostMapping(value = "/trash_delete")
-  public String trash_delete(Model model, RedirectAttributes ra,@RequestParam(value="trashno") int trashno) {
-
- // -------------------------------------------------------------------
+  public String trash_delete(HttpSession session, Model model, RedirectAttributes ra, @RequestParam(value="trashno") int trashno) {
+    boolean isPermission = this.adminProc.isPermission(session);
+    
+    if(this.adminProc.isAdmin(session) || isPermission) {
+    // -------------------------------------------------------------------
     // 파일 삭제 시작
     // -------------------------------------------------------------------
     // 삭제할 파일 정보를 읽어옴.
@@ -218,7 +240,9 @@ public class TrashCont {
     this.trashProc.trash_delete(trashno);
     model.addAttribute("trashno", trashno);
     ra.addAttribute("trashno", trashno);
-    
+    }else {
+      return "redirect:/admin/login";
+    }
     return "redirect:/trash/trash_list_all";
   }
 

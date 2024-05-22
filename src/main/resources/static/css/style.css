@@ -328,6 +328,17 @@
     background-image: url(/images/back_nefhorne.png);
     background-position: center center; /* 배경 이미지 중앙 정렬 */
     background-size: contain;           /* 배경 이미지가 요소의 크기에 맞게 조정됨 */
+    text-decoration: none;
+    /* 링크의 밑줄 제거 */
+    color: inherit;
+    /* 링크 색상 상속 */
+  }
+  
+  .nefhorne_block:hover {
+    text-decoration: none;
+    /* 마우스를 올렸을 때 밑줄 제거 */
+    color: inherit;
+    /* 마우스를 올렸을 때 색상 변경 없음 */
   }
   
   .modal_overlay {
