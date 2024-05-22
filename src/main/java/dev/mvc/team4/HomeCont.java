@@ -31,12 +31,6 @@ public class HomeCont {
         ArrayList<CommunityVO> community_list = this.communityProc.list();
         List<CommunityVO> limitedList = community_list.stream().limit(5).collect(Collectors.toList());
         model.addAttribute("limitedList", limitedList);
-        
-        for(CommunityVO item : limitedList) {
-          this.communityLikesProc.count_by_communityno(item.getCommunityno());
-          
-        }
-        
         return "main";
     }
 
