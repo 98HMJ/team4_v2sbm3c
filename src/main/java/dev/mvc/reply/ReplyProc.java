@@ -34,8 +34,8 @@ public class ReplyProc implements ReplyProcInter {
   }
   
   @Override
-  public ArrayList<ReplyVO> list_by_community_join_member(HashMap<Integer, Object> map) {
-     ArrayList<ReplyVO> list = this.replyDAOInter.list_by_community_join_member(map);
+  public ArrayList<ReplyVO> list_by_community_plus_memberid(int communityno) {
+     ArrayList<ReplyVO> list = this.replyDAOInter.list_by_community_plus_memberid(communityno);
      return list;
   }
 

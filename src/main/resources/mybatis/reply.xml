@@ -33,12 +33,11 @@
     ORDER BY REPLYNO
   </select>
   
-  <!-- 특정 커뮤니티의 + 특정 member join 별 목록-->
-  <select id="list_by_community_join_member" resultType="dev.mvc.reply.ReplyVO" parameterType="HashMap">
-    SELECT m.id, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize, r.likecnt
+  <!-- 특정 커뮤니티의 댓글 목록(+회원id) -->
+  <select id="list_by_community_plus_memberid" resultType="dev.mvc.reply.ReplyVO" parameterType="int">
+    SELECT m.id, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize, likecnt
     FROM member m,  reply r
-    WHERE m.memberno = r.memberno and r.memberno = #{memberno} and  r.communityno = #{communityno}
-    ORDER BY r.replyno DESC
+    WHERE m.memberno = r.memberno and r.communityno = #{communityno};
   </select>
     
   <!-- 댓글 : 텍스트 수정 -->

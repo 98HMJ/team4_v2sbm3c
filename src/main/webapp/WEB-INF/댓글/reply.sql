@@ -63,11 +63,10 @@ FROM REPLY
 WHERE communityno = 1
 ORDER BY REPLYNO;
 
--- READ(조회) :  reply + member join + community join 목록
+-- READ(조회) :  reply + member id 정보
 SELECT m.id, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize, likecnt
 FROM member m,  reply r
-WHERE m.memberno = r.memberno and r.memberno = 10 and  r.communityno = 6
-ORDER BY r.replyno DESC;
+WHERE m.memberno = r.memberno and r.communityno = 13;
 
 -- UPDATE : 텍스트 수정
 UPDATE reply 
@@ -98,9 +97,9 @@ WHERE communityno = 1;
 ------------
 --         1
 
--- 특정 커뮤니티 게시글의 댓글의 좋아요 수
-SELECT likecnt
-FROM reply
+-- 특정 커뮤니티 게시글의 댓글의 좋아요 수 증가
+UPDATE reply
+SET likecnt = likecnt + 1
 WHERE replyno = 2;
 
 --       CNT
