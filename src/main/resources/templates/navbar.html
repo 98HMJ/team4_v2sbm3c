@@ -1,7 +1,8 @@
 <div th:fragment="navbarFragment">
-    <nav>
-      <div class="navbar">
-        <!-- 왼쪽에 위치할 요소들 -->
+  <nav>
+    <div class="navbar">
+      <!-- 왼쪽에 위치할 요소들 -->
+      <a href="http://localhost:9093" style="text-decoration: none; color: inherit;">
         <div class="navbar_label">
           <div style="margin-right: 5px; height: auto;">
             <img src="/images/ic_main.svg" alt="메인 아이콘">
@@ -10,28 +11,30 @@
             <span style="font-size: 24px;">쓰레기 박사</span>
           </div>
         </div>
-        
-        <!-- 메뉴 시작 -->
-        <div class="navbar_menu">
-          <!-- 오른쪽에 위치할 요소들 -->
-          
-          <!-- main.html 일때 -->
-          <div style="margin-right: 10px;">
-            <a href="/community/main">커뮤니티</a>
-          </div>
-          <div>
-            <a href="/nephron/nephron_list_all">네프론</a>
-          </div>
-          <div  th:if="${session.adminno == 1 || session.memberno != null}">
-            <a href="/trash/trash_list_all">&nbsp;&nbsp;쓰레기 목록</a>
-          </div>
-        </div>
-        
-        <!-- 로그인 하지 않았을 때 -->
-        <!-- 커뮤니티 - main.html 일때 -->
-        
-      </div>
-      
-    </nav>
+      </a>
 
-  </div>
+
+      <!-- 메뉴 시작 -->
+      <div class="navbar_menu">
+        <!-- 오른쪽에 위치할 요소들 -->
+
+        <!-- main.html 일때 -->
+        <div style="margin-right: 10px;">
+          <a href="/community/main">커뮤니티</a>
+        </div>
+        <div>
+          <a href="/nephron/nephron_list_all">네프론</a>
+        </div>
+        <div th:if="${session.adminno == 1 || session.memberno != null}">
+          <a href="/trash/trash_list_all">&nbsp;&nbsp;쓰레기 목록</a>
+        </div>
+      </div>
+
+      <!-- 로그인 하지 않았을 때 -->
+      <!-- 커뮤니티 - main.html 일때 -->
+
+    </div>
+
+  </nav>
+
+</div>
