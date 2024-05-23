@@ -1,33 +1,12 @@
 <div th:fragment="list_all_fragment"> <!-- <div th:replace=... -->
-    <table class="table table-hover">
-      <colgroup>
-        <col style='width: 15%;'/>    
-        <col style='width: 65%;'/>
-        <col style='width: 20%;'/>
-      </colgroup>
-      <tbody>
-        <tr th:each="communityVO, status:${list}">
-          <input type="hidden" name="communityno" th:value="${communityVO.communityno}">
-          <td class="td_bs">
-              <img th:if="${communityVO.files != ''}" th:src="@{|/Desktop/teamfile/${communityVO.files}|}">
-          </td>
-          <td class="td_bs_info" th:onclick="|location.href='@{read(communityno=${communityVO.communityno})}'|">
-            <!-- 유저 ID --> <!-- (현재 시간 - 게시글 upload time) -->
-            <div class="sub_info" style="margin-bottom: 5px;">
-              <span class="td_bs_id" th:text="${communityVO.nickname}"></span> · <span class="td_bs_uptime" th:text="${communityVO.rdate.substring(0,10)}"></span>
-            </div>
-            <!-- 게시글 카테고리 --> <!-- 게시글 내용 -->
-            <div class="main_info">
-              <div class="category" th:text="${communityVO.title}"></div> <div class="content" th:text="${communityVO.contents}"></div>
-            </div>
-          </td>
-          <td>
-            <!-- 좋아요 버튼 --> <!-- 좋아요 숫자 --> <!-- 댓글 아이콘 --> <!-- 댓글 숫자  -->
-            <img src="/images/like_unable.png"><span th:text="${communityVO.communitylikes}"></span>
-            <img src="/images/comment.png"><span th:text="${communityVO.total}"></span>
-          </td>
-        </tr>
-
-      </tbody>
-    </table>
-  </div>
+  <table class="table table-hover">
+    <colgroup>
+      <col style='width: 15%;' />
+      <col style='width: 65%;' />
+      <col style='width: 20%;' />
+    </colgroup>
+    <tbody id="communityList">
+      <!-- 처음 로드 시 JavaScript에서 데이터가 추가됩니다. -->
+    </tbody>
+  </table>
+</div>

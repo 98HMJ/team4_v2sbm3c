@@ -2,7 +2,26 @@
 <meta name="viewport" content="user-scalable=yes, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, width=device-width" />
 <!DOCTYPE html>
   <div>관리자 전용</div>
-   
+  <div style="margin-bottom: 40px;">
+    
+    <div style="display: flex; justify-content: center;">
+      <form name="frm" method="get" action="list">
+        <input type="hidden" name="now_page" th:value="${now_page}">
+        <div class="search">
+          <img src="/images/ic_search.svg">
+          <!-- 메인 placeholder : 예) 형광등, 고추장 -->
+          <!-- 커뮤니티 placeholder : 예) 재활용, 일반쓰레기 -->
+          <input type="text" name="word" th:value="${word}">
+          <span th:if="${word != null and word!=''}">
+            <button type='button' class='btn btn-secondary btn-sm' 
+                         style="padding: 2px 8px 3px 8px; margin: 0px 0px 2px 0px;"
+                         th:onclick="location.href='/singo/list'">검색 취소</button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <table style='width: 100%;'>
     <colgroup>
       <col style='width: 10%;'/>
@@ -13,7 +32,7 @@
       <col style='width: 15%;'/>
     </colgroup>
     <tr>
-      <th class='th_bs'> </TH>
+      <th class='th_bs'>번호</TH>
       <th class='th_bs'>작성자</th>
       <th class='th_bs'>쓰레기종류</th>
       <th class='th_bs'>내용</th>
@@ -22,23 +41,24 @@
     </tr>
    
     <tr th:each="singoVO, status:${list}">
-      <td> </td>
+      <td> [[${no+status.index+1}]]</td>
       <td ><a th:href="@{|./read?singono=${singoVO.singono}|}" th:text="${singoVO.nickname}"></a></td>
       <td><a th:href="@{|./read?singono=${singoVO.singono}|}" th:text="${singoVO.name}"></a></td>
       <td th:text="${#strings.length(singoVO.contents) > 20 ? #strings.substring(singoVO.contents, 0, 20)+'...' : singoVO.contents}"></td>
       <td th:text="${singoVO.rdate.substring(0, 10)}"></td>
       
       <td >
-        <a th:href="@{|./read?singono=${singoVO.singono}|}"><img src='/singo/images/update.png' title='수정' class="icon"></a>
-        <a th:href="@{|./delete?singono=${singoVO.singono}|}"><img src='/singo/images/delete.png' title='삭제' class="icon"></a>
+        <a th:href="@{|./delete?singono=${singoVO.singono}|}"><img src='/admin/images/delete.png' title='삭제' class="icon"></a>
       </td>
       
     </tr>
   </table>
-   
+   <!-- 페이지 버튼 목록 출력 시작 -->
+  <div class="Bottom_menu" th:utext="${paging}"></div>
+  <!-- 페이지 버튼 목록 출력 종료 --> 
   <div class='bottom_menu'>
     <button type='button' onclick="location.reload();" class="btn btn-primary btn-sm">새로 고침</button>
-    <button type='button' onclick="window.location.href='/singo';" class="btn btn-primary btn-sm">홈으로</button>
+    <button type='button' onclick="window.location.href='/admin';" class="btn btn-primary btn-sm">홈으로</button>
   </div>
 
 </div>

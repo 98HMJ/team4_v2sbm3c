@@ -20,7 +20,6 @@ import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RequestMapping("/community")
@@ -55,7 +54,15 @@ public class CommunityCont {
 
     @GetMapping("/read")
     public String read(HttpSession session, int communityno, Model model) {
-      if (session.getAttribute("id") != null) {
+
+        if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
+
+            int cnt = this.communityProc.update_cnt(communityno);
+            if (cnt != 1) {
+                model.addAttribute("code", "update_cnt_fail");
+                model.addAttribute("cnt", cnt);
+                return "community/msg";
+            }
 
         ArrayList<ReplyVO> list = this.replyProc.list_by_community(communityno);
         model.addAttribute("list", list);
@@ -69,18 +76,21 @@ public class CommunityCont {
 
         int reply_cnt = this.replyProc.count_by_communityno(communityno);
         model.addAttribute("reply_cnt", reply_cnt);
-
-        int memberno = (int) session.getAttribute("memberno");
-        model.addAttribute("memberno", memberno);
-        System.out.println("-> memberno: " + memberno);
+        
+            int memberno = (int) session.getAttribute("memberno");
+            model.addAttribute("memberno", memberno);
 
         CommunityVO communityVO = this.communityProc.read(communityno);
         if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
           model.addAttribute("bool", true);
+            model.addAttribute("communityVO", communityVO);
+            return "community/read";
+        } else {
+            return "member/login";
         }
 
-        model.addAttribute("communityVO", communityVO);
-        return "community/read";
+//        model.addAttribute("communityVO", communityVO);
+//        return "community/read";
       } else {
         model.addAttribute("code", "no_login");
         return "member/login";
@@ -92,16 +102,15 @@ public class CommunityCont {
         if (session.getAttribute("id") != null) {
             ArrayList<CommunityCateVO> list = this.communityCateProc.list();
             model.addAttribute("list", list);
-            return "community/create";
+            return "redircet:/community/create";
         } else {
-            model.addAttribute("code", "no_login");
             return "member/login";
         }
     }
 
     @PostMapping("/create")
     public String create(CommunityVO communityVO, Model model, HttpSession session) {
-         // ------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------
         // 파일 전송 코드 시작
         // ------------------------------------------------------------------------------
         String file = ""; // 원본 파일명 image
@@ -118,40 +127,50 @@ public class CommunityCont {
         mf_list.add(communityVO.getFile2MF());
 
         for (MultipartFile mf : mf_list) {
-            file = mf.getOriginalFilename(); // 원본 파일명 산출, 01.jpg
-            long size = mf.getSize(); // 파일 크기
-            if (size > 0 && file != null) { // 파일 크기 체크
-                if (Tool.checkUploadFile(file) == true) { // 업로드 가능한 파일인지 검사
-                    // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg...
-                    filesaved = Upload.saveFileSpring(mf, upDir);
+            if (mf != null) {
+                file = mf.getOriginalFilename(); // 원본 파일명 산출, 01.jpg
+                long size = mf.getSize(); // 파일 크기
+                if (size > 0 && file != null) { // 파일 크기 체크
+                    if (Tool.checkUploadFile(file) == true) { // 업로드 가능한 파일인지 검사
+                        // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg...
+                        filesaved = Upload.saveFileSpring(mf, upDir);
 
-                    if (Tool.isImage(filesaved)) { // 이미지인지 검사
-                        // thumb 이미지 생성후 파일명 리턴됨, width: 200, height: 150
-                        thumb = Tool.preview(upDir, filesaved, 200, 150);
-                        communityVO.setFiles(file); // 순수 원본 파일명
-                        communityVO.setFilesaved(filesaved); // 저장된 파일명(파일명 중복 처리)
-                        communityVO.setThumb(thumb); // 원본이미지 축소판
-                        communityVO.setSize1(size); // 파일 크기
-                    } else {
-                        communityVO.setMp4(file);
+                        if (Tool.isImage(filesaved)) { // 이미지인지 검사
+                            // thumb 이미지 생성후 파일명 리턴됨, width: 200, height: 150
+                            thumb = Tool.preview(upDir, filesaved, 200, 150);
+                            communityVO.setFiles(file); // 순수 원본 파일명
+                            communityVO.setFilesaved(filesaved); // 저장된 파일명(파일명 중복 처리)
+                            communityVO.setThumb(thumb); // 원본이미지 축소판
+                            communityVO.setSize1(size); // 파일 크기
+                        } else {
+                            communityVO.setMp4(file);
+                        }
+                    } else { // 전송 못하는 파일 형식
+                        model.addAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
+                        model.addAttribute("cnt", 0);
+                        return "member/msg"; // Post -> Get - param...
                     }
-                } else { // 전송 못하는 파일 형식
-                    model.addAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
-                    return "member/msg"; // Post -> Get - param...
                 }
             }
         }
-
         communityVO.setMemberno((int) session.getAttribute("memberno"));
         int cnt = this.communityProc.create(communityVO);
         if (cnt == 1) {
-
-            return "redirect:/community/main";
+            return "community/main";
         } else {
             model.addAttribute("code", "community_create_fail");
-            return "msg";
+            model.addAttribute("cnt", cnt);
+            return "community/msg";
         }
     }
+
+    @GetMapping("update")
+    public String update(int communityno,Model model) {
+        CommunityVO communityVO = this.communityProc.read(communityno);
+        model.addAttribute("communityVO", communityVO);
+        return "community/update";
+    }
+    
 
     @PostMapping("update")
     public String update(CommunityVO communityVO, Model model) {
@@ -191,6 +210,7 @@ public class CommunityCont {
                     }
                 } else { // 전송 못하는 파일 형식
                     model.addAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
+                    model.addAttribute("cnt", 0);
                     return "member/msg"; // Post -> Get - param...
                 }
             }
@@ -200,7 +220,8 @@ public class CommunityCont {
         if (cnt == 1) {
             return "redirect:/community/main";
         } else {
-            model.addAttribute("code", "community_update_fail");
+            model.addAttribute("code", "community_create_fail");
+            model.addAttribute("cnt", cnt);
             return "msg";
         }
     }
@@ -213,16 +234,17 @@ public class CommunityCont {
                 int cnt = this.communityProc.delete(communityno);
                 if (cnt == 1) {
                     model.addAttribute("code", "community_delete_success");
-                    return "redirect:/community/main";
+                    return "community/msg";
                 } else {
+                    model.addAttribute("cnt", cnt);
                     model.addAttribute("code", "community_delete_fail");
                 }
             } else {
+                model.addAttribute("cnt", 1);
                 model.addAttribute("code", "not_access");
             }
-            return "msg";
+            return "community/msg";
         } else {
-            model.addAttribute("code", "no_login");
             return "member/login";
         }
     }
@@ -238,13 +260,13 @@ public class CommunityCont {
     @GetMapping("update_increase_cnt_like")
     public String update_likes(int communityno, Model model) {
         int cnt = this.communityProc.update_likes(communityno);
-        if(cnt==1){
+        if (cnt == 1) {
             return "redirect:/community/read?communityno=" + communityno;
-        }else{
+        } else {
+            model.addAttribute("cnt",cnt);
             model.addAttribute("code", "update_likes_error");
             return "community/msg";
         }
     }
-    
 
 }

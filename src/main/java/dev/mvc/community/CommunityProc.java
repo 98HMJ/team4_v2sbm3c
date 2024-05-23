@@ -48,4 +48,9 @@ public class CommunityProc implements CommunityProcInter {
     public int update_likes(int communityno){
         return this.communityDAO.update_likes(communityno);
     }
+
+    @Override
+    public int update_cnt(int communityno){
+        return this.communityDAO.update_cnt(communityno);
+    }
 }

@@ -1,39 +1,86 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
-<div layout:fragment="content">
+<html layout:decorate="~{layout}"> <!-- layout.html 상속 -->
 
-  <header style="margin-top: 25px; padding-left: 5%; padding-right: 5%; ">
-    <div>
-      <h1>Dr. Echo's Club</h1>
-      <span>쓰레기 버리는 방법,</span><br>
-      <span> 환경적인 라이프 스타일에 관한</span><br>
-      <span>커뮤니티회원만 글과 댓글을 남길 수 있습니다.</span><br>
-    </div>
-  </header>
-  
-  <div style="margin: 25px 57px; display: flex; align-items: center; justify-content: center;
+<head>
+  <script th:inline="javascript">
+    let currentPage = 0;
+    const pageSize = 5;
+    const allData = /*[[${ list }]]*/ 'coummnityVO 리스트 불러옴';
+
+    function loadMore() {
+      const communityList = document.getElementById('communityList');
+      const startIndex = currentPage * pageSize;
+      const endIndex = startIndex + pageSize;
+      const itemsToLoad = allData.slice(startIndex, endIndex);
+
+      itemsToLoad.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        <td class="td_bs">
+            <img ${item.files ? `src="/i/Desktop/teamfile/${item.files}"` : ''}>
+        </td>
+        <td class="td_bs_info" onclick="location.href='/community/read?communityno=${item.communityno}'">
+          <div class="sub_info" style="margin-bottom: 5px;">
+            <span class="td_bs_id">${item.nickname}</span> · <span class="td_bs_uptime">${item.rdate.substring(0, 10)}</span>
+          </div>
+          <div class="main_info">
+            <div class="category">${item.title}</div> <div class="content">${item.contents}</div>
+          </div>
+        </td>
+        <td>
+          <img src="/images/like_unable.png"><span>${item.communitylikes}</span>
+          <img src="/images/comment.png"><span>${item.total}</span>
+        </td>
+      `;
+        communityList.appendChild(tr);
+      });
+
+      currentPage++;
+      if (endIndex >= allData.length) {
+        document.getElementById('loadMoreBtn').style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadMore(); // 페이지 로드 시 첫 5개 항목을 표시합니다.
+    });
+  </script>
+  <title>Dr. Echo's Club</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+
+    <header style="margin-top: 25px; padding-left: 5%; padding-right: 5%; ">
+      <div>
+        <h1>Dr. Echo's Club</h1>
+        <span>쓰레기 버리는 방법,</span><br>
+        <span> 환경적인 라이프 스타일에 관한</span><br>
+        <span>커뮤니티회원만 글과 댓글을 남길 수 있습니다.</span><br>
+      </div>
+    </header>
+
+    <div style="margin: 25px 57px; display: flex; align-items: center; justify-content: center;
               font-family: 'Giants-Bold'; font-size: 25px;">
       <span class="second_header">커뮤니티 글 검색</span>
-  </div>
-  <!-- 검색 버튼 -->
-  <div th:replace="~{search/search_component::search_fragment}"></div>
-  <div style="text-align: right;">
-    <a href="create">글쓰기</a>
-  </div>
-  <!-- 커뮤니티 글 목록-->
-  <div class="community_header">
-    커뮤니티
-  </div>
-  <div th:replace="~{community/list_all_component::list_all_fragment}"></div>
-  
-  <div class="btn_more">
-      <span>
-        더보기
-      </span>
-  </div>
+    </div>
+    <!-- 검색 버튼 -->
+    <div th:replace="~{search/search_component::search_fragment}"></div>
+    <div style="text-align: right;">
+      <a href="create">글쓰기</a>
+    </div>
+    <!-- 커뮤니티 글 목록-->
+    <div class="community_header">
+      커뮤니티
+    </div>
+    <div th:replace="~{community/list_all_component::list_all_fragment}"></div>
 
-  <div th:replace="~{trash/modal_slider_component::modal_slider_fragment}"></div>
-</div> <!-- container_main 종료 -->   
+    <div class="btn_more">
+      <span id="loadMoreBtn" class="btn btn-primary" style="cursor: pointer;" onclick="loadMore()">더보기</span>
+    </div>
 
+    <div th:replace="~{trash/modal_slider_component::modal_slider_fragment}"></div>
+  </div> <!-- container_main 종료 -->
+
+</body>
 </html>
-

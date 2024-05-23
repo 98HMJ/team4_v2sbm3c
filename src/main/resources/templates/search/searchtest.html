@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Search Example</title>
+    <style>
+        #results {
+            border: 1px solid #ccc;
+            display: none;
+            position: absolute;
+            background-color: white;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+        }
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+        }
+        .result-item:hover {
+            background-color: #f0f0f0;
+        }
+        .result-item img {
+            width: 100px;
+            height: 100px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <input type="text" id="search-box" placeholder="Search trash...">
+        <div id="results"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('search-box').addEventListener('input', function() {
+                let query = this.value;
+                if (query.length > 0) {
+                    fetch('/trash_linked/trash_list_search?word=' + encodeURIComponent(query))
+                        .then(response => response.json())
+                        .then(data => {
+                            const results = document.getElementById('results');
+                            results.innerHTML = '';
+                            results.style.display = 'block';
+                            data.forEach(item => {
+                                const resultItem = document.createElement('div');
+                                resultItem.className = 'result-item';
+                                resultItem.dataset.id = item.trashno;
+                                resultItem.innerHTML = `
+                                    <img src="/trash/storage/${item.thumb1}">
+                                    <span>${item.name}</span>
+                                `;
+                                results.appendChild(resultItem);
+                            });
+                        });
+                } else {
+                    document.getElementById('results').style.display = 'none';
+                }
+            });
+
+            document.getElementById('results').addEventListener('click', function(event) {
+                if (event.target.closest('.result-item')) {
+                    const trashId = event.target.closest('.result-item').dataset.id;
+                    window.location.href = `/trash/trash_read?trashno=${trashId}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

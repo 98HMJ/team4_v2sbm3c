@@ -14,7 +14,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,9 +24,8 @@ public class Security {
   private final MyAppProperties myAppProperties;
 
   // 키 생성
-  @Autowired
-  public Security(MyAppProperties myAppProperties) {
-    this.myAppProperties = myAppProperties;
+  public Security(MyAppProperties myAppProperties1) {
+    this.myAppProperties = myAppProperties1;
     try {
       // String key = "soldeskAES256KEY"; // key는 16자, 123 -> spyryuhFvhnnv6cD2ROB8g==
       String key = myAppProperties.getCode(); // key는 16자, 123 -> KUxUbf+4VrlpsFZ3tSAKdw==
