@@ -29,7 +29,7 @@ dependencies {
   // https://mvnrepository.com/artifact/org.projectlombok/lombok
   compileOnly 'org.projectlombok:lombok:1.18.30'
   annotationProcessor 'org.projectlombok:lombok:1.18.30'
-  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.0.14'
+  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
   implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
   implementation 'org.springframework.boot:spring-boot-starter-validation'
   // https://mvnrepository.com/artifact/org.json/json
