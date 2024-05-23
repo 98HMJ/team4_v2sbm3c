@@ -5,7 +5,7 @@
       <col style='width: 65%;' />
       <col style='width: 20%;' />
     </colgroup>
-    <tbody>
+    <tbody id="communityList">
       <tr th:each="communityVO:${limitedList}">
         <td class="td_bs"><a style="display: block;">
             <img th:if="${communityVO.files != ''}" th:src="@{|/Desktop/teamfile/${communityVO.files}|}">

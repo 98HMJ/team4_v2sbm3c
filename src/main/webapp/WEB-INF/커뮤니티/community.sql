@@ -37,6 +37,7 @@ COMMENT ON COLUMN COMMUNITY.YOUTUBE is '유튜브';
 COMMENT ON COLUMN COMMUNITY.MP4 is 'MP4';
 COMMENT ON COLUMN COMMUNITY.CNT is '조회수';
 COMMENT ON COLUMN COMMUNITY.MEMBERNO is '회원번호';
+COMMENT ON COLUMN COMMUNITY.COMMUNITYCATENO is '좋아요수';
 COMMENT ON COLUMN COMMUNITY.COMMUNITYCATENO is '커뮤니티카테번호';
 
 DROP SEQUENCE community_seq;
@@ -53,7 +54,7 @@ INSERT INTO community(communityno, title, contents, rdate, memberno, communityca
 VALUES(community_seq.nextval,'안녕하세요','처음 글을 씁니다.',sysdate,1,3);
 
 --조회--
-SELECT files FROM community;
+SELECT * FROM community;
 
 SELECT CONSTRAINT_NAME
 FROM USER_CONSTRAINTS
@@ -66,21 +67,5 @@ ALTER TABLE COMMUNITY
 ADD CONSTRAINT community_cateno FOREIGN KEY (COMMUNITYCATENO)
 REFERENCES COMMUNITYCATE (COMMUNITYCATENO)
 ON DELETE CASCADE;
-
--- 메인 커뮤니티 요소 조회
--- c.커뮤니티 넘버, m.닉네임, cl.좋아요
-SELECT c.title, c.files, m.nickname, c.rdate, cl.cnt as cl_cnt, r.cnt as r_cnt
-FROM community c, member m, communitylikes cl, 
-    (
-        SELECT COUNT(*) as cnt, communityno
-        FROM reply
-        GROUP BY communityno
-    ) r
-WHERE c.memberno = m.memberno and c.communityno = cl.communityno and c.communityno = r.communityno;
-
-SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize
-FROM REPLY
-WHERE communityno = 1
-ORDER BY REPLYNO;
 
 commit;

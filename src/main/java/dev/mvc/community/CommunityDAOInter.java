@@ -51,6 +51,13 @@ public interface CommunityDAOInter {
      * @return
      */
     public int update_likes(int communityno);
+
+    /**
+     * 조회수 추가
+     * @param communityno
+     * @return
+     */
+    public int update_cnt(int communityno);
     
 }
     

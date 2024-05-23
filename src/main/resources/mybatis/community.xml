@@ -5,8 +5,8 @@
 
     <!--글 등록-->
     <insert id="create" parameterType="dev.mvc.community.CommunityVO">
-        INSERT INTO community(communityno, title, contents, rdate, files, filesaved, thumb, filesize, map, youtube, mp4, memberno, communitycateno)
-        VALUES(community_seq.nextval, #{title}, #{contents}, sysdate, #{files}, #{filesaved}, #{thumb}, #{filesize}, #{map}, #{youtube}, #{mp4}, #{memberno}, #{communitycateno})
+        INSERT INTO community(communityno, title, contents, rdate, files, filesaved, thumb, filesize, youtube, mp4, memberno, communitycateno)
+        VALUES(community_seq.nextval, #{title}, #{contents}, sysdate, #{files}, #{filesaved}, #{thumb}, #{filesize}, #{youtube}, #{mp4}, #{memberno}, #{communitycateno})
     </insert>
 
     <!--글 조회-->
@@ -103,6 +103,13 @@
         ORDER BY 
             community.rdate DESC
     </select>
+
+    <!--조회수 수정-->
+    <update id="update_cnt" parameterType="dev.mvc.community.CommunityVO">
+        UPDATE community
+        SET cnt=cnt+1
+        WHERE communityno=#{communityno}
+    </update>
 
     <!--글 수정-->
     <update id="update_likes" parameterType="int">
