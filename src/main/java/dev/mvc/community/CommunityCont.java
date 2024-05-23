@@ -48,7 +48,7 @@ public class CommunityCont {
 
     @GetMapping("/read")
     public String read(HttpSession session, int communityno, Model model) {
-        if (session.getAttribute("id") != null) {
+        if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
 
             int cnt = this.communityProc.update_cnt(communityno);
             if (cnt != 1) {

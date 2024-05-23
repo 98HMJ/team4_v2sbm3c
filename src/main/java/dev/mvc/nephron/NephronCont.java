@@ -20,7 +20,6 @@ public class NephronCont {
 
   private final MyAppProperties myAppProperties;
 
-  @Autowired
   public NephronCont(MyAppProperties myAppProperties) {
     this.myAppProperties = myAppProperties;
   }
