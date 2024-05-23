@@ -55,7 +55,7 @@ public class SingoCont {
       model.addAttribute("trashno", trashno);
       return "singo/create";
     } else {
-      model.addAttribute("code", "login_need");
+      model.addAttribute("code", "member_login_need");
       return "singo/msg";
     }
     
