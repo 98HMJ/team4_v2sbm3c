@@ -837,4 +837,30 @@
   .category .ico_plastiandcan {
     background-position: 0 -66px;
   }
+  
+    #results {
+      border: 1px solid #ccc;
+      display: none;
+      position: absolute;
+      background-color: white;
+      max-height: 200px;
+      overflow-y: auto;
+      width: 100%;
+    }
+  
+    .result-item {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      cursor: pointer;
+    }
+  
+    .result-item:hover {
+      background-color: #f0f0f0;
+    }
+  
+    .result-item img {
+      width: 75px;
+      height: 75px;
+      margin-right: 10px;
+    }
 }

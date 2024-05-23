@@ -46,9 +46,9 @@ FROM trash
 ORDER BY trashno ASC;
 
 -- 1번 trashno 만 출력
-SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
+SELECT *
 FROM trash
-WHERE trashno=1;
+WHERE trashno=18;
 
 -- 삭제
 DELETE FROM trash
@@ -59,8 +59,8 @@ WHERE trash=12 AND trash <= 41;
 
 -- 수정
 UPDATE trash
-SET tag ='#휴지 #일반쓰레기 #종량제봉투', tip='', photo='tissue2.jpg'
-WHERE trashno = 1;
+SET thumb1 = "갑티슈_t.jpg"
+WHERE trashno = 18;
 
 -- 검색
 SELECT trashno, name, isrecycle, tag, process, tip, photo, trashcateno
