@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import dev.mvc.admin.AdminProcInter;
 import dev.mvc.member.MemberProcInter;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
@@ -30,6 +32,10 @@ public class SingoCont {
   @Qualifier("dev.mvc.singo.SingoProc")
   private SingoProcInter singoProc;
   
+  @Autowired
+  @Qualifier("dev.mvc.admin.AdminProc")
+  private AdminProcInter adminProc;
+
   @Autowired
   @Qualifier("dev.mvc.member.MemberProc")
   private MemberProcInter memberProc;
@@ -134,11 +140,27 @@ public class SingoCont {
    * @return
    */
   @GetMapping("/list")
-  public String list(HttpSession session, Model model) {
-    if(session.getAttribute("adminno")!=null) {
-      ArrayList<SingoVO> list = this.singoProc.list();
+  public String list(HttpSession session, Model model,
+                     @RequestParam(name="now_page", defaultValue = "1") int now_page,
+                     String word) {
+    if(this.adminProc.isAdmin(session)) {
+      word = Tool.checkNull(word).trim();
+      ArrayList<SingoVO> list = this.singoProc.list(word, now_page, Singo.RECORD_PER_PAGE);
       model.addAttribute("list", list);
       
+       // 페이징 버튼 목록
+       int search_count = this.singoProc.list_cnt(word);
+       String paging = this.singoProc.pagingBox(now_page, 
+           word, "/singo/list", search_count, Singo.RECORD_PER_PAGE, Singo.PAGE_PER_BLOCK);
+       model.addAttribute("paging", paging);
+       model.addAttribute("now_page", now_page);
+       
+       model.addAttribute("word", word);
+       
+       // 일련 변호 생성: 레코드 갯수 - ((현재 페이지수 -1) * 페이지당 레코드 수)
+       int no = ((now_page - 1) * Singo.RECORD_PER_PAGE);
+       model.addAttribute("no", no);
+
       return "singo/list";
     } else{
       model.addAttribute("code", "permission_error");
@@ -155,11 +177,18 @@ public class SingoCont {
   @GetMapping("/read")
   public String read(HttpSession session, Model model, int singono) {
     SingoVO singoVO = this.singoProc.read(singono);
-
+    boolean isAdmin = this.adminProc.isAdmin(session);
+    boolean isWriter = false;
+    if(session.getAttribute("memberno")!= null){
+      isWriter = ((int)session.getAttribute("memberno")==singoVO.getMemberno());
+    }
+    System.out.println("-> isWriter"+isWriter);
     // 관리자 권한이거나 자신이 신고한 내용이면 조회 가능
-    if(session.getAttribute("adminno")!=null || (int)session.getAttribute("memberno")==singoVO.getMemberno()){
+    if(isAdmin || isWriter){
       model.addAttribute("singoVO", singoVO);
       System.out.println("-> singoVO.get"+singoVO.getFilesaved());
+      model.addAttribute("isAdmin", isAdmin);
+      model.addAttribute("isWriter", isWriter);
       return "singo/read";
     } else{
       model.addAttribute("code", "permission_error");

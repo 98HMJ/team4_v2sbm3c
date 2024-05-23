@@ -118,7 +118,8 @@ public class AdminCont {
                       String id,
                       String password,
                       @RequestParam(value="id_save", defaultValue="") String id_save,
-                      @RequestParam(value="password_save", defaultValue = "") String password_save) {
+                      @RequestParam(value="password_save", defaultValue = "") String password_save,
+                      @RequestParam(value="prev_url", required = false) String prev_url) {
     HashMap<String,Object> hm = new HashMap<String, Object>();
     hm.put("id", id);
     hm.put("password", this.security.aesEncode(password));  
@@ -183,7 +184,11 @@ public class AdminCont {
     adminlogVO.setIp(request.getRemoteAddr());
     int log_cnt = this.adminlogProc.create(adminlogVO);
     if( log_cnt==1){
+      if (prev_url != null && !prev_url.isEmpty()) {
+        return "redirect:" + prev_url;
+    } else{
       return "redirect:/admin";
+    }
     } else {
       model.addAttribute("code","adminlog_fail");
     return "admin/msg";
