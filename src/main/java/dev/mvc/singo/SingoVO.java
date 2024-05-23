@@ -1,5 +1,7 @@
 package dev.mvc.singo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,8 +28,26 @@ public class SingoVO {
   private int memberno;
   /** 쓰레기 번호 */
   private int trashno;
-  /** 이미지 */
-  private String photo = "";
+  
+  private MultipartFile file1MF = null;
+
+  private MultipartFile file2MF = null;
+
+  /** 실제 저장된 메인 이미지 */
+  private String filesaved = "";
+
+  /** 메인 이미지 크기 */
+  private long size1 = 0;
+
+  /* 원본 파일명 */
+  private String files = "";
+
+  /* 저장된 파일명 */
+  private String thumb = "";
+
+  /* 파일 사이즈 */
+  private double filesize = 0;
+
 
   /** member의 닉네임 */
   private String nickname="";

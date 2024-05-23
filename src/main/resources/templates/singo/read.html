@@ -12,6 +12,9 @@
         <li class="list-group-item"> 등록일:<span th:text="${singoVO.rdate}"> </span></li>
     </ul>
   </div>
+  <div style="text-align: center;">
+    <img th:if="${singoVO.files != ''}" th:src="@{|/Desktop/teamfile/${singoVO.thumb}|}">
+  </div>
   <div>
     <a th:href="@{|/trash/trash_update?trashno=${singoVO.trashno}|}">쓰레기 수정하러 가기</a>
   </div>
