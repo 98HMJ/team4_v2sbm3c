@@ -787,6 +787,7 @@
   }
 
   .category {
+    display: flex;
     position: absolute;
     overflow: hidden;
     top: 10px;

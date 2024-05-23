@@ -18,4 +18,7 @@ public class MyAppProperties {
 
     @Value("${secret.code}")
     private String code;
+
+    @Value("${map.key}")
+    private String map_key;
 }
