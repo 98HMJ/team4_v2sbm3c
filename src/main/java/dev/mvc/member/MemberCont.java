@@ -83,7 +83,8 @@ public class MemberCont {
             String id,
             String password,
             @RequestParam(value = "id_save", defaultValue = "") String id_save,
-            @RequestParam(value = "password_save", defaultValue = "") String password_save) {
+            @RequestParam(value = "password_save", defaultValue = "") String password_save,
+            @RequestParam(value = "prev_url", required = false) String prev_url) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", id);
         map.put("password", password);
@@ -144,7 +145,11 @@ public class MemberCont {
             memberlogVO.setIp(request.getRemoteAddr());
             int log_cnt = this.memberlogProc.create(memberlogVO);
             if (log_cnt == 1) {
-                return "redirect:/community/main";
+                if (prev_url != null && !prev_url.isEmpty()) {
+                    return "redirect:" + prev_url;
+                } else {
+                    return "redirect:/community/main";
+                }
             } else {
                 model.addAttribute("code", "memberlog_fail");
                 return "msg";

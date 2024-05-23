@@ -44,6 +44,13 @@ public interface CommunityDAOInter {
      * @return ArrayList<CommunityVO>
      */
     public ArrayList<CommunityVO> search(String word);
+
+    /**
+     * 좋아요 추가
+     * @param communityno
+     * @return
+     */
+    public int update_likes(int communityno);
     
 }
     

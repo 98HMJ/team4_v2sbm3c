@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+  <form name='frm' method='post' th:object="${replyVO}" action='/reply/delete' enctype="multipart/form-data">
+    <input type="hidden" name="communityno" th:value="${communityno}">
+    <input type="hidden" name="memberno" th:value="${session.memberno}">
+    <input type="hidden" name="replyno" th:value="${replyno}">    
+    <div style='margin-top: 20px; clear: both;'>
+      <span style="color: #FF0000; font-weight: bold;">댓글 삭제를 진행 하시겠습니까? 삭제하시면 복구 할 수 없습니다.</span>
+      <br><br><br>  
+      <button type="submit" class="btn btn-secondary btn-sm">삭제</button>
+      <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
+    </div>  
+  </form>
+</div>
+</html>

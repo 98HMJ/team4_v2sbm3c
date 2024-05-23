@@ -1,6 +1,7 @@
 package dev.mvc.reply;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface ReplyDAOInter {
   
@@ -22,6 +23,20 @@ public interface ReplyDAOInter {
    * @return ArrayList<ReplyVO> 
    */
   public ArrayList<ReplyVO> list_by_community(int communityno);
+  
+  /**
+   * 특정 커뮤니티의 댓글 목록(+회원id)
+   * @param communityno
+   * @return
+   */
+  public ArrayList<ReplyVO> list_by_community_plus_memberid(int communityno);
+  
+  /**
+   * 댓글 조회(댓글 번호)
+   * @param replyno
+   * @return
+   */
+  public ReplyVO read(int replyno);
   
   /**
    * 댓글 내용 업데이트
@@ -50,5 +65,12 @@ public interface ReplyDAOInter {
    * @return 
    */
   public int count_by_communityno(int communityno);
+  
+  /**
+   * 댓글의 좋아요 수 증가
+   * @param replyno
+   * @return
+   */
+  public int update_increase_cnt_like(int replyno);
   
 }

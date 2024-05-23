@@ -1,6 +1,7 @@
 package dev.mvc.reply;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,12 @@ public class ReplyProc implements ReplyProcInter {
     ArrayList<ReplyVO> list = this.replyDAOInter.list_by_community(communityno);
     return list;
   }
+  
+  @Override
+  public ArrayList<ReplyVO> list_by_community_plus_memberid(int communityno) {
+     ArrayList<ReplyVO> list = this.replyDAOInter.list_by_community_plus_memberid(communityno);
+     return list;
+  }
 
   @Override
   public int update_contents(ReplyVO replyVO) {
@@ -52,6 +59,18 @@ public class ReplyProc implements ReplyProcInter {
   @Override
   public int delete_reply(int replyno) {
     int cnt = this.replyDAOInter.delete_reply(replyno);
+    return cnt;
+  }
+
+  @Override
+  public ReplyVO read(int replyno) {
+    ReplyVO replyVO = this.replyDAOInter.read(replyno);
+    return replyVO;
+  }
+
+  @Override
+  public int update_increase_cnt_like(int replyno) {
+    int cnt = this.replyDAOInter.update_increase_cnt_like(replyno);
     return cnt;
   }
 

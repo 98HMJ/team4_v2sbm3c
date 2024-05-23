@@ -3,6 +3,7 @@
 /**********************************/
 DROP TABLE COMMUNITYLIKES CASCADE CONSTRAINTS;
 DROP TABLE COMMUNITYLIKES;
+commit;
 CREATE TABLE COMMUNITYLIKES(
 		COMMUNITYLIKESNO              		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		CNT                           		NUMBER(10)		 DEFAULT 0		 NOT NULL,
@@ -10,6 +11,7 @@ CREATE TABLE COMMUNITYLIKES(
 		MEMBERNO                      		NUMBER(10)		 NULL ,
   FOREIGN KEY (COMMUNITYNO) REFERENCES COMMUNITY (COMMUNITYNO),
   FOREIGN KEY (MEMBERNO) REFERENCES MEMBER (MEMBERNO)
+   ON DELETE CASCADE
 );
 
 COMMENT ON TABLE COMMUNITYLIKES is '글 좋아요';
@@ -27,9 +29,11 @@ CREATE SEQUENCE communitylikes_seq
   CACHE 2                        -- 2번은 메모리에서만 계산
   NOCYCLE;                  -- 다시 1부터 생성되는 것을 방지 
 
+commit;
+
 -- CREATE: 커뮤니티 게시글의 좋아요
 INSERT INTO communitylikes(communitylikesno, cnt, communityno, memberno)
-VALUES(communitylikes_seq.nextval, 1, 3, 2);
+VALUES(communitylikes_seq.nextval, 1, 1, 1);
 
 commit;
 
@@ -44,7 +48,7 @@ WHERE communityno = 3;
 -- UPDATE : 커뮤니티 게시글의 좋아요 수 증가
 UPDATE communitylikes
 SET cnt = cnt + 1
-WHERE communityno = 3;
+WHERE communitylikesno = 3;
 
 -- UPDATE : 커뮤니티 게시글의 좋아요 수 감소
 UPDATE communitylikes
@@ -57,5 +61,7 @@ WHERE communityno = 3 AND cnt > 0;
 -- ex)B회원의 개시글에 회원A가 좋아요 한 경우 취소 
 ------------------------------------
 
+DELETE FROm communitylikes 
+WHERE communitylikesno = 1 or communitylikesno = 2;
 
 rollback;

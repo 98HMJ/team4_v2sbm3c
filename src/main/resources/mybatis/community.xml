@@ -11,23 +11,59 @@
 
     <!--글 조회-->
     <select id="read" resultType="dev.mvc.community.CommunityVO" parameterType="int">
-        SELECT *
-        FROM community
+        SELECT 
+            community.communityno, 
+            community.title, 
+            community.rdate, 
+            member.nickname, 
+            communitycate.name, 
+            community.memberno, 
+            community.communitycateno, 
+            community.files, 
+            community.communitylikes, 
+            community.mp4,
+            community.youtube,
+            community.thumb,
+            community.contents
+        FROM 
+            community
+        JOIN 
+            communitycate ON community.communitycateno = communitycate.communitycateno
+        JOIN 
+            member ON community.memberno = member.memberno
         WHERE communityno=#{communityno}
     </select>
 
     <!--글 작성 목록-->
     <select id="list" resultType="dev.mvc.community.CommunityVO">
-        SELECT community.communityno, community.title, community.rdate, member.nickname, communitycate.name, community.memberno, community.communitycateno
-        FROM community,communitycate,member
-        WHERE community.communitycateno=communitycate.communitycateno AND community.memberno=member.memberno
-        ORDER BY rdate DESC
+        SELECT 
+            community.communityno, 
+            community.title, 
+            community.rdate, 
+            member.nickname, 
+            communitycate.name, 
+            community.memberno, 
+            community.communitycateno, 
+            community.files, 
+            community.communitylikes, 
+            reply_count.total
+        FROM 
+            community
+        JOIN 
+            communitycate ON community.communitycateno = communitycate.communitycateno
+        JOIN 
+            member ON community.memberno = member.memberno
+        LEFT JOIN 
+            (SELECT communityno, COUNT(*) as total FROM reply GROUP BY communityno) reply_count 
+            ON community.communityno = reply_count.communityno
+        ORDER BY 
+            community.rdate DESC
     </select>
 
     <!--글 수정-->
     <update id="update" parameterType="dev.mvc.community.CommunityVO">
         UPDATE community
-        SET title=#{title}, contents=#{contents}, files=#{files}, filesaved=#{filesaved}, map=#{map}, youtube=#{youtube}, mp4=#{map}
+        SET title=#{title}, contents=#{contents}, files=#{files}, filesaved=#{filesaved}, map=#{map}, youtube=#{youtube}, mp4=#{mp4}
         WHERE communityno=#{communityno}
     </update>
 
@@ -39,10 +75,40 @@
 
     <!--글 검색(제목/내용)-->
     <select id="search" resultType="dev.mvc.community.CommunityVO" parameterType="String">
-        SELECT title, rdate, memberno, communitycateno
-        FROM community
-        WHERE title LIKE '%' || #{word} || '%' OR contents LIKE '%' || #{word} || '%'
-        ORDER BY rdate ASC
+        SELECT 
+            community.communityno, 
+            community.title, 
+            community.rdate, 
+            member.nickname, 
+            communitycate.name, 
+            community.memberno, 
+            community.communitycateno, 
+            community.files, 
+            community.communitylikes, 
+            reply_count.total
+        FROM 
+            community
+        JOIN 
+            communitycate ON community.communitycateno = communitycate.communitycateno
+        JOIN 
+            member ON community.memberno = member.memberno
+        LEFT JOIN 
+            (SELECT communityno, COUNT(*) as total FROM reply GROUP BY communityno) reply_count 
+            ON community.communityno = reply_count.communityno
+        WHERE 
+            (community.communitycateno = communitycate.communitycateno 
+            AND community.memberno = member.memberno 
+            AND community.title LIKE '%' || #{word} || '%' 
+            OR community.contents LIKE '%' || #{word} || '%')
+        ORDER BY 
+            community.rdate DESC
     </select>
+
+    <!--글 수정-->
+    <update id="update_likes" parameterType="int">
+        UPDATE community
+        SET communitylikes=communitylikes+1
+        WHERE communityno=#{communityno}
+    </update>
 
 </mapper> 

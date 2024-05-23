@@ -33,12 +33,12 @@
           </div>
           
           <div th:case="delete_success">
-            <span class="span_success">카테고리 삭제에 성공했습니다.</span><br>
+            <span class="span_success">댓글 삭제에 성공했습니다.</span><br>
             삭제된 카테고리: <span th:text="${name}"></span> 
             <span th:if="${namesub != '-'}" th:text="' - ' + ${namesub}"></span>
           </div>
           <div th:case="delete_fail">
-            <span class="span_fail">카테고리 삭제에 실패했습니다.</span><br>
+            <span class="span_fail">댓글 삭제에 실패했습니다.</span><br>
             삭제 실패된 댓글: <span th:text="${name}"></span>
             <span th:if="${namesub != '-'}" th:text="' - ' + ${namesub}"></span> 
           </div>

@@ -6,7 +6,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import dev.mvc.community.Community;
 import dev.mvc.reply.Reply;
-// import dev.mvc.contents.Contents;
 import dev.mvc.trash.Trash;
 
 @Configuration
@@ -24,7 +23,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer{
         
         registry.addResourceHandler("/replys/storage/**").addResourceLocations("file:///" +  Reply.getUploadDir());
         
-        registry.addResourceHandler("/community/storage/**").addResourceLocations("file:///" +  Community.getUploadDir());
+        registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" +  Community.getUploadDir());
         // JSP 인식되는 경로: http://localhost:9091/attachfile/storage";
         // registry.addResourceHandler("/contents/storage/**").addResourceLocations("file:///" +  Tool.getOSPath() + "/attachfile/storage/");
         

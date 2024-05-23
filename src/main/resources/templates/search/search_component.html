@@ -3,12 +3,12 @@
   <div style="margin-bottom: 40px;">
     
     <div style="display: flex; justify-content: center;">
-      <form name="frm" method="post" action="#">
+      <form name="frm" method="post" action="search">
         <div class="search">
           <img src="/images/ic_search.svg">
           <!-- 메인 placeholder : 예) 형광등, 고추장 -->
           <!-- 커뮤니티 placeholder : 예) 재활용, 일반쓰레기 -->
-          <input type="text" placeholder="예) 형광등, 고추장">
+          <input type="text" name="word" th:value="${word}">
         </div>
       </form>
     </div>

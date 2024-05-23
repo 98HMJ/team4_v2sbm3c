@@ -7,26 +7,125 @@
     font-style: normal;
   }
   
+  button{
+    border: 1px solid #000000; /* 테두리를 검은색으로 설정 */
+  }
+  
+  .community_comment_header{
+    margin : 5px 10px;
+  }
+  
+  .comment_box{
+    display: flex;
+    justify-content: flex-end; /* 우측 정렬 */
+    width: 100%;
+  }
+  
+  .custom-file-upload{
+      display: inline-block;
+      cursor: pointer;
+      color: white;
+      background-color: #ffffff; /* 배경색을 흰색으로 설정 */
+      color: #000000; /* 글자색을 검은색으로 설정 */
+      border: 1px solid #000000; /* 테두리를 검은색으로 설정 */
+      text-align: center;
+      margin-left: 10px;
+      margin : 10px 10px;
+      padding : 0px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center; /* 가운데 정렬 */
+  }
+  
+  .comment_box input, .comment button{
+    font-size: 12px;
+    width: 20%; /* 화면의 5분의 1 크기 */
+    margin-left: 10px; /* 요소 사이 간격 추가 */
+  }
+  
+  .comment_box input{
+    display: none;
+  }
+  
+  .comment_box button{
+    margin: 10px 0 10px 10px; /* 버튼의 위아래 마진 설정 */
+  }
+  
+  
+  .community_comment_cnt span{
+    margin-left: 2px;
+    color: red;
+  }
+  
   .community_comment_contents{
     display: flex;
     align-items: flex-end;
   }
   
   .community_comment_board{
+    margin : 0px 5px;
     background-color: #F0EEEE;
     padding: 10px 5px;
+    border-top: 1px dashed #8C8C8C;  /* 상단 점선 추가 */
   }
+  
+  .community_comment_board:last-child{
+     margin : 5px 10px;
+    background-color: #F0EEEE;
+    padding: 10px 5px;
+    border-bottom: 1px dashed #8C8C8C;  /* 하단 점선 추가 */
+  }
+  
 
   .community_read_contents{
     min-height: 200px; /* 기본 높이 설정 */
   }
-
+  
   .community_read_header_box{
     background-color: #F0EEEE;
     display: flex; 
     align-items: center; 
     justify-content: space-around;
     padding : 5% 10%;
+  }
+  .community_like_board {
+      display: flex;
+      align-items: center;
+      background-color: #F0EEEE;
+      padding: 10px;
+      cursor: pointer; /* div 전체를 클릭할 수 있도록 커서 변경 */
+      text-decoration: none; /* 링크 스타일 제거 */
+      justify-content: flex-end;
+  }
+  
+  .community_like_board img {
+      margin-right: 3px; /* 이미지와 텍스트 사이 간격 추가 */
+  }
+  .community_like_board a {
+      color: pink; /* 글자색을 분홍색으로 설정 */
+      display: flex;
+      align-items: center;
+      text-decoration: none; /* 링크 스타일 제거 */
+  }
+  
+  .community_like_board  a:link{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: black;
+  }
+  
+  .community_like_board  a:visited{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: black;
+  }
+  
+  .community_like_board a:hover{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: black;
+  }
+  
+  .community_like_board  a:active{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: black;
   }
 
   .community_read_header_info{
@@ -37,6 +136,19 @@
     display: flex;
     font-weight: 700;
     margin-right: 5px;
+  }
+  
+  .icon-link {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    border-right: 1px solid #ccc; /* 점선 구분선 추가 */
+    margin-right: 10px; /* 간격 추가 */
+  }
+  
+  .icon-link:last-child {
+      border-right: none; /* 마지막 요소의 구분선 제거 */
+      margin-right: 0; /* 마지막 요소의 간격 제거 */
   }
   
   h1{
@@ -120,7 +232,7 @@
     border: 1px solid #bbb;
     border-radius: 20px;
     padding: 10px 12px;
-    font-size: 14px;
+    font-size: 12px;
   }
   
   input:focus {
@@ -328,6 +440,17 @@
     background-image: url(/images/back_nefhorne.png);
     background-position: center center; /* 배경 이미지 중앙 정렬 */
     background-size: contain;           /* 배경 이미지가 요소의 크기에 맞게 조정됨 */
+    text-decoration: none;
+    /* 링크의 밑줄 제거 */
+    color: inherit;
+    /* 링크 색상 상속 */
+  }
+  
+  .nefhorne_block:hover {
+    text-decoration: none;
+    /* 마우스를 올렸을 때 밑줄 제거 */
+    color: inherit;
+    /* 마우스를 올렸을 때 색상 변경 없음 */
   }
   
   .modal_overlay {
@@ -649,5 +772,69 @@
     height: 350px;
     position: relative;
     padding: 10px;
+  }
+  
+  #mapwrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .category,
+  .category * {
+    margin: 0;
+    padding: 0;
+    color: #000;
+  }
+
+  .category {
+    position: absolute;
+    overflow: hidden;
+    top: 10px;
+    left: 10px;
+    width: 150px;
+    height: 55px;
+    z-index: 10;
+    border: 1px solid black;
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    font-size: 12px;
+    text-align: center;
+    background-color: #fff;
+  }
+
+  .category .menu_selected {
+    background: #FF5F4A;
+    color: #fff;
+    border-left: 1px solid #915B2F;
+    border-right: 1px solid #915B2F;
+    margin: 0 -1px;
+  }
+
+  .category li {
+    list-style: none;
+    float: left;
+    width: 50px;
+    height: 45px;
+    padding-top: 5px;
+    cursor: pointer;
+  }
+
+  .category .ico_comm {
+    display: block;
+    margin: 0 auto 2px;
+    width: 34px;
+    height: 33px;
+    background: url('/images/nephroncategory1.png') no-repeat;
+  }
+
+  .category .ico_plastic {
+    background-position: 0 0;
+  }
+
+  .category .ico_can {
+    background-position: 0 -33px;
+  }
+
+  .category .ico_plastiandcan {
+    background-position: 0 -66px;
   }
 }

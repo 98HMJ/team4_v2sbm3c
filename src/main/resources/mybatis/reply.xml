@@ -6,25 +6,40 @@
   
   <!-- return 값(int: 1),  댓글 등록-->
   <insert id="create" parameterType="dev.mvc.reply.ReplyVO">
-    INSERT INTO REPLY(replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize)
-    VALUES (reply_seq.nextval, #{contents}, SYSDATE, #{photo}, #{communityno}, #{memberno}, #{photo1saved}, #{thumb1}, #{filesize})
+    INSERT INTO REPLY(replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize, likecnt)
+    VALUES (reply_seq.nextval, #{contents}, SYSDATE, #{photo}, #{communityno}, #{memberno}, #{photo1saved}, #{thumb1}, #{filesize}, #{likecnt})
   </insert>
   
   <!-- 모든 댓글 목록 -->
   <select id="list_all"  resultType="dev.mvc.reply.ReplyVO">
-    SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize
+    SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize, likecnt
     FROM REPLY
     ORDER BY REPLYNO
   </select>
   
   <!-- 특정 커뮤니티의 댓글 목록 -->
   <select id="list_by_community" resultType="dev.mvc.reply.ReplyVO" parameterType="int">
-    SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize
+    SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize, likecnt
     FROM REPLY
     WHERE communityno = #{communityno}
     ORDER BY REPLYNO
   </select>
   
+  <!-- 조회:  댓글 번호로 댓글 조회 -->
+  <select id="read"  resultType="dev.mvc.reply.ReplyVO">
+    SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize, likecnt
+    FROM REPLY
+    WHERE replyno = #{replyno}
+    ORDER BY REPLYNO
+  </select>
+  
+  <!-- 특정 커뮤니티의 댓글 목록(+회원id) -->
+  <select id="list_by_community_plus_memberid" resultType="dev.mvc.reply.ReplyVO" parameterType="int">
+    SELECT m.id, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize, likecnt
+    FROM member m,  reply r
+    WHERE m.memberno = r.memberno and r.communityno = #{communityno};
+  </select>
+    
   <!-- 댓글 : 텍스트 수정 -->
   <update id="update_contents" parameterType="dev.mvc.reply.ReplyVO">
     UPDATE reply 
@@ -51,5 +66,13 @@
       FROM reply
       WHERE communityno = #{communityno}
    </select>
+   
+   <!-- 특정 커뮤니티 게시글의 댓글의 좋아요 수 증가-->
+   <update id="update_increase_cnt_like" parameterType="int">
+      UPDATE reply
+      SET likecnt = likecnt + 1
+      WHERE replyno = #{replyno}
+   </update>
+      
    
 </mapper> 

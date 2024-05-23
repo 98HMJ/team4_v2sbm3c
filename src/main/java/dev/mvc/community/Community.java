@@ -16,7 +16,7 @@ public class Community {
         String path = "";
         if (File.separator.equals("\\")) { // windows, 개발 환경의 파일 업로드 폴더
             // path = "C:/kd/deploy/resort_v2sbm3c/contents/storage/";
-            path="C:\\kd\\ws_java\\team4_v2sbm3c\\src\\static\\images\\contents\\storage\\";
+            path="C:\\Users\\i\\Desktop\\teamfile\\";
             // System.out.println("Windows 10: " + path);
             
         } else { // Linux, AWS, 서비스용 배치 폴더 

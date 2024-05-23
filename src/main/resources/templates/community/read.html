@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+
+  <header style="margin-top: 25px; padding-left: 5%; padding-right: 5%; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/style.css" rel="Stylesheet" type="text/css"> <!-- /static 기준 -->
+    <div>
+        <h1>Dr. Echo's Club</h1>
+        <span>쓰레기 버리는 방법,</span><br>
+        <span> 환경적인 라이프 스타일에 관한</span><br>
+        <span>커뮤니티회원만 글과 댓글을 남길 수 있습니다.</span><br>
+    </div>
+  </header>
+  
+  <!-- 커뮤니티 글-->
+  <div>
+    <div class="community_read_header_title">
+      <span th:text="${communityVO.title}"> </span>
+    </div>
+
+    <!-- 반응형 UI 구성 필요 -->
+    <!-- 카테고리, 작성자, 작성일 정보 -->
+    <div class="community_read_header_box">
+      <div class="community_read_header_info">
+        <div class="community_read_header">분류</div> 
+        <div style="display: flex;" th:text="${communityVO.name}"></div>
+      </div>
+      <div class="community_read_header_info">
+        <div class="community_read_header">작성자</div>
+        <div style="display: flex; float:left;" th:text="${communityVO.nickname}"></div>
+      </div>
+      <div class="community_read_header_info">
+        <div class="community_read_header">작성일</div><div style="display: flex; float: left;" th:text="${communityVO.rdate}"></div>
+      </div>
+    </div>
+
+    <!-- 본문 contents 영역 -->
+    <div class="community_read_contents">
+      <p th:text="${communityVO.contents}"></p>
+      <div style="text-align: center;">
+        <img th:if="${communityVO.files != ''}" th:src="@{|/Desktop/teamfile/${communityVO.thumb}|}">
+      </div>
+      <div th:if="${communityVO.youtube != ''}" style="text-align: center;">
+        <iframe width="560" height="315"
+          th:src="'https://www.youtube.com/embed/' + ${#strings.substringAfter(communityVO.youtube, 'v=')}" frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div th:if="${communityVO.mp4 != ''}" style="text-align: center;">
+        <video controls>
+          <source th:src='@{|/Desktop/teamfile/${communityVO.mp4}|}' type="video/webm"></source>
+        </video>
+      </div>
+    </div>
+
+    <div class="content_body_bottom" th:if="${bool}" style="text-align: right;">
+      <button type="button" class="btn btn-secondary btn-sm"
+        th:onclick="|location.href='@{/community/delete(communityno=${communityVO.communityno})}'|">삭제</button>
+      <button type="button" class="btn btn-secondary btn-sm"
+        th:onclick="|location.href='@{/community/update(communityno=${communityVO.communityno})}'|">수정</button>
+    </div>
+    
+    <!-- 커뮤니티 좋아요 영역 -->
+    <div class="community_like_board">
+      <a th:href="@{|/community/update_increase_cnt_like?communityno=${communityVO.communityno}|}"><img src="/images/like_unable.png"><span th:text="${communityVO.communitylikes}"></span></a>
+    </div>
+
+    <div class="community_comment_header">
+      <!-- 댓글 수 -->
+      <div class="community_comment_cnt">전체<span th:text="${reply_cnt}"></span></div>
+    </div>
+    
+     <!-- 댓글 등록 영역 -->
+      <form name='frm' method='post' th:object="${replyVO}" action='/reply/create' enctype="multipart/form-data">
+        <input type="hidden" name="communityno" th:value="${communityVO.communityno}">
+        
+        <div style="margin: 10px;">
+            <input style="padding: 15px 0px; padding-left: 10px;" type="text" name="contents" required=required placeholder="댓글을 입력하세요."><br>
+            <div class="comment_box" style="display: flex; justify-content: flex-end;">
+              <label for="file1MF" class="custom-file-upload">이미지<br>등록</label>
+              <input type='file' class="form-control" name='file1MF' id='file1MF' value='' placeholder="이미지 선택">
+              <button type="submit" style="margin: 10px;">댓글쓰기</button>            
+            </div>
+        </div>
+      </form>
+      
+    <!-- 댓글 조회 영역 -->
+    <div th:each="replyVO, status:${list}" class="community_comment_board">      
+      <div class="community_comment_contents" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+        <!-- 댓글 작성자 -->  <!-- 댓글 작성일자 -->
+        <div style="display: flex; padding: 10px; align-items: center;">
+          <div style="margin-right: 10px; "></div>
+          <span th:text="${replyVO.rdate}">
+        </div>
+        <div th:if="${replyVO.memberno == memberno}" style="display: flex; align-items: center;">
+          <!-- 수정 아이콘 : 멤버가 일치할 때 표시 -->
+          <a class="icon-link" th:href="@{|/reply/update?communityno=${communityVO.communityno}&replyno=${replyVO.replyno}|}" title="수정">
+            <img src="/images/update.png" alt="Edit">
+          </a>
+          <!-- 삭제 아이콘 : 멤버가 일치할 때 표시 -->
+          <a class="icon-link" th:href="@{|/reply/delete?communityno=${communityVO.communityno}&replyno=${replyVO.replyno}|}" title="수정">
+            <img src="/images/delete.png" alt="Delete">
+          </a>
+        </div>
+       
+      </div>
+      
+      <!-- 댓글 내용 -->
+      <div style="padding: 10px;" th:text="${replyVO.contents}">댓글 내용</div>
+      
+      <!-- 댓글 업로드 사진 -->
+      <div th:if="${replyVO.photo.endsWith('jpg') or replyVO.photo.endsWith('png')  or replyVO.photo.endsWith('gif')}">
+          <img th:src="@{|/replys/storage/${replyVO.thumb1}|}" style="width: 120px; height: 90px;">
+      </div>
+      
+      <div th:if="${((replyVO.photo.endsWith('jpg') or replyVO.photo.endsWith('png')  or replyVO.photo.endsWith('gif')) == false) and (replyVO.filesize> 0)}">
+        <span th:text="${replyVO.photo}"></span>
+      </div>
+
+      <div th:if="${replyVO.filesize == 0}">
+        <img src="/images/none.png" style="width: 120px; height: 90px;">
+      </div>
+      
+      <!-- 댓글 좋아요 -->
+      <div class="community_like_board">
+          <a th:href="@{|/reply/update_increase_cnt_like?communityno=${communityVO.communityno}&replyno=${replyVO.replyno}|}">
+              <img  src="/images/like_unable.png" alt="Like">
+              <span th:text="${replyVO.likecnt}">좋아요</span>
+          </a>
+      </div>
+      
+    </div>
+
+    </div>
+
+  </div>
+</html>

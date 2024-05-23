@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
 <div layout:fragment="content">
     <script>
         window.onload = () => {
@@ -218,7 +218,7 @@
         회원 가입(*:필수)
     </div>
     <div class='menu_line'></div>
-    <div style="width: 60%; margin: 0px auto ">
+    <div>
         <form th:object="${memberVO}" id="frm" name="frm" method="post" action="/member/signup">
             <div>
                 <div>
@@ -251,7 +251,7 @@
             <div class="form-group">
                 <label>성명*:</label>
                 <input type='text' class="form-control form-control-sm" name='name' id='name' value=''
-                    required="required" placeholder="성명">
+                    required="required" placeholder="성명"  style="width: 50%;">
                 <span id='name_msg'></span>
 
                 <select name="sex" id="sex">
@@ -279,18 +279,18 @@
             <br>
 
             <div class="form-group">
-                <label>이메일:</label>
-                <input type='text' class="form-control form-control-sm" name='email' id='email' value=''
-                    required="required" placeholder="이메일">
-                <span id='email_msg'></span>
+                <label>전화 번호:</label>
+                <input type='text' class="form-control form-control-sm" name='tel' id='tel' value='' required="required"
+                    placeholder="전화번호" style="width: 50%;">
+                예) 01093674590
             </div>
             <br>
 
             <div class="form-group">
-                <label>전화 번호:</label>
-                <input type='text' class="form-control form-control-sm" name='tel' id='tel' value='' required="required"
-                    placeholder="전화번호">
-                예) 01093674590
+                <label>이메일:</label>
+                <input type='text' class="form-control form-control-sm" name='email' id='email' value=''
+                    required="required" placeholder="이메일">
+                <span id='email_msg'></span>
             </div>
             <br>
 

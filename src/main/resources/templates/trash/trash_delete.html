@@ -8,13 +8,13 @@
   </div>
   
   <aside class="aside_right" style="float: right;">
-    <a th:href="@{|./create|}">등록</a>
+    <a th:href="@{|./create|}" thif="${session.adminno == 1}">등록</a>
     <span class='menu_divide' >│</span>
-    <a th:href="@{|./trash_update?trashno=${trashVO.trashno}|}">수정</a>
+    <a th:href="@{|./trash_update?trashno=${trashVO.trashno}|}" thif="${session.adminno == 1}">수정</a>
     <span class='menu_divide' >│</span>
     <a th:href="@{|./trash_list_all|}">목록</a>
     <span class='menu_divide' >│</span>
-    <a th:href="@{|./trash_delete?trashno=${trashVO.trashno}|}">삭제</a>
+    <a th:href="@{|./trash_delete?trashno=${trashVO.trashno}|}" thif="${session.adminno == 1}">삭제</a>
     <span class='menu_divide' >│</span>
     <a href="javascript:location.reload();">새로고침</a>
   </aside>
