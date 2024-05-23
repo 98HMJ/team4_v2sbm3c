@@ -25,7 +25,7 @@
         <div>
           <a href="/nephron/nephron_list_all">네프론</a>
         </div>
-        <div th:if="${session.adminno == 1 || session.memberno != null}">
+        <div th:if="${session.admin == 'admin'}">
           <a href="/trash/trash_list_all">&nbsp;&nbsp;쓰레기 목록</a>
         </div>
       </div>
