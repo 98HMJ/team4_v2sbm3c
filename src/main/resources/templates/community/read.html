@@ -69,12 +69,27 @@
       <!-- 댓글 수 -->
       <div class="community_comment_cnt">전체<span th:text="${reply_cnt}"></span></div>
     </div>
+    
+     <!-- 댓글 등록 영역 -->
+      <form name='frm' method='post' th:object="${replyVO}" action='/reply/create' enctype="multipart/form-data">
+        <input type="hidden" name="communityno" th:value="${communityVO.communityno}">
+        
+        <div style="margin: 10px;">
+            <input style="padding: 15px 0px; padding-left: 10px;" type="text" name="contents" required=required placeholder="댓글을 입력하세요."><br>
+            <div class="comment_box" style="display: flex; justify-content: flex-end;">
+              <label for="file1MF" class="custom-file-upload">이미지<br>등록</label>
+              <input type='file' class="form-control" name='file1MF' id='file1MF' value='' placeholder="이미지 선택">
+              <button type="submit" style="margin: 10px;">댓글쓰기</button>            
+            </div>
+        </div>
+      </form>
+      
     <!-- 댓글 조회 영역 -->
     <div th:each="replyVO, status:${list}" class="community_comment_board">      
       <div class="community_comment_contents" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
         <!-- 댓글 작성자 -->  <!-- 댓글 작성일자 -->
         <div style="display: flex; padding: 10px; align-items: center;">
-          <div style="margin-right: 10px; ">kbs</div>
+          <div style="margin-right: 10px; "></div>
           <span th:text="${replyVO.rdate}">
         </div>
         <div th:if="${replyVO.memberno == memberno}" style="display: flex; align-items: center;">
@@ -115,20 +130,7 @@
       </div>
       
     </div>
-      
-      <!-- 댓글 등록 영역 -->
-      <form name='frm' method='post' th:object="${replyVO}" action='/reply/create' enctype="multipart/form-data">
-        <input type="hidden" name="communityno" th:value="${communityVO.communityno}">
-        
-        <div style="margin: 10px;">
-            <input style="padding: 15px 0px; padding-left: 10px;" type="text" name="contents" required=required placeholder="댓글을 입력하세요."><br>
-            <div class="comment_box" style="display: flex; justify-content: flex-end;">
-              <label for="file1MF" class="custom-file-upload">이미지<br>등록</label>
-              <input type='file' class="form-control" name='file1MF' id='file1MF' value='' placeholder="이미지 선택">
-              <button type="submit" style="margin: 10px;">댓글쓰기</button>            
-            </div>
-        </div>
-      </form>
+
     </div>
 
   </div>
