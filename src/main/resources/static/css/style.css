@@ -95,7 +95,7 @@
       padding: 10px;
       cursor: pointer; /* div 전체를 클릭할 수 있도록 커서 변경 */
       text-decoration: none; /* 링크 스타일 제거 */
-      justify-content: flex-end;
+      justify-content: space-between;
   }
   
   .community_like_board img {

@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-
-
 @RequestMapping("/admin")
 @Controller
 public class AdminCont {

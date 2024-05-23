@@ -10,7 +10,7 @@
     <fieldset class="fieldset_basic">
       <ul>
         <li th:switch="${code}" class="li_none">
-          <div th:case="singo_success">
+          <div th:case="create_success">
             <span style="font-weight: bold;
             background: url('/css/images/url5.png') left center no-repeat;
             background-size: 10px;
@@ -21,52 +21,37 @@
             onclick="location.href='/admin'"
                          class="btn btn-primary btn-sm">확인</button>
           </div>
-          <div th:case="update_fail">
+          
+          <div th:case="create_fail">
             <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
+            background: url('/css/images/url5.png') left center no-repeat;
             background-size: 10px;
             padding-top: 0px;
             padding-left: 20px;
-            margin-top: 2px; ">수정에 실패했습니다. 계속 문제가 발생하면 02-111-1111로 문의해주세요</span><br>
+            margin-top: 2px; ">신고실패</span><br>
+            <button type='button'
+            onclick="location.href='/admin'"
+                         class="btn btn-primary btn-sm">확인</button>
           </div>
           
-          <div th:case="duplicate_fail">
+          <div th:case="no_admin">
             <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
+            background: url('/css/images/url5.png') left center no-repeat;
             background-size: 10px;
             padding-top: 0px;
             padding-left: 20px;
-            margin-top: 2px; ">중복된 가입입니다.</span><br>
-            수정된 회원 정보: <span th:text="${name}"></span>
+            margin-top: 2px; ">관리자가 아닙니다.</span><br>
           </div>
-
+          
           <div th:case="permission_error">
             <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
+            background: url('/css/images/url5.png') left center no-repeat;
             background-size: 10px;
             padding-top: 0px;
             padding-left: 20px;
-            margin-top: 2px; ">권한이 없습니다.</span><br>
-            <button type="button" onclick="location.href='/member/login'" class="btn btn-secondary btn-sm">닫기</button>
+            margin-top: 2px; ">접근 권한이 없습니다.</span><br>
           </div>
-
-          <div th:case="adminlog_fail">
-            <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; ">로그 기록 실패</span><br>
-          </div>
-
-          <div th:case="login_fail">
-            <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; ">아이디 또는 비밀번호가 틀렸습니다.</span><br>
-          </div>
+          
 
           <li class="li_none">
             <div th:if="${cnt == 0}">
@@ -81,6 +66,3 @@
   </div>
 </div>
 </html>
-
-
-

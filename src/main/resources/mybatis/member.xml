@@ -32,7 +32,7 @@
   </select>
 
   <!--회원 정보 조회(회원번호)-->
-  <select id="read" resultType="dev.mvc.member.MemberVO" parameterType="String">
+  <select id="read" resultType="dev.mvc.member.MemberVO" parameterType="int">
     SELECT *
     FROM member
     WHERE memberno=#{memberno}

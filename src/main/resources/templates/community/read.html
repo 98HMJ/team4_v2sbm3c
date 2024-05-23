@@ -53,11 +53,18 @@
       </div>
     </div>
 
-    <div class="content_body_bottom" th:if="${bool}" style="text-align: right;">
-      <button type="button" class="btn btn-secondary btn-sm"
-        th:onclick="|location.href='@{/community/delete(communityno=${communityVO.communityno})}'|">삭제</button>
-      <button type="button" class="btn btn-secondary btn-sm"
-        th:onclick="|location.href='@{/community/update(communityno=${communityVO.communityno})}'|">수정</button>
+    <div class="content_body_bottom" th:if="${bool}" style="text-align: right; display: flex; justify-content: space-between; margin: 0px 10px;">
+      <!-- 신고 버튼 -->
+      <div>
+        <button type="button" class="btn btn-outline-danger btn-sm"
+          th:onclick="|location.href='@{/report_community/create?(communityno=${communityVO.communityno})}'|">신고</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-secondary btn-sm"
+          th:onclick="|location.href='@{/community/delete(communityno=${communityVO.communityno})}'|">삭제</button>
+        <button type="button" class="btn btn-secondary btn-sm"
+          th:onclick="|location.href='@{/community/update(communityno=${communityVO.communityno})}'|">수정</button>
+      </div>
     </div>
     
     <!-- 커뮤니티 좋아요 영역 -->
@@ -89,8 +96,12 @@
       <div class="community_comment_contents" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
         <!-- 댓글 작성자 -->  <!-- 댓글 작성일자 -->
         <div style="display: flex; padding: 10px; align-items: center;">
+          <!-- anotherList의 요소 접근 -->
+          <div th:if="${status.index} < ${m_list.size()}">
+              <span style="font-weight: 600;" th:text="${m_list[status.index].nickname}">Another Property</span>
+          </div>      
           <div style="margin-right: 10px; "></div>
-          <span th:text="${replyVO.rdate}">
+          <span style="color: rgb(192, 192, 192); font-size: 12px;" th:text="${#strings.substring(replyVO.rdate, 0, 16)}">
         </div>
         <div th:if="${replyVO.memberno == memberno}" style="display: flex; align-items: center;">
           <!-- 수정 아이콘 : 멤버가 일치할 때 표시 -->
@@ -121,12 +132,17 @@
         <img src="/images/none.png" style="width: 120px; height: 90px;">
       </div>
       
-      <!-- 댓글 좋아요 -->
+      <!-- 댓글 신고, 댓글 좋아요 -->
       <div class="community_like_board">
-          <a th:href="@{|/reply/update_increase_cnt_like?communityno=${communityVO.communityno}&replyno=${replyVO.replyno}|}">
+          <div>
+            <button type="button" class="btn btn-outline-danger btn-sm"
+                th:attr="onclick=|location.href='/report_reply/create?communityno=${communityVO.communityno}&replyno=${replyVO.replyno}'|">신고</button>
+          </div>
+          <a th:href="@{|/reply/update_increase_cnt_like?communityno=${communityVO.communityno}|}">
               <img  src="/images/like_unable.png" alt="Like">
               <span th:text="${replyVO.likecnt}">좋아요</span>
           </a>
+          
       </div>
       
     </div>

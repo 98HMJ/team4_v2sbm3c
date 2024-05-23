@@ -106,6 +106,7 @@ public class SingoCont {
       return "singo/msg";
     }
   }
+  
   /**
    * 신고내용 조회
    * @param session

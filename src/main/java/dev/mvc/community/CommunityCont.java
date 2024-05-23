@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dev.mvc.communitycate.CommunityCateProcInter;
 import dev.mvc.communitycate.CommunityCateVO;
+import dev.mvc.member.MemberProcInter;
+import dev.mvc.member.MemberVO;
 import dev.mvc.reply.ReplyProc;
 import dev.mvc.reply.ReplyVO;
 import dev.mvc.tool.Tool;
@@ -35,6 +37,10 @@ public class CommunityCont {
     @Autowired
     @Qualifier("dev.mvc.communitycate.CommunityCateProc")
     private CommunityCateProcInter communityCateProc;
+    
+    @Autowired
+    @Qualifier("dev.mvc.member.MemberProc")
+    private MemberProcInter memberProc;
 
     public CommunityCont() {
         System.out.println("-> CommunityCont created.");
@@ -49,30 +55,36 @@ public class CommunityCont {
 
     @GetMapping("/read")
     public String read(HttpSession session, int communityno, Model model) {
-        if (session.getAttribute("id") != null) {
+      if (session.getAttribute("id") != null) {
 
-            // 현제 memberno 조회 하여 일치할때 수정 아이콘 표시
-            ArrayList<ReplyVO> list = this.replyProc.list_by_community(communityno);
-            model.addAttribute("list", list);
+        ArrayList<ReplyVO> list = this.replyProc.list_by_community(communityno);
+        model.addAttribute("list", list);
 
-            int reply_cnt = this.replyProc.count_by_communityno(communityno);
-            model.addAttribute("reply_cnt", reply_cnt);
-
-            int memberno = (int) session.getAttribute("memberno");
-            model.addAttribute("memberno", memberno);
-            System.out.println("-> memberno: " + memberno);
-
-            CommunityVO communityVO = this.communityProc.read(communityno);
-            if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
-                model.addAttribute("bool", true);
-            }
-
-            model.addAttribute("communityVO", communityVO);
-            return "community/read";
-        } else {
-            model.addAttribute("code", "no_login");
-            return "member/login";
+        ArrayList<MemberVO> m_list = new ArrayList<MemberVO>();
+        for (ReplyVO item : list) {
+          MemberVO memberVO = this.memberProc.read(item.getMemberno());
+          m_list.add(memberVO);
         }
+        model.addAttribute("m_list", m_list);
+
+        int reply_cnt = this.replyProc.count_by_communityno(communityno);
+        model.addAttribute("reply_cnt", reply_cnt);
+
+        int memberno = (int) session.getAttribute("memberno");
+        model.addAttribute("memberno", memberno);
+        System.out.println("-> memberno: " + memberno);
+
+        CommunityVO communityVO = this.communityProc.read(communityno);
+        if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
+          model.addAttribute("bool", true);
+        }
+
+        model.addAttribute("communityVO", communityVO);
+        return "community/read";
+      } else {
+        model.addAttribute("code", "no_login");
+        return "member/login";
+      }
     }
 
     @GetMapping("/create")
