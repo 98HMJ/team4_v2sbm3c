@@ -18,7 +18,6 @@ import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RequestMapping("/community")
@@ -49,11 +48,12 @@ public class CommunityCont {
 
     @GetMapping("/read")
     public String read(HttpSession session, int communityno, Model model) {
-        if (session.getAttribute("id") != null) {
+        if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
 
             int cnt = this.communityProc.update_cnt(communityno);
             if (cnt != 1) {
                 model.addAttribute("code", "update_cnt_fail");
+                model.addAttribute("cnt", cnt);
                 return "community/msg";
             }
 
@@ -66,7 +66,6 @@ public class CommunityCont {
 
             int memberno = (int) session.getAttribute("memberno");
             model.addAttribute("memberno", memberno);
-            System.out.println("-> memberno: " + memberno);
 
             CommunityVO communityVO = this.communityProc.read(communityno);
             if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
@@ -76,7 +75,6 @@ public class CommunityCont {
             model.addAttribute("communityVO", communityVO);
             return "community/read";
         } else {
-            model.addAttribute("code", "no_login");
             return "member/login";
         }
     }
@@ -88,7 +86,6 @@ public class CommunityCont {
             model.addAttribute("list", list);
             return "redircet:/community/create";
         } else {
-            model.addAttribute("code", "no_login");
             return "member/login";
         }
     }
@@ -132,6 +129,7 @@ public class CommunityCont {
                         }
                     } else { // 전송 못하는 파일 형식
                         model.addAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
+                        model.addAttribute("cnt", 0);
                         return "member/msg"; // Post -> Get - param...
                     }
                 }
@@ -143,7 +141,8 @@ public class CommunityCont {
             return "community/main";
         } else {
             model.addAttribute("code", "community_create_fail");
-            return "msg";
+            model.addAttribute("cnt", cnt);
+            return "community/msg";
         }
     }
 
@@ -193,6 +192,7 @@ public class CommunityCont {
                     }
                 } else { // 전송 못하는 파일 형식
                     model.addAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
+                    model.addAttribute("cnt", 0);
                     return "member/msg"; // Post -> Get - param...
                 }
             }
@@ -202,7 +202,8 @@ public class CommunityCont {
         if (cnt == 1) {
             return "redirect:/community/main";
         } else {
-            model.addAttribute("code", "community_update_fail");
+            model.addAttribute("code", "community_create_fail");
+            model.addAttribute("cnt", cnt);
             return "msg";
         }
     }
@@ -215,16 +216,17 @@ public class CommunityCont {
                 int cnt = this.communityProc.delete(communityno);
                 if (cnt == 1) {
                     model.addAttribute("code", "community_delete_success");
-                    return "redirect:/community/main";
+                    return "community/msg";
                 } else {
+                    model.addAttribute("cnt", cnt);
                     model.addAttribute("code", "community_delete_fail");
                 }
             } else {
+                model.addAttribute("cnt", 1);
                 model.addAttribute("code", "not_access");
             }
-            return "msg";
+            return "community/msg";
         } else {
-            model.addAttribute("code", "no_login");
             return "member/login";
         }
     }
@@ -243,6 +245,7 @@ public class CommunityCont {
         if (cnt == 1) {
             return "redirect:/community/read?communityno=" + communityno;
         } else {
+            model.addAttribute("cnt",cnt);
             model.addAttribute("code", "update_likes_error");
             return "community/msg";
         }

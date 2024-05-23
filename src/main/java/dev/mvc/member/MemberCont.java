@@ -152,10 +152,12 @@ public class MemberCont {
                 }
             } else {
                 model.addAttribute("code", "memberlog_fail");
-                return "msg";
+                model.addAttribute("cnt", log_cnt);
+                return "member/msg";
             }
         } else {
             model.addAttribute("code", "login_fail");
+            model.addAttribute("cnt", cnt);
             return "msg";
         }
     }
@@ -174,6 +176,7 @@ public class MemberCont {
         } else {
             model.addAttribute("code", "signupfail");
         }
+        model.addAttribute("cnt", cnt);
 
         return "msg";
     }
@@ -199,14 +202,17 @@ public class MemberCont {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("name", name);
         map.put("tel", tel);
-
+        int cnt;
         try {
             MemberVO memberVO = this.memberProc.findid(map);
             model.addAttribute("memberVO", memberVO);
             model.addAttribute("code", "findid");
+            cnt=1;
         } catch (Exception e) {
             model.addAttribute("code", "findidfail");
+            cnt=0;
         }
+        model.addAttribute("cnt", cnt);
         return "member/msg";
     }
 
@@ -230,7 +236,8 @@ public class MemberCont {
 
             int cnt = this.memberProc.changepassword(map);
             if (cnt != 1) {
-                model.addAttribute("code", "findpasswordfail");
+                model.addAttribute("code", "findpasswordwrong");
+                model.addAttribute("cnt", cnt);
                 return "member/msg";
             }
 
@@ -250,6 +257,8 @@ public class MemberCont {
             model.addAttribute("email", memberVO.getEmail());
         } catch (Exception e) {
             model.addAttribute("code", "findpasswordfail");
+            model.addAttribute("cnt", 0);
+            return "member/msg";
         }
 
         return "member/again_login";
@@ -267,6 +276,7 @@ public class MemberCont {
             return "member/chagepassword";
         } else {
             model.addAttribute("code", "again_loginfail");
+            model.addAttribute("cnt", cnt);
             return "member/msg";
         }
     }
@@ -288,6 +298,7 @@ public class MemberCont {
             return "main";
         } else {
             model.addAttribute("code", "chagepasswordfail");
+            model.addAttribute("cnt", cnt);
         }
         return "member/msg";
     }

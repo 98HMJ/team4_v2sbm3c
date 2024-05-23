@@ -8,14 +8,14 @@
   </div>
   
   <aside class="aside_right" style="float: right;">
-    <a th:href="@{|./create|}" thif="${session.adminno == 1}">등록</a>
-    <span class='menu_divide' >│</span>
-    <a th:href="@{|./trash_update?trashno=${trashVO.trashno}|}" thif="${session.adminno == 1}">수정</a>
+    <a th:href="@{|./create|}" th:if="${session.admin == 'admin'}">등록</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a th:href="@{|./trash_update?trashno=${trashVO.trashno}|}" th:if="${session.admin == 'admin'}">수정</a>
     <span class='menu_divide' >│</span>
     <a th:href="@{|./trash_list_all|}">목록</a>
     <span class='menu_divide' >│</span>
-    <a  thif="${session.adminno == 1}" th:href="@{|./trash_delete?trashno=${trashVO.trashno}|}">삭제</a>
-    <span class='menu_divide' >│</span>
+    <a  th:if="${session.admin == 'admin'}" th:href="@{|./trash_delete?trashno=${trashVO.trashno}|}">삭제</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
     <a href="javascript:location.reload();">새로고침</a>
   </aside>
   <br>
@@ -41,8 +41,7 @@
        <label>유의할 점</label>
        <textarea name='tip' required="required" class="form-control" rows="7" th:text='${trashVO.tip}' style='width: 100%;'></textarea>
     </div>  
-      
-
+    
     <div class="content_body_bottom">
       <button type="submit" class="btn btn-secondary btn-sm">저장</button>
       <button type="button" th:attr="onclick=|location.href='./trash_list_all'|" class="btn btn-secondary btn-sm">목록</button>

@@ -1,4 +1,4 @@
-package dev.mvc.nephron;
+package dev.mvc.trash;
 
 import java.util.ArrayList;
 
@@ -8,17 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-@RequestMapping(value="/nephronmap")
+@RequestMapping(value="/trash_linked")
 @RestController
-public class NephronapiCont {
+public class TrashLinkedSearchCont {
   @Autowired
-  @Qualifier("dev.mvc.nephron.NephronProc")
-  private NephronProcInter nephronProc;
+  @Qualifier("dev.mvc.trash.TrashProc")
+  private TrashProcInter trashProc;
   
-  @GetMapping(value="/nephron_list_all")
-  public ArrayList<NephronVO> nephron_list_all() {
-    return nephronProc.nephron_list_all();
+  @GetMapping(value="/trash_list_search")
+  public ArrayList<TrashVO> trash_list_search(String word){
+    return this.trashProc.trash_list_search(word);
   }
-  
 }
