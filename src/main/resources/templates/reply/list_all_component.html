@@ -1,0 +1,57 @@
+<div th:fragment="list_all_fragment"> <!-- <div th:replace=... -->
+    <!-- 댓글 조회 영역 -->
+    <div th:each="replyVO, status:${list}" class="community_comment_board">      
+      <div class="community_comment_contents" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+        <!-- 댓글 작성자 -->  <!-- 댓글 작성일자 -->
+        <div style="display: flex; padding: 10px; align-items: center;">
+          <!-- anotherList의 요소 접근 -->
+          <div th:if="${status.index} < ${m_list.size()}">
+              <span style="font-weight: 600;" th:text="${m_list[status.index].nickname}">Another Property</span>
+          </div>      
+          <div style="margin-right: 10px; "></div>
+          <span style="color: rgb(192, 192, 192); font-size: 12px;" th:text="${#strings.substring(replyVO.rdate, 0, 16)}">
+        </div>
+        <div th:if="${replyVO.memberno == memberno}" style="display: flex; align-items: center;">
+          <!-- 수정 아이콘 : 멤버가 일치할 때 표시 -->
+          <a class="icon-link" th:href="@{|/reply/update?communityno=${communityVO.communityno}&replyno=${replyVO.replyno}|}" title="수정">
+            <img src="/images/update.png" alt="Edit">
+          </a>
+          <!-- 삭제 아이콘 : 멤버가 일치할 때 표시 -->
+          <a class="icon-link" th:href="@{|/reply/delete?communityno=${communityVO.communityno}&replyno=${replyVO.replyno}|}" title="수정">
+            <img src="/images/delete.png" alt="Delete">
+          </a>
+        </div>
+       
+      </div>
+      
+      <!-- 댓글 내용 -->
+      <div style="padding: 10px;" th:text="${replyVO.contents}">댓글 내용</div>
+      
+      <!-- 댓글 업로드 사진 -->
+      <div th:if="${replyVO.photo.endsWith('jpg') or replyVO.photo.endsWith('png')  or replyVO.photo.endsWith('gif')}">
+          <img th:src="@{|/replys/storage/${replyVO.thumb1}|}" style="width: 120px; height: 90px;">
+      </div>
+      
+      <div th:if="${((replyVO.photo.endsWith('jpg') or replyVO.photo.endsWith('png')  or replyVO.photo.endsWith('gif')) == false) and (replyVO.filesize> 0)}">
+        <span th:text="${replyVO.photo}"></span>
+      </div>
+    
+      <div th:if="${replyVO.filesize == 0}">
+        <img src="/images/none.png" style="width: 120px; height: 90px;">
+      </div>
+      
+      <!-- 댓글 신고, 댓글 좋아요 -->
+      <div class="community_like_board">
+          <div>
+            <button type="button" class="btn btn-outline-danger btn-sm"
+                th:attr="onclick=|location.href='/report_reply/create?communityno=${communityVO.communityno}&replyno=${replyVO.replyno}'|">신고</button>
+          </div>
+          <a th:href="@{|/reply/update_increase_cnt_like?communityno=${communityVO.communityno}&replyno=${replyVO.replyno}|}">
+              <img  src="/images/like_unable.png" alt="Like">
+              <span th:text="${replyVO.likecnt}">좋아요</span>
+          </a>
+          
+      </div>
+      
+    </div>
+</div>

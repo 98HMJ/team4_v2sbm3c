@@ -33,6 +33,7 @@ public class ReplyVO {
   /** 댓글 작성일 */
   private String rdate;
   
+  /** 좋아요 수*/
   private int likecnt;
   
   /** 사진 업로드 관련 */

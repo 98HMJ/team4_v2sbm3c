@@ -232,10 +232,14 @@ public class ReplyCont {
     
   }
   
+
   /**
-   * 파일 삭제 폼
-   * http://localhost:9091/contents/delete?contentsno=1
-   * 
+   * 삭제 폼
+   * http://localhost:9093/reply/delete?replyno=1
+   * @param model
+   * @param replyVO
+   * @param communityno
+   * @param replyno
    * @return
    */
   @GetMapping(value = "/delete")
@@ -251,10 +255,16 @@ public class ReplyCont {
     return "reply/delete";
   }
   
- // 3. 삭제 제작
+
   /**
-   * 삭제 처리 http://localhost:9091/contents/delete
-   * 
+   * 삭제 처리
+   * http://localhost:9093/reply/delete?replyno=1
+   * @param ra
+   * @param session
+   * @param model
+   * @param replyVO
+   * @param communityno
+   * @param replyno
    * @return
    */
   @PostMapping(value = "/delete")
@@ -296,10 +306,10 @@ public class ReplyCont {
   
   @GetMapping(value = "/update_increase_cnt_like")
   public String update_increase_cnt_like(Model model, 
-                                                  ReplyVO replyVO,
-                                                  int communityno,
-                                                  @RequestParam(name="replyno", defaultValue = "1") int replyno
-        ) {
+                                          ReplyVO replyVO,
+                                          int communityno,
+                                          @RequestParam(name="replyno", defaultValue = "1") int replyno
+  ) {
     
     int cnt =  this.replyProc.update_increase_cnt_like(replyno);
     System.out.println("-> cnt: "+ cnt);
