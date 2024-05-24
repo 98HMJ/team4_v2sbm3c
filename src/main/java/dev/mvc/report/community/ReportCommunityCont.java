@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import dev.mvc.admin.AdminProcInter;
 import dev.mvc.member.MemberProcInter;
 import dev.mvc.member.MemberVO;
+import dev.mvc.report.reply.ReportReplyVO;
 import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/report_community")
@@ -133,29 +134,30 @@ public class ReportCommunityCont {
   }
   
   /**
-   * 신고내용 조회
+   * 신고 내역 조회
    * @param session
    * @param model
-   * @param singono
+   * @param reportno
    * @return
    */
   @GetMapping("/read")
-  public String read(HttpSession session, Model model, int reportno) {
-    ReportCommunityVO reportCommunityVO = this.reportCommunityProc.read(reportno);
+  public String list(HttpSession session, 
+                      Model model,
+                      int reportno) {
 
-    // 관리자 권한이거나 자신이 신고한 내용이면 조회 가능
-    if(session.getAttribute("adminno")!=null || (int)session.getAttribute("memberno")==reportCommunityVO.getMemberno()){
-      model.addAttribute("reportCommunityVO", reportCommunityVO);
-      model.addAttribute("reportno", reportno);
+    if (this.adminProc.isAdmin(session)) {
+      
+      
+      ReportCommunityVO recCommunityVO = this.reportCommunityProc.read(reportno);
+      model.addAttribute(recCommunityVO);
       
       return "report_community/read";
-      
-    } else{
-      model.addAttribute("code", "permission_error");
+
+    } else {
+      model.addAttribute("code", "no_admin");
       return "report_community/msg";
-    
     }
+
   }
-  
   
 }

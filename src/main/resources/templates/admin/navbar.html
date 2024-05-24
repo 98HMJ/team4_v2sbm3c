@@ -27,7 +27,11 @@
           </div>
           <div th:if="${session.admin != null}"
             style="margin-right: 10px;">
-            <a th:href="@{|/report_community/list_admin|}">신고 목록</a>
+            <a th:href="@{|/report_community/list_admin|}">신고 목록-커뮤니티</a>
+          </div>
+          <div th:if="${session.admin != null}"
+            style="margin-right: 10px;">
+            <a th:href="@{|/report_reply/list_admin|}">신고 목록-댓글</a>
           </div>
           <div th:if="${session.admin != null}"
           style="margin-right: 10px;">

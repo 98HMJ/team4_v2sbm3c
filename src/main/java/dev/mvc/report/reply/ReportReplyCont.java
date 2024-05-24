@@ -1,5 +1,8 @@
 package dev.mvc.report.reply;
 
+import java.util.ArrayList;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mvc.admin.AdminProcInter;
 import dev.mvc.member.MemberProcInter;
-import dev.mvc.report.community.ReportCommunityVO;
+import dev.mvc.member.MemberVO;
 import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/report_reply")
@@ -59,7 +62,7 @@ public class ReportReplyCont {
     
   }
   
-// http://localhost:9093/report_reply/create
+  // http://localhost:9093/report_reply/create
  /**
   * 신고 처리
   * @param ra
@@ -95,4 +98,69 @@ public class ReportReplyCont {
    
    return "redirect:/community/read?communityno=" + communityno;
  }
+ 
+ /**
+  * 신고 내용 전체 조회(관리자용)
+  * @param session
+  * @param model
+  * @return
+  */
+ @GetMapping("/list_admin")
+ public String list(HttpSession session, 
+                       Model model, 
+                       ReportReplyVO reportReplyVO) {
+   
+   if(this.adminProc.isAdmin(session)) {
+     ArrayList<ReportReplyVO> list = this.reportReplyProc.list_all();
+     model.addAttribute("list", list);
+     for(ReportReplyVO item : list) {
+       System.out.println("-> reportno: " + item.reportno);
+       
+     }
+     
+     ArrayList<MemberVO> m_list = new ArrayList<MemberVO>();
+     for (ReportReplyVO item : list) {
+       MemberVO memberVO = this.memberProc.read(item.getMemberno());
+       m_list.add(memberVO);
+     }
+     
+     model.addAttribute("m_list", m_list);
+     
+     return "report_reply/list_admin";
+     
+   }else {
+     model.addAttribute("code", "no_admin");
+     return "report_reply/msg";
+   }
+   
+ }
+ 
+ /**
+  * 신고 내역 조회
+  * @param session
+  * @param model
+  * @param reportno
+  * @return
+  */
+ @GetMapping("/read")
+ public String list(HttpSession session, 
+                     Model model,
+                     int reportno) {
+
+   if (this.adminProc.isAdmin(session)) {
+     
+     
+     ReportReplyVO reportReplyVO = this.reportReplyProc.read(reportno);
+     model.addAttribute(reportReplyVO);
+     
+     return "report_reply/read";
+
+   } else {
+     model.addAttribute("code", "no_admin");
+     return "report_reply/msg";
+   }
+
+ }
+ 
+ 
 }

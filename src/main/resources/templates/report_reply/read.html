@@ -2,12 +2,12 @@
 
 <html layout:decorate="~{layout}"> <!-- layout.html 상속-->
 <div layout:fragment="content">
-  <h2 class="title_line">신고내용-커뮤니티</h2>
+  <h2 class="title_line">신고내용-댓글 목록</h2>
   <div class ="container mt-3"> <!-- margin top 16px-->
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"> 신고 번호:<span th:text="${reportCommunityVO.reportno}"> </span></li>
-        <li class="list-group-item"> 신고 내용:<span th:text="${reportCommunityVO.contents}"> </span></li>
-        <li class="list-group-item"> 등록일:<span th:text="${reportCommunityVO.rdate.substring(0, 16)}"> </span></li>
+        <li class="list-group-item"> 신고 번호:<span th:text="${reportReplyVO.reportno}"> </span></li>
+        <li class="list-group-item"> 신고 내용:<span th:text="${reportReplyVO.contents}"> </span></li>
+        <li class="list-group-item"> 등록일:<span th:text="${reportReplyVO.rdate.substring(0, 16)}"> </span></li>
     </ul>
   </div>
   <div>

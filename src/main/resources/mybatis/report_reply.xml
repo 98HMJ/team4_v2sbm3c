@@ -11,14 +11,14 @@
     
     <!-- 목록: 신고 글 전체 조회 -->
     <select id="list_all" resultType="dev.mvc.report.reply.ReportReplyVO">
-      SELECT reportno, contents, rdate, communityno, memberno
+      SELECT reportno, contents, rdate, replyno, memberno
       FROM REPORT_REPLY
       ORDER BY rdate DESC
     </select>
     
     <!-- 조회: 신고 글 조회 -->
     <select id="read" parameterType="int" resultType="dev.mvc.report.reply.ReportReplyVO">
-      SELECT reportno, contents, rdate, communityno, memberno
+      SELECT reportno, contents, rdate, replyno, memberno
       FROM REPORT_REPLY
       WHERE reportno = #{reportno}
     </select>
