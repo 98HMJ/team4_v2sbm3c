@@ -148,26 +148,32 @@ public class MemberCont {
             memberlogVO.setMemberno(memberVO.getMemberno());
             memberlogVO.setIp(request.getRemoteAddr());
             int log_cnt = this.memberlogProc.create(memberlogVO);
-            if (change == 1) {
-                return "member/changepassword";
-            } else {
-                if (log_cnt == 1) {
+            if (log_cnt == 1) {
+                if (change == 1) {
+                    return "member/changepassword";
+                } else {
                     if (prev_url != null && !prev_url.isEmpty()) {
                         return "redirect:" + prev_url;
                     } else {
                         return "redirect:/community/main";
                     }
-                } else {
-                    model.addAttribute("code", "memberlog_fail");
-                    model.addAttribute("cnt", log_cnt);
-                    return "member/msg";
                 }
+            } else {
+                model.addAttribute("code", "memberlog_fail");
+                model.addAttribute("cnt", log_cnt);
+                return "member/msg";
             }
         } else {
             model.addAttribute("code", "login_fail");
             model.addAttribute("cnt", cnt);
             return "member/msg";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // 모든 세션 변수 삭제
+        return "redirect:/";
     }
 
     @GetMapping("/signup")
@@ -202,9 +208,13 @@ public class MemberCont {
 
     @GetMapping("update")
     public String update(HttpSession session, Model model) {
-        MemberVO memberVO = this.memberProc.read((int) session.getAttribute("memberno"));
-        model.addAttribute("memberVO", memberVO);
-        return "member/update";
+        if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
+            MemberVO memberVO = this.memberProc.read((int) session.getAttribute("memberno"));
+            model.addAttribute("memberVO", memberVO);
+            return "member/update";
+        } else {
+            return "redirect:/member/login";
+        }
     }
 
     @PostMapping("update")
@@ -303,10 +313,7 @@ public class MemberCont {
         int cnt = this.memberProc.changepassword(map);
         model.addAttribute("cnt", cnt);
         if (cnt == 1) {
-            session.setAttribute("memberno", memberVO.getMemberno());
-            session.setAttribute("id", memberVO.getId());
             session.setAttribute("password", memberVO.getPassword());
-            session.setAttribute("nickname", memberVO.getNickname());
             model.addAttribute("code", "chagepassword_success");
         } else {
             model.addAttribute("code", "chagepasswordfail");

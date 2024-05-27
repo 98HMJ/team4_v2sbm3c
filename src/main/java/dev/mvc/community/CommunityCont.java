@@ -93,12 +93,12 @@ public class CommunityCont {
 
     @GetMapping("/create")
     public String create(HttpSession session, Model model) {
-        if (session.getAttribute("id") != null) {
+        if (session.getAttribute("id") != null || session.getAttribute("adminno")!=null) {
             ArrayList<CommunityCateVO> list = this.communityCateProc.list();
             model.addAttribute("list", list);
             return "redircet:/community/create";
         } else {
-            return "member/login";
+            return "redirect:/member/login";
         }
     }
 
@@ -159,10 +159,14 @@ public class CommunityCont {
     }
 
     @GetMapping("update")
-    public String update(int communityno, Model model) {
-        CommunityVO communityVO = this.communityProc.read(communityno);
-        model.addAttribute("communityVO", communityVO);
-        return "community/update";
+    public String update(int communityno, Model model, HttpSession session) {
+        if (session.getAttribute("id")!=null || session.getAttribute("adminno")!=null) {
+            CommunityVO communityVO = this.communityProc.read(communityno);
+            model.addAttribute("communityVO", communityVO);
+            return "community/update";
+        } else{
+            return "redirect:/member/login";
+        }
     }
 
     @PostMapping("update")
@@ -222,7 +226,7 @@ public class CommunityCont {
     @GetMapping("delete")
     public String delete(HttpSession session, int communityno, Model model) {
         CommunityVO communityVO = this.communityProc.read(communityno);
-        if (session.getAttribute("id") != null) {
+        if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
             if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
                 int cnt = this.communityProc.delete(communityno);
                 if (cnt == 1) {
@@ -238,7 +242,7 @@ public class CommunityCont {
             }
             return "community/msg";
         } else {
-            return "member/login";
+            return "redirect:/member/login";
         }
     }
 
