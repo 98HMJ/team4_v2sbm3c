@@ -54,6 +54,7 @@ public class MemberProc implements MemberProcInter  {
 
     @Override
     public int update(MemberVO memberVO) {
+        memberVO.setPassword(security.aesEncode(memberVO.getPassword()));
         return this.memberDAO.update(memberVO);
     }
 

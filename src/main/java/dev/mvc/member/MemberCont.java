@@ -43,7 +43,9 @@ public class MemberCont {
     private Mail mail;
 
     @GetMapping("/login")
-    public String login(Model model, HttpServletRequest request) {
+    public String login(Model model, HttpServletRequest request,
+            @RequestParam(name = "change", defaultValue = "0") int change) {
+
         // return "member/login";
         Cookie[] cookies = request.getCookies();
         Cookie cookie = null;
@@ -73,6 +75,7 @@ public class MemberCont {
         model.addAttribute("ck_id_save", ck_id_save);
         model.addAttribute("ck_password", ck_password);
         model.addAttribute("ck_password_save", ck_password_save);
+        model.addAttribute("change", change);
 
         return "member/login"; // 쿠키 사용 로그인 관련
     }
@@ -82,6 +85,7 @@ public class MemberCont {
             Model model,
             String id,
             String password,
+            int change,
             @RequestParam(value = "id_save", defaultValue = "") String id_save,
             @RequestParam(value = "password_save", defaultValue = "") String password_save,
             @RequestParam(value = "prev_url", required = false) String prev_url) {
@@ -144,21 +148,25 @@ public class MemberCont {
             memberlogVO.setMemberno(memberVO.getMemberno());
             memberlogVO.setIp(request.getRemoteAddr());
             int log_cnt = this.memberlogProc.create(memberlogVO);
-            if (log_cnt == 1) {
-                if (prev_url != null && !prev_url.isEmpty()) {
-                    return "redirect:" + prev_url;
+            if(change==1){
+                return "member/changepassword";
+            } else{
+                if (log_cnt == 1) {
+                    if (prev_url != null && !prev_url.isEmpty()) {
+                        return "redirect:" + prev_url;
+                    } else {
+                        return "redirect:/community/main";
+                    }
                 } else {
-                    return "redirect:/community/main";
+                    model.addAttribute("code", "memberlog_fail");
+                    model.addAttribute("cnt", log_cnt);
+                    return "member/msg";
                 }
-            } else {
-                model.addAttribute("code", "memberlog_fail");
-                model.addAttribute("cnt", log_cnt);
-                return "member/msg";
             }
         } else {
             model.addAttribute("code", "login_fail");
             model.addAttribute("cnt", cnt);
-            return "msg";
+            return "member/msg";
         }
     }
 
@@ -192,6 +200,25 @@ public class MemberCont {
         return obj.toString();
     }
 
+    @GetMapping("update")
+    public String update(HttpSession session, Model model) {
+        MemberVO memberVO = this.memberProc.read((int) session.getAttribute("memberno"));
+        model.addAttribute("memberVO", memberVO);
+        return "member/update";
+    }
+
+    @PostMapping("update")
+    public String update(MemberVO memberVO, Model model) {
+        int cnt = this.memberProc.update(memberVO);
+        model.addAttribute("cnt", cnt);
+        if (cnt == 1) {
+            model.addAttribute("code", "update_success");
+        } else {
+            model.addAttribute("code", "update_fail");
+        }
+        return "member/msg";
+    }
+
     @GetMapping("/findid")
     public String findid() {
         return "member/findid";
@@ -207,10 +234,10 @@ public class MemberCont {
             MemberVO memberVO = this.memberProc.findid(map);
             model.addAttribute("memberVO", memberVO);
             model.addAttribute("code", "findid");
-            cnt=1;
+            cnt = 1;
         } catch (Exception e) {
             model.addAttribute("code", "findidfail");
-            cnt=0;
+            cnt = 0;
         }
         model.addAttribute("cnt", cnt);
         return "member/msg";
@@ -253,7 +280,7 @@ public class MemberCont {
             if (cnt != 1) {
                 model.addAttribute("code", "findpasswordwrong");
                 model.addAttribute("cnt", cnt);
-            } else{
+            } else {
                 model.addAttribute("code", "findpasswordsuccess");
                 model.addAttribute("cnt", 2);
             }
@@ -266,50 +293,21 @@ public class MemberCont {
         }
     }
 
-    @GetMapping("again_login")
-    public String again_login() {
-        return "member/again_login";
-    }
-    
-
-    @PostMapping("again_login")
-    public String again_login(HttpSession session, String id, String password, Model model) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        map.put("password", password);
-
-        int cnt = this.memberProc.login(map);
-        if (cnt == 1) {
-            MemberVO memberVO = this.memberProc.readByid(id);
-            model.addAttribute("id", id);
-            model.addAttribute("memberno", memberVO.getMemberno());
-
-            session.setAttribute("id", memberVO.getId());
-            session.setAttribute("memberno", memberVO.getMemberno());
-            session.setAttribute("nickname", memberVO.getNickname());
-            return "member/chagepassword";
-        } else {
-            model.addAttribute("code", "again_loginfail");
-            model.addAttribute("cnt", cnt);
-            return "member/msg";
-        }
-    }
-
     @PostMapping("/changepassword")
     public String changepassword(HttpSession session, String password, Model model) {
-        MemberVO memberVO = this.memberProc.read((int)session.getAttribute("memberno"));
+        MemberVO memberVO = this.memberProc.read((int) session.getAttribute("memberno"));
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("memberno", memberVO.getMemberno());
         map.put("password", password);
 
         int cnt = this.memberProc.changepassword(map);
+        model.addAttribute("cnt", cnt);
         if (cnt == 1) {
             session.setAttribute("password", memberVO.getPassword());
-            return "redirect:/";
+            model.addAttribute("code", "chagepassword_success");
         } else {
             model.addAttribute("code", "chagepasswordfail");
-            model.addAttribute("cnt", cnt);
         }
         return "member/msg";
     }

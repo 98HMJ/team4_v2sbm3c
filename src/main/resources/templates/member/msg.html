@@ -48,8 +48,20 @@
             <span class="span_fail">패스워드 변경을 실패했습니다.</span><br>
           </div>
 
+          <div th:case="chagepassword_success">
+            <span class="span_success">패스워드를 수정했습니다.</span><br>
+          </div>
+
           <div th:case="findpasswordsuccess">
             <span class="span_success" th:text="${email}"></span><span>로 임시 패스워드를 전송했습니다.</span><br>
+          </div>
+
+          <div th:case="update_success">
+            <span class="span_success">회원 정보를 수정했습니다.</span><br>
+          </div>
+
+          <div th:case="update_fail">
+            <span class="span_fail">회원 정보 수정을 실패했습니다.</span><br>
           </div>
 
         </ul>
@@ -62,7 +74,7 @@
             <button type="button" onclick="location.href='/community/main'" class="btn btn-secondary btn-sm">확인</button>
           </div>
           <div th:if="${cnt == 2}">
-            <button type="button" onclick="location.href='/member/again_login'" class="btn btn-secondary btn-sm">로그인</button>
+            <button type="button" onclick="location.href='/member/login?change=1'" class="btn btn-secondary btn-sm">로그인</button>
           </div>
         </ul>
     </fieldset>

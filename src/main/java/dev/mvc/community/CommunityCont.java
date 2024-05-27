@@ -21,7 +21,6 @@ import dev.mvc.tool.Upload;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 @RequestMapping("/community")
 @Controller
 public class CommunityCont {
@@ -36,7 +35,7 @@ public class CommunityCont {
     @Autowired
     @Qualifier("dev.mvc.communitycate.CommunityCateProc")
     private CommunityCateProcInter communityCateProc;
-    
+
     @Autowired
     @Qualifier("dev.mvc.member.MemberProc")
     private MemberProcInter memberProc;
@@ -64,37 +63,37 @@ public class CommunityCont {
                 return "community/msg";
             }
 
-        ArrayList<ReplyVO> list = this.replyProc.list_by_community(communityno);
-        model.addAttribute("list", list);
+            ArrayList<ReplyVO> list = this.replyProc.list_by_community(communityno);
+            model.addAttribute("list", list);
 
-        ArrayList<MemberVO> m_list = new ArrayList<MemberVO>();
-        for (ReplyVO item : list) {
-          MemberVO memberVO = this.memberProc.read(item.getMemberno());
-          m_list.add(memberVO);
-        }
-        model.addAttribute("m_list", m_list);
+            ArrayList<MemberVO> m_list = new ArrayList<MemberVO>();
+            for (ReplyVO item : list) {
+                MemberVO memberVO = this.memberProc.read(item.getMemberno());
+                m_list.add(memberVO);
+            }
+            model.addAttribute("m_list", m_list);
 
-        int reply_cnt = this.replyProc.count_by_communityno(communityno);
-        model.addAttribute("reply_cnt", reply_cnt);
-        
+            int reply_cnt = this.replyProc.count_by_communityno(communityno);
+            model.addAttribute("reply_cnt", reply_cnt);
+
             int memberno = (int) session.getAttribute("memberno");
             model.addAttribute("memberno", memberno);
 
-        CommunityVO communityVO = this.communityProc.read(communityno);
-        if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
-          model.addAttribute("bool", true);
-            model.addAttribute("communityVO", communityVO);
-            return "community/read";
+            CommunityVO communityVO = this.communityProc.read(communityno);
+            if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
+                model.addAttribute("bool", true);
+                model.addAttribute("communityVO", communityVO);
+                return "community/read";
+            } else {
+                return "member/login";
+            }
+
+            // model.addAttribute("communityVO", communityVO);
+            // return "community/read";
         } else {
+            model.addAttribute("code", "no_login");
             return "member/login";
         }
-
-//        model.addAttribute("communityVO", communityVO);
-//        return "community/read";
-      } else {
-        model.addAttribute("code", "no_login");
-        return "member/login";
-      }
     }
 
     @GetMapping("/create")
@@ -165,12 +164,11 @@ public class CommunityCont {
     }
 
     @GetMapping("update")
-    public String update(int communityno,Model model) {
+    public String update(int communityno, Model model) {
         CommunityVO communityVO = this.communityProc.read(communityno);
         model.addAttribute("communityVO", communityVO);
         return "community/update";
     }
-    
 
     @PostMapping("update")
     public String update(CommunityVO communityVO, Model model) {
@@ -263,7 +261,7 @@ public class CommunityCont {
         if (cnt == 1) {
             return "redirect:/community/read?communityno=" + communityno;
         } else {
-            model.addAttribute("cnt",cnt);
+            model.addAttribute("cnt", cnt);
             model.addAttribute("code", "update_likes_error");
             return "community/msg";
         }

@@ -46,9 +46,9 @@
   </select>
 
   <!--회원 정보 수정-->
-  <update id="update" parameterType="int">
+  <update id="update" parameterType="dev.mvc.member.MemberVO">
     UPDATE member 
-    SET password=#{password}, ninckname=#{ninckname}, tel=#{tel}, address1=#{address1}, address2=#{address2}, email=#{email}
+    SET password=#{password}, tel=#{tel}, address1=#{address1}, address2=#{address2}, email=#{email}
     WHERE memberno=#{memberno}
   </update>
 
