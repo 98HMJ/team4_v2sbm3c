@@ -21,11 +21,8 @@ public class Security {
   private String iv;
   private Key keySpec;
 
-  private final MyAppProperties myAppProperties;
-
   // 키 생성
-  public Security(MyAppProperties myAppProperties1) {
-    this.myAppProperties = myAppProperties1;
+  public Security(MyAppProperties myAppProperties) {
     try {
       // String key = "soldeskAES256KEY"; // key는 16자, 123 -> spyryuhFvhnnv6cD2ROB8g==
       String key = myAppProperties.getCode(); // key는 16자, 123 -> KUxUbf+4VrlpsFZ3tSAKdw==

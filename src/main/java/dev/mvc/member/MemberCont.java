@@ -178,7 +178,7 @@ public class MemberCont {
         }
         model.addAttribute("cnt", cnt);
 
-        return "msg";
+        return "member/msg";
     }
 
     @PostMapping("/checkid")
@@ -234,13 +234,6 @@ public class MemberCont {
 
             String key = this.security.aesEncode(memberVO.getPassword());
 
-            int cnt = this.memberProc.changepassword(map);
-            if (cnt != 1) {
-                model.addAttribute("code", "findpasswordwrong");
-                model.addAttribute("cnt", cnt);
-                return "member/msg";
-            }
-
             String content;
             content = """
                     <div style="text-align: center;">
@@ -255,6 +248,13 @@ public class MemberCont {
 
             mail.send(memberVO.getEmail(), "mjhon1998@gmail.com", "패스워드 변경 안내", content);
             model.addAttribute("email", memberVO.getEmail());
+            map.put("password", key);
+            int cnt = this.memberProc.changepassword(map);
+            if (cnt != 1) {
+                model.addAttribute("code", "findpasswordwrong");
+                model.addAttribute("cnt", cnt);
+                return "member/msg";
+            }
         } catch (Exception e) {
             model.addAttribute("code", "findpasswordfail");
             model.addAttribute("cnt", 0);

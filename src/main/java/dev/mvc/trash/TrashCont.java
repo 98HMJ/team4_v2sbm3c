@@ -15,17 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mvc.admin.AdminProcInter;
-import dev.mvc.community.Community;
-import dev.mvc.trash.Trash;
-import dev.mvc.trash.TrashVO;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 import dev.mvc.trashcate.TrashcateProcInter;
 import dev.mvc.trashcate.TrashcateVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
-import oracle.jdbc.proxy.annotation.Post;
+
 
 @RequestMapping(value = "/trash")
 @Controller

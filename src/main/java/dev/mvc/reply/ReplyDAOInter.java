@@ -1,7 +1,6 @@
 package dev.mvc.reply;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public interface ReplyDAOInter {
   

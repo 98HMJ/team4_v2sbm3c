@@ -10,15 +10,13 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Mail {
-    private final MyAppProperties myAppProperties;
-
-    public Mail(MyAppProperties myAppProperties) {
-        this.myAppProperties = myAppProperties;
-    }
+    @Autowired
+    private MyAppProperties myAppProperties;
 
     /**
      * 메일 전송

@@ -18,11 +18,8 @@ public class NephronCont {
   @Qualifier("dev.mvc.nephron.NephronProc")
   private NephronProcInter nephronProc;
 
-  private final MyAppProperties myAppProperties;
-
-  public NephronCont(MyAppProperties myAppProperties) {
-    this.myAppProperties = myAppProperties;
-  }
+  @Autowired
+  private MyAppProperties myAppProperties;
 
   @GetMapping(value = "/nephron_list_all")
   public ArrayList<NephronVO> nephron_list_all(Model model) {
