@@ -53,9 +53,7 @@ public class CommunityCont {
 
     @GetMapping("/read")
     public String read(HttpSession session, int communityno, Model model) {
-
-        if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
-
+        if (session.getAttribute("id")!=null || session.getAttribute("adminno")!=null) {
             int cnt = this.communityProc.update_cnt(communityno);
             if (cnt != 1) {
                 model.addAttribute("code", "update_cnt_fail");
@@ -82,17 +80,14 @@ public class CommunityCont {
             CommunityVO communityVO = this.communityProc.read(communityno);
             if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
                 model.addAttribute("bool", true);
-                model.addAttribute("communityVO", communityVO);
-                return "community/read";
             } else {
-                return "member/login";
+                model.addAttribute("bool", false);
             }
-
-            // model.addAttribute("communityVO", communityVO);
-            // return "community/read";
+            model.addAttribute("communityVO", communityVO);
+            return "community/read";
         } else {
             model.addAttribute("code", "no_login");
-            return "member/login";
+            return "redirect:/member/login";
         }
     }
 

@@ -57,7 +57,12 @@
     </script>
     <form th:object="${memberVO}" id="frm" name="frm" method="post" action="/member/login">
         <input type="hidden" id="prev_url" name="prev_url" th:value="${prev_url}">
-        <input type="hidden" name="change" th:value="${change}">
+        <div th:if="${change==null}">
+            <input type="hidden" name="change" value=0>
+        </div>
+        <div th:if="${change!=null}">
+            <input type="hidden" name="change" th:value="${change}">
+        </div>
         <div>
             <div>
                 <label>아이디*</label>

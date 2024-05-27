@@ -148,9 +148,9 @@ public class MemberCont {
             memberlogVO.setMemberno(memberVO.getMemberno());
             memberlogVO.setIp(request.getRemoteAddr());
             int log_cnt = this.memberlogProc.create(memberlogVO);
-            if(change==1){
+            if (change == 1) {
                 return "member/changepassword";
-            } else{
+            } else {
                 if (log_cnt == 1) {
                     if (prev_url != null && !prev_url.isEmpty()) {
                         return "redirect:" + prev_url;
@@ -286,7 +286,6 @@ public class MemberCont {
             }
             return "member/msg";
         } catch (Exception e) {
-            System.out.println(e);
             model.addAttribute("code", "findpasswordfail");
             model.addAttribute("cnt", 0);
             return "member/msg";
@@ -304,7 +303,10 @@ public class MemberCont {
         int cnt = this.memberProc.changepassword(map);
         model.addAttribute("cnt", cnt);
         if (cnt == 1) {
+            session.setAttribute("memberno", memberVO.getMemberno());
+            session.setAttribute("id", memberVO.getId());
             session.setAttribute("password", memberVO.getPassword());
+            session.setAttribute("nickname", memberVO.getNickname());
             model.addAttribute("code", "chagepassword_success");
         } else {
             model.addAttribute("code", "chagepasswordfail");
