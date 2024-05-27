@@ -33,11 +33,11 @@
           </div>
           
           <div th:case="findpasswordwrong">
-            <span class="signupfail">아이디와 회원 이름이 일치하지 않습니다.</span><br>
+            <span class="span_fail">아이디와 회원 이름이 일치하지 않습니다.</span><br>
           </div>
 
           <div th:case="findpasswordfail">
-            <span class="signupfail">패스워드를 찾는데 문제가 발생했습니다.</span><br>
+            <span class="span_fail">패스워드를 찾는데 문제가 발생했습니다.</span><br>
           </div>
 
           <div th:case="again_loginfail">
@@ -45,7 +45,11 @@
           </div>
 
           <div th:case="chagepasswordfail">
-            <span class="signupfail">패스워드 변경을 실패했습니다.</span><br>
+            <span class="span_fail">패스워드 변경을 실패했습니다.</span><br>
+          </div>
+
+          <div th:case="findpasswordsuccess">
+            <span class="span_success" th:text="${email}"></span><span>로 임시 패스워드를 전송했습니다.</span><br>
           </div>
 
         </ul>
@@ -54,8 +58,11 @@
           <div th:if="${cnt == 0}">
             <button type="button" onclick="history.back()" class="btn btn-secondary btn-sm">다시 시도</button>
           </div>
-          <div th:if="${cnt != 0}">
+          <div th:if="${cnt == 1}">
             <button type="button" onclick="location.href='/community/main'" class="btn btn-secondary btn-sm">확인</button>
+          </div>
+          <div th:if="${cnt == 2}">
+            <button type="button" onclick="location.href='/member/again_login'" class="btn btn-secondary btn-sm">로그인</button>
           </div>
         </ul>
     </fieldset>

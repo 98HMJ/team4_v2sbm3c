@@ -229,9 +229,6 @@ public class MemberCont {
 
         try {
             MemberVO memberVO = this.memberProc.findpassword(map);
-            map.put("memberno", memberVO.getMemberno());
-            map.put("password", memberVO.getPassword());
-
             String key = this.security.aesEncode(memberVO.getPassword());
 
             String content;
@@ -248,31 +245,48 @@ public class MemberCont {
 
             mail.send(memberVO.getEmail(), "mjhon1998@gmail.com", "패스워드 변경 안내", content);
             model.addAttribute("email", memberVO.getEmail());
+
+            map.put("memberno", memberVO.getMemberno());
             map.put("password", key);
+
             int cnt = this.memberProc.changepassword(map);
             if (cnt != 1) {
                 model.addAttribute("code", "findpasswordwrong");
                 model.addAttribute("cnt", cnt);
-                return "member/msg";
+            } else{
+                model.addAttribute("code", "findpasswordsuccess");
+                model.addAttribute("cnt", 2);
             }
+            return "member/msg";
         } catch (Exception e) {
+            System.out.println(e);
             model.addAttribute("code", "findpasswordfail");
             model.addAttribute("cnt", 0);
             return "member/msg";
         }
-
-        return "member/again_login";
     }
 
+    @GetMapping("again_login")
+    public String again_login() {
+        return "member/again_login";
+    }
+    
+
     @PostMapping("again_login")
-    public String again_login(String id, String password, Model model) {
+    public String again_login(HttpSession session, String id, String password, Model model) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", id);
         map.put("password", password);
 
         int cnt = this.memberProc.login(map);
         if (cnt == 1) {
+            MemberVO memberVO = this.memberProc.readByid(id);
             model.addAttribute("id", id);
+            model.addAttribute("memberno", memberVO.getMemberno());
+
+            session.setAttribute("id", memberVO.getId());
+            session.setAttribute("memberno", memberVO.getMemberno());
+            session.setAttribute("nickname", memberVO.getNickname());
             return "member/chagepassword";
         } else {
             model.addAttribute("code", "again_loginfail");
@@ -282,8 +296,8 @@ public class MemberCont {
     }
 
     @PostMapping("/changepassword")
-    public String changepassword(HttpSession session, String id, String password, Model model) {
-        MemberVO memberVO = this.memberProc.readByid(id);
+    public String changepassword(HttpSession session, String password, Model model) {
+        MemberVO memberVO = this.memberProc.read((int)session.getAttribute("memberno"));
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("memberno", memberVO.getMemberno());
@@ -291,11 +305,8 @@ public class MemberCont {
 
         int cnt = this.memberProc.changepassword(map);
         if (cnt == 1) {
-            session.setAttribute("memberno", memberVO.getMemberno());
-            session.setAttribute("id", memberVO.getId());
             session.setAttribute("password", memberVO.getPassword());
-            session.setAttribute("nickname", memberVO.getNickname());
-            return "main";
+            return "redirect:/";
         } else {
             model.addAttribute("code", "chagepasswordfail");
             model.addAttribute("cnt", cnt);

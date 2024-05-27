@@ -16,12 +16,6 @@
                     document.getElementById('passwd2').focus();
                 }
             });
-
-            // 이전 URL을 숨겨진 입력 필드에 설정합니다.
-            const referrer = document.referrer;
-            if (referrer && !referrer.includes('/login')) { // 로그인 페이지 자체가 아니어야 함
-                document.getElementById('prev_url').value = referrer;
-            }
         }
 
         function send() {
@@ -56,7 +50,6 @@
         }
     </script>
     <form th:object="${memberVO}" id="frm" name="frm" method="post" action="/member/again_login">
-        <input type="hidden" id="prev_url" name="prev_url" th:value="${prev_url}">
         <div>
             <div>
                 <label>아이디*</label>
@@ -83,7 +76,6 @@
 
         <div class="content_body_bottom">
             <button type="button" onclick="send();" class="btn btn-secondary btn-sm">로그인</button>
-            <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
         </div>
     </form>
 </div>
