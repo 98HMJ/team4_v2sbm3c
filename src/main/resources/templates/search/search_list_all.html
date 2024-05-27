@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+  <div class='title_line' style="font-size: 20px;">쓰레기 카테고리 목록</div>
+
+  <aside class="aside_right" style="float: right;">
+   <a th:href="@{|./search_delete|}">삭제</a> 
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a href="javascript:location.reload();">새로고침</a>
+  </aside>
+  <br>
+  <div class='menu_line'></div>
+  <table class="table table-hover">
+    <colgroup>
+      <col style='width: 20%;' />
+      <col style='width: 55%;' />
+      <col style='width: 25%;' />
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="th_bs">검색번호</th>
+        <th class="th_bs">검색어</th>
+        <th class="th_bs">등록일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="searchVO, status:${list}">
+        <td class="td_bs" style="text-align: center;" th:text="${searchVO.searchno}"></td>
+        <td class="td_bs" style="text-align: center;" th:text="${searchVO.search_word}"></td>
+        <td class="td_bs" th:text="${searchVO.rdate}"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

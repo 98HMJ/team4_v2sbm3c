@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+  <div class='title_line'>
+    <span th:text="${trashcateVO.name}" class="title_line_text"></span > 
+     쓰레기 카테고리 등록
+  </div> 
+  <div class='menu_line'></div>
+  
+  <form name='frm' method='post' th:object="${trashcateVO}" action='./create'>
+    <div>
+       <label>쓰레기 카테고리 이름:</label>
+       <input type='text' name='name' value='' required="required" 
+                 autofocus="autofocus" class="form-control" style='width: 50%;'>
+    </div> 
+    <div class="content_body_bottom" style="float: right; margin: 5px;">
+      <button type="submit" class="btn btn-secondary btn-sm">등록</button>
+      <button type="button" th:attr="onclick=|location.href='./trashcate_list_all'|" class="btn btn-secondary btn-sm">목록</button>
+    </div>
+  
+  </form>
+
+</div>
+
+
+  

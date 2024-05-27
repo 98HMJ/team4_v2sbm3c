@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mvc.admin.AdminProcInter;
+import dev.mvc.search.SearchProcInter;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 import dev.mvc.trashcate.TrashcateProcInter;
@@ -37,6 +38,10 @@ public class TrashCont {
   @Autowired
   @Qualifier("dev.mvc.trashcate.TrashcateProc")
   private TrashcateProcInter trashcateProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.search.SearchProc")
+  private SearchProcInter searchProc;
 
   public TrashCont() {
 
@@ -141,6 +146,10 @@ public class TrashCont {
 
     TrashcateVO trashcateVO = this.trashcateProc.trashcate_read(trashVO.getTrashcateno());
     model.addAttribute("trashcateVO", trashcateVO);
+    
+    String searh_word = trashVO.getName();
+    this.searchProc.search_create(searh_word);
+    model.addAttribute("searh_word", searh_word);
 
     return "trash/trash_read";
   }
@@ -241,8 +250,4 @@ public class TrashCont {
     return "redirect:/trash/trash_list_all";
   }
   
-  @GetMapping(value="/trash_searchtest")
-  public String search_test() {
-    return "search/searchtest";
-  }
 }

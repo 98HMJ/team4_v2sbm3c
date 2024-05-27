@@ -15,8 +15,8 @@ public class SearchProc implements SearchProcInter{
   }
 
   @Override
-  public int search_create(SearchVO searchVO) {
-    int cnt = this.searchDAO.search_create(searchVO);
+  public int search_create(String search_word) {
+    int cnt = this.searchDAO.search_create(search_word);
     return cnt;
   }
 
@@ -27,9 +27,27 @@ public class SearchProc implements SearchProcInter{
   }
 
   @Override
-  public int search_delete(int searchno) {
-    int cnt = this.searchDAO.search_delete(searchno);
+  public int search_delete(int weeks) {
+    int cnt = this.searchDAO.search_delete(weeks);
     return cnt;
+  }
+
+  @Override
+  public SearchVO search_read(int searhno) {
+    SearchVO searchVO = this.searchDAO.search_read(searhno);
+    return searchVO;
+  }
+
+  @Override
+  public int search_update(SearchVO searhVO) {
+    int cnt = this.searchDAO.search_update(searhVO);
+    return cnt;
+  }
+
+  @Override
+  public ArrayList<SearchVO> search_popular() {
+    ArrayList<SearchVO> list = this.searchDAO.search_popular();
+    return list;
   }
   
 

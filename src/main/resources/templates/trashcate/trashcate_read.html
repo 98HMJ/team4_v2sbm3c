@@ -1,0 +1,36 @@
+<!DOCTYPE html> 
+
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+
+
+<div layout:fragment="content">
+  
+  <aside class="aside_right" style="float: right;">
+    <a th:href="@{|./create|}" th:if="${session.admin == 'admin'}">등록</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a th:href="@{|./trashcate_update?trashcateno=${trashcateVO.trashcateno}|}" th:if="${session.admin == 'admin'}">수정</a>
+    <span class='menu_divide'th:if="${session.admin == 'admin'}" >│</span>
+    <a th:href="@{|./trashcate_list_all|}">목록</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a th:href="@{|./trashcate_delete?trashcateno=${trashcateVO.trashcateno}|}" th:if="${session.admin == 'admin'}">삭제</a>
+    <span class='menu_divide' >│</span>
+    <a href="javascript:location.reload();">새로고침</a>
+  </aside>
+  <br>
+  <div class='menu_line'></div>
+
+  <div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div style="width: 100%; word-break: break-all;">
+        <span style="font-size: 1.5em; font-weight: bold;" th:text="${trashcateVO.trashcateno}"></span>
+        .
+        <span style="font-size: 1.5em; font-weight: bold;" th:text="${trashcateVO.name}"></span><br><br>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</html>
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+
+  <div class='title_line' style="font-size: 20px; font-weight: 500;">쓰레기 카테고리 목록</div>
+
+  <aside class="aside_right" style="float: right;">
+    <a th:if="${session.admin == 'admin'}" th:href="@{|./create|}" th:text="등록"></a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a href="javascript:location.reload();">새로고침</a>
+  </aside>
+  <br>
+  <div class='menu_line'></div>
+  <table class="table table-hover">
+    <colgroup>
+      <col style='width: 55%;' />
+      <col style='width: 45%;' />
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="th_bs">쓰레기 카테고리 번호</th>
+        <th class="th_bs">카테고리 이름</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:if="${list.size() > 0}" th:each="trashcateVO, status:${list}"
+      th:attr="onclick=|location.href='/trashcate/trashcate_read?trashcateno=${trashcateVO.trashcateno}'|">
+      <td class="td_bs" style="text-align: center;" th:text="${trashcateVO.trashcateno}"></td>
+      <td class="td_bs" style="text-align: center;" th:text="${trashcateVO.name}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <div th:if="${list.size() == 0}" style="text-align: center; padding: 50px 0px;">
+    <span>관련 글이 등록되지 않았습니다.</span>
+  </div>
+</div>
+
+<div class='bottom_menu'>
+</div>
+
+</div>
+
+</html>

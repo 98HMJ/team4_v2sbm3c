@@ -33,6 +33,22 @@ SELECT searchno, search_word, rdate
 FROM search
 ORDER BY searchno ASC;
 
+-- 수정
+UPDATE search
+SET search_word='휴지'
+WHERE searchno = 1;
+
 -- 삭제
 DELETE FROM search
 WHERE searchno = 1;
+
+-- 인기 검색어 내림차순 정렬
+SELECT search_word, search_cnt
+FROM (
+    SELECT search_word, COUNT(*) AS search_cnt
+    FROM search
+    GROUP BY search_word
+    ORDER BY search_cnt DESC
+) 
+WHERE ROWNUM <= 5;
+
