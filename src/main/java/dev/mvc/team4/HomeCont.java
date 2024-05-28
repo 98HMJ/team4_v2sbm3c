@@ -16,7 +16,6 @@ import dev.mvc.community.CommunityVO;
 import dev.mvc.search.SearchProcInter;
 import dev.mvc.search.SearchVO;
 import dev.mvc.trash.TrashProcInter;
-import dev.mvc.trash.TrashVO;
 
 @Controller
 public class HomeCont {

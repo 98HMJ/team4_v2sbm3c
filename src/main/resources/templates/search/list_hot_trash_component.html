@@ -1,28 +1,28 @@
 <div th:fragment="list_hot_trash_fragment"> <!-- <div th:replace=... -->
-    <table class="table table-hover">
-      <colgroup>
-        <col style='width: 15%;'/>
-        <col style='width: 10%;'/>    
-        <col style='width: 45%;'/>
-        <col style='width: 30%;'/>
-      </colgroup>
-      <thead>
-        <tr>
-          <th class="th_bs">순위</th>
-          <th class="th_bs" colspan="2"></th>
-          <th class="th_bs">쓰레기 분류</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="dir_list, statusDir:${dir_list}">
-          <td class="td_bs_num" th:text="${statusDir.count}"></td>
-          <td class="td_bs">
-            <a  style="display: block;"><img th:src="@{|/trash/storage/${dir_list.get('FILE1SAVED')}|}"></a>
-          </td>
-          <td class="td_bs"><a th:attr="onclick=|location.href='/trash/trash_read?trashno=${dir_list.get('TRASHNO')}'|"
-                               th:text="${dir_list.get('NAME')}"></a></td>
-          <td class="td_bs_trash_cate"><span id="trash_cate" th:text="${dir_list.get('CATENAME')}"></span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table class="table table-hover">
+    <colgroup>
+      <col style='width: 15%;' />
+      <col style='width: 10%;' />
+      <col style='width: 45%;' />
+      <col style='width: 30%;' />
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="th_bs">순위</th>
+        <th class="th_bs" colspan="2"></th>
+        <th class="th_bs">쓰레기 분류</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="dir_list, statusDir:${dir_list}">
+        <td class="td_bs_num" th:text="${statusDir.count}"></td>
+        <td class="td_bs">
+          <a style="display: block;"><img th:src="@{|/trash/storage/${dir_list.get('FILE1SAVED')}|}"></a>
+        </td>
+        <td class="td_bs"><a th:attr="onclick=|location.href='/trash/trash_read?trashno=${dir_list.get('TRASHNO')}'|"
+            th:text="${dir_list.get('NAME')}"></a></td>
+        <td class="td_bs_trash_cate"><span id="trash_cate" th:text="${dir_list.get('CATENAME')}"></span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
