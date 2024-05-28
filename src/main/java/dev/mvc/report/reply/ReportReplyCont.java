@@ -33,7 +33,7 @@ public class ReportReplyCont {
   private MemberProcInter memberProc;
   
   public ReportReplyCont() {
-    System.out.println("-> ReportReplyCont Created.");
+    // System.out.println("-> ReportReplyCont Created.");
   }
   
   /**

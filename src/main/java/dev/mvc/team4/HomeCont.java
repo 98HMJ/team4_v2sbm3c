@@ -1,7 +1,7 @@
 package dev.mvc.team4;
 
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +18,7 @@ import dev.mvc.community.CommunityVO;
 import dev.mvc.search.SearchProcInter;
 import dev.mvc.search.SearchVO;
 import dev.mvc.trash.TrashProcInter;
+import dev.mvc.trash.TrashVO;
 
 @Controller
 public class HomeCont {
