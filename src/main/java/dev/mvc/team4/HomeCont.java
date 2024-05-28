@@ -58,7 +58,22 @@ public class HomeCont {
     //http://localhost:9093/admin
     //main.html 이동
     @GetMapping("/admin")
-    public String home_admin() {
-        return "admin/main";
+    public String home_admin(Model model) {
+      ArrayList<CommunityVO> community_list = this.communityProc.list();
+      List<CommunityVO> limitedList = community_list.stream().limit(5).collect(Collectors.toList());
+      model.addAttribute("limitedList", limitedList);
+      
+      ArrayList<SearchVO> popular_list = this.searchProc.search_popular();
+      model.addAttribute("popular_list", popular_list);
+      
+      List<HashMap<String, Object>> dir_list = new ArrayList<>();
+      
+      for (int i=0; i<popular_list.size();i++) {
+        String name = popular_list.get(i).getSearch_word();
+        dir_list.add(this.trashProc.trash_read_by_name(name));
+      }
+      
+      model.addAttribute("dir_list", dir_list);
+      return "admin/main";
     }
 }
