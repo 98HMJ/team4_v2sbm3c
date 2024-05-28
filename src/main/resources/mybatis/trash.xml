@@ -47,4 +47,12 @@
     WHERE trashno = #{trashno}
   </delete>
           
+  <!-- 쓰레기 이미지 경로 조회 -->
+  <select id="trash_read_by_name" parameterType="dev.mvc.trash.TrashVO" resultType="map">
+    SELECT trashcate.name AS catename,trash.file1saved as file1saved, trash.trashno as trashno, trash.name as name
+    FROM trash
+    JOIN trashcate 
+    ON trash.trashcateno = trashcate.trashcateno
+    WHERE trash.name = #{name}
+  </select>
 </mapper> 

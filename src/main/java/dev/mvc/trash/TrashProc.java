@@ -1,6 +1,8 @@
 package dev.mvc.trash;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,13 @@ public class TrashProc implements TrashProcInter{
   public int trash_delete(int trashno) {
     int cnt = this.trashDAO.trash_delete(trashno);
     return cnt;
+  }
+
+  @Override
+  public HashMap<String, Object> trash_read_by_name(String name) {
+    HashMap<String, Object> file_dir = new HashMap<String,Object>();
+    file_dir=this.trashDAO.trash_read_by_name(name);
+    return file_dir;
   }
 
   
