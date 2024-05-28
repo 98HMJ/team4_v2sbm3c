@@ -1,6 +1,7 @@
 package dev.mvc.trash;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface TrashDAOInter {
   /**
@@ -48,4 +49,12 @@ public interface TrashDAOInter {
      * @return
      */
     public int trash_delete(int trashno);
+    
+    /**
+     * 쓰레기 이미지 경로 조회
+     * select id="trash_read_by_name" resultType="String" parameterType="String"
+     * @param name
+     * @return
+     */
+    public HashMap<String,Object> trash_read_by_name(String name);
 }
