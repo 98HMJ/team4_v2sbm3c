@@ -8,7 +8,7 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #3e8e41;
+  background-color: #4FA040; 
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -22,7 +22,7 @@
 }
 
 .dropdown-content a:hover {
-  background-color: #3e8e41;
+  background-color: #4FA040; 
 }
 
 .dropdown:hover .dropdown-content {
@@ -30,5 +30,7 @@
 }
 
 .dropdown:hover .dropbtn {
-  background-color: #3e8e41;
+  background-color: #4FA040; 
+  cursor: pointer;
+  color: #B5FF00;
 }
