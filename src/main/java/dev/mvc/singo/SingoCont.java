@@ -45,7 +45,7 @@ public class SingoCont {
   private TrashProcInter trashProc;
 
   public SingoCont(){
-    // System.out.println("-> SingoCont created!");
+    System.out.println("-> SingoCont created!");
   }
 
   /**
@@ -104,7 +104,6 @@ public class SingoCont {
                     filesaved = Upload.saveFileSpring(mf, upDir);
 
                     if (Tool.isImage(filesaved)) { // 이미지인지 검사
-                        System.out.println("singoVO에 저장이 안되나?");
                         // thumb 이미지 생성후 파일명 리턴됨, width: 200, height: 150
                         thumb = Tool.preview(upDir, filesaved, 200, 150);
                         singoVO.setFiles(file); // 순수 원본 파일명
@@ -183,11 +182,9 @@ public class SingoCont {
     if(session.getAttribute("memberno")!= null){
       isWriter = ((int)session.getAttribute("memberno")==singoVO.getMemberno());
     }
-    System.out.println("-> isWriter"+isWriter);
     // 관리자 권한이거나 자신이 신고한 내용이면 조회 가능
     if(isAdmin || isWriter){
       model.addAttribute("singoVO", singoVO);
-      System.out.println("-> singoVO.get"+singoVO.getFilesaved());
       model.addAttribute("isAdmin", isAdmin);
       model.addAttribute("isWriter", isWriter);
       return "singo/read";

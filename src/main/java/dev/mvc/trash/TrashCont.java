@@ -73,7 +73,7 @@ public class TrashCont {
       String thumb1 = ""; // preview image
 
       String upDir = Trash.getUploadDir(); // 파일을 업로드할 폴더 준비
-      System.out.println("-> upDir: " + upDir);
+      //System.out.println("-> upDir: " + upDir);
 
       // 전송 파일이 없어도 file1MF 객체가 생성됨.
       // <input type='file' class="form-control" name='file1MF' id='file1MF'
@@ -81,7 +81,7 @@ public class TrashCont {
       MultipartFile mf = trashVO.getFile1MF();
 
       file1 = mf.getOriginalFilename(); // 원본 파일명 산출, 01.jpg
-      System.out.println("-> 원본 파일명 산출 file1: " + file1);
+      //System.out.println("-> 원본 파일명 산출 file1: " + file1);
 
       long size1 = mf.getSize(); // 파일 크기
       if (size1 > 0) { // 파일 크기 체크, 파일을 올리는 경우
@@ -106,7 +106,7 @@ public class TrashCont {
           return "redirect:/trash/msg"; // Post -> Get - param...
         }
       } else { // 글만 등록하는 경우
-        System.out.println("-> 글만 등록");
+        //System.out.println("-> 글만 등록");
       }
 
     } else {
@@ -114,7 +114,7 @@ public class TrashCont {
     }
 
     int cnt = this.trashProc.create(trashVO);
-    System.out.println("-> cnt: " + cnt);
+    //System.out.println("-> cnt: " + cnt);
 
     if (cnt == 1) {
       model.addAttribute("code", "create_success");
@@ -185,7 +185,7 @@ public class TrashCont {
 
     if (this.adminProc.isAdmin(session)) { 
       int cnt = this.trashProc.trash_update(trashVO);
-      System.out.println("->update cnt:" + cnt);
+      //System.out.println("->update cnt:" + cnt);
 
       if (cnt == 1) {
         ra.addAttribute("trashno", trashVO.getTrashno());
