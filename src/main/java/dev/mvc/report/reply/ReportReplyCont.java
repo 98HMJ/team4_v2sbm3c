@@ -33,7 +33,7 @@ public class ReportReplyCont {
   private MemberProcInter memberProc;
   
   public ReportReplyCont() {
-    // System.out.println("-> ReportReplyCont Created.");
+    System.out.println("-> ReportReplyCont Created.");
   }
   
   /**
@@ -88,8 +88,8 @@ public class ReportReplyCont {
      reportReplyVO.setMemberno(memberno);
      
     
-     int cnt = this.reportReplyProc.create(reportReplyVO);
-     System.out.println("-> cnt: "+ cnt);
+
+     this.reportReplyProc.create(reportReplyVO);
      
    }else {
      model.addAttribute("code", "no_login");
@@ -113,10 +113,7 @@ public class ReportReplyCont {
    if(this.adminProc.isAdmin(session)) {
      ArrayList<ReportReplyVO> list = this.reportReplyProc.list_all();
      model.addAttribute("list", list);
-     for(ReportReplyVO item : list) {
-       System.out.println("-> reportno: " + item.reportno);
-       
-     }
+
      
      ArrayList<MemberVO> m_list = new ArrayList<MemberVO>();
      for (ReportReplyVO item : list) {

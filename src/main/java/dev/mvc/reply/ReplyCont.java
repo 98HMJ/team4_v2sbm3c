@@ -32,7 +32,7 @@ public class ReplyCont {
   private MemberProc memberProc;  
 
   public ReplyCont() {
-    // System.out.println("-> CateCont created.");
+    System.out.println("-> CateCont created.");
   }
 
 //  @GetMapping(value = "/create")
@@ -49,7 +49,6 @@ public class ReplyCont {
                             Model model, 
                             ReplyVO replyVO) {
     if (session.getAttribute("id") != null) {
-//      System.out.println("-> communityno: "+ replyVO.getCommunityno());
       
       model.addAttribute("contents", replyVO.getContents());
       
@@ -68,14 +67,12 @@ public class ReplyCont {
       String thumb1 = ""; // preview image
 
       String upDir = Reply.getUploadDir(); // 파일을 업로드할 폴더 준비
-      // System.out.println("-> upDir: " + upDir);
 
       // 전송 파일이 없어도 file1MF 객체가 생성됨.
       // <input type='file' class="form-control" name='file1MF' id='file1MF'
       // value='' placeholder="파일 선택">
       MultipartFile mf = replyVO.getFile1MF();
       file1 = mf.getOriginalFilename(); // 원본 파일명 산출, 01.jpg
-      // System.out.println("-> 원본 파일명 산출 file1: " + file1);
 
       long size1 = mf.getSize(); // 파일 크기
       if (size1 > 0) { // 파일 크기 체크, 파일을 올리는 경우
@@ -99,16 +96,13 @@ public class ReplyCont {
           ra.addFlashAttribute("url", "/reply/msg"); // msg.html, redirect parameter 적용
           return "redirect:/reply/msg"; // Post -> Get - param...
         }
-      } else { // 글만 등록하는 경우
-        // System.out.println("-> 글만 등록");
-      }
+      } 
       // ------------------------------------------------------------------------------
       // 파일 전송 코드 종료
       // ------------------------------------------------------------------------------
 
       
       int cnt = this.replyProc.create(replyVO);
-      // System.out.println("-> cnt: "+ cnt);
       ra.addAttribute("cnt", cnt);
       
       if(cnt == 1) {
@@ -140,7 +134,6 @@ public class ReplyCont {
                             ReplyVO replyVO,
                             int communityno,
                             int replyno) {
-    // System.out.println("-> communityno: " + replyVO.getCommunityno());
     model.addAttribute("communityno", communityno);
     model.addAttribute("replyno", replyno);
     
@@ -158,14 +151,10 @@ public class ReplyCont {
                             ) {
     
     if (session.getAttribute("id") != null) {
-      // System.out.println("-> memberno: " + replyVO.getMemberno());
-      // System.out.println("-> s_memberno: "+ (int) session.getAttribute("memberno"));
       // 1. 로그인 되었고 작성한 댓글의 memberno 조회
       if (replyVO.getMemberno() == (int) session.getAttribute("memberno")) {
         
         // update 처리 과정 진행
-        // System.out.println("-> communityno: " + replyVO.getCommunityno());
-        // System.out.println("-> replyno: " + replyVO.getReplyno());
         
         // 1. 이미지 업데이트 처리
         // - advance) 우측에 드래앤 드롭으로 이미지 기능 제작
@@ -177,14 +166,12 @@ public class ReplyCont {
         String thumb1 = ""; // preview image
 
         String upDir = Reply.getUploadDir(); // 파일을 업로드할 폴더 준비
-        // System.out.println("-> upDir: " + upDir);
 
         // 전송 파일이 없어도 file1MF 객체가 생성됨.
         // <input type='file' class="form-control" name='file1MF' id='file1MF'
         // value='' placeholder="파일 선택">
         MultipartFile mf = replyVO.getFile1MF();
         file1 = mf.getOriginalFilename(); // 원본 파일명 산출, 01.jpg
-        // System.out.println("-> 원본 파일명 산출 file1: " + file1);
 
         long size1 = mf.getSize(); // 파일 크기
         if (size1 > 0) { // 파일 크기 체크, 파일을 올리는 경우
@@ -212,9 +199,8 @@ public class ReplyCont {
           this.replyProc.update_file(replyVO);
           
         } else { 
-          // System.out.println("-> 글만 수정");
-          int update_cnt = this.replyProc.update_contents(replyVO);
-          // System.out.println("-> update_cnt: "+ update_cnt);
+          // 글만 수정
+          this.replyProc.update_contents(replyVO);
         }
  
         return "redirect:/community/read?communityno="+ communityno;
@@ -248,7 +234,6 @@ public class ReplyCont {
                               int communityno,
                               int replyno
                               ) {
-    // System.out.println("-> communityno: " + replyVO.getCommunityno());
     model.addAttribute("communityno", communityno);
     model.addAttribute("replyno", replyno);
     
@@ -311,10 +296,7 @@ public class ReplyCont {
                                           @RequestParam(name="replyno", defaultValue = "1") int replyno
   ) {
     
-    int cnt =  this.replyProc.update_increase_cnt_like(replyno);
-    // System.out.println("-> cnt: "+ cnt);
-    
-    // System.out.println("-> replyno: "+replyno);
+    this.replyProc.update_increase_cnt_like(replyno);
     return "redirect:/community/read?communityno="+ communityno;
   }
  
