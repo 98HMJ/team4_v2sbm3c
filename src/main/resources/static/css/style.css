@@ -215,7 +215,7 @@
   } 
   
   .navbar_menu > div {
-    margin-right: 10px; /* 모든 하위 div 태그에 우측 간격 10px 적용 */
+    margin-left: 10px;
   }
   
   .navbar_menu > div:last-child {
@@ -540,6 +540,43 @@
     background-position: 0 -66px;
   }
   
+  /* CSS 스타일링 */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #4FA040; 
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #4FA040; 
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown:hover .dropbtn {
+    background-color: #4FA040; 
+    cursor: pointer;
+    color: #B5FF00;
+  }
+  
 }
 
 @media (min-width: 576px) and (max-width: 2000px) {
@@ -726,6 +763,14 @@
     font-family: 'Giants-Bold';
     color: white; 
     margin-right: 10px;
+  } 
+  
+  .navbar_menu > div {
+    margin-left: 10px;
+  }
+  
+  .navbar_menu > div:last-child {
+    margin-right: 0; /* 마지막 div 태그에 우측 간격 없음 */
   }
   
   

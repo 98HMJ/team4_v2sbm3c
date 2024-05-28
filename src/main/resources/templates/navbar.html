@@ -37,39 +37,34 @@
       <!-- 메뉴 시작 -->
       <div class="navbar_menu">
       
-        <!-- 로그인 했을 때 -->
-        <div class="dropdown">
-          <div onclick="toggleDropdown()" class="dropmenu">
-            <span class="nav_nickname" style="text-decoration: none; " th:text="${session.nickname} + '님'"></span>
-          </div>
-          <div id="myDropdown" class="dropdown-content">
-            <a href="/user/mypage">마이페이지</a>
-            <a href="/user/logout">로그아웃</a>
-          </div>
-        </div>
-  
         <!-- main.html 일때 -->
-        <div style="margin-right: 10px;">
+        <div>
           <a href="/community/main">커뮤니티</a>
         </div>
+        
         <div>
           <a href="/nephron/nephron_list_all">네프론</a>
         </div>
-        <div th:if="${session.admin == 'admin'}">
-          <a href="/trash/trash_list_all">&nbsp;&nbsp;쓰레기 목록</a>
+        
+        <!-- 로그인 했을 때 -->
+        <div th:if="${session.id != null}">
+          <div class="dropdown">
+            <div onclick="toggleDropdown()" class="dropmenu">
+              <span class="nav_nickname" style="text-decoration: none; " th:text="${session.nickname} + '님'"></span>
+            </div>
+            <div id="myDropdown" class="dropdown-content">
+              <a href="/member/update">마이페이지</a>
+              <a href="/member/logout">로그아웃</a>
+            </div>
+          </div>
         </div>
         
-        <!-- 커뮤니티 main.html 일때 -->
-        <div th:if="${code == 'no_login'}">
-          <a href="/member/login">&nbsp;&nbsp;로그인</a>
-        </div>
-
         <!-- 로그인 하지 않았을 때 -->
-        <!-- 로그인한 사용자의 닉네임을 클릭하면 드롭다운 메뉴가 나타나는 버튼 -->
+        <div th:if="${session.id == null}">
+          <a href="/member/login">로그인</a>
+        </div>
+        </div>
 
-        
-        
-        
       </div>
 
     </div>

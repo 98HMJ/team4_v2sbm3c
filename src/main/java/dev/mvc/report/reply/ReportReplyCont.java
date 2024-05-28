@@ -89,7 +89,7 @@ public class ReportReplyCont {
      
     
      int cnt = this.reportReplyProc.create(reportReplyVO);
-     System.out.println("-> cnt: "+ cnt);
+     // System.out.println("-> cnt: "+ cnt);
      
    }else {
      model.addAttribute("code", "no_login");
@@ -114,7 +114,7 @@ public class ReportReplyCont {
      ArrayList<ReportReplyVO> list = this.reportReplyProc.list_all();
      model.addAttribute("list", list);
      for(ReportReplyVO item : list) {
-       System.out.println("-> reportno: " + item.reportno);
+       // System.out.println("-> reportno: " + item.reportno);
        
      }
      

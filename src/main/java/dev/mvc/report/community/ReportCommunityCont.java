@@ -87,7 +87,7 @@ public class ReportCommunityCont {
       
       
       int cnt = this.reportCommunityProc.create(reportCommunityVO);
-      System.out.println("-> cnt: "+ cnt);
+      // System.out.println("-> cnt: "+ cnt);
       
     }else {
       model.addAttribute("code", "no_login");
@@ -112,7 +112,7 @@ public class ReportCommunityCont {
       ArrayList<ReportCommunityVO> list = this.reportCommunityProc.list_all();
       model.addAttribute("list", list);
       for(ReportCommunityVO item : list) {
-        System.out.println("-> reportno: " + item.reportno);
+        // System.out.println("-> reportno: " + item.reportno);
         
       }
       
