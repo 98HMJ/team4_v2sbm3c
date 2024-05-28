@@ -1,4 +1,4 @@
-<div th:fragment="list_all_fragment"> <!-- <div th:replace=... -->
+<div th:fragment="list_all_fragment" > <!-- <div th:replace=... -->
     <head>
         <script>
             let page = 0;
@@ -84,7 +84,8 @@
         </div>
     </div>
 
-    <div class="btn_more">
+    <!-- 추가 됬을때 더보기 버튼 계속해서 최하단에 위치 -->
+    <div class="btn_more" style="margin: 20px 0 20px;">
         <span id="load" class="btn btn-primary" style="cursor: pointer;" onclick="loadADD()">더보기</span>
     </div>
 </div>

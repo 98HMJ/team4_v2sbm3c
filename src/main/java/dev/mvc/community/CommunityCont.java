@@ -45,9 +45,14 @@ public class CommunityCont {
     }
 
     @GetMapping("/main")
-    public String main(Model model) {
+    public String main(HttpSession session, Model model) {
         ArrayList<CommunityVO> list = this.communityProc.list();
         model.addAttribute("list", list);
+        
+        if(session.getAttribute("id") == null) {
+          model.addAttribute("code", "no_login");
+        }
+        
         return "community/main";
     }
 
