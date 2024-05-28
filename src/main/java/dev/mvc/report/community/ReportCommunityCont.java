@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import dev.mvc.admin.AdminProcInter;
 import dev.mvc.member.MemberProcInter;
 import dev.mvc.member.MemberVO;
-import dev.mvc.report.reply.ReportReplyVO;
 import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/report_community")
