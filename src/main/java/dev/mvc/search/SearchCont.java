@@ -63,5 +63,10 @@ public class SearchCont {
     
     return "search/search_popular";
   }
+  
+  @GetMapping(value="/test")
+  public String search_test() {
+    return "search/list_hot_trash_component";
+  }
      
 }
