@@ -57,3 +57,13 @@ SELECT nephronno, roadaddress, detailaddress
 FROM nephronpoint
 WHERE UPPER(roadaddress) LIKE '%' || UPPER('휴지') || '%' OR UPPER(detailaddress) LIKE '%' || UPPER('휴지') || '%'
 ORDER BY nephronno ASC;
+
+
+SELECT nephronno, sum (trashcateno) as total
+FROM nephroncate
+GROUP BY nephronno
+ORDER BY nephronno;
+
+select a.nephronno, b.total, a.roadaddress, a.detailaddress
+from nephronpoint a,(select nephronno, sum(nephroncate.trashcateno) as total from nephroncate group by nephronno) b
+where a.nephronno = b.nephronno;
