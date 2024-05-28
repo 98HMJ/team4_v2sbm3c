@@ -256,12 +256,12 @@
     color: black;
   }
   
-  .navbar  a:link{
+  .navbar a:link{
     text-decoration: none; /* 밑줄 삭제 */
     color: white;
   }
   
-  .navbar  a:visited{
+  .navbar a:visited{
     text-decoration: none; /* 밑줄 삭제 */
     color: white;
   }
@@ -1077,29 +1077,79 @@
     background-position: 0 -66px;
   }
   
-    #results {
-      border: 1px solid #ccc;
-      display: none;
-      position: absolute;
-      background-color: white;
-      max-height: 200px;
-      overflow-y: auto;
-      width: 100%;
-    }
+  #results {
+    border: 1px solid #ccc;
+    display: none;
+    position: absolute;
+    background-color: white;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  .result-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+  }
+
+  .result-item:hover {
+    background-color: #f0f0f0;
+  }
+
+  .result-item img {
+    width: 75px;
+    height: 75px;
+    margin-right: 10px;
+  }
   
-    .result-item {
-      padding: 10px;
-      border-bottom: 1px solid #ccc;
-      cursor: pointer;
-    }
+  /* 드롭다운 버튼 스타일 */
+  .dropmenu{
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: transparent;
+    margin-right: 10px;
+    color: greenyellow;
+  }
   
-    .result-item:hover {
-      background-color: #f0f0f0;
-    }
+  .dropmenu > a:hover{
+    text-decoration: none;
+  }
   
-    .result-item img {
-      width: 75px;
-      height: 75px;
-      margin-right: 10px;
-    }
+  /* 드롭다운 내용 스타일 */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* 드롭다운 내용 링크 스타일 */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* 드롭다운 내용 링크 호버 시 스타일 */
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+  }
+  
+  
+  .dropdown > div > a:visited{
+    color: #f1f1f1;
+  }
+ 
+  
+  /* 드롭다운 버튼 호버 시 스타일 */
+  .dropdown:hover .dropdown-content {
+    display: block;
+    color: #B5FF00;
+  }
+  
 }

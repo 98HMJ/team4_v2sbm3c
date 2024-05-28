@@ -1,6 +1,8 @@
 package dev.mvc.team4;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,6 +53,14 @@ public class HomeCont {
         }
         
         model.addAttribute("dir_list", dir_list);
+        
+
+        ArrayList<TrashVO> trash_list = this.trashProc.trash_list_all();
+        
+        Collections.shuffle(trash_list);
+        List<TrashVO> limit_trash_list = trash_list.stream().limit(5).collect(Collectors.toList());
+        
+        model.addAttribute("limit_trash_list", limit_trash_list);
         
         return "main";
     }

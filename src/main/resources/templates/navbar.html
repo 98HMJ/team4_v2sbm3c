@@ -1,4 +1,25 @@
 <div th:fragment="navbarFragment">
+  <script>
+    // 드롭다운 토글 함수
+    function toggleDropdown() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+    
+    // 드롭다운이 열려 있을 때, 사용자가 다른 곳을 클릭하면 닫히도록 설정
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+  </script>
+
   <nav>
     <div class="navbar">
       <!-- 왼쪽에 위치할 요소들 -->
@@ -13,11 +34,20 @@
         </div>
       </a>
 
-
       <!-- 메뉴 시작 -->
       <div class="navbar_menu">
-        <!-- 오른쪽에 위치할 요소들 -->
-
+      
+        <!-- 로그인 했을 때 -->
+        <div class="dropdown">
+          <div onclick="toggleDropdown()" class="dropmenu">
+            <a class="nav_nickname" style="text-decoration: none; " th:text="${session.nickname} + '님'"></a>
+          </div>
+          <div id="myDropdown" class="dropdown-content">
+            <a href="/user/mypage">마이페이지</a>
+            <a href="/user/logout">로그아웃</a>
+          </div>
+        </div>
+  
         <!-- main.html 일때 -->
         <div style="margin-right: 10px;">
           <a href="/community/main">커뮤니티</a>
@@ -33,11 +63,14 @@
         <div th:if="${code == 'no_login'}">
           <a href="/member/login">&nbsp;&nbsp;로그인</a>
         </div>
+
+        <!-- 로그인 하지 않았을 때 -->
+        <!-- 로그인한 사용자의 닉네임을 클릭하면 드롭다운 메뉴가 나타나는 버튼 -->
+
+        
+        
         
       </div>
-
-      <!-- 로그인 하지 않았을 때 -->
-      <!-- 커뮤니티 - main.html 일때 -->
 
     </div>
 
