@@ -40,7 +40,7 @@ public class AdminCont {
   Security security;
   
   public AdminCont() {
-    // System.out.println("-> AdminCont created!");
+    System.out.println("-> AdminCont created!");
   }
   /**
    * 중복 아이디 검사
@@ -126,11 +126,8 @@ public class AdminCont {
 
     if(cnt==1){
       //id를 이용하여 관리자 정보 조회
-      System.out.println("-> id" + id +"end");
       //AdminVO adminVO = this.adminProc.readById(id); //오류 why?
-      System.out.println(this.adminProc.readById(id));
       AdminVO adminVO = this.adminProc.readById(id);
-      System.out.println("-> 이름" + adminVO.getName());
       session.setAttribute("adminno", adminVO.getAdminno());
       session.setAttribute("id", adminVO.getId());
       session.setAttribute("name", adminVO.getName());
