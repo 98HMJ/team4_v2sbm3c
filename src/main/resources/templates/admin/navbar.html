@@ -1,14 +1,15 @@
 <div th:fragment="adminNavbarFragment">
   <nav>
     <div class="navbar">
-      <a href="http://localhost:9093/admin" style="text-decoration: none; color: inherit;"></a>
       <!-- 왼쪽에 위치할 요소들 -->
       <div class="navbar_label">
         <div style="margin-right: 5px; height: auto;">
-          <img src="images/ic_main.svg" alt="메인 아이콘">
+          <img src="/images/ic_main.svg" alt="메인 아이콘" onclick="window.location.href='http:\/\/localhost:9093\/admin'"
+          onmouseover="this.style.cursor='pointer'">
         </div>
         <div style="text-align: center;">
-          <span style="font-size: 24px;">쓰레기 박사</span>
+          <span style="font-size: 24px;" onclick="window.location.href='http:\/\/localhost:9093\/admin'"
+          onmouseover="this.style.cursor='pointer'">쓰레기 박사</span>
         </div>
       </div>
 
