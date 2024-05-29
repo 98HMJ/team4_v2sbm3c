@@ -8,7 +8,8 @@
   }
   
  
-  button{
+  /** 댓글 및 커뮤니티 관련 css **/
+  .comment_box button{
     border: 1px solid #000000; /* 테두리를 검은색으로 설정 */
   }
   
@@ -145,158 +146,7 @@
       margin-right: 0; /* 마지막 요소의 간격 제거 */
   }
   
-  h1{
-    font-family: 'Giants-Bold';
-  }
-
-  header span{
-    color: #A49E9E;
-  }
-
-  .search_container{
-    display: flex; 
-    justify-content: center;
-    margin-top: 33px;
-    margin-bottom: 33px;
-  }
-
-  .td_bs_info{
-    text-align: left;
-  }
-
-  .td_bs_info > div{
-    display: flex; 
-    align-items: center;
-    justify-content: flex-start;
-  }
-
-  .td_bs_info .category{
-    background-color: #8C8C8C;
-    padding: 3px 5px;
-    color: white;
-    font-weight: 700;
-    margin-right: 5px;
-  }
-
-  .btn_more{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    font-weight: 700;
-  }
-
-  .btn_more > span{
-    border-radius: 10%;
-    padding: 5px 20px;
-
-  }
-  
-  .navbar{
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    background-color: #4FA040; 
-    font-family: 'Giants-Bold';
-  }
-  
-  .navbar_label{
-    display: flex; 
-    align-items: center;
-  }
-  
-  .navbar_menu{
-    display: flex; 
-    justify-content: flex-end; 
-    text-align: center; 
-    font-family: 'Giants-Bold';
-    color: white; 
-    margin-right: 10px;
-  } 
-  
-  .navbar_menu > div {
-    margin-left: 10px;
-  }
-  
-  .navbar_menu > div:last-child {
-    margin-right: 0; /* 마지막 div 태그에 우측 간격 없음 */
-  }
-  
-  .search {
-    position: relative;
-    width: 300px;
-  }
-  
-  input {
-    width: 100%;
-    border: 1px solid #bbb;
-    border-radius: 20px;
-    padding: 10px 12px;
-    font-size: 12px;
-  }
-  
-  input:focus {
-    outline: 2px solid black; /* outline 테두리 속성 수정 */
-  } 
-  
-  .search > img {
-    position : absolute;
-    width: 17px;
-    top: 10px;
-    right: 12px;
-    margin: 0;
-  }
-  
-  .ai_Search{
-    margin-bottom: 57px;
-  }
-  
-  .ai_Search > a{
-    font-family: 'Giants-Bold';
-    color: black;
-  }
-  
-  .navbar a:link{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: white;
-  }
-  
-  .navbar a:visited{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: white;
-  }
-  
-  .navbar a:hover{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: #B5FF00;
-  }
-  
-  .navbar  a:active{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: #B5FF00;
-  }
-  
-  a:link{  /* 방문전 상태 */
-    text-decoration: none; /* 밑줄 삭제 */
-    color: #555555;
-  }
-  
-  a:visited{  /* 방문후 상태 */
-    text-decoration: none; /* 밑줄 삭제 */
-    color: #555555;
-  }
-  
-  a:hover{  /* A 태그에 마우스가 올라간 상태 */
-    text-decoration: underline; /* 밑줄 출력 */
-    color: #7777FF;
-  }
-  
-  a:active{  /* A 태그를 클릭한 상태 */
-    text-decoration: underline; /* 밑줄 출력 */
-    color: #7777FF;
-  }
-  
-  .community_header{
+  .community_header {
     display: flex; 
     align-items: center;
     justify-content: flex-start;
@@ -310,431 +160,9 @@
     background-size: contain;           /* 배경 이미지가 요소의 크기에 맞게 조정됨 */
     padding-left: 10px; /* 내용과의 여백 추가 */ 
   }
+   /** 댓글 및 커뮤니티 관련 css 끝**/
   
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-  
-  .table tr {
-    font-size: 11px;
-  }
-  
-  .table_basic {
-    border-collapse: collapse;
-    margin: 2px auto;
-    width: 100%;
-  }
-  
-  /* 1em 기본값 : 16px, 주변 태그의 글자크기를 1em으로 인식
-    DIV 태그가 20px 일경우 자식태그가 0.5em이면 최종적으로 10px이 적용됨.
-    DIV 태그가 20px 일경우 자식태그가 1em이면 최종적으로 20px이 적용됨.
-    DIV 태그가 20px 일경우 자식태그가 1.5em이면 최종적으로 30px이 적용됨.
-  */
-  
-  .th_basic {
-    font-size: 0.8em;
-    border-top: none;
-    border-right: none;
-    border-bottom: solid 1px #DDDDDD;
-    border-left: none;
-    text-align: center;
-  }
-  
-  .th_bs {
-    text-align: center;
-  }
-  
-  .td_left {
-    border-top: none;
-    border-right: none;
-    border-bottom: solid 1px #DDDDDD;
-    border-left: none;
-    text-align: left;
-  }
-  
-  .td_bs_num{
-    font-size: 16px;
-    font-weight: 700;
-    text-align: center;
-    vertical-align: middle;
-  }
-  
-  .td_bs {
-    text-align: start;
-    vertical-align: middle;
-  }
-  
-  .td_bs > div {
-    display: flex; 
-    align-items: center;
-    justify-content: flex-start;
-  }
-  
-  .td_bs_id, .td_bs_uptime{
-    text-align: start;
-    color: #8C8C8C;
-    font-size: 10px;
-  }
-  
-  .td_bs img{
-    width: 40px;
-    height: 40px;
-    border: solid 1px #DDDDDD;
-    border-radius: 10%;
-  }
-  
-  .td_bs_left {
-    text-align: left;
-    vertical-align: middle;
-  }
-  
-  .td_bs_right {
-    text-align: center;
-    vertical-align: top;
-  }
-  
-  .td_bs_trash_cate{
-    text-align: center;
-    vertical-align: middle;
-  }
-  
-  /* swiper 관련 스타일 */
-  .swiper-slide img {
-    width: 100%; /* 이미지의 가로 너비를 100%로 설정하여 슬라이드에 맞게 조절 */
-    height: auto; /* 이미지의 세로 높이를 자동으로 조정하여 비율 유지 */
-  }
-  
-  .swiper-slide{
-    margin-bottom: 40px;
-    border: solid 1px #DDDDDD;
-  }
-  
-  .swiper-pagination-bullet-active {
-    background-color: greenyellow;
-  }
-  
-  /* modal swiper 관련 스타일 */
-  .modal_window > .swiper-slide img {
-    width: 80%; /* 이미지의 가로 너비를 100%로 설정하여 슬라이드에 맞게 조절 */
-    height: auto; /* 이미지의 세로 높이를 자동으로 조정하여 비율 유지 */
-  }
-  
-  .second_header{
-    font-size: 16px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .nefhorne_block{
-    display: flex; 
-    align-items: start;
-    justify-content: flex-start;
-    padding-top: 10px;
-    padding-left: 10px;
-    height: 170px;
-    font-size: 13px;
-    font-weight: 700;
-    background-image: url(/images/back_nefhorne.png);
-    background-position: center center; /* 배경 이미지 중앙 정렬 */
-    background-size: contain;           /* 배경 이미지가 요소의 크기에 맞게 조정됨 */
-    text-decoration: none;
-    /* 링크의 밑줄 제거 */
-    color: inherit;
-    /* 링크 색상 상속 */
-  }
-  
-  .nefhorne_block:hover {
-    text-decoration: none;
-    /* 마우스를 올렸을 때 밑줄 제거 */
-    color: inherit;
-    /* 마우스를 올렸을 때 색상 변경 없음 */
-  }
-  
-  .modal_overlay {
-    width: 100%;
-    height: 100%;
-    position: fixed; /* fixed로 변경 */
-    left: 0;
-    top: 0;
-    display: none; /* 기본적으로 보이지 않게 */
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(1.5px);
-    -webkit-backdrop-filter: blur(1.5px);
-    z-index: 9999; /* 높은 z-index 설정 */
-  }
-  
-  .modal_window {
-    background: white;
-    backdrop-filter: blur(13.5px);
-    -webkit-backdrop-filter: blur(13.5px);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    width: 350px;
-    height: 350px;
-    position: relative;
-    padding: 10px;
-  }
-  
-  #mapwrap {
-    position: relative;
-    overflow: hidden;
-  }
-
-  #mapwrap .category {
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    overflow: hidden;
-    top: 10px;
-    left: 10px;
-    height: 65px;
-    z-index: 10;
-    border: 1px solid black;
-    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-    font-size: 12px;
-    text-align: center;
-    background-color: #fff;
-  }
-
-  /* 네프론 리스트 관련*/
-  #mapwrap .category .menu_selected {
-    background: #FF5F4A;
-    color: black;
-    border-left: 1px solid #915B2F;
-    border-right: 1px solid #915B2F;
-    margin: 0 -1px;
-  }
-
-  #mapwrap .category div {
-    list-style: none;
-    width: 50px;
-    height: 45px;
-    padding-top: 5px;
-    cursor: pointer;
-  }
-
-  #mapwrap .category .ico_comm {
-    display: block;
-    align-items: center;
-    margin: 0 auto 2px;
-    width: 34px;
-    height: 33px;
-    background: url('/images/nephroncategory1.png') no-repeat;
-  }
-
-  #mapwrap .category .ico_plastic {
-    background-position: 0 0;
-  }
-
-  #mapwrap .category .ico_can {
-    background-position: 0 -33px;
-  }
-
-  #mapwrap .category .ico_plastiandcan {
-    background-position: 0 -66px;
-  }
-  
-  /* CSS 스타일링 */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    margin-right: 10px;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #4FA040; 
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: #4FA040; 
-  }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  
-  .dropdown:hover .dropbtn {
-    background-color: #4FA040; 
-    cursor: pointer;
-    color: #B5FF00;
-  }
-  
-}
-
-@media (min-width: 576px) and (max-width: 2000px) {
-  body {
-    display: flex;
-    justify-content: center; /* 수평 가운데 정렬 */
-    align-items: center;    /* 수직 가운데 정렬 */
-    margin: 0;              /* 기본 여백 제거 */
-  }
-
-  .container_main {
-    width: 575px;
-  }
-  
-  @font-face {
-    font-family: 'Giants-Bold';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-  }
-  
-  button{
-    border: 1px solid #000000; /* 테두리를 검은색으로 설정 */
-  }
-  
-  .community_comment_header{
-    margin : 5px 10px;
-  }
-  
-  .comment_box{
-    display: flex;
-    justify-content: flex-end; /* 우측 정렬 */
-    width: 100%;
-  }
-  
-  .custom-file-upload{
-      display: inline-block;
-      cursor: pointer;
-      color: white;
-      background-color: #ffffff; /* 배경색을 흰색으로 설정 */
-      color: #000000; /* 글자색을 검은색으로 설정 */
-      border: 1px solid #000000; /* 테두리를 검은색으로 설정 */
-      text-align: center;
-      margin-left: 10px;
-      margin : 10px 10px;
-      padding : 0px 10px;
-      font-size: 12px;
-      font-weight: 600;
-      text-align: center; /* 가운데 정렬 */
-  }
-  
-  .comment_box input, .comment button{
-    font-size: 12px;
-    width: 20%; /* 화면의 5분의 1 크기 */
-    margin-left: 10px; /* 요소 사이 간격 추가 */
-  }
-  
-  .comment_box input{
-    display: none;
-  }
-  
-  .comment_box button{
-    margin: 10px 0 10px 10px; /* 버튼의 위아래 마진 설정 */
-  }
-  
-  
-  .community_comment_cnt span{
-    margin-left: 2px;
-    color: red;
-  }
-  
-  .community_comment_contents{
-    display: flex;
-    align-items: flex-end;
-  }
-  
-  .community_comment_board{
-    margin : 0px 5px;
-    background-color: #F0EEEE;
-    padding: 10px 5px;
-    border-top: 1px dashed #8C8C8C;  /* 상단 점선 추가 */
-    border-bottom: 1px dashed #8C8C8C; /* 하단 점선 추가 */
-  }  
-
-  .community_read_contents{
-    min-height: 200px; /* 기본 높이 설정 */
-  }
-  
-  .community_read_header_box{
-    background-color: #F0EEEE;
-    display: flex; 
-    align-items: center; 
-    justify-content: space-around;
-    padding : 5% 10%;
-  }
-  .community_like_board {
-      display: flex;
-      align-items: center;
-      background-color: #F0EEEE;
-      padding: 10px;
-      cursor: pointer; /* div 전체를 클릭할 수 있도록 커서 변경 */
-      text-decoration: none; /* 링크 스타일 제거 */
-      justify-content: space-between;
-  }
-  
-  .community_like_board img {
-      margin-right: 3px; /* 이미지와 텍스트 사이 간격 추가 */
-  }
-  .community_like_board a {
-      color: pink; /* 글자색을 분홍색으로 설정 */
-      display: flex;
-      align-items: center;
-      text-decoration: none; /* 링크 스타일 제거 */
-  }
-  
-  .community_like_board  a:link{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: black;
-  }
-  
-  .community_like_board  a:visited{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: black;
-  }
-  
-  .community_like_board a:hover{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: black;
-  }
-  
-  .community_like_board  a:active{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: black;
-  }
-
-  .community_read_header_info{
-    display: flex;
-  }
-
-  .community_read_header{
-    display: flex;
-    font-weight: 700;
-    margin-right: 5px;
-  }
-  
-  .icon-link {
-    display: flex;
-    align-items: center;
-    padding-right: 10px;
-    border-right: 1px solid #ccc; /* 점선 구분선 추가 */
-    margin-right: 10px; /* 간격 추가 */
-  }
-  
-  .icon-link:last-child {
-      border-right: none; /* 마지막 요소의 구분선 제거 */
-      margin-right: 0; /* 마지막 요소의 간격 제거 */
-  }
-  
+  /** 태그 관련 css **/
   h1{
     font-family: 'Giants-Bold';
   }
@@ -742,37 +170,6 @@
   header span{
     color: #A49E9E;
   }
-  
-  .navbar{
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    background-color: #4FA040; 
-    font-family: 'Giants-Bold';
-  }
-  
-  .navbar_label{
-    display: flex; 
-    align-items: center;
-  }
-  
-  .navbar_menu{
-    display: flex; 
-    justify-content: flex-end; 
-    text-align: center; 
-    font-family: 'Giants-Bold';
-    color: white; 
-    margin-right: 10px;
-  } 
-  
-  .navbar_menu > div {
-    margin-left: 10px;
-  }
-  
-  .navbar_menu > div:last-child {
-    margin-right: 0; /* 마지막 div 태그에 우측 간격 없음 */
-  }
-  
   
   .search {
     position: relative;
@@ -791,43 +188,6 @@
     outline: 2px solid black; /* outline 테두리 속성 수정 */
   } 
   
-  .search > img {
-    position : absolute;
-    width: 17px;
-    top: 10px;
-    right: 12px;
-    margin: 0;
-  }
-  
-  .ai_Search{
-    margin-bottom: 57px;
-  }
-  
-  .ai_Search > a{
-    font-family: 'Giants-Bold';
-    color: black;
-  }
-  
-  .navbar  a:link{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: white;
-  }
-  
-  .navbar  a:visited{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: white;
-  }
-  
-  .navbar a:hover{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: #B5FF00;
-  }
-  
-  .navbar  a:active{
-    text-decoration: none; /* 밑줄 삭제 */
-    color: #B5FF00;
-  }
-  
   a:link{  /* 방문전 상태 */
     text-decoration: none; /* 밑줄 삭제 */
     color: #555555;
@@ -848,21 +208,28 @@
     color: #7777FF;
   }
   
-  .community_header{
-    display: flex; 
-    align-items: center;
-    justify-content: flex-start;
-    height: 47px;
-    font-size: 15px;
-    border-top: 1px solid #DDDDDD; /* 상단 선 추가 */
-    border-bottom: 1px solid #DDDDDD; /* 하단 선 추가 */
-    background-image: url(/images/back_community.png); /* 배경색 추가 */
-    background-repeat: inherit;
-    background-position: center center; /* 배경 이미지 중앙 정렬 */
-    background-size: contain;           /* 배경 이미지가 요소의 크기에 맞게 조정됨 */
-    padding-left: 10px; /* 내용과의 여백 추가 */ 
+  /** 태그 관련 css 끝**/
+  
+  /** 검색창, ai 검색 관련 css **/
+  .search > img {
+    position : absolute;
+    width: 17px;
+    top: 10px;
+    right: 12px;
+    margin: 0;
   }
   
+  .ai_Search{
+    margin-bottom: 57px;
+  }
+  
+  .ai_Search > a{
+    font-family: 'Giants-Bold';
+    color: black;
+  }
+  /** 검색창, ai 검색 관련 css 끝**/
+  
+  /* 표 관련 설정*/
   table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -883,7 +250,7 @@
     DIV 태그가 20px 일경우 자식태그가 1em이면 최종적으로 20px이 적용됨.
     DIV 태그가 20px 일경우 자식태그가 1.5em이면 최종적으로 30px이 적용됨.
   */
-  
+
   .th_basic {
     font-size: 0.8em;
     border-top: none;
@@ -970,6 +337,17 @@
     margin-right: 5px;
   }
   
+  /* 커뮤니티 표 설정 */
+  .category,
+  .category * {
+    margin: 0;
+    padding: 0;
+    color: #000;
+  }
+  /* 커뮤니티 표 설정 끝 */
+  
+  /* 표 관련 설정 끝 */
+  
   /* swiper 관련 스타일 */
   .swiper-slide img {
     width: 100%; /* 이미지의 가로 너비를 100%로 설정하여 슬라이드에 맞게 조절 */
@@ -1041,28 +419,23 @@
     position: relative;
     padding: 10px;
   }
+  /* swiper 관련 스타일 끝*/
+  
+  /* 커뮤니티 & 댓글 태그 설정 */
+  .btn_more > span{
+    border-radius: 10%;
+    padding: 5px 20px;
+  }
   
   .btn_more{
     display: flex;
     justify-content: center;
     align-items: center;
-    
     font-weight: 700;
   }
-
-  .btn_more > span{
-    border-radius: 10%;
-    padding: 5px 20px;
-
-  }
+  /* 커뮤니티 & 댓글 태그 설정 끝*/
   
-  .category,
-  .category * {
-    margin: 0;
-    padding: 0;
-    color: #000;
-  }
-  
+  /* 네프론 맵 관련*/
   #mapwrap {
     position: relative;
     overflow: hidden;
@@ -1084,7 +457,6 @@
     background-color: #fff;
   }
 
-  /* 네프론 리스트 관련*/
   #mapwrap .category .menu_selected {
     background: #FF5F4A;
     color: black;
@@ -1121,7 +493,9 @@
   #mapwrap .category .ico_plastiandcan {
     background-position: 0 -66px;
   }
+   /* 네프론 맵 관련 끝 */
   
+  /* 메인 검색창 관련 */
   #results {
     border: 1px solid #ccc;
     display: none;
@@ -1147,8 +521,60 @@
     height: 75px;
     margin-right: 10px;
   }
+  /* 메인 검색창 관련 끝 */
   
-  /* CSS 스타일링 */
+  /* navbar 스타일링 */
+  .navbar{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    background-color: #4FA040; 
+    font-family: 'Giants-Bold';
+  }
+  
+  .navbar_label{
+    display: flex; 
+    align-items: center;
+  }
+  
+  .navbar_menu{
+    display: flex; 
+    justify-content: flex-end; 
+    text-align: center; 
+    font-family: 'Giants-Bold';
+    color: white; 
+    margin-right: 10px;
+  } 
+  
+  .navbar_menu > div {
+    margin-left: 10px;
+  }
+  
+  .navbar_menu > div:last-child {
+    margin-right: 0; /* 마지막 div 태그에 우측 간격 없음 */
+  }
+  
+  .navbar  a:link{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: white;
+  }
+  
+  .navbar  a:visited{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: white;
+  }
+  
+  .navbar a:hover{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: #B5FF00;
+  }
+  
+  .navbar  a:active{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: #B5FF00;
+  }
+  
+  /* -navbar 드롭다운 관련*/
   .dropdown {
     position: relative;
     display: inline-block;
@@ -1159,9 +585,13 @@
     display: none;
     position: absolute;
     background-color: #4FA040; 
-    min-width: 160px;
+    min-width: 120px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 2;
+    right: 0;
+    top: 100%; /* 부모 요소 아래에 위치 */
+    border-radius: 10px; /* 라운딩 처리 */
+    border: 2px solid #3E7F33; /* 약간 진한 실선 border */
   }
   
   .dropdown-content a {
@@ -1169,20 +599,700 @@
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    border-top: 1px solid #3E7F33;
+    padding : 10px 0 10px;
   }
   
   .dropdown-content a:hover {
-    background-color: #4FA040; 
+    background-color: #4FA040;
+    right: 0;
+    top: 100%; /* 부모 요소 아래에 위치 */
+    border-radius: 10px; /* 라운딩 처리 */
+    padding : 10px 0 10px;
   }
   
-  .dropdown:hover .dropdown-content {
-    display: block;
+  .dropdown-content:hover{
+    background-color: #4FA040; 
+    min-width: 120px;
+    right: 0;
+    top: 100%; /* 부모 요소 아래에 위치 */
+    border-radius: 10px; /* 라운딩 처리 */
+    border: 2px solid #3E7F33; /* 약간 진한 실선 border */
   }
+  
+  .dropdown:hover .dropdown-content{
+    display: block;
+    position: absolute;
+    background-color: #4FA040; 
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 2;
+    right: 0;
+    top: 100%; /* 부모 요소 아래에 위치 */
+    border-radius: 10px; /* 라운딩 처리 */
+    border: 2px solid #3E7F33; /* 약간 진한 실선 border */
+  }
+  
   
   .dropdown:hover .dropbtn {
     background-color: #4FA040; 
     cursor: pointer;
     color: #B5FF00;
   }
+  /*navbar 스타일링 설정 끝*/
+  
+}
+
+@media (min-width: 576px) and (max-width: 2000px) {
+  body {
+    display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center;    /* 수직 가운데 정렬 */
+    margin: 0;              /* 기본 여백 제거 */
+  }
+
+  .container_main {
+    width: 575px;
+  }
+  
+  @font-face {
+    font-family: 'Giants-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  /** 댓글 및 커뮤니티 관련 css **/
+  .comment_box button{
+    border: 1px solid #000000; /* 테두리를 검은색으로 설정 */
+  }
+  
+  .community_comment_header{
+    margin : 5px 10px;
+  }
+  
+  .comment_box{
+    display: flex;
+    justify-content: flex-end; /* 우측 정렬 */
+    width: 100%;
+  }
+  
+  .custom-file-upload{
+      display: inline-block;
+      cursor: pointer;
+      color: white;
+      background-color: #ffffff; /* 배경색을 흰색으로 설정 */
+      color: #000000; /* 글자색을 검은색으로 설정 */
+      border: 1px solid #000000; /* 테두리를 검은색으로 설정 */
+      text-align: center;
+      margin-left: 10px;
+      margin : 10px 10px;
+      padding : 0px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center; /* 가운데 정렬 */
+  }
+  
+  .comment_box input, .comment button{
+    font-size: 12px;
+    width: 20%; /* 화면의 5분의 1 크기 */
+    margin-left: 10px; /* 요소 사이 간격 추가 */
+  }
+  
+  .comment_box input{
+    display: none;
+  }
+  
+  .comment_box button{
+    margin: 10px 0 10px 10px; /* 버튼의 위아래 마진 설정 */
+  }
+  
+  
+  .community_comment_cnt span{
+    margin-left: 2px;
+    color: red;
+  }
+  
+  .community_comment_contents{
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .community_comment_board{
+    margin : 0px 5px;
+    background-color: #F0EEEE;
+    padding: 10px 5px;
+    border-top: 1px dashed #8C8C8C;  /* 상단 점선 추가 */
+    border-bottom: 1px dashed #8C8C8C; /* 하단 점선 추가 */
+  }  
+
+  .community_read_contents{
+    min-height: 200px; /* 기본 높이 설정 */
+  }
+  
+  .community_read_header_box{
+    background-color: #F0EEEE;
+    display: flex; 
+    align-items: center; 
+    justify-content: space-around;
+    padding : 5% 10%;
+  }
+  .community_like_board {
+      display: flex;
+      align-items: center;
+      background-color: #F0EEEE;
+      padding: 10px;
+      cursor: pointer; /* div 전체를 클릭할 수 있도록 커서 변경 */
+      text-decoration: none; /* 링크 스타일 제거 */
+      justify-content: space-between;
+  }
+  
+  .community_like_board img {
+      margin-right: 3px; /* 이미지와 텍스트 사이 간격 추가 */
+  }
+  .community_like_board a {
+      color: pink; /* 글자색을 분홍색으로 설정 */
+      display: flex;
+      align-items: center;
+      text-decoration: none; /* 링크 스타일 제거 */
+  }
+  
+  .community_like_board  a:link{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: black;
+  }
+  
+  .community_like_board  a:visited{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: black;
+  }
+  
+  .community_like_board a:hover{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: black;
+  }
+  
+  .community_like_board  a:active{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: black;
+  }
+
+  .community_read_header_info{
+    display: flex;
+  }
+
+  .community_read_header{
+    display: flex;
+    font-weight: 700;
+    margin-right: 5px;
+  }
+  
+  .icon-link {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    border-right: 1px solid #ccc; /* 점선 구분선 추가 */
+    margin-right: 10px; /* 간격 추가 */
+  }
+  
+  .icon-link:last-child {
+      border-right: none; /* 마지막 요소의 구분선 제거 */
+      margin-right: 0; /* 마지막 요소의 간격 제거 */
+  }
+  
+  .community_header {
+    display: flex; 
+    align-items: center;
+    justify-content: flex-start;
+    height: 47px;
+    font-size: 15px;
+    border-top: 1px solid #DDDDDD; /* 상단 선 추가 */
+    border-bottom: 1px solid #DDDDDD; /* 하단 선 추가 */
+    background-image: url(/images/back_community.png); /* 배경색 추가 */
+    background-repeat: inherit;
+    background-position: center center; /* 배경 이미지 중앙 정렬 */
+    background-size: contain;           /* 배경 이미지가 요소의 크기에 맞게 조정됨 */
+    padding-left: 10px; /* 내용과의 여백 추가 */ 
+  }
+   /** 댓글 및 커뮤니티 관련 css 끝**/
+  
+  /** 태그 관련 css **/
+  h1{
+    font-family: 'Giants-Bold';
+  }
+
+  header span{
+    color: #A49E9E;
+  }
+  
+  .search {
+    position: relative;
+    width: 300px;
+  }
+  
+  input {
+    width: 100%;
+    border: 1px solid #bbb;
+    border-radius: 20px;
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+  
+  input:focus {
+    outline: 2px solid black; /* outline 테두리 속성 수정 */
+  } 
+  
+  a:link{  /* 방문전 상태 */
+    text-decoration: none; /* 밑줄 삭제 */
+    color: #555555;
+  }
+  
+  a:visited{  /* 방문후 상태 */
+    text-decoration: none; /* 밑줄 삭제 */
+    color: #555555;
+  }
+  
+  a:hover{  /* A 태그에 마우스가 올라간 상태 */
+    text-decoration: underline; /* 밑줄 출력 */
+    color: #7777FF;
+  }
+  
+  a:active{  /* A 태그를 클릭한 상태 */
+    text-decoration: underline; /* 밑줄 출력 */
+    color: #7777FF;
+  }
+  
+  /** 태그 관련 css 끝**/
+  
+  /** 검색창, ai 검색 관련 css **/
+  .search > img {
+    position : absolute;
+    width: 17px;
+    top: 10px;
+    right: 12px;
+    margin: 0;
+  }
+  
+  .ai_Search{
+    margin-bottom: 57px;
+  }
+  
+  .ai_Search > a{
+    font-family: 'Giants-Bold';
+    color: black;
+  }
+  /** 검색창, ai 검색 관련 css 끝**/
+  
+  /* 표 관련 설정*/
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  .table tr {
+    font-size: 11px;
+  }
+  
+  .table_basic {
+    border-collapse: collapse;
+    margin: 2px auto;
+    width: 100%;
+  }
+  
+  /* 1em 기본값 : 16px, 주변 태그의 글자크기를 1em으로 인식
+    DIV 태그가 20px 일경우 자식태그가 0.5em이면 최종적으로 10px이 적용됨.
+    DIV 태그가 20px 일경우 자식태그가 1em이면 최종적으로 20px이 적용됨.
+    DIV 태그가 20px 일경우 자식태그가 1.5em이면 최종적으로 30px이 적용됨.
+  */
+
+  .th_basic {
+    font-size: 0.8em;
+    border-top: none;
+    border-right: none;
+    border-bottom: solid 1px #DDDDDD;
+    border-left: none;
+    text-align: center;
+  }
+  
+  .th_bs {
+    text-align: center;
+  }
+  
+  .td_left {
+    border-top: none;
+    border-right: none;
+    border-bottom: solid 1px #DDDDDD;
+    border-left: none;
+    text-align: left;
+  }
+  
+  .td_bs_num{
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .td_bs {
+    text-align: start;
+    vertical-align: middle;
+  }
+  
+  .td_bs > div {
+    display: flex; 
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .td_bs_id, .td_bs_uptime{
+    text-align: start;
+    color: #8C8C8C;
+    font-size: 10px;
+  }
+  
+  .td_bs img{
+    width: 40px;
+    height: 40px;
+    border: solid 1px #DDDDDD;
+    border-radius: 10%;
+  }
+  
+  .td_bs_left {
+    text-align: left;
+    vertical-align: middle;
+  }
+  
+  .td_bs_right {
+    text-align: right;
+    vertical-align: top;
+    padding-right: 10px;
+  }
+  
+  .td_bs_trash_cate{
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .td_bs_info{
+    text-align: left;
+  }
+
+  .td_bs_info > div{
+    display: flex; 
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .td_bs_info .category{
+    background-color: #8C8C8C;
+    padding: 3px 5px;
+    color: white;
+    font-weight: 700;
+    margin-right: 5px;
+  }
+  
+  /* 커뮤니티 표 설정 */
+  .category,
+  .category * {
+    margin: 0;
+    padding: 0;
+    color: #000;
+  }
+  /* 커뮤니티 표 설정 끝 */
+  
+  /* 표 관련 설정 끝 */
+  
+  /* swiper 관련 스타일 */
+  .swiper-slide img {
+    width: 100%; /* 이미지의 가로 너비를 100%로 설정하여 슬라이드에 맞게 조절 */
+    height: auto; /* 이미지의 세로 높이를 자동으로 조정하여 비율 유지 */
+  }
+  
+  .swiper-slide{
+    margin-bottom: 40px;
+    border: solid 1px #DDDDDD;
+  }
+  
+  .swiper-pagination-bullet-active {
+    background-color: greenyellow;
+  }
+  
+  /* modal swiper 관련 스타일 */
+  .modal_window > .swiper-slide img {
+    width: 80%; /* 이미지의 가로 너비를 100%로 설정하여 슬라이드에 맞게 조절 */
+    height: auto; /* 이미지의 세로 높이를 자동으로 조정하여 비율 유지 */
+  }
+  
+  .second_header{
+    font-size: 16px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .nefhorne_block{
+    display: flex; 
+    align-items: start;
+    justify-content: flex-start;
+    padding-top: 10px;
+    padding-left: 10px;
+    height: 170px;
+    font-size: 13px;
+    font-weight: 700;
+    background-image: url(/images/back_nefhorne.png);
+    background-repeat: inherit;
+    background-position: center center; /* 배경 이미지 중앙 정렬 */
+    background-size: contain;           /* 배경 이미지가 요소의 크기에 맞게 조정됨 */
+  }
+  
+  .modal_overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed; /* fixed로 변경 */
+    left: 0;
+    top: 0;
+    display: none; /* 기본적으로 보이지 않게 */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+    z-index: 9999; /* 높은 z-index 설정 */
+  }
+  
+  .modal_window {
+    background: white;
+    backdrop-filter: blur(13.5px);
+    -webkit-backdrop-filter: blur(13.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 350px;
+    height: 350px;
+    position: relative;
+    padding: 10px;
+  }
+  /* swiper 관련 스타일 끝*/
+  
+  /* 커뮤니티 & 댓글 태그 설정 */
+  .btn_more > span{
+    border-radius: 10%;
+    padding: 5px 20px;
+  }
+  
+  .btn_more{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+  }
+  /* 커뮤니티 & 댓글 태그 설정 끝*/
+  
+  /* 네프론 맵 관련*/
+  #mapwrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  #mapwrap .category {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    overflow: hidden;
+    top: 10px;
+    left: 10px;
+    height: 65px;
+    z-index: 10;
+    border: 1px solid black;
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    font-size: 12px;
+    text-align: center;
+    background-color: #fff;
+  }
+
+  #mapwrap .category .menu_selected {
+    background: #FF5F4A;
+    color: black;
+    border-left: 1px solid #915B2F;
+    border-right: 1px solid #915B2F;
+    margin: 0 -1px;
+  }
+
+  #mapwrap .category div {
+    list-style: none;
+    width: 50px;
+    height: 45px;
+    padding-top: 5px;
+    cursor: pointer;
+  }
+
+  #mapwrap .category .ico_comm {
+    display: block;
+    align-items: center;
+    margin: 0 auto 2px;
+    width: 34px;
+    height: 33px;
+    background: url('/images/nephroncategory1.png') no-repeat;
+  }
+
+  #mapwrap .category .ico_plastic {
+    background-position: 0 0;
+  }
+
+  #mapwrap .category .ico_can {
+    background-position: 0 -33px;
+  }
+
+  #mapwrap .category .ico_plastiandcan {
+    background-position: 0 -66px;
+  }
+   /* 네프론 맵 관련 끝 */
+  
+  /* 메인 검색창 관련 */
+  #results {
+    border: 1px solid #ccc;
+    display: none;
+    position: absolute;
+    background-color: white;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  .result-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+  }
+
+  .result-item:hover {
+    background-color: #f0f0f0;
+  }
+
+  .result-item img {
+    width: 75px;
+    height: 75px;
+    margin-right: 10px;
+  }
+  /* 메인 검색창 관련 끝 */
+  
+  /* navbar 스타일링 */
+  .navbar{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    background-color: #4FA040; 
+    font-family: 'Giants-Bold';
+  }
+  
+  .navbar_label{
+    display: flex; 
+    align-items: center;
+  }
+  
+  .navbar_menu{
+    display: flex; 
+    justify-content: flex-end; 
+    text-align: center; 
+    font-family: 'Giants-Bold';
+    color: white; 
+    margin-right: 10px;
+  } 
+  
+  .navbar_menu > div {
+    margin-left: 10px;
+  }
+  
+  .navbar_menu > div:last-child {
+    margin-right: 0; /* 마지막 div 태그에 우측 간격 없음 */
+  }
+  
+  .navbar  a:link{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: white;
+  }
+  
+  .navbar  a:visited{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: white;
+  }
+  
+  .navbar a:hover{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: #B5FF00;
+  }
+  
+  .navbar  a:active{
+    text-decoration: none; /* 밑줄 삭제 */
+    color: #B5FF00;
+  }
+  
+  /* -navbar 드롭다운 관련*/
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #4FA040; 
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 2;
+    right: 0;
+    top: 100%; /* 부모 요소 아래에 위치 */
+    border-radius: 10px; /* 라운딩 처리 */
+    border: 2px solid #3E7F33; /* 약간 진한 실선 border */
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-top: 1px solid #3E7F33;
+    padding : 10px 0 10px;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #4FA040;
+    right: 0;
+    top: 100%; /* 부모 요소 아래에 위치 */
+    border-radius: 10px; /* 라운딩 처리 */
+    padding : 10px 0 10px;
+  }
+  
+  .dropdown-content:hover{
+    background-color: #4FA040; 
+    min-width: 120px;
+    right: 0;
+    top: 100%; /* 부모 요소 아래에 위치 */
+    border-radius: 10px; /* 라운딩 처리 */
+    border: 2px solid #3E7F33; /* 약간 진한 실선 border */
+  }
+  
+  .dropdown:hover .dropdown-content{
+    display: block;
+    position: absolute;
+    background-color: #4FA040; 
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 2;
+    right: 0;
+    top: 100%; /* 부모 요소 아래에 위치 */
+    border-radius: 10px; /* 라운딩 처리 */
+    border: 2px solid #3E7F33; /* 약간 진한 실선 border */
+  }
+  
+  
+  .dropdown:hover .dropbtn {
+    background-color: #4FA040; 
+    cursor: pointer;
+    color: #B5FF00;
+  }
+  /*navbar 스타일링 설정 끝*/
   
 }
