@@ -6,14 +6,6 @@
 <div layout:fragment="content">
 
   <aside class="aside_right" style="float: right;">
-    <a th:href="@{|./create|}" th:if="${session.admin == 'admin'}">등록</a>
-    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
-    <a th:href="@{|./trash_update?trashno=${trashVO.trashno}|}" th:if="${session.admin == 'admin'}">수정</a>
-    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
-    <a th:if="${session.admin == 'admin'}" th:href="@{|./trash_list_all|}">목록</a>
-    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
-    <a th:href="@{|./trash_delete?trashno=${trashVO.trashno}|}" th:if="${session.admin == 'admin'}">삭제</a>
-    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
     <a href="javascript:location.reload();">새로고침</a>
   </aside>
   <br>
