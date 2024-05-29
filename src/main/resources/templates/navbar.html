@@ -1,5 +1,14 @@
 <div th:fragment="navbarFragment">
   <script>
+    const dropdown = document.querySelector('.dropdown-content');
+    const dropdownRect = dropdown.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    
+    if (dropdownRect.right > windowWidth) {
+      dropdown.style.right = '0';
+      dropdown.style.transform = 'translateX(0)';
+    }
+    
     // 드롭다운 토글 함수
     function toggleDropdown() {
       document.getElementById("myDropdown").classList.toggle("show");

@@ -3,31 +3,31 @@
 <div layout:fragment="content">
     <script>
         window.onload = () => {
-            document.querySelector('#passwd').addEventListener('keypress', (event) => {
+            document.querySelector('#password').addEventListener('keypress', (event) => {
                 // document.getElementById('passwd').addEventListener('keypress', (event) => {
                 if (event.key === 'Enter') {
-                    document.getElementById('passwd2').focus();
+                    document.getElementById('password2').focus();
                 }
             });
 
-            document.querySelector('#passwd2').addEventListener('keypress', (event) => {
+            document.querySelector('#password2').addEventListener('keypress', (event) => {
                 // document.getElementById('passwd').addEventListener('keypress', (event) => {
                 if (event.key === 'Enter') {
-                    document.getElementById('name').focus();
-                }
-            });
-
-            document.querySelector('#sex').addEventListener('keypress', (event) => {
-                // document.getElementById('passwd').addEventListener('keypress', (event) => {
-                if (event.key === 'Enter') {
-                    document.getElementById('age').focus();
+                    document.getElementById('tel').focus();
                 }
             });
 
             document.querySelector('#tel').addEventListener('keypress', (event) => {
                 // document.getElementById('passwd').addEventListener('keypress', (event) => {
                 if (event.key === 'Enter') {
-                    document.getElementById('btn_DaumPostcode').focus();
+                    document.getElementById('email').focus();
+                }
+            });
+
+            document.querySelector('#email').addEventListener('keypress', (event) => {
+                // document.getElementById('passwd').addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    document.getElementById('address1').focus();
                 }
             });
 
@@ -51,7 +51,7 @@
                 passwd2_msg.classList.add('span_warning');    // class 적용
                 passwd.focus();  // 첫번째 패스워드로 focus 설정
 
-                return false;  // 회원 가입 진행 중지
+                return false;  // 회원 수정 진행 중지
             }
 
             if (passwd.value == '') {
@@ -59,7 +59,7 @@
                 passwd_msg.classList.add('span_warning');    // class 적용
                 passwd.focus();  // 첫번째 패스워드로 focus 설정
 
-                return false;  // 회원 가입 진행 중지
+                return false;  // 회원 수정 진행 중지
             }
 
             if (passwd2.value = '') {
@@ -67,7 +67,7 @@
                 passwd2_msg.classList.add('span_warning');    // class 적용
                 passwd2.focus();  // 두번째 패스워드로 focus 설정
 
-                return false;  // 회원 가입 진행 중지
+                return false;  // 회원 수정 진행 중지
             }
 
             let tel = document.getElementById('tel');
@@ -78,14 +78,25 @@
                 tel_msg.classList.add('span_warning');    // class 적용
                 tel.focus();
 
-                return false;  // 회원 가입 진행 중지
+                return false;  // 회원 수정 진행 중지
+            }
+
+            let email = document.getElementById('email');
+            let email_msg = document.getElementById('email_msg');
+
+            if (email.value.length == 0) {
+                email_msg.innerHTML = '이메일 입력은 필수입니다.';
+                email_msg.classList.add('span_warning');    // class 적용
+                email.focus();
+
+                return false;  // 회원 수정 진행 중지
             }
 
             document.getElementById('frm').submit(); // required="required" 작동 안됨.
         }
     </script>
     <div class="title_line">
-        회원 가입(*:필수)
+        회원 수정
     </div>
     <div class='menu_line'></div>
     <div>
@@ -96,7 +107,10 @@
                     <label>아이디*</label>
                 </div>
                 <input type="text" th:fields="${id}" id="id" name="id" th:value="${memberVO.id}" autofocus="autofocus"
-                    class="form-control form-control-sm" style="width: 50%;" readonly>
+                    class="form-control form-control-sm" style="width: 50%; background-color: #b6b0b0;
+                    background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 44%, rgba(255, 255, 255, 0.3) 45%, rgba(255, 255, 255, 0.3) 55%, rgba(255, 255, 255, 0) 56%, rgba(255, 255, 255, 0) 100%);
+                    background-size: 4px 4px;
+                    background-repeat: repeat;" readonly >
             </div>
             <br>
 
@@ -119,7 +133,10 @@
             <div class="form-group">
                 <label>닉네임*</label>
                 <input type='text' class="form-control form-control-sm" name='nickname' id='nickname' th:value="${memberVO.nickname}"
-                    required="required" placeholder="닉네임" style="width: 50%;" readonly>
+                    required="required" placeholder="닉네임" style="width: 50%; background-color: #b6b0b0;
+                    background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 44%, rgba(255, 255, 255, 0.3) 45%, rgba(255, 255, 255, 0.3) 55%, rgba(255, 255, 255, 0) 56%, rgba(255, 255, 255, 0) 100%);
+                    background-size: 4px 4px;
+                    background-repeat: repeat;" readonly>
             </div>
             <br>
 
@@ -127,7 +144,7 @@
                 <label>전화 번호:</label>
                 <input type='text' class="form-control form-control-sm" name='tel' id='tel' value='' required="required"
                     placeholder="전화번호" style="width: 50%;">
-                예) 01093674590
+                예) 01011112222
             </div>
             <br>
 
@@ -143,7 +160,7 @@
                 <label>우편 번호:</label>
                 <input type='text' class="form-control form-control-sm" id='zipcode' value=''
                     placeholder="우편번호">
-                <button type="button" id="btn_DaumPostcode" onclick="DaumPostcode()" class="btn btn-primary btn-sm">우편번호
+                <button type="button" id="btn_DaumPostcode" onclick="DaumPostcode()" class="btn btn-primary btn-sm" style="margin-top: 1%;">우편번호
                     찾기</button>
             </div>
             <!-- ------------------------------ DAUM 우편번호 API 시작 ------------------------------ -->
@@ -230,7 +247,7 @@
             </div>
             <br>
 
-            <div class="content_body_bottom">
+            <div class="content_body_bottom" style="text-align: right;">
                 <button type="button" onclick="send();" class="btn btn-secondary btn-sm">수정</button>
                 <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
             </div>
