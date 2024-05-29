@@ -4,10 +4,12 @@
       <!-- 왼쪽에 위치할 요소들 -->
       <div class="navbar_label">
         <div style="margin-right: 5px; height: auto;">
-          <img src="images/ic_main.svg" alt="메인 아이콘">
+          <img src="/images/ic_main.svg" alt="메인 아이콘" onclick="window.location.href='http:\/\/localhost:9093\/admin'"
+          onmouseover="this.style.cursor='pointer'">
         </div>
         <div style="text-align: center;">
-          <span style="font-size: 24px;">쓰레기 박사</span>
+          <span style="font-size: 24px;" onclick="window.location.href='http:\/\/localhost:9093\/admin'"
+          onmouseover="this.style.cursor='pointer'">쓰레기 박사</span>
         </div>
       </div>
 
@@ -24,7 +26,7 @@
         <div class="dropdown" th:if="${session.adminno != null}">
           <span class="dropbtn">수정</span>
           <div style="margin-right: 10px;" class="dropdown-content">
-            <a th:href="@{|/admin/read?adminno=${session.adminno}|}">관리자 정보 수정</a>
+            <a href="/trash/trash_list_all">쓰레기 목록</a>
             <a th:href="@{|/admin/password_update?adminno=${session.adminno}|}">비밀번호 변경</a>
           </div>
         </div>
@@ -40,8 +42,14 @@
         <div th:if="${session.admin == null}">
           <a href="/admin/login">로그인</a>
         </div>
-        <div th:if="${session.admin != null}">
-          <a href="/admin/logout">로그아웃</a>
+
+        <div class="dropdown" th:if="${session.adminno != null}">
+          <span class="dropbtn">[[${session.name}]]</span>
+          <div style="margin-right: 10px;" class="dropdown-content">
+            <a href="/admin/logout">로그아웃</a>
+            <a th:href="@{|/admin/read?adminno=${session.adminno}|}">관리자 정보 수정</a>
+            <a th:href="@{|/admin/password_update?adminno=${session.adminno}|}">비밀번호 변경</a>
+          </div>
         </div>
       </div>
 
