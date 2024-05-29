@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{admin/layout}"> <!-- layout.html 상속-->
+
+
+<div layout:fragment="content">
+
+  <aside class="aside_right" style="float: right;">
+    <a th:href="@{|./create|}" th:if="${session.admin == 'admin'}">등록</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a th:href="@{|./trash_update?trashno=${trashVO.trashno}|}" th:if="${session.admin == 'admin'}">수정</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a th:if="${session.admin == 'admin'}" th:href="@{|./trash_list_all|}">목록</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a th:href="@{|./trash_delete?trashno=${trashVO.trashno}|}" th:if="${session.admin == 'admin'}">삭제</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a href="javascript:location.reload();">새로고침</a>
+  </aside>
+  <br>
+  <div class='menu_line'></div>
+
+  <div class="container">
+
+    <div style="width: 100%; word-break: break-all;">
+      <div
+        th:if="${trashVO.file1.endsWith('jpg') or trashVO.file1.endsWith('png') or trashVO.file1.endsWith('gif') or trashVO.file1.endsWith('jpeg')}">
+        <img th:src="@{|/trash/storage/${trashVO.file1}|}" style='width: 100%; margin-bottom: 1rem;'>
+      </div>
+    </div>
+
+    <div style="width: 100%; word-break: break-all;">
+      <hr>
+      <span style="font-size: 1.5em; font-weight: bold;" th:text="${trashVO.name}"></span><br><br>
+      <span style="font-size: 1em;" th:text="${trashVO.tag}"></span><br><br>
+      <span style="font-size: 1em;" th:if="${trashVO.isrecycle == 'N'}">재활용: 불가능</span><br>
+      <span style="font-size: 1em;" th:if="${trashVO.isrecycle == 'Y'}">재활용: 가능</span><br>
+      <hr>
+      <span style="font-size: 1.5em;">버리는 방법</span><br><br>
+      <div style="white-space: pre-wrap;"><span th:text="${trashVO.process}"></span></div><br>
+      <hr>
+      <span style="font-size: 1.5em;">유의할 점</span><br><br>
+      <div style="white-space: pre-wrap;"><span th:text="${trashVO.tip}"></span></div><br>
+      <hr>
+      <a th:href="@{|/singo/create?trashno=${trashVO.trashno}|}" style="float: right;"> 수정 요청 </a>
+    </div>
+    <br><br>
+  </div>
+</div>
+
+</html>
