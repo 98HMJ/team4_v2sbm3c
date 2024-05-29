@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html layout:decorate="~{admin/layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+    <script>
+        window.onload = () => {
+            document.querySelector('#name').addEventListener('keypress', (event) => {
+                // document.getElementById('passwd').addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    document.getElementById('email').focus();
+                }
+            });
+
+            document.querySelector('#email').addEventListener('keypress', (event) => {
+                // document.getElementById('passwd').addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    document.getElementById('btn_send').focus();
+                }
+            });
+        }
+
+        function send() { // 회원 가입 처리
+            let name = document.getElementById('name');
+            let name_msg = document.getElementById('name_msg');
+
+            if (name.value.length == 0) {
+                name_msg.innerHTML = '이름 입력은 필수입니다.';
+                name_msg.classList.add('span_warning');    // class 적용
+                name.focus();
+
+                return false;  // 회원 가입 진행 중지
+            }
+
+            let tel = document.getElementById('email');
+            let tel_msg = document.getElementById('email_msg');
+
+            if (tel.value.length == 0) {
+                tel_msg.innerHTML = '이메일 입력은 필수입니다.';
+                tel_msg.classList.add('span_warning');    // class 적용
+                tel.focus();
+
+                return false;  // 회원 가입 진행 중지
+            }
+
+            document.getElementById('frm').submit(); // required="required" 작동 안됨.
+        }
+    </script>
+    <div class="title_line">
+        아이디 찾기
+    </div>
+    <div class='menu_line'></div>
+    <div style="width: 60%; margin: 0px auto ">
+        <form th:object="${adminVO}" id="frm" name="frm" method="post" action="/admin/findid">
+            <div class="form-group">
+                <label>성명*:</label>
+                <input type='text' class="form-control form-control-sm" name='name' id='name' value=''
+                    required="required" placeholder="성명">
+                <span id='name_msg'></span><br>
+
+            <div class="form-group">
+                <label>이메일*:</label>
+                <input type='text' class="form-control form-control-sm" name='email' id='email' value='' required="required"
+                    placeholder="이메일">
+                예) xxx@xxxx.com
+            </div>
+            <br>
+
+            <div class="content_body_bottom" style="text-align: right;">
+                <button type="button" onclick="send();" class="btn btn-secondary btn-sm">확인</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</html>

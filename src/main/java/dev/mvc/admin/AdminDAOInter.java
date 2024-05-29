@@ -3,6 +3,8 @@ package dev.mvc.admin;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dev.mvc.member.MemberVO;
+
 public interface AdminDAOInter {
   /**
    * 중복 아이디 검사
@@ -70,5 +72,26 @@ public interface AdminDAOInter {
    * 로그인 처리
    */
   public int login(HashMap<String, Object> map);
+
+  /**
+   * 관리자 아이디 찾기
+   * @param map
+   * @return adminVO
+   */
+  public AdminVO findid(HashMap<String,String> map);
+
+  /**
+   * 관리자 비밀번호 찾기
+   * @param map
+   * @return adminVO
+   */
+  public AdminVO findpassword(HashMap<String,Object> map);
+
+  /**
+   * 관리자 비밀번호 수정
+   * @param map
+   * @return
+   */
+  public int changepassword(HashMap<String,Object> map);
   
 }

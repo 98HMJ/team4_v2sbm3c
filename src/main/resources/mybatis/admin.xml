@@ -69,4 +69,25 @@
     WHERE adminno=#{adminno}
   </update>
 
+
+  <!--관리자 아이디 찾기-->
+  <select id="findid" resultType="dev.mvc.admin.AdminVO" parameterType="HashMap">
+    SELECT *
+    FROM admin
+    WHERE name=#{name} AND email=#{email}
+  </select>
+
+  <!--관리자 비밀번호 찾기-->
+  <select id="findpassword" resultType="dev.mvc.admin.AdminVO" parameterType="HashMap">
+    SELECT *
+    FROM admin
+    WHERE name=#{name} AND id=#{id}
+  </select>
+
+  <!--관리자 비밀번호 변경-->
+  <update id="changepassword" parameterType="HashMap">
+    UPDATE admin 
+    SET password=#{password}
+    WHERE adminno=#{adminno}
+  </update>
 </mapper> 

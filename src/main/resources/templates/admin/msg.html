@@ -67,6 +67,34 @@
             padding-left: 20px;
             margin-top: 2px; ">아이디 또는 비밀번호가 틀렸습니다.</span><br>
           </div>
+          <div th:case="chagepasswordfail">
+            <span class="span_fail">패스워드 변경을 실패했습니다.</span><br>
+          </div>
+
+          <div th:case="chagepassword_success">
+            <span class="span_success">패스워드를 수정했습니다.</span><br>
+          </div>
+
+          <div th:case="findid">
+            <span class="span_success">아이디 찾기 성공</span><br>
+            <span >[[|${adminVO.name}의 id 는 ${adminVO.id} 입니다.|]]</span>
+          </div>
+          
+          <div th:case="findidfail">
+            <span class="span_fail">아이디 찾기 실패</span><br>
+          </div>
+
+          <div th:case="findpasswordsuccess">
+            <span class="span_success" th:text="${email}"></span><span>로 임시 패스워드를 전송했습니다.</span><br>
+          </div>
+
+          <div th:case="update_success">
+            <span class="span_success">회원 정보를 수정했습니다.</span><br>
+          </div>
+
+          <div th:case="update_fail">
+            <span class="span_fail">회원 정보 수정을 실패했습니다.</span><br>
+          </div>
 
           <li class="li_none">
             <div th:if="${cnt == 0}">
@@ -74,6 +102,10 @@
             </div>
             <div th:if="${cnt == 1}">
               <button type="button" onclick="location.href='/admin'" class="btn btn-secondary btn-sm">닫기</button>
+            </div>
+
+            <div th:if="${cnt == 2}">
+              <button type="button" onclick="location.href='/admin/login?change=1'" class="btn btn-secondary btn-sm">로그인</button>
             </div>
           </li>
       </ul>

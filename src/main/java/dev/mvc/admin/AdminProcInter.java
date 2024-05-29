@@ -3,6 +3,7 @@ package dev.mvc.admin;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dev.mvc.member.MemberVO;
 import jakarta.servlet.http.HttpSession;
 
 public interface AdminProcInter {
@@ -86,5 +87,26 @@ public interface AdminProcInter {
    * @return true: 통합관리자 false: 통합관리자 X
    */
   public boolean isPermission(HttpSession session);
+
+  /**
+     * 관리자 아이디 찾기
+     * @param map
+     * @return adminVO
+     */
+    public AdminVO findid(HashMap<String,String> map);
+
+    /**
+     * 관리자 비밀번호 찾기
+     * @param map
+     * @return adminVO
+     */
+    public AdminVO findpassword(HashMap<String,Object> map);
+
+    /**
+     * 관리자 비밀번호 수정
+     * @param map
+     * @return adminVO
+     */
+    public int changepassword(HashMap<String,Object> map);
   
 }

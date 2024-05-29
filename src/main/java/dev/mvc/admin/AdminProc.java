@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.mvc.member.MemberVO;
 import dev.mvc.tool.Security;
 import jakarta.servlet.http.HttpSession;
 
@@ -119,4 +120,22 @@ public class AdminProc implements AdminProcInter{
     isPermission = ((int)session.getAttribute("adminno") == 1) ? true: false;
     return isPermission;
   }
+
+  @Override
+    public AdminVO findid(HashMap<String,String> map){
+        return this.adminDAO.findid(map);
+    }
+
+    @Override
+    public AdminVO findpassword(HashMap<String,Object> map){
+        return this.adminDAO.findpassword(map);
+    }
+
+    @Override
+    public int changepassword(HashMap<String,Object> map){
+        String key = security.aesEncode((String) map.get("password"));
+        map.put("password", key);
+        return this.adminDAO.changepassword(map);
+    }
+
 }
