@@ -154,8 +154,10 @@ public class TrashCont {
     String searh_word = trashVO.getName();
     this.searchProc.search_create(searh_word);
     model.addAttribute("searh_word", searh_word);
-
+    if(this.adminProc.isAdmin(session))
+      return "trash/trash_read_admin";
     return "trash/trash_read";
+    
   }
 
   @GetMapping(value = "/trash_list_search")
