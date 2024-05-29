@@ -7,16 +7,22 @@
     <input type="hidden" name="replyno" th:value="${replyno}">    
     
     <!-- 댓글 input 창 -->
-    <div class="comment_input_container">
+    <div class="comment_input_container" style="margin: 10px 0 10px;">
         <div class="comment_input">
-            <img src="images/ic_comment.svg" alt="댓글 아이콘">
+            <div>
+              <img src="../images/ic_chat.svg" alt="댓글 아이콘" style="width: 30px; height: 30px;">
+              <span>댓글내용</span>
+            </div>
             <input type="text" name="contents" id="contents" required="required" placeholder="업데이트할 댓글 내용">
         </div>
     </div>
     <!-- 이미지 업로드 파일 창 -->
-    <div class="file_upload_container">
+    <div class="file_upload_container" style="margin-top: 10px 0 10px;">
         <div class="file_upload">
-            <img src="images/ic_upload.svg" alt="파일 업로드 아이콘">
+            <div>
+              <img src="../images/ic_upload_img.svg" alt="파일 업로드 아이콘" style="width: 30px; height: 30px;">
+              <span>파일 업로드</span>
+            </div>
             <input type="file" class="form-control" name='file1MF' id='file1MF' value='' placeholder="이미지 선택">
         </div>
     </div>

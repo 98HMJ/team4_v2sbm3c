@@ -21,6 +21,32 @@
             document.addEventListener('DOMContentLoaded', () => {
                 loadADD(); // Load initial comments
             });
+            
+            function showTime(createdAt) {
+              let createDate = new Date(createdAt);
+              const milliSeconds = new Date() - createDate;
+              const seconds = milliSeconds / 1000;
+              if (seconds < 60) return `방금 전`;
+              const minutes = seconds / 60;
+              if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+              const hours = minutes / 60;
+              if (hours < 24) return `${Math.floor(hours)}시간 전`;
+              const days = hours / 24;
+              if (days < 7) return `${Math.floor(days)}일 전`;
+              const weeks = days / 7;
+              if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+              const months = days / 30;
+              if (months < 12) return `${Math.floor(months)}개월 전`;
+              const years = days / 365;
+              return `${Math.floor(years)}년 전`;
+            }
+            
+            document.addEventListener('DOMContentLoaded', () => {
+              const uptimeElements = document.querySelectorAll('.uptime');
+              uptimeElements.forEach(el => {
+                  el.textContent =  showTime(el.textContent);
+              });
+            });
         </script>
     </head>
     <!-- 댓글 조회 영역 -->
@@ -35,8 +61,8 @@
                         <span style="font-weight: 600;" th:text="${m_list[status.index].nickname}">Another Property</span>
                     </div>
                     <div style="margin-right: 10px; "></div>
-                    <span style="color: rgb(192, 192, 192); font-size: 12px;"
-                        th:text="${#strings.substring(replyVO.rdate, 0, 16)}"></span>
+                    <span class="uptime" style="color: rgb(192, 192, 192); font-size: 12px;"
+                        th:text="${replyVO.rdate}"></span>
                 </div>
                 <div th:if="${replyVO.memberno == memberno}" style="display: flex; align-items: center;">
                     <!-- 수정 아이콘 : 멤버가 일치할 때 표시 -->

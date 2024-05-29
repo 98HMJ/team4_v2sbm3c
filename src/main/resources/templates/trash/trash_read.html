@@ -34,16 +34,9 @@
       <div style="white-space: pre-wrap;"><span th:text="${trashVO.tip}"></span></div><br>
       <hr>
       <a th:href="@{|/singo/create?trashno=${trashVO.trashno}|}"> 수정 요청 </a>
+      
+      
     </div>
-    <div class="moveTopBtn">맨 위로</div>
-    <script>
-      const $topBtn = document.querySelector(".moveTopBtn");
-
-      // 버튼 클릭 시 맨 위로 이동
-      $topBtn.onclick = () => {
-        window.scrollTo({top: 0, behavior: "smooth"});
-      }
-    </script>
     <br><br>
   </div>
 </div>
