@@ -155,7 +155,7 @@ public class CommunityCont {
         communityVO.setMemberno((int) session.getAttribute("memberno"));
         int cnt = this.communityProc.create(communityVO);
         if (cnt == 1) {
-            return "community/main";
+            return "redirect:/community/main";
         } else {
             model.addAttribute("code", "community_create_fail");
             model.addAttribute("cnt", cnt);
@@ -224,7 +224,7 @@ public class CommunityCont {
         } else {
             model.addAttribute("code", "community_create_fail");
             model.addAttribute("cnt", cnt);
-            return "msg";
+            return "community/msg";
         }
     }
 
