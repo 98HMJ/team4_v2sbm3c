@@ -133,9 +133,13 @@ public class TrashCont {
 
   @GetMapping(value = "/trash_list_all")
   public String trash_list_all(HttpSession session, Model model) {
+    if (this.adminProc.isAdmin(session)) {
     ArrayList<TrashVO> list = this.trashProc.trash_list_all();
     model.addAttribute("list", list);
     return "trash/trash_list_all";
+    } else {
+      return "redirect:/admin/login";
+    }
 
   }
 

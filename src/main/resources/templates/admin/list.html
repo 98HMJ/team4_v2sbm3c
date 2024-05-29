@@ -1,7 +1,9 @@
 <!-- TEST HTML -->
 <meta name="viewport" content="user-scalable=yes, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, width=device-width" />
+
 <!DOCTYPE html>
-  <div>관리자 전용</div>
+<link href="/css/list.css" rel="Stylesheet" type="text/css">
+<div>관리자 전용</div>
    
   <table style='width: 100%;'>
     <colgroup>
@@ -20,14 +22,13 @@
       <th class='th_bs'>등록일</th>
       <th class='th_bs'> </th>
     </tr>
-   
-    <tr th:each="adminVO, status:${list}">
+    <tr class="list_hover" th:each="adminVO, status:${list}" th:attr="onclick=|location.href='./read?adminno=${adminVO.adminno}'|">
       <td> </td>
-      <td ><a th:href="@{|./read?adminno=${adminVO.adminno}|}" th:text="${adminVO.id}"></a></td>
-      <td><a th:href="@{|./read?adminno=${adminVO.adminno}|}" th:text="${adminVO.name}"></a></td>
-      <td th:text="${adminVO.email}"></td>
-      <td th:text="${adminVO.rdate.substring(0, 10)}"></td>
-      <td >
+      <td class="td">[[${adminVO.id}]]</td>
+      <td class="td">[[${adminVO.name}]]</td>
+      <td class="td">[[${adminVO.email}]]</td>
+      <td class="td">[[${adminVO.rdate.substring(0, 10)}]]</td>
+      <td class="td">
         <a th:href="@{|./read?adminno=${adminVO.adminno}|}"><img src='/admin/images/update.png' title='수정' class="icon"></a>
         <a th:href="@{|./delete?adminno=${adminVO.adminno}|}"><img src='/admin/images/delete.png' title='삭제' class="icon"></a>
       </td>
@@ -39,6 +40,7 @@
     <button type='button' onclick="location.reload();" class="btn btn-primary btn-sm">새로 고침</button>
     <button type='button' onclick="window.location.href='/admin';" class="btn btn-primary btn-sm">홈으로</button>
   </div>
+
 
 </div>
 </html>

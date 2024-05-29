@@ -88,6 +88,7 @@ public class ReportReplyCont {
      reportReplyVO.setMemberno(memberno);
      
     
+
      this.reportReplyProc.create(reportReplyVO);
      
    }else {
@@ -112,6 +113,7 @@ public class ReportReplyCont {
    if(this.adminProc.isAdmin(session)) {
      ArrayList<ReportReplyVO> list = this.reportReplyProc.list_all();
      model.addAttribute("list", list);
+
      
      ArrayList<MemberVO> m_list = new ArrayList<MemberVO>();
      for (ReportReplyVO item : list) {

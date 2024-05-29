@@ -86,6 +86,7 @@ public class ReportCommunityCont {
       reportCommunityVO.setMemberno(memberno);
       
       
+
       this.reportCommunityProc.create(reportCommunityVO);
       
     }else {
@@ -110,6 +111,7 @@ public class ReportCommunityCont {
     if(this.adminProc.isAdmin(session)) {
       ArrayList<ReportCommunityVO> list = this.reportCommunityProc.list_all();
       model.addAttribute("list", list);
+
       
       ArrayList<MemberVO> m_list = new ArrayList<MemberVO>();
       for (ReportCommunityVO item : list) {
