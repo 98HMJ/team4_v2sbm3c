@@ -101,7 +101,7 @@ public class CommunityCont {
         if (session.getAttribute("id") != null || session.getAttribute("adminno")!=null) {
             ArrayList<CommunityCateVO> list = this.communityCateProc.list();
             model.addAttribute("list", list);
-            return "redircet:/community/create";
+            return "community/create";
         } else {
             return "redirect:/member/login";
         }
