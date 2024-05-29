@@ -20,7 +20,7 @@
           <a style="display: block;"><img th:src="@{|/trash/storage/${dir_list.get('FILE1SAVED')}|}"></a>
         </td>
         <td class="td_bs"><a th:attr="onclick=|location.href='/trash/trash_read?trashno=${dir_list.get('TRASHNO')}'|"
-            th:text="${dir_list.get('NAME')}"></a></td>
+            th:text="${dir_list.get('NAME')}" style="display: block; cursor: pointer;"></a></td>
         <td class="td_bs_trash_cate"><span id="trash_cate" th:text="${dir_list.get('CATENAME')}"></span></td>
       </tr>
     </tbody>
