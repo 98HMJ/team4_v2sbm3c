@@ -18,7 +18,7 @@ public class AdminProc implements AdminProcInter{
   Security security;
 
   public AdminProc(){
-    // System.out.println("-> AdminProc created!");
+    System.out.println("-> AdminProc created");
   }
 
   @Override
