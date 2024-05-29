@@ -236,6 +236,28 @@
                 return false;  // 회원 가입 진행 중지
             }
 
+            let address1 = document.getElementById('address1');
+            let address1_msg = document.getElementById('address1_msg');
+
+            if (address1.value.length == 0) {
+                address1_msg.innerHTML = '주소 입력은 필수입니다.';
+                address1_msg.classList.add('span_warning');    // class 적용
+                address1.focus();
+
+                return false;  // 회원 가입 진행 중지
+            }
+
+            let address2 = document.getElementById('address2');
+            let address2_msg = document.getElementById('address2_msg');
+
+            if (address2.value.length == 0) {
+                address2_msg.innerHTML = '상세 주소 입력은 필수입니다.';
+                address2_msg.classList.add('span_warning');    // class 적용
+                address2.focus();
+
+                return false;  // 회원 가입 진행 중지
+            }
+
             document.getElementById('frm').submit(); // required="required" 작동 안됨.
         }
     </script>
@@ -251,7 +273,8 @@
                 </div>
                 <input type="text" th:fields="${id}" id="id" name="id" value="" autofocus="autofocus"
                     class="form-control form-control-sm" style="width: 50%;">
-                <button type='button' id="btn_checkID" onclick="checkID()" class="btn btn-primary btn-sm" style="margin-top: 1%;">중복확인</button>
+                <button type='button' id="btn_checkID" onclick="checkID()" class="btn btn-primary btn-sm"
+                    style="margin-top: 1%;">중복확인</button>
                 <span id='id_msg'></span>
             </div>
             <br>
@@ -275,7 +298,7 @@
             <div class="form-group">
                 <label>성명*:</label>
                 <input type='text' class="form-control form-control-sm" name='name' id='name' value=''
-                    required="required" placeholder="성명"  style="width: 50%;">
+                    required="required" placeholder="성명" style="width: 50%;">
                 <span id='name_msg'></span>
 
                 <select name="sex" id="sex">
@@ -288,8 +311,8 @@
 
             <div class="form-group">
                 <label>나이*</label>
-                <input type='text' class="form-control form-control-sm" name='age' id='age' value=''
-                    required="required" placeholder="나이" style="width: 50%;">
+                <input type='text' class="form-control form-control-sm" name='age' id='age' value='' required="required"
+                    placeholder="나이" style="width: 50%;">
                 <span id='age_msg'></span>
             </div>
             <br>
@@ -306,7 +329,7 @@
                 <label>전화 번호*:</label>
                 <input type='text' class="form-control form-control-sm" name='tel' id='tel' value='' required="required"
                     placeholder="전화번호" style="width: 50%;">
-                    <span id='tel_msg'></span>
+                <span id='tel_msg'></span>
                 예) 01011112222
             </div>
             <br>
@@ -321,9 +344,9 @@
 
             <div class="form-group">
                 <label>우편 번호:</label>
-                <input type='text' class="form-control form-control-sm" id='zipcode' value=''
-                    placeholder="우편번호">
-                <button type="button" id="btn_DaumPostcode" onclick="DaumPostcode()" class="btn btn-primary btn-sm" style="margin-top: 1%;">우편번호
+                <input type='text' class="form-control form-control-sm" id='zipcode' value='' placeholder="우편번호">
+                <button type="button" id="btn_DaumPostcode" onclick="DaumPostcode()" class="btn btn-primary btn-sm"
+                    style="margin-top: 1%;">우편번호
                     찾기</button>
             </div>
             <!-- ------------------------------ DAUM 우편번호 API 시작 ------------------------------ -->
@@ -397,16 +420,18 @@
             <br>
 
             <div class="form-group">
-                <label style="width: 100%;">주소:</label>
+                <label style="width: 100%;">주소*:</label>
                 <input type='text' class="form-control form-control-sm" name='address1' id='address1' value=''
                     placeholder="주소">
+                <span id='address1_msg'></span>
             </div>
             <br>
 
             <div class="form-group">
-                <label style="width: 100%;">상세 주소:</label>
+                <label style="width: 100%;">상세 주소*:</label>
                 <input type='text' class="form-control form-control-sm" name='address2' id='address2' value=''
                     placeholder="상세 주소">
+                <span id='address2_msg'></span>
             </div>
             <br>
 
