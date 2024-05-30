@@ -24,7 +24,8 @@
             community.mp4,
             community.youtube,
             community.thumb,
-            community.contents
+            community.contents,
+            community.memberno
         FROM 
             community
         JOIN 

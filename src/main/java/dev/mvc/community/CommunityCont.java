@@ -83,12 +83,17 @@ public class CommunityCont {
 
             int reply_cnt = this.replyProc.count_by_communityno(communityno);
             model.addAttribute("reply_cnt", reply_cnt);
-
-            int memberno = (int) session.getAttribute("memberno");
+            int memberno;
+            if(this.adminProc.isAdmin(session)){
+                CommunityVO communityVO = this.communityProc.read(communityno);
+                memberno = communityVO.getMemberno();
+            }else{
+                memberno = (int) session.getAttribute("memberno");
+            }
             model.addAttribute("memberno", memberno);
 
             CommunityVO communityVO = this.communityProc.read(communityno);
-            if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
+            if (communityVO.getMemberno() == (int) session.getAttribute("memberno") || this.adminProc.isAdmin(session)) {
                 model.addAttribute("bool", true);
             } else {
                 model.addAttribute("bool", false);
