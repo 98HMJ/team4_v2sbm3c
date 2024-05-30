@@ -6,7 +6,8 @@
         <img src="/images/ic_search.svg">
         <input type="text" id="search-box" placeholder="예) 형광등, 고추장 ">
         <div id="results" style="position: absolute; top: 100%; width: 100%; z-index: 2;
-                                 margin-top: 3px; max-height: 200px; overflow-y: auto;"></div>
+                                 margin-top: 5px; max-height: 200px; overflow-y: auto;
+                                 border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"></div>
         <script>
           document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('search-box').addEventListener('input', function () {
