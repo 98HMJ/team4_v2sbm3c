@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import dev.mvc.admin.AdminProcInter;
 import dev.mvc.communitycate.CommunityCateProcInter;
 import dev.mvc.communitycate.CommunityCateVO;
 import dev.mvc.member.MemberProcInter;
@@ -40,6 +41,10 @@ public class CommunityCont {
     @Qualifier("dev.mvc.member.MemberProc")
     private MemberProcInter memberProc;
 
+    @Autowired
+    @Qualifier("dev.mvc.admin.AdminProc")
+    private AdminProcInter adminProc;
+
     public CommunityCont() {
         System.out.println("-> CommunityCont created.");
     }
@@ -58,7 +63,7 @@ public class CommunityCont {
 
     @GetMapping("/read")
     public String read(HttpSession session, int communityno, Model model) {
-        if (session.getAttribute("id")!=null || session.getAttribute("adminno")!=null) {
+        if (session.getAttribute("id")!=null || this.adminProc.isAdmin(session)) {
             int cnt = this.communityProc.update_cnt(communityno);
             if (cnt != 1) {
                 model.addAttribute("code", "update_cnt_fail");
