@@ -206,7 +206,7 @@
             <!-- 대댓글 입력창 -->
             <div th:id="'reply-input-'+${replyVO.replyno}"></div>
             <button th:onclick="input([[${replyVO.replyno}]])">답글쓰기</button>
-            <button th:onclick="fetchReReplies([[${replyVO.replyno}]])">대댓글 보기</button>
+            <button th:if="${replyVO.rereply_cnt} > 0" th:onclick="fetchReReplies([[${replyVO.replyno}]])">대댓글 보기</button>
         </div>
     </div>
     <button id="load" onclick="loadADD()" style="margin: 10px; width: 100%;">더보기</button>

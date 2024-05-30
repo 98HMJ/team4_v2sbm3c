@@ -60,5 +60,7 @@ public class ReplyVO {
   
   /** 댓글을 작성한 회원 번호 */
   private int memberno;
+
+  private int rereply_cnt = 0;
   
 }
