@@ -172,7 +172,7 @@ public class Tool {
         // 파일에 기록
         ImageIO.write(destImg, "jpg", dest);
  
-        System.out.println(dest.getName() + " 이미지를 생성했습니다.");
+        //System.out.println(dest.getName() + " 이미지를 생성했습니다.");
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -320,7 +320,7 @@ public class Tool {
     try {
       if (folder != null && fileName != null) { // 값이 있는지 확인
         File file = new File(folder + fileName); 
-        System.out.println(file.getAbsolutePath() + " 삭제");
+        //System.out.println(file.getAbsolutePath() + " 삭제");
         
         if (file.exists() && file.isFile()) { // 존재하는 파일인지 검사
           sw = file.delete();  // 파일 삭제

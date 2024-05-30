@@ -399,9 +399,9 @@ public class Upload extends HttpServletRequestWrapper {
                 //make server full path to save
                 String serverFullPath = absPath + "/" + fileName;
                 
-                System.out.println("-> 서버 저장 전 originalFileName: " + originalFileName);
-                System.out.println("-> 서버 저장 전 fileName: " + fileName);
-                System.out.println("-> 서버 저장 전 serverFullPath: " + serverFullPath);
+                //System.out.println("-> 서버 저장 전 originalFileName: " + originalFileName);
+                //System.out.println("-> 서버 저장 전 fileName: " + fileName);
+                //System.out.println("-> 서버 저장 전 serverFullPath: " + serverFullPath);
                 
                 outputStream = new FileOutputStream( serverFullPath );
     
