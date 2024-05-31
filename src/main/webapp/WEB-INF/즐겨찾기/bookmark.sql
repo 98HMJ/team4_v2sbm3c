@@ -37,12 +37,31 @@ CREATE SEQUENCE bookmark_seq
 
 -- 삽입 연산은 communityno, trashno 둘 중 1개만 할 수 있음
 INSERT INTO bookmark(bookmarkno, rdate, communityno, memberno)
-VALUES (bookmark_seq.nextval, sysdate, 1, 1);
+VALUES (bookmark_seq.nextval, sysdate, 13, 1);
 
 INSERT INTO bookmark(bookmarkno, rdate, trashno, memberno)
 VALUES (bookmark_seq.nextval, sysdate, 17, 1);
+
+commit;
 
 -- 전체 북마크 목록 조회
 SELECT bookmarkno, rdate, communityno,trashno, memberno
 FROM bookmark;
 
+-- 목록: 커뮤니티 북마크 
+SELECT b.bookmarkno, cc.name, b.rdate, b.communityno, b.memberno
+FROM community c, bookmark b, communitycate cc
+WHERE b.communityno = c.communityno and b.communityno = 13 and cc.communitycateno = c.communitycateno;
+
+-- 목록: 쓰레기 북마크 
+SELECT b.bookmarkno, tc.name, b.rdate, b.trashno, b.memberno
+FROM trash t, bookmark b, trashcate tc
+WHERE b.trashno = t.trashno and b.trashno = 17 and tc.trashcateno = t.trashcateno;
+
+DELETE FROM bookmark
+WHERE trashno = 17
+AND bookmarkno = (SELECT b.bookmarkno
+                  FROM trash t, bookmark b, trashcate tc
+                  WHERE b.trashno = t.trashno 
+                  AND b.trashno = 17 
+                  AND ROWNUM = 1);
