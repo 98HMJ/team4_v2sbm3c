@@ -57,4 +57,5 @@ public interface TrashProcInter {
      * @return
      */
     public HashMap<String,Object> trash_read_by_name(String name);
+    
 }
