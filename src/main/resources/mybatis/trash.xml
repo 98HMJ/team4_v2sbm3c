@@ -13,7 +13,7 @@
   <select id="trash_list_all" resultType="dev.mvc.trash.TrashVO">
     SELECT trashno, name, isrecycle, tag, process, tip, file1, trashcateno, file1saved, thumb1, size1
     FROM trash
-    ORDER BY trashcateno ASC
+    ORDER BY trashcateno ASC, trashno ASC
   </select>  
   
   <!-- 쓰레기 조회 -->
@@ -29,7 +29,7 @@
     FROM trash
     
     WHERE (UPPER(name) LIKE '%' || UPPER(#{word}) || '%'
-            OR UPPER(tag) LIKE '%' || UPPER(#{word}) || '%')
+            OR UPPER(tag) LIKE '%' || UPPER(#{word}) || '%') AND trashno > 15
 
     ORDER BY trashno DESC  
   </select>

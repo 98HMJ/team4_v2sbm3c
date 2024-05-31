@@ -114,8 +114,7 @@ public class TrashCont {
     }
 
     int cnt = this.trashProc.create(trashVO);
-    //System.out.println("-> cnt: " + cnt);
-
+    
     if (cnt == 1) {
       model.addAttribute("code", "create_success");
       model.addAttribute("name", trashVO.getName());
@@ -154,8 +153,12 @@ public class TrashCont {
     model.addAttribute("trashcateVO", trashcateVO);
     
     String searh_word = trashVO.getName();
+    
+    if(trashVO.getTrashno()>15) {
     this.searchProc.search_create(searh_word);
     model.addAttribute("searh_word", searh_word);
+    }
+    
     if(this.adminProc.isAdmin(session))
       return "trash/trash_read_admin";
     return "trash/trash_read";
