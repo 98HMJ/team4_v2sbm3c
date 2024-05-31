@@ -137,7 +137,7 @@ public class TrashCont {
       ArrayList<TrashVO> list = this.trashProc.trash_list_all();
       model.addAttribute("list", list);
       
-      return "trash/list_test";
+      return "trash/trash_list_all";
     } else {
       return "redirect:/admin/login";
     }

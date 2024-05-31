@@ -1,5 +1,48 @@
 <!DOCTYPE html>
-<html layout:decorate="~{admin/layout}"> <!-- layout.html 상속-->
+<html layout:decorate="~{admin/layout}">
+
+<head>
+  <script th:inline="javascript">
+    let currentPage = 0;
+    const pageSize = 8;
+    const allData = /*[[${ list }]]*/ 'trashVO 리스트 불러옴';
+
+    function loadMore() {
+      const trashList = document.getElementById('trashList');
+      const startIndex = currentPage * pageSize;
+      const endIndex = startIndex + pageSize;
+      const itemsToLoad = allData.slice(startIndex, endIndex);
+      itemsToLoad.forEach(item => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <div onclick="location.href='/trash/trash_read?trashno=${item.trashno}'"
+             style='width: 24%; height: 190px; float: left; margin: 0.5%; padding: 0.5%; 
+             background-color:whitesmoke; text-align: left; cursor: pointer;'>
+             ${item.file1.endsWith('jpg') || item.file1.endsWith('png') || item.file1.endsWith('gif') || item.file1.endsWith('jpeg') ?
+            `<div style="width: 100%; height: 100px;">
+                <img src="/trash/storage/${item.thumb1}" style="width: 100%; height: 100%;">
+              </div>
+             <div>
+              <span style="font-weight: bold;">${item.name}</span><br>
+             </div>
+    
+             <div style="width: 100%; text-align: left;">${item.tag.split(' ')[0]} ${item.tag.split(' ')[1]}</div>
+             </div>` : ``}
+      `;
+        trashList.appendChild(div);
+      });
+
+      currentPage++;
+      if (endIndex >= allData.length) {
+        document.getElementById('loadMoreBtn').style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadMore(); // 페이지 로드 시 첫 12개 항목을 표시합니다.
+    });
+  </script>
+</head>
 <div layout:fragment="content">
 
   <div class='title_line' style="font-size: 20px;">전체 쓰레기 목록</div>
@@ -12,32 +55,10 @@
   <br>
   <div class='menu_line'></div>
 
-  <div style='width: 100%;'> <!-- 갤러리 Layout  시작 -->
-    <div th:if="${list.size() > 0}" th:each="trashVO, status:${list}"
-      th:attr="onclick=|location.href='/trash/trash_read?trashno=${trashVO.trashno}'|"
-      style='width: 24%; height: 190px; float: left; margin: 0.5%; padding: 0.5%; background-color:whitesmoke; text-align: left; cursor: pointer;'>
-
-      <div
-        th:if="${trashVO.file1.endsWith('jpg') or trashVO.file1.endsWith('png')  or trashVO.file1.endsWith('gif') or trashVO.file1.endsWith('jpeg')}"
-        style="width: 100%; height: 100px;">
-        <img th:src="@{|/trash/storage/${trashVO.thumb1}|}" style="width: 100%; height: 100%;">
-      </div>
-      <div>
-        <span th:text="${trashVO.name}" style="font-weight: bold;"></span><br>
-      </div>
-
-      <div style="width: 100%; text-align: left;"
-        th:text="${trashVO.tag.split(' ')[0] + ' ' + trashVO.tag.split(' ')[1]}"></div>
-
-    </div>
-
-    <div th:if="${list.size() == 0}" style="text-align: center; padding: 50px 0px;">
-      <span>관련 글이 등록되지 않았습니다.</span>
-    </div>
-
+  <div id="trashList" style='width: 100%;'> <!-- 갤러리 Layout  시작 -->
   </div>
-
-  <div class='bottom_menu'>
+  <div class="btn_more" style="position: fixed; right: 47.5%; bottom: 1em;">
+    <div id="loadMoreBtn" class="btn btn-primary" style="cursor: pointer;" onclick="loadMore()">더보기</div>
   </div>
 
 </div>

@@ -1,6 +1,37 @@
 <!DOCTYPE html>
-
 <html layout:decorate="~{layout}"> <!-- layout.html 상속-->
+<head>
+  <script th:inline="javascript">
+    let currentPage = 0;
+    const pageSize = 20;
+    const allData = /*[[${ list }]]*/ 'searchVO 리스트 불러옴';
+
+    function loadMore() {
+      const searchList = document.getElementById('searchList');
+      const startIndex = currentPage * pageSize;
+      const endIndex = startIndex + pageSize;
+      const itemsToLoad = allData.slice(startIndex, endIndex);
+      itemsToLoad.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        <td class="td_bs" style="text-align: center;">${item.searchno}</td>
+        <td class="td_bs" style="text-align: center;">${item.search_word}</td>
+        <td class="td_bs">${item.rdate}</td>
+      `;
+        searchList.appendChild(tr);
+      });
+
+      currentPage++;
+      if (endIndex >= allData.length) {
+        document.getElementById('loadMoreBtn').style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadMore(); // 페이지 로드 시 첫 12개 항목을 표시합니다.
+    });
+  </script>
+</head>
 <div layout:fragment="content">
   <div class='title_line' style="font-size: 20px;">쓰레기 카테고리 목록</div>
 
@@ -24,12 +55,10 @@
         <th class="th_bs">등록일</th>
       </tr>
     </thead>
-    <tbody>
-      <tr th:each="searchVO, status:${list}">
-        <td class="td_bs" style="text-align: center;" th:text="${searchVO.searchno}"></td>
-        <td class="td_bs" style="text-align: center;" th:text="${searchVO.search_word}"></td>
-        <td class="td_bs" th:text="${searchVO.rdate}"></td>
-      </tr>
+    <tbody id="searchList">
     </tbody>
   </table>
+    <div class="btn_more" style="position: fixed; right: 47.5%; bottom: 1em;">
+    <div id="loadMoreBtn" class="btn btn-primary" style="cursor: pointer;" onclick="loadMore()">더보기</div>
+  </div>
 </div>
