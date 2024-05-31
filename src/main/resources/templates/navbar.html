@@ -32,7 +32,18 @@
   <nav>
     <div class="navbar">
       <!-- 왼쪽에 위치할 요소들 -->
-      <a href="http://localhost:9093" style="text-decoration: none; color: inherit;">
+      <a th:if="${session.adminno==null}" href="http://localhost:9093" style="text-decoration: none; color: inherit;">
+        <div class="navbar_label">
+          <div style="margin-right: 5px; height: auto;">
+            <img src="/images/ic_main.svg" alt="메인 아이콘">
+          </div>
+          <div style="text-align: center;">
+            <span style="font-size: 24px;">쓰레기 박사</span>
+          </div>
+        </div>
+      </a>
+
+      <a th:if="${session.adminno!=null}" href="http://localhost:9093/admin" style="text-decoration: none; color: inherit;">
         <div class="navbar_label">
           <div style="margin-right: 5px; height: auto;">
             <img src="/images/ic_main.svg" alt="메인 아이콘">
@@ -56,7 +67,7 @@
         </div>
         
         <!-- 로그인 했을 때 -->
-        <div th:if="${session.id != null}">
+        <div th:if="${session.memberno != null}">
           <div class="dropdown">
             <div onclick="toggleDropdown()" class="dropmenu">
               <span class="nav_nickname" style="text-decoration: none; " th:text="${session.nickname} + '님'"></span>
@@ -69,7 +80,7 @@
         </div>
         
         <!-- 로그인 하지 않았을 때 -->
-        <div th:if="${session.id == null}">
+        <div th:if="${session.memberno == null && session.adminno==null}">
           <a href="/member/login">로그인</a>
         </div>
         </div>

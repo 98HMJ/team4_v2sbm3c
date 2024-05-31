@@ -1,10 +1,9 @@
 <div th:fragment="list_all_fragment"> <!-- <div th:replace=... -->
 
     <head>
-        <script th:inline="javascript">
+        <script>
             let page = 0;
             const perpage = 5;
-            const communityno = /*[[${ communityVO.communityno }]]*/
 
             function loadADD() {
                 const comments = document.querySelectorAll('.community_comment_board');
@@ -28,20 +27,6 @@
                     return;
                 }
                 replyinput.innerHTML = '';
-                ReplyElement.innerHTML = `
-                <form name='frm' method='post' action='/rereply/create' enctype="multipart/form-data">
-                    <div style="margin: 10px;">
-                        <input type='hidden' name='replyno' value='${replyno}'>
-                        <input style="padding: 15px 0px; padding-left: 10px;" type="text" name="contents" required=required id="rereply_contents"
-                            placeholder="댓글을 입력하세요."><br>
-                        <div class="comment_box" style="display: flex; justify-content: flex-end;">
-                            <label for="file1MF" class="custom-file-upload">이미지<br>등록</label>
-                            <input type='file' class="form-control" name='file1MF' id='rereply_file1MF' value='' placeholder="이미지 선택">
-                            <button type="submit" style="margin: 10px;">댓글쓰기</button>
-                        </div>
-                    </div>
-                </form>
-                `
                 replyinput.appendChild(ReplyElement);
             }
 
@@ -81,7 +66,7 @@
                     toggleButton.textContent = '대댓글 보기';
                 } else {
                     if (nestedRepliesContainer.innerHTML === '') {
-                        fetch('/rereply/list', {
+                        fetch('/rereply/list_admin', {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -105,16 +90,14 @@
                                     <div style="margin-right: 10px;"></div>
                                     <span class="uptime" style="color: rgb(192, 192, 192); font-size: 12px;">${rereply.rdate}</span>
                                 </div>
-                                ${rereply.memberno == rereply.session_memberno ? `
+
                                 <div style="display: flex; align-items: center;">
-                                    
                                     <a class="icon-link"
-                                        href="/rereply/delete?rereplyno=${rereply.rereplyno}&communityno=${communityno}"
+                                        href="/rereply/delete?rereplyno=${rereply.replyno}"
                                         title="삭제">
                                         <img src="/images/delete.png" alt="Delete">
                                     </a>
                                 </div>
-                                ` : ''}
                             </div>
                             <div style="padding: 10px;">${rereply.contents}</div>
                             ${rereply.thumb1 ? `
@@ -122,16 +105,7 @@
                                 <img src="/replys/storage/${rereply.thumb1}" style="width: 120px; height: 90px;">
                             </div>
                             ` : ''}
-                            <div class="community_like_board">
-                                <div>
-                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                        onclick="location.href='/rereply/singo?rereplyno=${rereply.replyno}'">신고</button>
-                                </div>
-                                <a href="/rereply/update_increase_cnt_like?rereplyno=${rereply.replyno}">
-                                    <img src="/images/like_unable.png" alt="Like">
-                                    <span>${rereply.likecnt} 좋아요</span>
-                                </a>
-                            </div>
+
                             `;
                                     nestedRepliesContainer.appendChild(nestedReplyElement);
                                 });
@@ -167,13 +141,7 @@
                     <span class="uptime" style="color: rgb(192, 192, 192); font-size: 12px;"
                         th:text="${replyMemberVO.rdate}"></span>
                 </div>
-                <div th:if="${replyMemberVO.memberno == memberno}" style="display: flex; align-items: center;">
-                    <!-- 수정 아이콘 : 멤버가 일치할 때 표시 -->
-                    <a class="icon-link"
-                        th:href="@{|/reply/update?communityno=${communityVO.communityno}&replyno=${replyMemberVO.replyno}|}"
-                        title="수정">
-                        <img src="/images/update.png" alt="Edit">
-                    </a>
+                <div style="display: flex; align-items: center;">
                     <!-- 삭제 아이콘 : 멤버가 일치할 때 표시 -->
                     <a class="icon-link"
                         th:href="@{|/reply/delete?communityno=${communityVO.communityno}&replyno=${replyMemberVO.replyno}|}"
@@ -197,31 +165,18 @@
                 <span th:text="${replyMemberVO.photo}"></span>
             </div>
 
-            <!-- 댓글 신고, 댓글 좋아요 -->
-            <div class="community_like_board">
-                <div>
-                    <button type="button" class="btn btn-outline-danger btn-sm"
-                        th:attr="onclick=|location.href='/report_reply/create?communityno=${communityVO.communityno}&replyno=${replyMemberVO.replyno}'|">신고</button>
-                </div>
-                <a
-                    th:href="@{|/reply/update_increase_cnt_like?communityno=${communityVO.communityno}&replyno=${replyMemberVO.replyno}|}">
-                    <img src="/images/like_unable.png" alt="Like">
-                    <span th:text="${replyMemberVO.likecnt}">좋아요</span>
-
-                </a>
-            </div>
+  
 
             <!-- 대댓글 영역 -->
             <div th:id="'nested-replies-'+${replyMemberVO.replyno}" style="margin-left: 10%;"></div>
 
             <!-- 대댓글 입력창 -->
             <div th:id="'reply-input-'+${replyMemberVO.replyno}"></div>
-            <button th:onclick="input([[${replyMemberVO.replyno}]])">답글쓰기</button>
-            <button th:id="'toggle-button-'+${replyMemberVO.replyno}" th:if="${replyMemberVO.rereply_cnt} > 0" th:onclick="fetchReReplies([[${replyMemberVO.replyno}]])">
+            <button th:if="${replyMemberVO.rereply_cnt} > 0" th:id="'toggle-button-'+${replyMemberVO.replyno}" th:onclick="fetchReReplies([[${replyMemberVO.replyno}]])">
                 대댓글 보기
             </button>
         </div>
     </div>
-    <button id="load" onclick="loadADD()" style="width: 99%; margin-left: 0.5%;">더보기</button>
+    <button id="load" onclick="loadADD()" style="margin: 10px; width: 100%;">더보기</button>
 
 </div>

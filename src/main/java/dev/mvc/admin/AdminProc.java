@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dev.mvc.member.MemberVO;
 import dev.mvc.tool.Security;
 import jakarta.servlet.http.HttpSession;
 

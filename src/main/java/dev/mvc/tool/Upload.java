@@ -358,11 +358,11 @@ public class Upload extends HttpServletRequestWrapper {
         // file size
         long fileSize = multipartFile.getSize();
         
-        // System.out.println("fileSize: " + fileSize);
-        // System.out.println("originalFileName: " + originalFileName);
+        //System.out.println("fileSize: " + fileSize);
+        //System.out.println("originalFileName: " + originalFileName);
         
-        // originalFileName =  Tool.getFname(originalFileName); // 파일명 추출
-        // System.out.println("-> originalFileName: " +  originalFileName);
+        originalFileName =  Tool.getFname(originalFileName); // 파일명 추출
+        //System.out.println("-> originalFileName: " +  originalFileName);
         
         int ext_index = originalFileName.lastIndexOf("."); // 파일 구분자 "." 위치 추출
         String only_filename = originalFileName.substring(0,  ext_index); // 순수 파일명 추출, winter
@@ -389,7 +389,7 @@ public class Upload extends HttpServletRequestWrapper {
                         // 붙은 파일명 다시 생성
                         if(oldfile.exists() == false){ //존재하지 않는 경우
                             fileName = oldfile.getName();
-                            System.out.println("-> 중복되지 않는 fileName 발견: " + fileName);
+                            //System.out.println("-> 중복되지 않는 fileName 발견: " + fileName);
                             break;
                         }
                     }
@@ -399,9 +399,9 @@ public class Upload extends HttpServletRequestWrapper {
                 //make server full path to save
                 String serverFullPath = absPath + "/" + fileName;
                 
-                //System.out.println("-> 서버 저장 전 originalFileName: " + originalFileName);
-                //System.out.println("-> 서버 저장 전 fileName: " + fileName);
-                //System.out.println("-> 서버 저장 전 serverFullPath: " + serverFullPath);
+//                System.out.println("-> 서버 저장 전 originalFileName: " + originalFileName);
+//                System.out.println("-> 서버 저장 전 fileName: " + fileName);
+//                System.out.println("-> 서버 저장 전 serverFullPath: " + serverFullPath);
                 
                 outputStream = new FileOutputStream( serverFullPath );
     

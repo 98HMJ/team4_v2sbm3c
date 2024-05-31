@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="dev.mvc.community.CommunityDAOInter">
@@ -47,7 +47,7 @@
             community.communitycateno, 
             community.files, 
             community.communitylikes, 
-            reply_count.total
+            COALESCE(reply_count.total, 0) + COALESCE(rereply_count.total, 0) as total
         FROM 
             community
         JOIN 
@@ -57,6 +57,12 @@
         LEFT JOIN 
             (SELECT communityno, COUNT(*) as total FROM reply GROUP BY communityno) reply_count 
             ON community.communityno = reply_count.communityno
+        LEFT JOIN 
+            (SELECT reply.communityno, COUNT(*) as total 
+             FROM rereply 
+             JOIN reply ON rereply.replyno = reply.replyno 
+             GROUP BY reply.communityno) rereply_count
+            ON community.communityno = rereply_count.communityno
         ORDER BY 
             community.rdate DESC
     </select>

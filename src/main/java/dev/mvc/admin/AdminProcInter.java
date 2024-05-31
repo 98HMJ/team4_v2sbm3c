@@ -3,7 +3,6 @@ package dev.mvc.admin;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import dev.mvc.member.MemberVO;
 import jakarta.servlet.http.HttpSession;
 
 public interface AdminProcInter {

@@ -127,23 +127,23 @@
     
     <!-- 반응형 UI 구성 필요 -->
     <!-- 카테고리, 작성자, 작성일 정보 -->
-    <div class="community_read_header_box">
+    <div class="community_read_header_box" style="height: 5px;">
       <div class="community_read_header_info">
-        <div class="community_read_header">분류</div>
+        <div class="community_read_header">분류:</div>
         <div style="display: flex;" th:text="${communityVO.name}"></div>
       </div>
       <div class="community_read_header_info">
-        <div class="community_read_header">작성자</div>
+        <div class="community_read_header">작성자:</div>
         <div style="display: flex; float:left;" th:text="${communityVO.nickname}"></div>
       </div>
       <div class="community_read_header_info">
-        <div class="community_read_header">작성일</div>
+        <div class="community_read_header">작성일:</div>
         <div id="uptime" style="display: flex; float: left;" th:text="${communityVO.rdate}"></div>
       </div>
     </div>
     
     <!-- 본문 contents 영역 -->
-    <div class="community_read_contents">
+    <div class="community_read_contents" style="margin-top: 3%;">
       <p th:text="${communityVO.contents}"></p>
       <div style="text-align: center;">
         <img th:if="${communityVO.files != ''}" th:src="@{|/Desktop/teamfile/${communityVO.thumb}|}">
@@ -163,7 +163,7 @@
     </div>
 
     <div class="content_body_bottom" th:if="${bool}"
-      style="text-align: right; display: flex; justify-content: space-between; margin: 0px 10px;">
+      style="text-align: right; display: flex; justify-content: space-between; margin: 3% 10px;">
       <!-- 신고 버튼 -->
       <div>
         <button type="button" class="btn btn-outline-danger btn-sm"
