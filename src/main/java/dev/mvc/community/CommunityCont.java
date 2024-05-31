@@ -1,6 +1,7 @@
 package dev.mvc.community;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +16,7 @@ import dev.mvc.communitycate.CommunityCateProcInter;
 import dev.mvc.communitycate.CommunityCateVO;
 import dev.mvc.member.MemberProcInter;
 import dev.mvc.member.MemberVO;
+import dev.mvc.reply.ReplyMemberVO;
 import dev.mvc.reply.ReplyProc;
 import dev.mvc.reply.ReplyVO;
 import dev.mvc.tool.Tool;
@@ -63,7 +65,7 @@ public class CommunityCont {
 
     @GetMapping("/read")
     public String read(HttpSession session, int communityno, Model model) {
-        if (session.getAttribute("id")!=null || this.adminProc.isAdmin(session)) {
+        if (session.getAttribute("id")!=null || session.getAttribute("adminno")!=null) {
             int cnt = this.communityProc.update_cnt(communityno);
             if (cnt != 1) {
                 model.addAttribute("code", "update_cnt_fail");
@@ -71,29 +73,17 @@ public class CommunityCont {
                 return "community/msg";
             }
 
-            ArrayList<ReplyVO> list = this.replyProc.list_by_community(communityno);
+            ArrayList<ReplyMemberVO> list = this.replyProc.list_by_community_join_member(communityno);
             model.addAttribute("list", list);
-
-            ArrayList<MemberVO> m_list = new ArrayList<MemberVO>();
-            for (ReplyVO item : list) {
-                MemberVO memberVO = this.memberProc.read(item.getMemberno());
-                m_list.add(memberVO);
-            }
-            model.addAttribute("m_list", m_list);
-
+            
             int reply_cnt = this.replyProc.count_by_communityno(communityno);
             model.addAttribute("reply_cnt", reply_cnt);
-            int memberno;
-            if(this.adminProc.isAdmin(session)){
-                CommunityVO communityVO = this.communityProc.read(communityno);
-                memberno = communityVO.getMemberno();
-            }else{
-                memberno = (int) session.getAttribute("memberno");
-            }
+            
+            int memberno = (int) session.getAttribute("memberno");
             model.addAttribute("memberno", memberno);
 
             CommunityVO communityVO = this.communityProc.read(communityno);
-            if (communityVO.getMemberno() == (int) session.getAttribute("memberno") || this.adminProc.isAdmin(session)) {
+            if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
                 model.addAttribute("bool", true);
             } else {
                 model.addAttribute("bool", false);

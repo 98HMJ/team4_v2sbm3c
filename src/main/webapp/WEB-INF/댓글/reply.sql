@@ -63,8 +63,8 @@ FROM REPLY
 WHERE communityno = 1
 ORDER BY REPLYNO;
 
--- READ(조회) :  reply + member id 정보
-SELECT m.id, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize, likecnt
+-- 목록 : reply + member nick 정보
+SELECT m.nickname, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize, likecnt
 FROM member m,  reply r
 WHERE m.memberno = r.memberno and r.communityno = 13;
 
