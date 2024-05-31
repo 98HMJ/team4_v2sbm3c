@@ -45,7 +45,7 @@ public class SingoCont {
   private TrashProcInter trashProc;
 
   public SingoCont(){
-    System.out.println("-> SingoCont created");
+    
   }
 
   /**
