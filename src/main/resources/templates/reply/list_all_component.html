@@ -72,72 +72,86 @@
             });
 
             function fetchReReplies(replyno) {
-                fetch('/rereply/list', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        replyno: replyno,
-                    }),
-                }).then((response) => response.json())
-                    .then(data => {
-                        const nestedRepliesContainer = document.getElementById(`nested-replies-${replyno}`);
-                        nestedRepliesContainer.innerHTML = '';
-                        data.rereply.forEach(rereply => {
-                            const nestedReplyElement = document.createElement('div');
-                            nestedReplyElement.classList.add('nested-reply');
-                            nestedReplyElement.innerHTML = `
-                                <div class="community_comment_contents"
-                                    style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
-                                    <div style="display: flex; padding: 10px; align-items: center;">
-                                        <div>
-                                            <span style="font-weight: 600;">${rereply.nickname}</span>
-                                        </div>
-                                        <div style="margin-right: 10px;"></div>
-                                        <span class="uptime" style="color: rgb(192, 192, 192); font-size: 12px;">${rereply.rdate}</span>
-                                    </div>
-                                    ${rereply.memberno == rereply.session_memberno ? `
-                                    <div style="display: flex; align-items: center;">
-                                        <a class="icon-link"
-                                            href="/rereply/update?rereplyno=${rereply.replyno}"
-                                            title="수정">
-                                            <img src="/images/update.png" alt="Edit">
-                                        </a>
-                                        <a class="icon-link"
-                                            href="/rereply/delete?rereplyno=${rereply.replyno}"
-                                            title="삭제">
-                                            <img src="/images/delete.png" alt="Delete">
-                                        </a>
-                                    </div>
-                                    ` : ''}
-                                </div>
-                                <div style="padding: 10px;">${rereply.contents}</div>
-                                ${rereply.thumb1 ? `
-                                <div>
-                                    <img src="/replys/storage/${rereply.thumb1}" style="width: 120px; height: 90px;">
-                                </div>
-                                ` : ''}
-                                <div class="community_like_board">
+                const nestedRepliesContainer = document.getElementById(`nested-replies-${replyno}`);
+                const toggleButton = document.getElementById(`toggle-button-${replyno}`);
+
+                if (nestedRepliesContainer.style.display === 'block') {
+                    nestedRepliesContainer.style.display = 'none';
+                    toggleButton.textContent = '대댓글 보기';
+                } else {
+                    if (nestedRepliesContainer.innerHTML === '') {
+                        fetch('/rereply/list', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                replyno: replyno,
+                            }),
+                        }).then((response) => response.json())
+                            .then(data => {
+                                nestedRepliesContainer.innerHTML = '';
+                                data.rereply.forEach(rereply => {
+                                    const nestedReplyElement = document.createElement('div');
+                                    nestedReplyElement.classList.add('nested-reply');
+                                    nestedReplyElement.innerHTML = `
+                            <div class="community_comment_contents"
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+                                <div style="display: flex; padding: 10px; align-items: center;">
                                     <div>
-                                        <button type="button" class="btn btn-outline-danger btn-sm"
-                                            onclick="location.href='/rereply/singo?rereplyno=${rereply.replyno}'">신고</button>
+                                        <span style="font-weight: 600;">${rereply.nickname}</span>
                                     </div>
-                                    <a href="/rereply/update_increase_cnt_like?rereplyno=${rereply.replyno}">
-                                        <img src="/images/like_unable.png" alt="Like">
-                                        <span>${rereply.likecnt} 좋아요</span>
+                                    <div style="margin-right: 10px;"></div>
+                                    <span class="uptime" style="color: rgb(192, 192, 192); font-size: 12px;">${rereply.rdate}</span>
+                                </div>
+                                ${rereply.memberno == rereply.session_memberno ? `
+                                <div style="display: flex; align-items: center;">
+                                    <a class="icon-link"
+                                        href="/rereply/update?rereplyno=${rereply.replyno}"
+                                        title="수정">
+                                        <img src="/images/update.png" alt="Edit">
+                                    </a>
+                                    <a class="icon-link"
+                                        href="/rereply/delete?rereplyno=${rereply.replyno}"
+                                        title="삭제">
+                                        <img src="/images/delete.png" alt="Delete">
                                     </a>
                                 </div>
-                                `;
-                            nestedRepliesContainer.appendChild(nestedReplyElement);
-                        });
-                        // 대댓글의 등록일을 표시 형식으로 변경
-                        const uptimeElements = nestedRepliesContainer.querySelectorAll('.uptime');
-                        uptimeElements.forEach(el => {
-                            el.textContent = showTime(el.textContent);
-                        });
-                    }).catch(error => console.error('Error fetching re-replies:', error));
+                                ` : ''}
+                            </div>
+                            <div style="padding: 10px;">${rereply.contents}</div>
+                            ${rereply.thumb1 ? `
+                            <div>
+                                <img src="/replys/storage/${rereply.thumb1}" style="width: 120px; height: 90px;">
+                            </div>
+                            ` : ''}
+                            <div class="community_like_board">
+                                <div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm"
+                                        onclick="location.href='/rereply/singo?rereplyno=${rereply.replyno}'">신고</button>
+                                </div>
+                                <a href="/rereply/update_increase_cnt_like?rereplyno=${rereply.replyno}">
+                                    <img src="/images/like_unable.png" alt="Like">
+                                    <span>${rereply.likecnt} 좋아요</span>
+                                </a>
+                            </div>
+                            `;
+                                    nestedRepliesContainer.appendChild(nestedReplyElement);
+                                });
+                                const uptimeElements = nestedRepliesContainer.querySelectorAll('.uptime');
+                                uptimeElements.forEach(el => {
+                                    el.textContent = showTime(el.textContent);
+                                });
+                                nestedRepliesContainer.style.display = 'block';
+                                toggleButton.textContent = '대댓글 숨기기';
+                            }).catch(error => console.error('Error fetching re-replies:', error));
+                    } else {
+                        nestedRepliesContainer.style.display = 'block';
+                        toggleButton.textContent = '대댓글 숨기기';
+                    }
+                }
             }
+
         </script>
     </head>
 
@@ -176,11 +190,13 @@
             <div style="padding: 10px;" th:text="${replyMemberVO.contents}">댓글 내용</div>
 
             <!-- 댓글 업로드 사진 -->
-            <div th:if="${replyMemberVO.photo.endsWith('jpg') or replyMemberVO.photo.endsWith('png')  or replyMemberVO.photo.endsWith('gif')}">
+            <div
+                th:if="${replyMemberVO.photo.endsWith('jpg') or replyMemberVO.photo.endsWith('png')  or replyMemberVO.photo.endsWith('gif')}">
                 <img th:src="@{|/replys/storage/${replyMemberVO.thumb1}|}" style="width: 120px; height: 90px;">
             </div>
 
-            <div th:if="${((replyMemberVO.photo.endsWith('jpg') or replyMemberVO.photo.endsWith('png')  or replyMemberVO.photo.endsWith('gif')) == false) and (replyMemberVO.filesize> 0)}">
+            <div
+                th:if="${((replyMemberVO.photo.endsWith('jpg') or replyMemberVO.photo.endsWith('png')  or replyMemberVO.photo.endsWith('gif')) == false) and (replyMemberVO.filesize> 0)}">
                 <span th:text="${replyMemberVO.photo}"></span>
             </div>
 
@@ -190,7 +206,8 @@
                     <button type="button" class="btn btn-outline-danger btn-sm"
                         th:attr="onclick=|location.href='/report_reply/create?communityno=${communityVO.communityno}&replyno=${replyMemberVO.replyno}'|">신고</button>
                 </div>
-                <a th:href="@{|/reply/update_increase_cnt_like?communityno=${communityVO.communityno}&replyno=${replyMemberVO.replyno}|}">
+                <a
+                    th:href="@{|/reply/update_increase_cnt_like?communityno=${communityVO.communityno}&replyno=${replyMemberVO.replyno}|}">
                     <img src="/images/like_unable.png" alt="Like">
                     <span th:text="${replyMemberVO.likecnt}">좋아요</span>
 
@@ -203,7 +220,9 @@
             <!-- 대댓글 입력창 -->
             <div th:id="'reply-input-'+${replyMemberVO.replyno}"></div>
             <button th:onclick="input([[${replyMemberVO.replyno}]])">답글쓰기</button>
-            <button th:if="${replyMemberVO.rereply_cnt} > 0" th:onclick="fetchReReplies([[${replyMemberVO.replyno}]])">대댓글 보기</button>
+            <button th:id="'toggle-button-'+${replyMemberVO.replyno}" th:if="${replyMemberVO.rereply_cnt} > 0" th:onclick="fetchReReplies([[${replyMemberVO.replyno}]])">
+                대댓글 보기
+            </button>
         </div>
     </div>
     <button id="load" onclick="loadADD()" style="margin: 10px; width: 100%;">더보기</button>

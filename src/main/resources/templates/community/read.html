@@ -47,7 +47,7 @@
 
     <!-- 반응형 UI 구성 필요 -->
     <!-- 카테고리, 작성자, 작성일 정보 -->
-    <div class="community_read_header_box">
+    <div class="community_read_header_box" style="height: 6%;">
       <div class="community_read_header_info">
         <div class="community_read_header">분류</div>
         <div style="display: flex;" th:text="${communityVO.name}"></div>
@@ -63,7 +63,7 @@
     </div>
 
     <!-- 본문 contents 영역 -->
-    <div class="community_read_contents">
+    <div class="community_read_contents" style="margin-top: 3%;">
       <p th:text="${communityVO.contents}"></p>
       <div style="text-align: center;">
         <img th:if="${communityVO.files != ''}" th:src="@{|/Desktop/teamfile/${communityVO.thumb}|}">

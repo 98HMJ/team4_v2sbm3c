@@ -1,7 +1,6 @@
 package dev.mvc.community;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,14 +14,13 @@ import dev.mvc.admin.AdminProcInter;
 import dev.mvc.communitycate.CommunityCateProcInter;
 import dev.mvc.communitycate.CommunityCateVO;
 import dev.mvc.member.MemberProcInter;
-import dev.mvc.member.MemberVO;
 import dev.mvc.reply.ReplyMemberVO;
 import dev.mvc.reply.ReplyProc;
-import dev.mvc.reply.ReplyVO;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RequestMapping("/community")
 @Controller
@@ -63,6 +61,20 @@ public class CommunityCont {
         return "community/main";
     }
 
+    @GetMapping("read_admin")
+    public String read_admin(HttpSession session, Model model, int communityno) {
+        if(this.adminProc.isAdmin(session)){
+            CommunityVO communityVO = this.communityProc.read(communityno);
+            model.addAttribute("communityVO", communityVO);
+
+            ArrayList<ReplyMemberVO> list = this.replyProc.list_by_community_join_member(communityno);
+            model.addAttribute("list", list);
+            return "community/read_admin";
+        }else{
+            return "admin/login";
+        }
+    }
+    
     @GetMapping("/read")
     public String read(HttpSession session, int communityno, Model model) {
         if (session.getAttribute("id")!=null || session.getAttribute("adminno")!=null) {
