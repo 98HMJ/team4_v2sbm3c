@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- 
+
 <mapper namespace="dev.mvc.reply.ReplyDAOInter">
-  
+
   <!-- return 값(int: 1),  댓글 등록-->
   <insert id="create" parameterType="dev.mvc.reply.ReplyVO">
     INSERT INTO REPLY(replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize, likecnt)
     VALUES (reply_seq.nextval, #{contents}, SYSDATE, #{photo}, #{communityno}, #{memberno}, #{photo1saved}, #{thumb1}, #{filesize}, #{likecnt})
   </insert>
-  
+
   <!-- 모든 댓글 목록 -->
-  <select id="list_all"  resultType="dev.mvc.reply.ReplyVO">
+  <select id="list_all" resultType="dev.mvc.reply.ReplyVO">
     SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize, likecnt
     FROM REPLY
     ORDER BY REPLYNO
   </select>
-  
+
   <!-- 특정 커뮤니티의 댓글 목록 -->
   <select id="list_by_community" resultType="dev.mvc.reply.ReplyVO" parameterType="int">
-    SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize, likecnt
-    FROM REPLY
-    WHERE communityno = #{communityno}
-    ORDER BY REPLYNO
+    SELECT a.replyno, a.contents, a.rdate, a.photo, a.communityno, a.memberno, a.photo1saved, a.thumb1, a.filesize, a.likecnt, b.rereply_cnt
+    FROM REPLY a
+    LEFT JOIN (SELECT replyno, COUNT(rereplyno) as rereply_cnt FROM REREPLY GROUP BY replyno) b
+    ON a.replyno = b.replyno
+    WHERE a.communityno = #{communityno}
+    ORDER BY a.REPLYNO
   </select>
-  
+
   <!-- 조회:  댓글 번호로 댓글 조회 -->
-  <select id="read"  resultType="dev.mvc.reply.ReplyVO">
+  <select id="read" resultType="dev.mvc.reply.ReplyVO">
     SELECT replyno, contents, rdate, photo, communityno, memberno, photo1saved, thumb1, filesize, likecnt
     FROM REPLY
     WHERE replyno = #{replyno}
@@ -39,7 +41,7 @@
     FROM member m,  reply r
     WHERE m.memberno = r.memberno and r.communityno = #{communityno}
   </select>
-    
+
   <!-- 댓글 : 텍스트 수정 -->
   <update id="update_contents" parameterType="dev.mvc.reply.ReplyVO">
     UPDATE reply 
@@ -53,26 +55,26 @@
     set photo = #{photo}, photo1saved=#{photo1saved}, thumb1=#{thumb1}, filesize=#{filesize}
     WHERE replyno = #{replyno}
   </update>
-  
+
   <!-- 댓글 삭제 -->
-   <delete id="delete_reply" parameterType="int">
+  <delete id="delete_reply" parameterType="int">
     DELETE FROM reply
     WHERE replyno = #{replyno}
-   </delete>
-   
-   <!-- 특정 커뮤니티 게시글의 댓글 수 -->
-   <select id="count_by_communityno" resultType="int" parameterType="int">
+  </delete>
+
+  <!-- 특정 커뮤니티 게시글의 댓글 수 -->
+  <select id="count_by_communityno" resultType="int" parameterType="int">
       SELECT COUNT(*) as cnt 
       FROM reply
       WHERE communityno = #{communityno}
-   </select>
-   
-   <!-- 특정 커뮤니티 게시글의 댓글의 좋아요 수 증가-->
-   <update id="update_increase_cnt_like" parameterType="int">
+  </select>
+
+  <!-- 특정 커뮤니티 게시글의 댓글의 좋아요 수 증가-->
+  <update id="update_increase_cnt_like" parameterType="int">
       UPDATE reply
       SET likecnt = likecnt + 1
       WHERE replyno = #{replyno}
-   </update>
-      
-   
+  </update>
+
+
 </mapper> 

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html layout:decorate="~{layout}">
 <div layout:fragment="content">
   <div class='menu_line'></div>
   
@@ -15,8 +16,10 @@
     </div> 
     <div class="content_body_bottom">
       <button type="submit" class="btn btn-secondary btn-sm">등록</button>
+      <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
     </div>
   
   </form>
 
 </div>
+</html>

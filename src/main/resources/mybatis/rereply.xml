@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev.mvc.rereply.RereplyDAOInter">
+  <!-- return 값(int: 1),  댓글 등록-->
+  <insert id="create" parameterType="dev.mvc.rereply.RereplyVO">
+    INSERT INTO REREPLY(rereplyno, contents, rdate, photo, memberno, replyno, photo1saved, thumb1, filesize, likecnt)
+    VALUES (rereply_seq.nextval, #{contents}, SYSDATE, #{photo}, #{memberno}, #{replyno}, #{photo1saved}, #{thumb1}, #{filesize}, #{likecnt})
+  </insert>
+
+  <!-- 특정 커뮤니티의 댓글 목록 -->
+  <select id="list_by_rereply" resultType="dev.mvc.rereply.RereplyVO" parameterType="int">
+    SELECT *
+    FROM REREPLY
+    WHERE replyno = #{replyno}
+    ORDER BY rdate ASC
+  </select>
+
+  <!-- 조회:  댓글 번호로 댓글 조회 -->
+  <select id="read" resultType="dev.mvc.rereply.RereplyVO">
+    SELECT *
+    FROM REREPLY
+    WHERE rereplyno = #{rereplyno}
+    ORDER BY REPLYNO ASC
+  </select>
+
+  <!-- 댓글 : 텍스트 수정 -->
+  <update id="update_contents" parameterType="dev.mvc.rereply.RereplyVO">
+    UPDATE rereply 
+    set contents = #{contents}
+    WHERE rereplyno = #{rereplyno}
+  </update>
+
+  <!-- 댓글 : 사진 수정 -->
+  <update id="update_file" parameterType="dev.mvc.rereply.RereplyVO">
+    UPDATE rereply 
+    set photo = #{photo}, photo1saved=#{photo1saved}, thumb1=#{thumb1}, filesize=#{filesize}
+    WHERE rereplyno = #{rereplyno}
+  </update>
+
+  <!-- 댓글 삭제 -->
+  <delete id="delete_rereply" parameterType="int">
+    DELETE FROM rereply
+    WHERE rereplyno = #{rereplyno}
+  </delete>
+
+  <!-- 특정 커뮤니티 게시글의 댓글 수 -->
+  <select id="count_by_replyno" resultType="int" parameterType="int">
+      SELECT COUNT(*) as cnt 
+      FROM rereply
+      WHERE replyno = #{replyno}
+  </select>
+
+  <!-- 특정 커뮤니티 게시글의 댓글의 좋아요 수 증가-->
+  <update id="update_increase_cnt_like" parameterType="int">
+      UPDATE rereply
+      SET likecnt = likecnt + 1
+      WHERE rereplyno = #{rereplyno}
+  </update>
+</mapper>
