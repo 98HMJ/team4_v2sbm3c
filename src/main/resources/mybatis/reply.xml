@@ -34,12 +34,12 @@
     WHERE replyno = #{replyno}
     ORDER BY REPLYNO
   </select>
-
-  <!-- 특정 커뮤니티의 댓글 목록(+회원id) -->
-  <select id="list_by_community_plus_memberid" resultType="dev.mvc.reply.ReplyVO" parameterType="int">
-    SELECT m.id, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize, likecnt
+  
+  <!-- 특정 커뮤니티의 댓글 목록(+회원 nickname) -->
+  <select id="list_by_community_join_member" resultType="dev.mvc.reply.ReplyMemberVO" parameterType="int">
+    SELECT m.nickname, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize, likecnt
     FROM member m,  reply r
-    WHERE m.memberno = r.memberno and r.communityno = #{communityno};
+    WHERE m.memberno = r.memberno and r.communityno = #{communityno}
   </select>
 
   <!-- 댓글 : 텍스트 수정 -->

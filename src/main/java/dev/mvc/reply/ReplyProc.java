@@ -33,9 +33,9 @@ public class ReplyProc implements ReplyProcInter {
   }
   
   @Override
-  public ArrayList<ReplyVO> list_by_community_plus_memberid(int communityno) {
-     ArrayList<ReplyVO> list = this.replyDAOInter.list_by_community_plus_memberid(communityno);
-     return list;
+  public ArrayList<ReplyMemberVO> list_by_community_join_member(int communityno) {
+    ArrayList<ReplyMemberVO> list = this.replyDAOInter.list_by_community_join_member(communityno);
+    return list;
   }
 
   @Override
@@ -72,6 +72,5 @@ public class ReplyProc implements ReplyProcInter {
     int cnt = this.replyDAOInter.update_increase_cnt_like(replyno);
     return cnt;
   }
-
   
 }

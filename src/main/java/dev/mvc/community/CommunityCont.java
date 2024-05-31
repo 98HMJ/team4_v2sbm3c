@@ -1,6 +1,7 @@
 package dev.mvc.community;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +16,7 @@ import dev.mvc.communitycate.CommunityCateProcInter;
 import dev.mvc.communitycate.CommunityCateVO;
 import dev.mvc.member.MemberProcInter;
 import dev.mvc.member.MemberVO;
+import dev.mvc.reply.ReplyMemberVO;
 import dev.mvc.reply.ReplyProc;
 import dev.mvc.reply.ReplyVO;
 import dev.mvc.tool.Tool;
@@ -83,6 +85,10 @@ public class CommunityCont {
             model.addAttribute("reply_cnt", reply_cnt);
             
             int memberno = (int) session.getAttribute("memberno");
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3fe48088227280912eb54f1fc4fa4b5d7a22469b
             model.addAttribute("memberno", memberno);
 
             CommunityVO communityVO = this.communityProc.read(communityno);

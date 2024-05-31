@@ -24,11 +24,11 @@ public interface ReplyDAOInter {
   public ArrayList<ReplyVO> list_by_community(int communityno);
   
   /**
-   * 특정 커뮤니티의 댓글 목록(+회원id)
+   * 특정 커뮤니티의 댓글 목록(+회원 nickname)
    * @param communityno
    * @return
    */
-  public ArrayList<ReplyVO> list_by_community_plus_memberid(int communityno);
+  public ArrayList<ReplyMemberVO> list_by_community_join_member(int communityno);
   
   /**
    * 댓글 조회(댓글 번호)
