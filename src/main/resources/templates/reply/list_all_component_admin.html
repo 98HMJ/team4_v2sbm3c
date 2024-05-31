@@ -172,7 +172,7 @@
 
             <!-- 대댓글 입력창 -->
             <div th:id="'reply-input-'+${replyMemberVO.replyno}"></div>
-            <button th:id="'toggle-button-'+${replyMemberVO.replyno}" th:onclick="fetchReReplies([[${replyMemberVO.replyno}]])">
+            <button th:if="${replyMemberVO.rereply_cnt} > 0" th:id="'toggle-button-'+${replyMemberVO.replyno}" th:onclick="fetchReReplies([[${replyMemberVO.replyno}]])">
                 대댓글 보기
             </button>
         </div>

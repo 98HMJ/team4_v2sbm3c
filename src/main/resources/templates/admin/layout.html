@@ -26,6 +26,46 @@
 
   <div class='content_body'>
     <th:block layout:fragment="content"></th:block> <!-- 각 파일의 내용 출력 -->
+    <div class="moveTopBtn">
+      <ul>
+      <li class="btn_li">
+        맨 위로
+      </li>
+    </ul>
+    </div>
+    
+    <script>
+      const topBtn = document.querySelector(".moveTopBtn");
+      const topBtnLi = document.querySelector(".btn_li");
+      
+      function toggleTopButton() {
+        // 현재 스크롤 위치 가져오기
+        const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // 일정 스크롤 이상이면 버튼 표시
+        if (scrollPosition > 799) {
+          topBtn.style.display = "flex";     
+          topBtn.classList.add('container_1', 'container_2');
+          topBtnLi.classList.add('box', 'box1');
+          
+        } else {
+          topBtn.style.display = "none";
+          topBtn.classList.remove('container_1', 'container_2');
+          topBtnLi.classList.remove('box', 'box1');
+        }
+      }
+      
+      toggleTopButton();
+      
+      // 스크롤 이벤트 리스너 추가
+      window.addEventListener("scroll", toggleTopButton);
+      
+      // 버튼 클릭 시 맨 위로 이동
+      topBtn.onclick = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+      
+    </script>
   </div> <!-- content_body 종료 --> 
   
 </div> <!-- container_main 종료 -->
