@@ -1,9 +1,10 @@
 <div th:fragment="list_all_fragment"> <!-- <div th:replace=... -->
 
     <head>
-        <script>
+        <script th:inline="javascript">
             let page = 0;
             const perpage = 5;
+            const communityno = /*[[${ communityVO.communityno }]]*/
 
             function loadADD() {
                 const comments = document.querySelectorAll('.community_comment_board');
@@ -106,13 +107,9 @@
                                 </div>
                                 ${rereply.memberno == rereply.session_memberno ? `
                                 <div style="display: flex; align-items: center;">
+                                    
                                     <a class="icon-link"
-                                        href="/rereply/update?rereplyno=${rereply.replyno}"
-                                        title="수정">
-                                        <img src="/images/update.png" alt="Edit">
-                                    </a>
-                                    <a class="icon-link"
-                                        href="/rereply/delete?rereplyno=${rereply.replyno}"
+                                        href="/rereply/delete?rereplyno=${rereply.rereplyno}&communityno=${communityno}"
                                         title="삭제">
                                         <img src="/images/delete.png" alt="Delete">
                                     </a>
@@ -225,6 +222,6 @@
             </button>
         </div>
     </div>
-    <button id="load" onclick="loadADD()" style="margin: 10px; width: 100%;">더보기</button>
+    <button id="load" onclick="loadADD()" style="width: 99%; margin-left: 0.5%;">더보기</button>
 
 </div>

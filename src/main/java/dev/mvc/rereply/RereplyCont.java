@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
+
 @Controller
 @RequestMapping("/rereply")
 public class RereplyCont {
@@ -155,8 +156,15 @@ public class RereplyCont {
         return data.toString();
     }
 
+    @GetMapping("delete")
+    public String delete(int communityno, int rereplyno) {
+        this.rereplyProc.delete_rereply(rereplyno);
+        return "redirect:/community/read?communityno=" + communityno;
+    }
+    
+
     @GetMapping("update_increase_cnt_like")
-    public String getMethodName(int rereplyno) {
+    public String update_increase_cnt_like(int rereplyno) {
         RereplyVO rereplyVO = this.rereplyProc.read(rereplyno);
         ReplyVO replyVO = this.replyProc.read(rereplyVO.getReplyno());
         this.rereplyProc.update_increase_cnt_like(rereplyno);

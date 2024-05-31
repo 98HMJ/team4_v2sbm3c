@@ -3,8 +3,6 @@ package dev.mvc.admin;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import dev.mvc.member.MemberVO;
-
 public interface AdminDAOInter {
   /**
    * 중복 아이디 검사
