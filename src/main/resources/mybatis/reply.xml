@@ -37,9 +37,9 @@
   
   <!-- 특정 커뮤니티의 댓글 목록(+회원 nickname) -->
   <select id="list_by_community_join_member" resultType="dev.mvc.reply.ReplyMemberVO" parameterType="int">
-    SELECT m.nickname, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize, likecnt
-    FROM member m,  reply r
-    WHERE m.memberno = r.memberno and r.communityno = #{communityno}
+    SELECT m.nickname, r.replyno, r.contents, r.rdate, r.photo, r.communityno, r.memberno, r.photo1saved, r.thumb1, r.filesize, likecnt, re.rereply_cnt
+    FROM member m,  reply r, (SELECT replyno, COUNT(rereplyno) as rereply_cnt FROM REREPLY GROUP BY replyno) re
+    WHERE m.memberno = r.memberno and r.communityno = #{communityno} and r.replyno = re.replyno(+)
   </select>
 
   <!-- 댓글 : 텍스트 수정 -->

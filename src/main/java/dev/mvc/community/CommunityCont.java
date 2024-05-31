@@ -76,19 +76,10 @@ public class CommunityCont {
             ArrayList<ReplyMemberVO> list = this.replyProc.list_by_community_join_member(communityno);
             model.addAttribute("list", list);
             
-            for (ReplyMemberVO replyMemberVO : list) {
-              System.out.println("-> nick: " + replyMemberVO.getNickname());
-              
-            }
-
             int reply_cnt = this.replyProc.count_by_communityno(communityno);
             model.addAttribute("reply_cnt", reply_cnt);
             
             int memberno = (int) session.getAttribute("memberno");
-<<<<<<< HEAD
-=======
-
->>>>>>> 3fe48088227280912eb54f1fc4fa4b5d7a22469b
             model.addAttribute("memberno", memberno);
 
             CommunityVO communityVO = this.communityProc.read(communityno);
