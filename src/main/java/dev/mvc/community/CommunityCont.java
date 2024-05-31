@@ -65,7 +65,7 @@ public class CommunityCont {
 
     @GetMapping("/read")
     public String read(HttpSession session, int communityno, Model model) {
-        if (session.getAttribute("id")!=null || this.adminProc.isAdmin(session)) {
+        if (session.getAttribute("id")!=null || session.getAttribute("adminno")!=null) {
             int cnt = this.communityProc.update_cnt(communityno);
             if (cnt != 1) {
                 model.addAttribute("code", "update_cnt_fail");
@@ -76,20 +76,14 @@ public class CommunityCont {
             ArrayList<ReplyMemberVO> list = this.replyProc.list_by_community_join_member(communityno);
             model.addAttribute("list", list);
             
-            for (ReplyMemberVO replyMemberVO : list) {
-              System.out.println("-> nick: " + replyMemberVO.getNickname());
-              
-            }
-
             int reply_cnt = this.replyProc.count_by_communityno(communityno);
             model.addAttribute("reply_cnt", reply_cnt);
             
             int memberno = (int) session.getAttribute("memberno");
-
             model.addAttribute("memberno", memberno);
 
             CommunityVO communityVO = this.communityProc.read(communityno);
-            if (communityVO.getMemberno() == (int) session.getAttribute("memberno") || this.adminProc.isAdmin(session)) {
+            if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
                 model.addAttribute("bool", true);
             } else {
                 model.addAttribute("bool", false);

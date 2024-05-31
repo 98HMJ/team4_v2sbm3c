@@ -198,12 +198,12 @@
             </div>
 
             <!-- 대댓글 영역 -->
-            <div th:id="'nested-replies-'+${replyVO.replyno}" style="margin-left: 10%;"></div>
+            <div th:id="'nested-replies-'+${replyMemberVO.replyno}" style="margin-left: 10%;"></div>
 
             <!-- 대댓글 입력창 -->
-            <div th:id="'reply-input-'+${replyVO.replyno}"></div>
-            <button th:onclick="input([[${replyVO.replyno}]])">답글쓰기</button>
-            <button th:if="${replyVO.rereply_cnt} > 0" th:onclick="fetchReReplies([[${replyVO.replyno}]])">대댓글 보기</button>
+            <div th:id="'reply-input-'+${replyMemberVO.replyno}"></div>
+            <button th:onclick="input([[${replyMemberVO.replyno}]])">답글쓰기</button>
+            <button th:if="${replyMemberVO.rereply_cnt} > 0" th:onclick="fetchReReplies([[${replyMemberVO.replyno}]])">대댓글 보기</button>
         </div>
     </div>
     <button id="load" onclick="loadADD()" style="margin: 10px; width: 100%;">더보기</button>
