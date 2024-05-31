@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.mvc.log.adminlog.AdminlogProcInter;
 import dev.mvc.log.adminlog.AdminlogVO;
-import dev.mvc.member.MemberVO;
 import dev.mvc.tool.Mail;
 import dev.mvc.tool.Security;
 import jakarta.servlet.http.Cookie;
