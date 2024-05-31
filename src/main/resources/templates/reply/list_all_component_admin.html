@@ -1,0 +1,182 @@
+<div th:fragment="list_all_fragment"> <!-- <div th:replace=... -->
+
+    <head>
+        <script>
+            let page = 0;
+            const perpage = 5;
+
+            function loadADD() {
+                const comments = document.querySelectorAll('.community_comment_board');
+                const totalComments = comments.length;
+                let start = page * perpage;
+                let end = start + perpage;
+                for (let i = start; i < end && i < totalComments; i++) {
+                    comments[i].style.display = 'block';
+                }
+                page++;
+                if (end >= totalComments) {
+                    document.getElementById('load').style.display = 'none';
+                }
+            }
+
+            function input(replyno) {
+                const replyinput = document.getElementById(`reply-input-${replyno}`);
+                const ReplyElement = document.createElement('div');
+                if (!replyinput) {
+                    console.error('Element not found:', `reply-input-${replyno}`);
+                    return;
+                }
+                replyinput.innerHTML = '';
+                replyinput.appendChild(ReplyElement);
+            }
+
+            function showTime(createdAt) {
+                let createDate = new Date(createdAt);
+                const milliSeconds = new Date() - createDate;
+                const seconds = milliSeconds / 1000;
+                if (seconds < 60) return `방금 전`;
+                const minutes = seconds / 60;
+                if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+                const hours = minutes / 60;
+                if (hours < 24) return `${Math.floor(hours)}시간 전`;
+                const days = hours / 24;
+                if (days < 7) return `${Math.floor(days)}일 전`;
+                const weeks = days / 7;
+                if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+                const months = days / 30;
+                if (months < 12) return `${Math.floor(months)}개월 전`;
+                const years = days / 365;
+                return `${Math.floor(years)}년 전`;
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                loadADD(); // Load initial comments
+                const uptimeElements = document.querySelectorAll('.uptime');
+                uptimeElements.forEach(el => {
+                    el.textContent = showTime(el.textContent);
+                });
+            });
+
+            function fetchReReplies(replyno) {
+                const nestedRepliesContainer = document.getElementById(`nested-replies-${replyno}`);
+                const toggleButton = document.getElementById(`toggle-button-${replyno}`);
+
+                if (nestedRepliesContainer.style.display === 'block') {
+                    nestedRepliesContainer.style.display = 'none';
+                    toggleButton.textContent = '대댓글 보기';
+                } else {
+                    if (nestedRepliesContainer.innerHTML === '') {
+                        fetch('/rereply/list_admin', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                replyno: replyno,
+                            }),
+                        }).then((response) => response.json())
+                            .then(data => {
+                                nestedRepliesContainer.innerHTML = '';
+                                data.rereply.forEach(rereply => {
+                                    const nestedReplyElement = document.createElement('div');
+                                    nestedReplyElement.classList.add('nested-reply');
+                                    nestedReplyElement.innerHTML = `
+                            <div class="community_comment_contents"
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+                                <div style="display: flex; padding: 10px; align-items: center;">
+                                    <div>
+                                        <span style="font-weight: 600;">${rereply.nickname}</span>
+                                    </div>
+                                    <div style="margin-right: 10px;"></div>
+                                    <span class="uptime" style="color: rgb(192, 192, 192); font-size: 12px;">${rereply.rdate}</span>
+                                </div>
+
+                                <div style="display: flex; align-items: center;">
+                                    <a class="icon-link"
+                                        href="/rereply/delete?rereplyno=${rereply.replyno}"
+                                        title="삭제">
+                                        <img src="/images/delete.png" alt="Delete">
+                                    </a>
+                                </div>
+                            </div>
+                            <div style="padding: 10px;">${rereply.contents}</div>
+                            ${rereply.thumb1 ? `
+                            <div>
+                                <img src="/replys/storage/${rereply.thumb1}" style="width: 120px; height: 90px;">
+                            </div>
+                            ` : ''}
+
+                            `;
+                                    nestedRepliesContainer.appendChild(nestedReplyElement);
+                                });
+                                const uptimeElements = nestedRepliesContainer.querySelectorAll('.uptime');
+                                uptimeElements.forEach(el => {
+                                    el.textContent = showTime(el.textContent);
+                                });
+                                nestedRepliesContainer.style.display = 'block';
+                                toggleButton.textContent = '대댓글 숨기기';
+                            }).catch(error => console.error('Error fetching re-replies:', error));
+                    } else {
+                        nestedRepliesContainer.style.display = 'block';
+                        toggleButton.textContent = '대댓글 숨기기';
+                    }
+                }
+            }
+
+        </script>
+    </head>
+
+    <!-- 댓글 조회 영역 -->
+    <div id="replyList">
+        <div th:each="replyMemberVO, status:${list}" class="community_comment_board" style="display: none;">
+
+            <div class="community_comment_contents"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+                <!-- 댓글 작성자 --> <!-- 댓글 작성일자 -->
+                <div style="display: flex; padding: 10px; align-items: center;">
+                    <!-- anotherList의 요소 접근 -->
+                    <div><span style="font-weight: 600;" th:text="${replyMemberVO.nickname}"></span></div>
+                    <div style="margin-right: 10px; "></div>
+
+                    <span class="uptime" style="color: rgb(192, 192, 192); font-size: 12px;"
+                        th:text="${replyMemberVO.rdate}"></span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <!-- 삭제 아이콘 : 멤버가 일치할 때 표시 -->
+                    <a class="icon-link"
+                        th:href="@{|/reply/delete?communityno=${communityVO.communityno}&replyno=${replyMemberVO.replyno}|}"
+                        title="삭제">
+                        <img src="/images/delete.png" alt="Delete">
+                    </a>
+                </div>
+            </div>
+
+            <!-- 댓글 내용 -->
+            <div style="padding: 10px;" th:text="${replyMemberVO.contents}">댓글 내용</div>
+
+            <!-- 댓글 업로드 사진 -->
+            <div
+                th:if="${replyMemberVO.photo.endsWith('jpg') or replyMemberVO.photo.endsWith('png')  or replyMemberVO.photo.endsWith('gif')}">
+                <img th:src="@{|/replys/storage/${replyMemberVO.thumb1}|}" style="width: 120px; height: 90px;">
+            </div>
+
+            <div
+                th:if="${((replyMemberVO.photo.endsWith('jpg') or replyMemberVO.photo.endsWith('png')  or replyMemberVO.photo.endsWith('gif')) == false) and (replyMemberVO.filesize> 0)}">
+                <span th:text="${replyMemberVO.photo}"></span>
+            </div>
+
+  
+
+            <!-- 대댓글 영역 -->
+            <div th:id="'nested-replies-'+${replyMemberVO.replyno}" style="margin-left: 10%;"></div>
+
+            <!-- 대댓글 입력창 -->
+            <div th:id="'reply-input-'+${replyMemberVO.replyno}"></div>
+            <button th:id="'toggle-button-'+${replyMemberVO.replyno}" th:onclick="fetchReReplies([[${replyMemberVO.replyno}]])">
+                대댓글 보기
+            </button>
+        </div>
+    </div>
+    <button id="load" onclick="loadADD()" style="margin: 10px; width: 100%;">더보기</button>
+
+</div>

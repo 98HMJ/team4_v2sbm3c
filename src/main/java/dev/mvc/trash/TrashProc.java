@@ -57,8 +57,4 @@ public class TrashProc implements TrashProcInter{
     file_dir=this.trashDAO.trash_read_by_name(name);
     return file_dir;
   }
-
-  
-  
-
 }

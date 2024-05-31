@@ -8,11 +8,12 @@
     const allData = /*[[${ list }]]*/ 'trashVO 리스트 불러옴';
 
     function loadMore() {
-      const trashList = document.getElementById('trashList');
+      const communityList = document.getElementById('trashList');
       const startIndex = currentPage * pageSize;
       const endIndex = startIndex + pageSize;
       const itemsToLoad = allData.slice(startIndex, endIndex);
       itemsToLoad.forEach(item => {
+        console.log(item);
         const div = document.createElement('div');
         div.innerHTML = `
           <div onclick="location.href='/trash/trash_read?trashno=${item.trashno}'"
@@ -29,9 +30,9 @@
              <div style="width: 100%; text-align: left;">${item.tag.split(' ')[0]} ${item.tag.split(' ')[1]}</div>
              </div>` : ``}
       `;
-        trashList.appendChild(div);
+        communityList.appendChild(div);
       });
-
+      
       currentPage++;
       if (endIndex >= allData.length) {
         document.getElementById('loadMoreBtn').style.display = 'none';

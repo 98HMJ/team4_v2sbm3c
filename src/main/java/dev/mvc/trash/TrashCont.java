@@ -133,16 +133,18 @@ public class TrashCont {
 
   @GetMapping(value = "/trash_list_all")
   public String trash_list_all(HttpSession session, Model model) {
-    if (this.adminProc.isAdmin(session)) {
-    ArrayList<TrashVO> list = this.trashProc.trash_list_all();
-    model.addAttribute("list", list);
-    return "trash/trash_list_all";
+    if (this.adminProc.isAdmin(session)) {    
+      ArrayList<TrashVO> list = this.trashProc.trash_list_all();
+      model.addAttribute("list", list);
+      
+      return "trash/trash_list_all";
     } else {
       return "redirect:/admin/login";
     }
 
   }
 
+  
   @GetMapping(value = "/trash_read")
   public String trash_read(HttpSession session, Model model, int trashno) {
     TrashVO trashVO = this.trashProc.trash_read(trashno);

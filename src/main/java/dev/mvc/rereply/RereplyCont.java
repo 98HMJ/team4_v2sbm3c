@@ -128,6 +128,33 @@ public class RereplyCont {
         return data.toString();
     }
 
+    @PostMapping("/list_admin")
+    @ResponseBody
+    public String list_admin(@RequestBody Map<String, Integer> jsonMap, HttpSession session) {
+        ArrayList<RereplyVO> list = this.rereplyProc.list_by_rereply((int)jsonMap.get("replyno"));
+        JSONObject data = new JSONObject();
+        if (list != null) {
+            JSONArray jArray = new JSONArray();
+            for (int i = 0; i < list.size(); i++) {
+                JSONObject obj = new JSONObject();
+                obj.put("rereplyno", list.get(i).getRereplyno());
+                obj.put("contents", list.get(i).getContents());
+                obj.put("rdate", list.get(i).getRdate());
+                obj.put("photo", list.get(i).getPhoto());
+                MemberVO memberVO = memberProc.read(list.get(i).getMemberno());
+                obj.put("nickname", memberVO.getNickname());
+                obj.put("likecnt", list.get(i).getLikecnt());
+                obj.put("thumb1", list.get(i).getThumb1());
+                jArray.put(obj);
+            }
+            data.put("rereply", jArray);
+        } else {
+            data.put("rereply", "no");
+            System.out.println("no");
+        }
+        return data.toString();
+    }
+
     @GetMapping("update_increase_cnt_like")
     public String getMethodName(int rereplyno) {
         RereplyVO rereplyVO = this.rereplyProc.read(rereplyno);
