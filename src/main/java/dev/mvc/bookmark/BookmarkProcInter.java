@@ -31,4 +31,18 @@ public interface BookmarkProcInter {
    * @return
    */
   public int create_trash(BookmarkVO bookmarkVO);
+  
+  /**
+   * 쓰레기 북마크 체크
+   * @param vo
+   * @return
+   */
+  public int check_trash(BookmarkCheckTrashVO vo);
+  
+  /**
+   * 쓰레기 북마크 삭제
+   * @param vo
+   * @return
+   */
+  public int delete_trash(BookmarkCheckTrashVO vo);
 }

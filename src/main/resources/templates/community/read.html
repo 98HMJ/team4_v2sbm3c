@@ -7,7 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/style.css" rel="Stylesheet" type="text/css"> <!-- /static 기준 -->
     <div>
-      <h1>Dr. Echo's Club</h1>
+      <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+        <h1 style="margin: 0;">Dr. Echo's Club</h1>
+        <a class="icon-link" id="bookmark-btn" title="북마크">
+          <img id="bookmark-icon" src="/images/bookmark_unable.svg" alt="Bookmark"
+            style="width: 30px; height: 30px; cursor: pointer;">
+        </a>
+      </div>
       <span>쓰레기 버리는 방법,</span><br>
       <span> 환경적인 라이프 스타일에 관한</span><br>
       <span>커뮤니티회원만 글과 댓글을 남길 수 있습니다.</span><br>
@@ -93,11 +99,9 @@
                     // Update the bookmark icon to the enabled state
                     bookmarkIcon.src = '/images/bookmark_enable.svg';
                   } else {
-                    console.error('Bookmark operation failed:', data.message);
                   }
                 })
                 .catch(error => {
-                  console.error('Error:', error);
                 });
             } else {
               // - 1. 북마크에 추가되어있지 않았다면
@@ -113,13 +117,10 @@
                 .then(data => {
                   if (data.res >= 1) {
                     bookmarkIcon.src = '/images/bookmark_unable.svg';
-                    console.log('Bookmark is set, removing bookmark...');
                   } else {
-                    console.error('Bookmark operation failed:', data.message);
                   }
                 })
                 .catch(error => {
-                  console.error('Error:', error);
                 });
             }
           });
@@ -134,9 +135,7 @@
   <div>
     <div class="community_read_header_title">
       <span th:text="${communityVO.title}"> </span>
-      <a class="icon-link" id="bookmark-btn" title="북마크">
-        <img id="bookmark-icon" src="/images/bookmark_unable.svg" alt="Bookmark">
-      </a>
+      
     </div>
     
     <!-- 반응형 UI 구성 필요 -->

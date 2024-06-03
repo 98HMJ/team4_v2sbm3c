@@ -247,6 +247,42 @@
             </div>
             <br>
 
+            <div class="form-group">
+                <label style="width: 100%;">신고 내역:</label>
+                <table style='width: 100%;'>
+                    <colgroup>
+                        <col style='width: 10%;'/>
+                        <col style='width: 15%;'/>
+                        <col style='width: 15%;'/>
+                        <col style='width: 15%;'/>
+                    </colgroup>
+                    <tr>
+                        <th class='th_bs'>신고 번호</th>
+                        <th class='th_bs'>신고자 id</th>      
+                        <th class='th_bs'>신고 시간</th>
+                        <th class='th_bs'>내용</th>
+                    </tr>
+                    
+                    <!-- th:href="@{|./read?singono=${reportCommunityVO.singono}|}" -->
+                    <tr th:each="reportCommunityVO, status:${list}" th:attr="onclick=|location.href='/report_community/read?reportno=${reportCommunityVO.reportno}'|">
+                        <td style="text-align: center;"><a th:text="${reportCommunityVO.reportno}"></a></td>
+                        <td th:if="${status.index} < ${m_list.size()}" style="text-align: center;"><a th:text="${m_list[status.index].id}"></a></td>
+                        
+                        <td style="text-align: center;"><a th:text="${reportCommunityVO.rdate.substring(0, 16)}"></a></td>
+                        <td style="text-align: center;"><a th:text="${#strings.length(reportCommunityVO.contents) > 20 ? #strings.substring(reportCommunityVO.contents, 0, 20)+'...' : reportCommunityVO.contents}"></a></td>
+                        
+                        <!--
+                        <td >
+                        <a th:href="@{|./read?singono=${singoVO.singono}|}"><img src='/singo/images/update.png' title='수정' class="icon"></a>
+                        <a th:href="@{|./delete?singono=${singoVO.singono}|}"><img src='/singo/images/delete.png' title='삭제' class="icon"></a>
+                        </td>
+                        -->
+                        
+                    </tr>
+                </table>
+            </div>
+            <br>
+
             <div class="content_body_bottom" style="text-align: right;">
                 <button type="button" onclick="send();" class="btn btn-secondary btn-sm">수정</button>
                 <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>

@@ -18,8 +18,13 @@ public class BookmarkProc implements BookmarkProcInter{
 
   @Override
   public int check_community(BookmarkCheckCommunityVO bookmarkCheckCommunityVO) {
-    // 값 할당
     int cnt = this.bookmarkDAO.check_community(bookmarkCheckCommunityVO);
+    return cnt;
+  }
+
+  @Override
+  public int delete_community(BookmarkCheckCommunityVO bookmarkCheckCommunityVO) {
+    int cnt = this.bookmarkDAO.delete_community(bookmarkCheckCommunityVO);
     return cnt;
   }
 
@@ -30,8 +35,14 @@ public class BookmarkProc implements BookmarkProcInter{
   }
 
   @Override
-  public int delete_community(BookmarkCheckCommunityVO bookmarkCheckCommunityVO) {
-    int cnt = this.bookmarkDAO.delete_community(bookmarkCheckCommunityVO);
+  public int check_trash(BookmarkCheckTrashVO vo) {
+    int cnt = this.bookmarkDAO.check_trash(vo);
+    return cnt;
+  }
+
+  @Override
+  public int delete_trash(BookmarkCheckTrashVO vo) {
+    int cnt = this.bookmarkDAO.delete_trash(vo);
     return cnt;
   }
   

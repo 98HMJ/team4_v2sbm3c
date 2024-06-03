@@ -25,21 +25,20 @@
   <!-- insert 쓰레기 북마크 삽입 -->
   <insert id="create_trash" parameterType="dev.mvc.bookmark.BookmarkVO">
     INSERT INTO bookmark(bookmarkno, rdate, url, communityno, trashno, memberno)
-    VALUES (bookmark_seq.nextval, sysdate, #{url}, null, #{communityno}, #{memberno})
+    VALUES (bookmark_seq.nextval, sysdate, #{url}, null, #{trashno}, #{memberno})
   </insert>
   
   <!-- 북마크 되어있는지 확인 - 쓰레기 -->
-  <select id="check_community" parameterType="dev.mvc.bookmark.BookmarkCheckTrashVO" resultType="int">
+  <select id="check_trash" parameterType="dev.mvc.bookmark.BookmarkCheckTrashVO" resultType="int">
     SELECT COUNT(bookmarkno) as cnt
     FROM bookmark
     WHERE memberno = #{memberno} and trashno = #{trashno}
   </select>
   
-  <!-- 삭제: 커뮤니티 북마크-->
-  <delete id="delete_community" parameterType="dev.mvc.bookmark.BookmarkCheckTrashVO">
+  <!-- 삭제: 쓰레기 북마크-->
+  <delete id="delete_trash" parameterType="dev.mvc.bookmark.BookmarkCheckTrashVO">
     DELETE FROM bookmark
     WHERE memberno = #{memberno} and trashno = #{trashno} 
   </delete>
-  
 
 </mapper> 

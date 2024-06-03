@@ -13,11 +13,7 @@ CREATE TABLE BOOKMARK (
     MEMBERNO      NUMBER(10)        NOT NULL,
     CONSTRAINT FK_BOOKMARK_COMMUNITY FOREIGN KEY (COMMUNITYNO) REFERENCES COMMUNITY (COMMUNITYNO) ON DELETE CASCADE,
     CONSTRAINT FK_BOOKMARK_TRASH FOREIGN KEY (TRASHNO) REFERENCES TRASH (TRASHNO) ON DELETE CASCADE,
-    CONSTRAINT FK_BOOKMARK_MEMBER FOREIGN KEY (MEMBERNO) REFERENCES MEMBER (MEMBERNO) ON DELETE CASCADE,
-    CONSTRAINT CHK_BOOKMARK_COMMUNITY_TRASH CHECK (
-        (COMMUNITYNO IS NOT NULL AND TRASHNO IS NULL) OR 
-        (COMMUNITYNO IS NULL AND TRASHNO IS NOT NULL)
-    )
+    CONSTRAINT FK_BOOKMARK_MEMBER FOREIGN KEY (MEMBERNO) REFERENCES MEMBER (MEMBERNO) ON DELETE CASCADE
 );
 
 COMMENT ON TABLE BOOKMARK is '즐겨찾기';
@@ -37,12 +33,13 @@ CREATE SEQUENCE bookmark_seq
   CACHE 2                        -- 2번은 메모리에서만 계산
   NOCYCLE;
 
+commit;
 -- 삽입 연산은 communityno, trashno 둘 중 1개만 할 수 있음
 INSERT INTO bookmark(bookmarkno, rdate, url, communityno, trashno, memberno)
-VALUES (bookmark_seq.nextval, sysdate, 'communityno=12', 13, null, 10);
+VALUES (bookmark_seq.nextval, sysdate, 'communityno=12', 39, null, 10);
 
 INSERT INTO bookmark(bookmarkno, rdate, url, communityno, trashno, memberno)
-VALUES (bookmark_seq.nextval, sysdate, 'trashno=12', null, 19, 10);
+VALUES (bookmark_seq.nextval, sysdate, 'trashno=12', null, 35, 10);
 
 commit;
 
@@ -54,7 +51,7 @@ WHERE communityno = 39 and memberno = 10;
 -- 조회(확인) : 쓰레기 글에 북마크가 등록이 되어있는지 확인
 SELECT bookmarkno, rdate, url, trashno, memberno
 FROM bookmark
-WHERE trashno = 39 and memberno = 10;
+WHERE trashno = 35 and memberno = 10;
 
 -- 목록: 커뮤니티 북마크
 SELECT b.bookmarkno, cc.name, b.rdate, b.url, b.communityno, b.memberno
@@ -93,6 +90,8 @@ rollback;
 SELECT COUNT(bookmarkno) as cnt
 FROM bookmark
 WHERE communityno = 39 and memberno = 10;
+
+commit;
 
 
 -- 북마크(쓰레기) 1개 삭제

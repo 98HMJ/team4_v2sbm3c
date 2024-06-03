@@ -24,7 +24,7 @@ public class BookmarkCont {
   private BookmarkProc bookmarkProc;
   
   public BookmarkCont() {
-    System.out.println("-> BookmarkCont created.");
+    // System.out.println("-> BookmarkCont created.");
   }
   
   
@@ -32,14 +32,14 @@ public class BookmarkCont {
   @ResponseBody
   public String create_community(HttpSession session, 
                           @RequestBody BookmarkVO bookmarkVO) {
-    System.out.println("-> 수신 데이터: " + bookmarkVO.toString());
+    // System.out.println("-> 수신 데이터: " + bookmarkVO.toString());
     
     if (session.getAttribute("id") != null) {
       int memberno = (int)session.getAttribute("memberno");
       bookmarkVO.setMemberno(memberno);
       
       int cnt = this.bookmarkProc.create_community(bookmarkVO);
-      System.out.println("-> cnt: " + cnt);
+      // System.out.println("-> cnt: " + cnt);
       
       JSONObject json = new JSONObject();
       json.put("res", cnt);
@@ -85,6 +85,74 @@ public class BookmarkCont {
       vo.setMemberno(memberno);
       
       int cnt = this.bookmarkProc.delete_community(vo);
+      // System.out.println("-> cnt: " + cnt);
+
+      JSONObject json = new JSONObject();
+      json.put("res", cnt);
+
+      return json.toString();
+    }
+
+    return "";
+  }
+  
+  @PostMapping("/create_trash")
+  @ResponseBody
+  public String create_trash(HttpSession session, 
+                          @RequestBody BookmarkVO bookmarkVO) {
+    System.out.println("-> 수신 데이터: " + bookmarkVO.toString());
+    
+    if (session.getAttribute("id") != null) {
+      int memberno = (int)session.getAttribute("memberno");
+      bookmarkVO.setMemberno(memberno);
+      
+      int cnt = this.bookmarkProc.create_trash(bookmarkVO);
+      System.out.println("-> cnt: " + cnt);
+      
+      JSONObject json = new JSONObject();
+      json.put("res", cnt);
+     
+      return json.toString();
+      
+    }
+    
+    return "";
+  }
+  
+  @PostMapping("/check_trash")
+  @ResponseBody
+  public String check_trash(HttpSession session, @RequestBody BookmarkCheckTrashVO vo) {
+      if (session.getAttribute("id") != null) {
+          int memberno = (int) session.getAttribute("memberno");
+          vo.setMemberno(memberno);
+          
+          int count = this.bookmarkProc.check_trash(vo);
+
+          JSONObject json = new JSONObject();
+          if (count > 0) {
+              json.put("res", 1);
+          } else {
+              json.put("res", 0);
+          }
+          return json.toString();
+      }
+
+      JSONObject json = new JSONObject();
+      json.put("res", 0);
+      return json.toString();
+  }
+
+  
+  @PostMapping("/delete_trash")
+  @ResponseBody
+  public String delete_trash(HttpSession session, @RequestBody BookmarkCheckTrashVO vo) {
+    
+    if (session.getAttribute("id") != null) {
+      int memberno = (int) session.getAttribute("memberno");
+      System.out.println("-> memberno: " + memberno);
+      vo.setMemberno(memberno);
+      
+      int cnt = this.bookmarkProc.delete_trash(vo);
       System.out.println("-> cnt: " + cnt);
 
       JSONObject json = new JSONObject();
