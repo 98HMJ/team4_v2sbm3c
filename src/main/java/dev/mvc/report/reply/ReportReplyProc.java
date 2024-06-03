@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.mvc.rereply.RereplyVO;
+
 @Service("dev.mvc.report.reply.ReportReplyProc")
-public class ReplyReportProc implements ReportReplyProcInter{
+public class ReportReplyProc implements ReportReplyProcInter{
   @Autowired
   ReportReplyDAOInter reportReplyDAOInter;
 
@@ -28,6 +30,12 @@ public class ReplyReportProc implements ReportReplyProcInter{
     ReportReplyVO reportReplyVO = this.reportReplyDAOInter.read(reportno);
     
     return reportReplyVO;
+  }
+
+  @Override
+  public ArrayList<ReportReplyVO> list_by_member(int memberno) {
+    ArrayList<ReportReplyVO> list = this.reportReplyDAOInter.list_by_member(memberno);
+    return list;
   }
   
   

@@ -21,11 +21,17 @@ public class ReportCommunityProc implements ReportCommunityProcInter{
     ArrayList<ReportCommunityVO> list = this.reportCommunityDAO.list_all();
     return list;
   }
+  
+  @Override
+  public ArrayList<ReportCommunityVO> list_by_member(int memberno) {
+    ArrayList<ReportCommunityVO> list = this.reportCommunityDAO.list_by_member(memberno);
+    return list;
+  }
 
   @Override
   public ReportCommunityVO read(int reportno) {
     ReportCommunityVO reportCommunityVO = this.reportCommunityDAO.read(reportno);
     return reportCommunityVO;
   }
-
+  
 }

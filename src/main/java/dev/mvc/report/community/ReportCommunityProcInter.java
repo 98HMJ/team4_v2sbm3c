@@ -18,6 +18,13 @@ public interface ReportCommunityProcInter {
   public ArrayList<ReportCommunityVO> list_all();
   
   /**
+   * 멤버별 신고 목록
+   * @param memberno
+   * @return 멤버별 신고한 글 목록
+   */
+  public ArrayList<ReportCommunityVO> list_by_member(int memberno);
+  
+  /**
    * 신고 내역 조회
    * @return 조회한 글
    */

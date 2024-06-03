@@ -1,5 +1,6 @@
 package dev.mvc.member;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.mvc.log.memberlog.MemberlogProcInter;
 import dev.mvc.log.memberlog.MemberlogVO;
+import dev.mvc.report.community.ReportCommunityProc;
+import dev.mvc.report.community.ReportCommunityProcInter;
+import dev.mvc.report.community.ReportCommunityVO;
+import dev.mvc.report.reply.ReportReplyProcInter;
+import dev.mvc.report.reply.ReportReplyVO;
 import dev.mvc.tool.Mail;
 import dev.mvc.tool.Security;
 import jakarta.servlet.http.Cookie;
@@ -35,6 +41,14 @@ public class MemberCont {
     @Autowired
     @Qualifier("dev.mvc.log.memberlog.MemberlogProc")
     private MemberlogProcInter memberlogProc;
+    
+    @Autowired
+    @Qualifier("dev.mvc.report.community.ReportCommunityProc")
+    private ReportCommunityProcInter reportCommunityProc;
+    
+    @Autowired
+    @Qualifier("dev.mvc.report.reply.ReportReplyProc")
+    private ReportReplyProcInter reportReplyProc;
 
     @Autowired
     private Security security;
@@ -211,6 +225,7 @@ public class MemberCont {
         if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
             MemberVO memberVO = this.memberProc.read((int) session.getAttribute("memberno"));
             model.addAttribute("memberVO", memberVO);
+            
             return "member/update";
         } else {
             return "redirect:/member/login";
@@ -227,6 +242,24 @@ public class MemberCont {
             model.addAttribute("code", "update_fail");
         }
         return "member/msg";
+    }
+    
+    @GetMapping("read_report")
+    public String read_report(HttpSession session, Model model) {
+        if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
+            MemberVO memberVO = this.memberProc.read((int) session.getAttribute("memberno"));
+            
+            int memberno = memberVO.getMemberno();
+            ArrayList<ReportCommunityVO> reportCommunitylist = this.reportCommunityProc.list_by_member(memberno);
+            model.addAttribute("reportCommunitylist", reportCommunitylist);
+            
+            ArrayList<ReportReplyVO> reportReplylist = this.reportReplyProc.list_by_member(memberno);
+            model.addAttribute("reportReplylist", reportReplylist);
+            
+            return "member/read_report";
+        } else {
+            return "redirect:/member/login";
+        }
     }
 
     @GetMapping("/findid")

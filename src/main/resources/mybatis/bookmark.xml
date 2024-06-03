@@ -10,6 +10,23 @@
   </insert>
   
   <!-- 북마크 되어있는지 확인 - 커뮤니티 -->
+  <select id="list" parameterType="int" resultType="div.mvc.bookmark.BookmarkListVO">
+    SELECT b.bookmarkno, tc.name AS category_name, b.rdate, b.url, b.trashno AS ref_no, b.memberno, 'trash' AS source
+    FROM trash t
+    JOIN bookmark b ON b.trashno = t.trashno
+    JOIN trashcate tc ON tc.trashcateno = t.trashcateno
+    WHERE b.memberno = 10
+    
+    UNION ALL
+    
+    SELECT b.bookmarkno, cc.name AS category_name, b.rdate, b.url, b.communityno AS ref_no, b.memberno, 'community' AS source
+    FROM community c
+    JOIN bookmark b ON b.communityno = c.communityno
+    JOIN communitycate cc ON cc.communitycateno = c.communitycateno
+    WHERE b.memberno = 10;
+  </select>
+  
+  <!-- 북마크 되어있는지 확인 - 커뮤니티 -->
   <select id="check_community" parameterType="dev.mvc.bookmark.BookmarkCheckCommunityVO" resultType="int">
     SELECT COUNT(bookmarkno) as cnt
     FROM bookmark

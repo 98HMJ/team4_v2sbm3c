@@ -41,9 +41,9 @@ FROM report_community
 ORDER BY rdate DESC;
 
 -- 목록 : 멤버별 신고한 목록
-SELECT reportno, contents, communityno, memberno
+SELECT reportno, contents, rdate, communityno, memberno
 FROM report_community
-WHERE memberno = 1;
+WHERE memberno = 10;
 
 -- 조회: 신고 내역 조회
 SELECT reportno, contents, rdate, communityno, memberno

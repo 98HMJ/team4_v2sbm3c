@@ -17,6 +17,12 @@ public interface ReportReplyProcInter {
   public ArrayList<ReportReplyVO> list_all();
   
   /**
+   * 멤버별 댓글 신고 목록
+   * @return 멤버별 신고 목록
+   */
+  public ArrayList<ReportReplyVO> list_by_member(int memberno);
+  
+  /**
    * 댓글 신고 1건 조회
    * @param reportno
    * @return 신고한 글

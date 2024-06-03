@@ -16,6 +16,12 @@
         ORDER BY rdate DESC
     </select>
     
+    <select id="list_by_member" parameterType="int" resultType="dev.mvc.report.community.ReportCommunityVO">
+      SELECT reportno, contents, rdate, communityno, memberno
+      FROM report_community
+      WHERE memberno = #{memberno}
+    </select>
+    
     <!-- 조회: 신고 글 조회 -->
     <select id="read" parameterType="int" resultType="dev.mvc.report.community.ReportCommunityVO">
         SELECT reportno, contents, rdate, communityno, memberno
