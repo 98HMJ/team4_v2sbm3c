@@ -14,9 +14,13 @@
   <div class="container">
 
     <div style="width: 100%; word-break: break-all;">
-      <div
-        th:if="${trashVO.file1.endsWith('jpg') or trashVO.file1.endsWith('png') or trashVO.file1.endsWith('gif') or trashVO.file1.endsWith('jpeg')}">
-        <img th:src="@{|/trash/storage/${trashVO.file1}|}" style='width: 100%; margin-bottom: 1rem;'>
+      <div style="position: relative;">
+        <div
+          th:if="${trashVO.file1.endsWith('jpg') or trashVO.file1.endsWith('png') or trashVO.file1.endsWith('gif') or trashVO.file1.endsWith('jpeg')}">
+          <img th:src="@{|/trash/storage/${trashVO.file1}|}" style='width: 100%; margin-bottom: 1rem;'>
+          <img th:src="@{/images/bookmark_unable.svg}"
+            style="position: absolute; top: 10px; left: 10px; width: 30px; height: 30px; cursor: pointer;">
+        </div>
       </div>
     </div>
 
@@ -34,8 +38,8 @@
       <div style="white-space: pre-wrap;"><span th:text="${trashVO.tip}"></span></div><br>
       <hr>
       <a th:href="@{|/singo/create?trashno=${trashVO.trashno}|}"> 수정 요청 </a>
-      
-      
+
+
     </div>
     <br><br>
   </div>
