@@ -47,9 +47,14 @@ VALUES (bookmark_seq.nextval, sysdate, 'trashno=12', null, 19, 10);
 commit;
 
 -- 조회(확인) : 커뮤니티 글에 북마크가 등록이 되어있는지 확인
-SELECT b.bookmarkno, b.rdate, b.url, b.communityno, b.memberno
-FROM bookmark b, member m
-WHERE b.communityno = 39 and b.memberno = m.memberno and b.memberno = 10;
+SELECT bookmarkno, rdate, url, communityno, memberno
+FROM bookmark
+WHERE communityno = 39 and memberno = 10;
+
+-- 조회(확인) : 쓰레기 글에 북마크가 등록이 되어있는지 확인
+SELECT bookmarkno, rdate, url, trashno, memberno
+FROM bookmark
+WHERE trashno = 39 and memberno = 10;
 
 -- 목록: 커뮤니티 북마크
 SELECT b.bookmarkno, cc.name, b.rdate, b.url, b.communityno, b.memberno
@@ -81,12 +86,14 @@ commit;
 
 -- 북마크(커뮤니티 글) 1개 삭제
 DELETE FROM bookmark
-WHERE communityno = 13
-AND bookmarkno IN (SELECT b.bookmarkno
-                   FROM community c, bookmark b, communitycate cc
-                   WHERE b.communityno = c.communityno 
-                   AND b.communityno = 13 
-                   AND cc.communitycateno = c.communitycateno);
+WHERE communityno = 39 and memberno = 10;
+
+rollback;
+
+SELECT COUNT(bookmarkno) as cnt
+FROM bookmark
+WHERE communityno = 39 and memberno = 10;
+
 
 -- 북마크(쓰레기) 1개 삭제
 DELETE FROM bookmark

@@ -17,7 +17,14 @@ public interface BookmarkDAOInter {
    * @param memberno
    * @return
    */
-  public BookmarkCheckCommunityVO check_community(HashMap<Integer, Object> noMap);
+  public int check_community(BookmarkCheckCommunityVO bookmarkCheckCommunityVO);
+  
+  /**
+   * 삭제: 커뮤니티 북마크
+   * @param noMap
+   * @return 삭제한 레코드 수
+   */
+  public int delete_community(BookmarkCheckCommunityVO bookmarkCheckCommunityVO);
   
   /**
    * 쓰레기 북마크 생성
@@ -25,5 +32,7 @@ public interface BookmarkDAOInter {
    * @return
    */
   public int create_trash(BookmarkVO bookmarkVO);
+  
+  
   
 }

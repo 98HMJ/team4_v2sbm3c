@@ -5,10 +5,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
-public class BookmarkCheckCommunityVO {
+public class BookmarkCheckTrashVO {
 
-    /** 커뮤니티 번호 */
-    int communityno;
+    /** 쓰레기 번호 */
+    int trashno;
     
     /** 회원 번호 */
     int memberno;

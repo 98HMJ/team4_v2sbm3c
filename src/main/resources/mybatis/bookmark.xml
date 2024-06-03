@@ -9,16 +9,37 @@
     VALUES (bookmark_seq.nextval, sysdate, #{url}, #{communityno}, null, #{memberno})
   </insert>
   
+  <!-- 북마크 되어있는지 확인 - 커뮤니티 -->
+  <select id="check_community" parameterType="dev.mvc.bookmark.BookmarkCheckCommunityVO" resultType="int">
+    SELECT COUNT(bookmarkno) as cnt
+    FROM bookmark
+    WHERE memberno = #{memberno} and communityno = #{communityno}
+  </select>
+  
+  <!-- 삭제: 커뮤니티 북마크-->
+  <delete id="delete_community" parameterType="dev.mvc.bookmark.BookmarkCheckCommunityVO">
+    DELETE FROM bookmark
+    WHERE memberno = #{memberno} and communityno = #{communityno} 
+  </delete>
+  
   <!-- insert 쓰레기 북마크 삽입 -->
   <insert id="create_trash" parameterType="dev.mvc.bookmark.BookmarkVO">
     INSERT INTO bookmark(bookmarkno, rdate, url, communityno, trashno, memberno)
-    VALUES (bookmark_seq.nextval, sysdate, #{url}, null, #{trashno}, #{memberno})
+    VALUES (bookmark_seq.nextval, sysdate, #{url}, null, #{communityno}, #{memberno})
   </insert>
   
-  <!-- 북마크 되어있는지 확인 - 커뮤니티 -->
-  <select id="check_community" parameterType="HashMap" resultType="dev.mvc.bookmark.BookmarkCheckCommunityVO">
-    SELECT bookmarkno, rdate, url, communityno, memberno
+  <!-- 북마크 되어있는지 확인 - 쓰레기 -->
+  <select id="check_community" parameterType="dev.mvc.bookmark.BookmarkCheckTrashVO" resultType="int">
+    SELECT COUNT(bookmarkno) as cnt
     FROM bookmark
+    WHERE memberno = #{memberno} and trashno = #{trashno}
   </select>
+  
+  <!-- 삭제: 커뮤니티 북마크-->
+  <delete id="delete_community" parameterType="dev.mvc.bookmark.BookmarkCheckTrashVO">
+    DELETE FROM bookmark
+    WHERE memberno = #{memberno} and trashno = #{trashno} 
+  </delete>
+  
 
 </mapper> 

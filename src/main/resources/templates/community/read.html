@@ -39,25 +39,28 @@
       
       
   
-      onload = () => {
+      document.addEventListener('DOMContentLoaded', () => {
         const communityNo = "[[${communityVO.communityno}]]";
         let bookmarkIcon = document.getElementById('bookmark-icon');
     
         // 북마크 상태를 확인하는 함수
         function checkBookmark() {
-          const goUrl = '/bookmark/check_community?communityno=' + communityNo;
-          fetch(goUrl, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-          })
+            const communityNo = "[[${communityVO.communityno}]]";
+            const goUrl = '/bookmark/check_community';
+        
+            fetch(goUrl, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({communityno: communityNo}),
+            })
             .then(response => response.json())
             .then(data => {
-              const bookmarkImg = document.getElementById('bookmarkImg');
-              if(data.res == 1){
-                bookmarkIcon.src = '/images/bookmark_enable.svg';
-              }else{
-                bookmarkIcon.src = '/images/bookmark_unable.svg';
-              }
+                const bookmarkImg = document.getElementById('bookmarkImg');
+                if (data.res == 1) {
+                    bookmarkIcon.src = '/images/bookmark_enable.svg';
+                } else {
+                    bookmarkIcon.src = '/images/bookmark_unable.svg';
+                }
             })
             .catch(error => console.error('Error:', error));
         }
@@ -69,25 +72,24 @@
             let bookmarkBtn = document.getElementById('bookmark-btn');
             let bookmarkIcon = document.getElementById('bookmark-icon');
 
-            const url = '/community/read?communityno=' + communityNo;
+            let url = '/community/read?communityno=' + communityNo;
             const data = {url: url, communityno: communityNo};
 
-            const goUrl = '/bookmark/create_community';
-
             // 2. bookmark 버튼 누르면
-            // - 2. 북마크에 추가되어 있다면
+            // - 2. 북마크에 추가 안되 있다면 // 이미지 비활성화시
             //  - a. 북마크에 추가후
             //  - b. 이미지 변경
             // Check the current state of the bookmark icon
             if (bookmarkIcon.src.includes('/images/bookmark_unable.svg')) {
-              // Bookmark is not set, so register the bookmark
+              goUrl = '/bookmark/create_community?communityno=' + communityNo;
               fetch(goUrl, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data),
               })
                 .then(response => response.json())
                 .then(data => {
-                  if (data.success) {
+                  if (data.res >= 1) {
                     // Update the bookmark icon to the enabled state
                     bookmarkIcon.src = '/images/bookmark_enable.svg';
                   } else {
@@ -100,17 +102,29 @@
             } else {
               // - 1. 북마크에 추가되어있지 않았다면
               //  - a. 북마크에 추가후
-              //  - b. 이미지 변경
-              // Bookmark is set, so remove the bookmark
-              // You'll need to implement the delete/remove bookmark functionality here
-              // Fetch the delete/remove bookmark endpoint and update the bookmark icon accordingly
-              console.log('Bookmark is set, removing bookmark...');
-              // Implement the delete/remove bookmark functionality
-              bookmarkIcon.src = '/images/bookmark_unable.svg';
+              //  - b. 이미지 변경                
+                goUrl = '/bookmark/delete_community';
+              fetch(goUrl, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({communityno: communityNo}),
+              })
+                .then(response => response.json())
+                .then(data => {
+                  if (data.res >= 1) {
+                    bookmarkIcon.src = '/images/bookmark_unable.svg';
+                    console.log('Bookmark is set, removing bookmark...');
+                  } else {
+                    console.error('Bookmark operation failed:', data.message);
+                  }
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                });
             }
           });
 
-      }
+      })
 
       
     </script>

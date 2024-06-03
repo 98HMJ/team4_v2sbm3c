@@ -30,7 +30,7 @@ public class BookmarkCont {
   
   @PostMapping("/create_community")
   @ResponseBody
-  public String create_community(HttpSession session,
+  public String create_community(HttpSession session, 
                           @RequestBody BookmarkVO bookmarkVO) {
     System.out.println("-> 수신 데이터: " + bookmarkVO.toString());
     
@@ -51,32 +51,50 @@ public class BookmarkCont {
     return "";
   }
   
-  
   @PostMapping("/check_community")
   @ResponseBody
-  public String check_community(HttpSession session, int communityno) {
+  public String check_community(HttpSession session, @RequestBody BookmarkCheckCommunityVO vo) {
+      if (session.getAttribute("id") != null) {
+          int memberno = (int) session.getAttribute("memberno");
+          vo.setMemberno(memberno);
+          
+          int count = this.bookmarkProc.check_community(vo);
+
+          JSONObject json = new JSONObject();
+          if (count > 0) {
+              json.put("res", 1);
+          } else {
+              json.put("res", 0);
+          }
+          return json.toString();
+      }
+
+      JSONObject json = new JSONObject();
+      json.put("res", 0);
+      return json.toString();
+  }
+
+  
+  @PostMapping("/delete_community")
+  @ResponseBody
+  public String delete_community(HttpSession session, @RequestBody BookmarkCheckCommunityVO vo) {
     
     if (session.getAttribute("id") != null) {
       int memberno = (int) session.getAttribute("memberno");
       System.out.println("-> memberno: " + memberno);
-      System.out.println("-> communityno: " + communityno);
+      vo.setMemberno(memberno);
       
-      HashMap<Integer, Object> noMap = new HashMap<>();
-      // 값 할당
-      noMap.put(memberno, communityno); // 정수값
-      
-      if(this.bookmarkProc.check_community(noMap) != null) {
-        JSONObject json = new JSONObject();
-        json.put("res", 1);
-        System.out.println("-> memberno: " + memberno);
-        return json.toString();
-      }
-      
-      return "";
+      int cnt = this.bookmarkProc.delete_community(vo);
+      System.out.println("-> cnt: " + cnt);
 
+      JSONObject json = new JSONObject();
+      json.put("res", cnt);
+
+      return json.toString();
     }
 
     return "";
   }
+  
   
 }
