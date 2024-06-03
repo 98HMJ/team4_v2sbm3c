@@ -15,6 +15,7 @@
 
       <!-- 메뉴 시작 -->
       <div class="navbar_menu">
+        <a th:if="${session.adminno != null}" href="/admin/community">커뮤니티</a>
         <div class="dropdown" th:if="${session.adminno == 1}">
           <span class="dropbtn">통합관리자</span>
           <div style="margin-right: 10px;" class="dropdown-content">

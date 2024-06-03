@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import dev.mvc.community.CommunityProcInter;
+import dev.mvc.community.CommunityVO;
 import dev.mvc.log.adminlog.AdminlogProcInter;
 import dev.mvc.log.adminlog.AdminlogVO;
 import dev.mvc.tool.Mail;
@@ -36,6 +38,10 @@ public class AdminCont {
   @Qualifier("dev.mvc.log.adminlog.AdminlogProc")
   private AdminlogProcInter adminlogProc;
 
+  @Autowired
+  @Qualifier("dev.mvc.community.CommunityProc")
+  private CommunityProcInter communityProc;
+  
   @Autowired
   Security security;
 
@@ -557,5 +563,18 @@ public class AdminCont {
     }
     return "admin/msg";
   }
+
+  @GetMapping("/community")
+  public String community(HttpSession session, Model model) {
+    ArrayList<CommunityVO> list = this.communityProc.list();
+    model.addAttribute("list", list);
+    if(this.adminProc.isAdmin(session)){
+      return "admin/community_main";
+    } else{
+      model.addAttribute("code", "no_login");
+      return "admin/msg";
+    }
+  }
+  
 
 }

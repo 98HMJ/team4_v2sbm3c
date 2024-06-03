@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html layout:decorate="~{admin/layout}"> <!-- layout.html 상속 -->
+
+<head>
+  <script src="../../static/js/showTime.js"></script>
+  <script th:inline="javascript">
+    let currentPage = 0;
+    const pageSize = 5;
+    const allData = /*[[${ list }]]*/ 'coummnityVO 리스트 불러옴';
+    
+    function showTime(createdAt) {
+      let createDate = new Date(createdAt);
+      const milliSeconds = new Date() - createDate;
+      const seconds = milliSeconds / 1000;
+      if (seconds < 60) return `방금 전`;
+      const minutes = seconds / 60;
+      if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+      const hours = minutes / 60;
+      if (hours < 24) return `${Math.floor(hours)}시간 전`;
+      const days = hours / 24;
+      if (days < 7) return `${Math.floor(days)}일 전`;
+      const weeks = days / 7;
+      if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+      const months = days / 30;
+      if (months < 12) return `${Math.floor(months)}개월 전`;
+      const years = days / 365;
+      return `${Math.floor(years)}년 전`;
+    }
+        
+    function loadMore() {
+      const communityList = document.getElementById('communityList');
+      const startIndex = currentPage * pageSize;
+      const endIndex = startIndex + pageSize;
+      const itemsToLoad = allData.slice(startIndex, endIndex);
+
+      itemsToLoad.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        <td class="td_bs">
+            <img ${item.files ? `src="/i/Desktop/teamfile/${item.files}"` : ''}>
+        </td>
+        <td class="td_bs_info" onclick="location.href='/community/read_admin?communityno=${item.communityno}'">
+          <div class="sub_info" style="margin-bottom: 5px;">
+            <span class="td_bs_id">${item.nickname}</span> · <span class="td_bs_uptime">${showTime(item.rdate)}</span>
+          </div>
+          <div class="main_info">
+            <div class="category">${item.title}</div> <div class="content">${item.contents}</div>
+          </div>
+        </td>
+        <td>
+          <img src="/images/like_unable.png"><span>${item.communitylikes}</span>
+          <img src="/images/comment.png"><span>${item.total}</span>
+        </td>
+      `;
+        communityList.appendChild(tr);
+      });
+
+      currentPage++;
+      if (endIndex >= allData.length) {
+        document.getElementById('loadMoreBtn').style.display = 'none';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadMore(); // 페이지 로드 시 첫 5개 항목을 표시합니다.
+    });
+  </script>
+  <title>Dr. Echo's Club</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+
+    <header style="margin-top: 25px; padding-left: 5%; padding-right: 5%; ">
+      <div>
+        <h1>Dr. Echo's Club</h1>
+        <span>쓰레기 버리는 방법,</span><br>
+        <span> 환경적인 라이프 스타일에 관한</span><br>
+        <span>커뮤니티회원만 글과 댓글을 남길 수 있습니다.</span><br>
+      </div>
+    </header>
+
+    <div style="margin: 25px 57px; display: flex; align-items: center; justify-content: center;
+              font-family: 'Giants-Bold'; font-size: 25px;">
+      <span class="second_header">커뮤니티 글 검색</span>
+    </div>
+    <!-- 검색 버튼 -->
+    <div th:replace="~{search/search_component::search_fragment}"></div>
+    <!-- 커뮤니티 글 목록-->
+    <div class="community_header">
+      커뮤니티
+    </div>
+    <div th:replace="~{community/list_all_component::list_all_fragment}"></div>
+
+    <div class="btn_more">
+      <span id="loadMoreBtn" class="btn btn-primary" style="cursor: pointer;" onclick="loadMore()">더보기</span>
+    </div>
+
+    <div th:replace="~{trash/modal_slider_component::modal_slider_fragment}"></div>
+  </div> <!-- container_main 종료 -->
+
+</body>
+</html>
