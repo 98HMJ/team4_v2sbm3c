@@ -76,5 +76,9 @@
       WHERE replyno = #{replyno}
   </update>
 
-
+  <update id="admin_delete" parameterType="int">
+        UPDATE reply
+        SET title="[관리자에 의해 삭제 되었습니다.]", contents="[관리자에 의해 삭제 되었습니다.]", photo=null, photo1saved=null, thumb1=null, filesize=0
+        WHERE replyno=#{replyno}
+  </update>
 </mapper> 
