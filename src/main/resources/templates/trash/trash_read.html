@@ -100,7 +100,7 @@
         </script>
         <div
           th:if="${trashVO.file1.endsWith('jpg') or trashVO.file1.endsWith('png') or trashVO.file1.endsWith('gif') or trashVO.file1.endsWith('jpeg')}">
-          <img th:src="@{|/trash/storage/${trashVO.file1}|}" style='width: 100%; margin-bottom: 1rem;'>
+          <img th:src="@{|/images/trash/storage/${trashVO.file1}|}" style='width: 100%; margin-bottom: 1rem;'>
           <img id="bookmark-icon" src="/images/bookmark_unable.svg" alt="Bookmark"
             style="position: absolute; top: 10px; left: 10px; width: 30px; height: 30px; cursor: pointer;">
         </div>

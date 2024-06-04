@@ -24,7 +24,7 @@
     <div style="width: 100%; word-break: break-all;">
       <div
         th:if="${trashVO.file1.endsWith('jpg') or trashVO.file1.endsWith('png') or trashVO.file1.endsWith('gif') or trashVO.file1.endsWith('jpeg')}">
-        <img th:src="@{|/trash/storage/${trashVO.file1}|}" style='width: 100%; margin-bottom: 1rem;'>
+        <img th:src="@{|/images/trash/storage/${trashVO.file1}|}" style='width: 100%; margin-bottom: 1rem;'>
       </div>
     </div>
 

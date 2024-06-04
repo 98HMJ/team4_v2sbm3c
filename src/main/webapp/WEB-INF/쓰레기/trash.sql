@@ -159,8 +159,10 @@ SET thumb1 = "갑티슈_t.jpg"
 WHERE trashno = 18;
 
 UPDATE trash
-SET trashno = 1
-WHERE trashno = 38;
+SET trashno = 6
+WHERE trashno = 67;
+
+commit;
 
 -- 검색
 SELECT trashno, name, isrecycle, tag, process, tip, file1, trashcateno
