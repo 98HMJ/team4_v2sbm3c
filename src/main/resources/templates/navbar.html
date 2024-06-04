@@ -32,7 +32,7 @@
   <nav>
     <div class="navbar">
       <!-- 왼쪽에 위치할 요소들 -->
-      <a th:if="${session.adminno==null}" href="http://localhost:9093" style="text-decoration: none; color: inherit;">
+      <a th:if="${session.adminno==null}" href="/" style="text-decoration: none; color: inherit;">
         <div class="navbar_label">
           <div style="margin-right: 5px; height: auto;">
             <img src="/images/ic_main.svg" alt="메인 아이콘">
@@ -43,7 +43,7 @@
         </div>
       </a>
 
-      <a th:if="${session.adminno!=null}" href="http://localhost:9093/admin" style="text-decoration: none; color: inherit;">
+      <a th:if="${session.adminno!=null}" href="/admin" style="text-decoration: none; color: inherit;">
         <div class="navbar_label">
           <div style="margin-right: 5px; height: auto;">
             <img src="/images/ic_main.svg" alt="메인 아이콘">
