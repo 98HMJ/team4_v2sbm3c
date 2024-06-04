@@ -37,7 +37,7 @@
   <!-- 쓰레기 수정 -->
   <update id="trash_update" parameterType="dev.mvc.trash.TrashVO">
     UPDATE trash
-    SET isrecycle = #{isrecycle}, tag =#{tag}, process = #{process}, tip=#{tip}
+    SET isrecycle = #{isrecycle}, tag =#{tag}, process = #{process}, tip=#{tip}, file1=#{file1}, file1saved=#{file1saved}, thumb1=#{thumb1}
     WHERE trashno = #{trashno}
   </update>
   
