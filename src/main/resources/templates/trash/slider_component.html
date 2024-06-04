@@ -6,7 +6,7 @@
       <!-- 실제 이미지나 컨텐츠가 들어갈 slide들 -->
       <!-- 실제로는 이미지마다 div 의 id 가 매핑 되야함 -->
       <div th:each="trashVO, status:${limit_trash_list}" class="swiper-slide">
-        <a href="#" class="modal_open"><img th:src="@{|/trash/storage/${trashVO.thumb1}|}"></a>
+        <a href="#" class="modal_open"><img th:src="@{|/images/trash/storage/${trashVO.thumb1}|}"></a>
       </div>
 
     </div>
