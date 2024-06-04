@@ -55,7 +55,7 @@ public class LogCont {
        String paging = this.adminlogProc.pagingBox(now_page, 
            word, "/log/admin", search_count, RECORD_PER_PAGE, PAGE_PER_BLOCK);
        model.addAttribute("paging", paging);
-       model.addAttribute("now_page", 1);
+       model.addAttribute("now_page", now_page);
        model.addAttribute("word", word);
        
        // 일련 변호 생성: 레코드 갯수 - ((현재 페이지수 -1) * 페이지당 레코드 수)
@@ -63,7 +63,7 @@ public class LogCont {
        model.addAttribute("no", no);
 
 
-      return "log/list";
+      return "log/list_admin";
     } else{
       model.addAttribute("code", "no_login");
       return "admin/msg";
@@ -71,15 +71,31 @@ public class LogCont {
   }
 
   @GetMapping("/member")
-  public String member(HttpSession session, Model model) {
-    if(session.getAttribute("memberno")==null){
+  public String member(HttpSession session, Model model,
+                       @RequestParam(name="now_page", defaultValue ="1")int now_page,
+                       @RequestParam(name="word", defaultValue ="all")String word) {
+    if(session.getAttribute("memberno")!=null ){
+      int memberno=(int)session.getAttribute("memberno");
+      ArrayList<MemberlogVO> list = this.memberlogProc.list_paging(word,now_page,RECORD_PER_PAGE,memberno);
+      model.addAttribute("list", list);
+
+      // 페이징 버튼 목록
+       int search_count = this.memberlogProc.list_cnt(word,memberno);
+       String paging = this.memberlogProc.pagingBox(now_page, 
+           word, "/log/member", search_count, RECORD_PER_PAGE, PAGE_PER_BLOCK);
+       model.addAttribute("paging", paging);
+       model.addAttribute("now_page", now_page);
+       model.addAttribute("word", word);
+       
+       // 일련 변호 생성: 레코드 갯수 - ((현재 페이지수 -1) * 페이지당 레코드 수)
+       int no = ((now_page - 1) * 10);
+       model.addAttribute("no", no);
+
+
+      return "log/list_member";
+    } else{
       model.addAttribute("code", "no_login");
       return "member/msg";
-    } else{
-      ArrayList<MemberlogVO> list = this.memberlogProc.list_memberno((int)session.getAttribute("memberno"));
-      model.addAttribute("list", list);
-      return "log/list";
     }
   }
-  
 }

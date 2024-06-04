@@ -36,6 +36,7 @@ public interface AdminlogProcInter {
    * @param word
    * @param now_page
    * @param record_per_page
+   * @param adminno
    * @return
    */
   public ArrayList<AdminlogVO> list_paging(String word, int now_page, int record_per_page, int adminno);
@@ -43,6 +44,7 @@ public interface AdminlogProcInter {
   /**
    * 검색된 레코드 수
    * @param word
+   * @param adminno
    * @return
    */
   public int list_cnt(String word, int adminno);

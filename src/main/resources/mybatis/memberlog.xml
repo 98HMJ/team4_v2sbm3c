@@ -30,4 +30,68 @@
     WHERE memberno = #{memberno}
     ORDER BY memberno ASC, rdate DESC
   </select>
+
+<!--검색과 페이징-->
+  <select id="list_paging" resultType="dev.mvc.log.memberlog.MemberlogVO" parameterType="map">
+  SELECT memberlogno, ip, rdate, memberno, r
+  FROM (
+    SELECT memberlogno, ip, rdate, memberno, rownum AS r
+    FROM (
+      SELECT memberlogno, ip, rdate, memberno
+      FROM memberlog
+      <choose>
+        <!-- '오늘'이 입력되었을 경우 -->
+        <when test="word=='today'">
+          WHERE memberno = #{memberno} AND (rdate &gt;= TRUNC(SYSDATE) AND rdate &lt; TRUNC(SYSDATE) + 1)
+        </when>
+        <!-- '일주일'이 입력되었을 경우 -->
+        <when test="word=='this_week'">
+          WHERE memberno = #{memberno} AND (rdate &gt;= TRUNC(SYSDATE) - 7 AND rdate &lt; TRUNC(SYSDATE) + 1)
+        </when>
+        <!-- '한달'이 입력되었을 경우 -->
+        <when test="word=='this_month'">
+          WHERE memberno = #{memberno} AND (rdate &gt;= TRUNC(SYSDATE) - INTERVAL '1' MONTH AND rdate &lt; TRUNC(SYSDATE) + INTERVAL '1' DAY)
+        </when>
+        <!-- '일년'이 입력되었을 경우 -->
+        <when test="word=='this_year'">
+          WHERE memberno = #{memberno} AND (rdate &gt;= TRUNC(SYSDATE, 'YYYY') AND rdate &lt; ADD_MONTHS(TRUNC(SYSDATE, 'YYYY'), 12))
+        </when>
+        <!-- '전체'가 입력되었을 경우 -->
+        <otherwise>
+          WHERE memberno = #{memberno}
+        </otherwise>
+      </choose>
+      ORDER BY rdate DESC  <!-- 전체 데이터를 rdate에 따라 내림차순으로 정렬 -->
+    )
+  )
+  WHERE r &gt;= #{start_num} AND r &lt;= #{end_num}
+</select>
+
+<select id="list_cnt" resultType="int" parameterType="map">
+  SELECT count(*) AS CNT
+  FROM memberlog
+  <choose>
+        <!-- '오늘'이 입력되었을 경우 -->
+        <when test="word=='today'">
+          WHERE memberno = #{memberno} AND (rdate &gt;= TRUNC(SYSDATE) AND rdate &lt; TRUNC(SYSDATE) + 1)
+        </when>
+        <!-- '일주일'이 입력되었을 경우 -->
+        <when test="word=='this_week'">
+          WHERE memberno = #{memberno} AND (rdate &gt;= TRUNC(SYSDATE) - 7 AND rdate &lt; TRUNC(SYSDATE) + 1)
+        </when>
+        <!-- '한달'이 입력되었을 경우 -->
+        <when test="word=='this_month'">
+          WHERE memberno = #{memberno} AND (rdate &gt;= TRUNC(SYSDATE) - INTERVAL '1' MONTH AND rdate &lt; TRUNC(SYSDATE) + INTERVAL '1' DAY)
+        </when>
+        <!-- '일년'이 입력되었을 경우 -->
+        <when test="word=='this_year'">
+          WHERE memberno = #{memberno} AND (rdate &gt;= TRUNC(SYSDATE, 'YYYY') AND rdate &lt; ADD_MONTHS(TRUNC(SYSDATE, 'YYYY'), 12))
+        </when>
+        <!-- '전체'가 입력되었을 경우 -->
+        <otherwise>
+          WHERE memberno = #{memberno}
+        </otherwise>
+      </choose>
+</select>
+
 </mapper> 
