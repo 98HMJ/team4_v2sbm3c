@@ -113,6 +113,7 @@ public class SingoCont {
                     }
                 } else { // 전송 못하는 파일 형식
                     model.addAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
+                    model.addAttribute("cnt", 0);
                     return "singo/msg"; // Post -> Get - param...
                 }
             }
@@ -123,7 +124,7 @@ public class SingoCont {
     int cnt = this.singoProc.create(singoVO);
     if(cnt==1) {
       model.addAttribute("code", "singo_success");
-      model.addAttribute("cnt", cnt);
+      model.addAttribute("cnt", 2);
       return "singo/msg";
     } else{
       model.addAttribute("code", "singo_fail");
@@ -268,11 +269,28 @@ public class SingoCont {
   }
   
   @GetMapping(value = "/delete")
-  public String delete(HttpSession session, Model model, int singono) {
+  public String delete(HttpSession session, Model model, int singono,
+                       @RequestParam(name="word", defaultValue = "") String word,
+                       @RequestParam(name="now_page", defaultValue = "1") int now_page) {
     SingoVO singoVO = this.singoProc.read(singono);
-    // 관리자 권한이거나 자신이 신고한 내용이면 조회 가능
-    if(session.getAttribute("adminno")!=null || (int)session.getAttribute("memberno")==singoVO.getMemberno()){
+    if(this.adminProc.isAdmin(session)){
       model.addAttribute("singoVO", singoVO);
+      word = Tool.checkNull(word).trim();
+      ArrayList<SingoVO> list = this.singoProc.list(word, now_page, Singo.RECORD_PER_PAGE);
+      model.addAttribute("list", list);
+      
+       // 페이징 버튼 목록
+       int search_count = this.singoProc.list_cnt(word);
+       String paging = this.singoProc.pagingBox(now_page, 
+           word, "/singo/list", search_count, Singo.RECORD_PER_PAGE, Singo.PAGE_PER_BLOCK);
+       model.addAttribute("paging", paging);
+       model.addAttribute("now_page", now_page);
+       
+       model.addAttribute("word", word);
+
+       int no = ((now_page - 1) * Singo.RECORD_PER_PAGE);
+       model.addAttribute("no", no);
+
       return "singo/delete";
     } else{
       model.addAttribute("code", "permission_error");
@@ -281,12 +299,23 @@ public class SingoCont {
   }
 
   @PostMapping("delete")
-  public String delete(Model model, RedirectAttributes ra,int singono) {
+  public String delete_proc(HttpSession session, Model model, int singono,
+                            @RequestParam(name="word", defaultValue = "") String word,
+                            @RequestParam(name="now_page", defaultValue = "1") int now_page) {
     int cnt = this.singoProc.delete(singono);         
     if(cnt == 1){
       model.addAttribute("cnt", cnt);
-      model.addAttribute("code", "delete_success");
-      return "singo/msg";
+      // ----------------------------------------------------------------------------------------------------------
+    // 마지막 페이지에서 모든 레코드가 삭제되면 페이지수를 1 감소 시켜야함.
+    int search_cnt = this.singoProc.list_cnt(word);
+    if (search_cnt % Singo.RECORD_PER_PAGE == 0) {
+      now_page = now_page - 1;
+      if (now_page < 1) {
+        now_page = 1; // 최소 시작 페이지
+      }
+    }
+    // ----------------------------------------------------------------------------------------------------------
+      return "redirect:/singo/list?word=" + Tool.encode(word) + "&now_page=" + now_page;
     } else{
       model.addAttribute("cnt", cnt);
       model.addAttribute("code", "delete_fail");
