@@ -1,4 +1,5 @@
 <div th:fragment="list_hot_trash_fragment"> <!-- <div th:replace=... -->
+  <head><meta charset="UTF8"></head>
   <table class="table table-hover">
     <colgroup>
       <col style='width: 15%;' />
@@ -17,7 +18,7 @@
       <tr th:each="dir_list, statusDir:${dir_list}">
         <td class="td_bs_num" th:text="${statusDir.count}"></td>
         <td class="td_bs">
-          <a style="display: block;"><img th:src="@{|/images/trash/storage/${dir_list.get('FILE1SAVED')}|}"></a>
+          <a style="display: block;"><img th:src="@{|/images/trash/storage/${dir_list.FILE1SAVED}|}"></a>
         </td>
         <td class="td_bs"><a th:attr="onclick=|location.href='/trash/trash_read?trashno=${dir_list.get('TRASHNO')}'|"
             th:text="${dir_list.get('NAME')}" style="display: block; cursor: pointer;"></a></td>

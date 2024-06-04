@@ -27,16 +27,5 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
         registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" + Singo.getUploadDir());
 
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("classpath:/static/images/")
-                .resourceChain(true)
-                .addResolver(new PathResourceResolver() {
-                    @Override
-                    protected Resource getResource(String resourcePath, Resource location) throws IOException {
-                        resourcePath = URLDecoder.decode(resourcePath, "UTF-8");
-                        return super.getResource(resourcePath, location);
-                    }
-                });
-
     }
 }
