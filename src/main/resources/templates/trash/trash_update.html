@@ -24,6 +24,7 @@
   
   <form name='frm' method='post' th:object="${trashVO}" action='./trash_update'>
     <input type="hidden" name="trashno" th:value="${trashVO.trashno}">
+    
     <div>
        <label>태그</label>
        <textarea name='tag' required="required" class="form-control" rows="1" th:text='${trashVO.tag}' style='width: 50%;'></textarea>
@@ -41,6 +42,22 @@
        <label>유의할 점</label>
        <textarea name='tip' required="required" class="form-control" rows="7" th:text='${trashVO.tip}' style='width: 100%;'></textarea>
     </div>  
+    
+    <div>
+       <label>file1:</label>
+       <input type='text' name='file1' th:value='${trashVO.file1}' required="required" 
+                 class="form-control" style='width: 30%;'>
+    </div>
+    <div>
+       <label>file1saved:</label>
+       <input type='text' name='file1saved' th:value='${trashVO.file1saved}' required="required" 
+                 class="form-control" style='width: 30%;'>
+    </div>
+    <div>
+       <label>thumb1:</label>
+       <input type='text' name='thumb1' th:value='${trashVO.thumb1}' required="required" 
+                 class="form-control" style='width: 30%;'>
+    </div>
     
     <div class="content_body_bottom">
       <button type="submit" class="btn btn-secondary btn-sm">저장</button>
