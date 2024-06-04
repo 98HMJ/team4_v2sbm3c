@@ -1,11 +1,13 @@
 package dev.mvc.bookmark;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import dev.mvc.community.CommunityVO;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -163,6 +166,22 @@ public class BookmarkCont {
 
     return "";
   }
+  
+  @GetMapping("/list")
+  public String main(HttpSession session, Model model) {
+    if (session.getAttribute("id") != null) {
+      int memberno = (int) session.getAttribute("memberno");
+      System.out.println("-> memberno: " + memberno);
+      
+      ArrayList<BookmarkListVO> list = this.bookmarkProc.list_all(memberno);
+      model.addAttribute("list", list);
+      
+      return "bookmark/list";
+    }
+      
+    return "redirect:/member/login";
+  }
+  
   
   
 }
