@@ -40,10 +40,10 @@ commit;
 SELECT reportno, contents, rdate, replyno, memberno
 FROM report_reply;
 
--- 목록 : 멤버별 신고한 목록
+-- 목록 : 멤버별 신고한 목록 
 SELECT reportno, contents, rdate, replyno, memberno
 FROM report_reply
-WHERE memberno = 1;
+WHERE memberno = 10;
 
 -- 수정
 

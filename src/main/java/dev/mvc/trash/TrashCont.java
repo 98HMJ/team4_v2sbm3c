@@ -72,7 +72,8 @@ public class TrashCont {
       String file1saved = ""; // 저장된 파일명, image
       String thumb1 = ""; // preview image
 
-      String upDir = Trash.getUploadDir(); // 파일을 업로드할 폴더 준비
+      //String upDir = Trash.getUploadDir(); // 파일을 업로드할 폴더 준비(로컬)
+      String upDir = "src/main/resources/static/images/trash/storage/"; // 파일을 업로드할 폴더 준비(프로젝트)
       //System.out.println("-> upDir: " + upDir);
 
       // 전송 파일이 없어도 file1MF 객체가 생성됨.

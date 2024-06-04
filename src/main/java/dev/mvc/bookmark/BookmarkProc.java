@@ -1,5 +1,6 @@
 package dev.mvc.bookmark;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,12 @@ public class BookmarkProc implements BookmarkProcInter{
   public int delete_trash(BookmarkCheckTrashVO vo) {
     int cnt = this.bookmarkDAO.delete_trash(vo);
     return cnt;
+  }
+
+  @Override
+  public ArrayList<BookmarkListVO> list_all(int memberno) {
+    ArrayList<BookmarkListVO> list = this.bookmarkDAO.list_all(memberno);
+    return list;
   }
   
 }

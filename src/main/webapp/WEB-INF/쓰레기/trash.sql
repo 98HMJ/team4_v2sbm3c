@@ -144,7 +144,7 @@ ORDER BY trashno ASC;
 -- 1번 trashno 만 출력
 SELECT *
 FROM trash
-WHERE trashno=18;
+WHERE trashno=26;
 
 -- 삭제
 DELETE FROM trash
@@ -155,12 +155,14 @@ WHERE trash=12 AND trash <= 41;
 
 -- 수정
 UPDATE trash
-SET thumb1 = "갑티슈_t.jpg"
-WHERE trashno = 18;
+SET file1saved="박스_2.jpeg", thumb1 ="박스_2_t.jpg"
+WHERE trashno = 26;
 
 UPDATE trash
-SET trashno = 1
-WHERE trashno = 38;
+SET trashno = 6
+WHERE trashno = 67;
+
+commit;
 
 -- 검색
 SELECT trashno, name, isrecycle, tag, process, tip, file1, trashcateno

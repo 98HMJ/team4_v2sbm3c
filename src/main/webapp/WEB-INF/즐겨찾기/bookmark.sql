@@ -44,20 +44,35 @@ VALUES (bookmark_seq.nextval, sysdate, 'trashno=12', null, 35, 10);
 commit;
 
 -- 조회(확인) : 커뮤니티 글에 북마크가 등록이 되어있는지 확인
-SELECT bookmarkno, rdate, url, communityno, memberno
+SELECT COUNT(bookmarkno) as cnt
 FROM bookmark
 WHERE communityno = 39 and memberno = 10;
 
 -- 조회(확인) : 쓰레기 글에 북마크가 등록이 되어있는지 확인
-SELECT bookmarkno, rdate, url, trashno, memberno
+SELECT COUNT(bookmarkno) as cnt
 FROM bookmark
 WHERE trashno = 35 and memberno = 10;
 
+-- 모든 북마크 목록
+SELECT b.bookmarkno, tc.name AS category_name, b.rdate, b.url, b.trashno AS ref_no, b.memberno
+FROM trash t
+JOIN bookmark b ON b.trashno = t.trashno
+JOIN trashcate tc ON tc.trashcateno = t.trashcateno
+WHERE b.memberno = 10
+
+UNION ALL
+
+SELECT b.bookmarkno, cc.name AS category_name, b.rdate, b.url, b.communityno AS ref_no, b.memberno
+FROM community c
+JOIN bookmark b ON b.communityno = c.communityno
+JOIN communitycate cc ON cc.communitycateno = c.communitycateno
+WHERE b.memberno = 10;
+    
 -- 목록: 커뮤니티 북마크
 SELECT b.bookmarkno, cc.name, b.rdate, b.url, b.communityno, b.memberno
-FROM community c, bookmark b, communitycate cc, member m
+FROM community c, bookmark b, communitycate cc
 WHERE b.communityno = c.communityno and cc.communitycateno = c.communitycateno
-    and b.memberno = m.memberno and b.memberno = 10;
+    and  b.memberno = 10;
 
 -- 조회: 커뮤니티의 특정 카테고리의 북마크 
 SELECT b.bookmarkno, cc.name, b.rdate, b.url, b.communityno, b.memberno
@@ -68,9 +83,9 @@ WHERE b.communityno = c.communityno and cc.communitycateno = c.communitycateno
 
 -- 목록: 쓰레기 북마크 
 SELECT b.bookmarkno, tc.name, b.rdate, b.url, b.trashno, b.memberno
-FROM trash t, bookmark b, trashcate tc, member m
+FROM trash t, bookmark b, trashcate tc
 WHERE b.trashno = t.trashno and tc.trashcateno = t.trashcateno
-    and b.memberno = m.memberno and b.memberno = 10;
+    and b.memberno = 10;
 
 -- 조회: 쓰레기의 특정 카테고리의 북마크
 SELECT b.bookmarkno, tc.name, b.rdate, b.url, b.trashno, b.memberno
@@ -87,12 +102,7 @@ WHERE communityno = 39 and memberno = 10;
 
 rollback;
 
-SELECT COUNT(bookmarkno) as cnt
-FROM bookmark
-WHERE communityno = 39 and memberno = 10;
-
 commit;
-
 
 -- 북마크(쓰레기) 1개 삭제
 DELETE FROM bookmark

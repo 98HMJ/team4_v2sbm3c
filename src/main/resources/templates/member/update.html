@@ -95,9 +95,29 @@
             document.getElementById('frm').submit(); // required="required" 작동 안됨.
         }
     </script>
-    <div class="title_line">
-        회원 수정
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <img src="/images/ic_modify_profile.svg" alt="Image" class="inline-block" style="width: 30px; height: 30px;">
+        <h2 style="display: inline-block; vertical-align: middle;">회원 수정</h2>
+      </div>
+      <!-- 메뉴 선택 영역 -->
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center;">
+              <a href="/member/read_report" style="display: flex; align-items: center;">
+                  <img src="/images/ic_report.png" alt="Image" class="inline-block" style="width: 20px; height: 20px;">
+                  <label style="display: inline-block; vertical-align: middle; margin-left: 5px;">신고 내역</label>
+              </a>
+          </div>
+          <div style="width: 1px; height: 20px; background-color: black; margin: 0 10px;"></div>
+          <div style="display: flex; align-items: center;">
+              <a href="/bookmark/list" style="display: flex; align-items: center;">
+                  <img src="/images/ic_bookmarks_fill.svg" alt="Image" class="inline-block" style="width: 20px; height: 20px;">
+                  <label style="display: inline-block; vertical-align: middle; margin-left: 5px;">북마크</label>
+              </a>                
+          </div>
+      </div>
     </div>
+    
     <div class='menu_line'></div>
     <div>
         <form th:object="${memberVO}" id="frm" name="frm" method="post" action="/member/update">
@@ -147,6 +167,7 @@
                 예) 01011112222
             </div>
             <br>
+            
 
             <div class="form-group">
                 <label>이메일:</label>
@@ -246,41 +267,7 @@
                     placeholder="상세 주소">
             </div>
             <br>
-
-            <div class="form-group">
-                <label style="width: 100%;">신고 내역:</label>
-                <table style='width: 100%;'>
-                    <colgroup>
-                        <col style='width: 10%;'/>
-                        <col style='width: 15%;'/>
-                        <col style='width: 15%;'/>
-                        <col style='width: 15%;'/>
-                    </colgroup>
-                    <tr>
-                        <th class='th_bs'>신고 번호</th>
-                        <th class='th_bs'>신고자 id</th>      
-                        <th class='th_bs'>신고 시간</th>
-                        <th class='th_bs'>내용</th>
-                    </tr>
-                    
-                    <!-- th:href="@{|./read?singono=${reportCommunityVO.singono}|}" -->
-                    <tr th:each="reportCommunityVO, status:${list}" th:attr="onclick=|location.href='/report_community/read?reportno=${reportCommunityVO.reportno}'|">
-                        <td style="text-align: center;"><a th:text="${reportCommunityVO.reportno}"></a></td>
-                        <td th:if="${status.index} < ${m_list.size()}" style="text-align: center;"><a th:text="${m_list[status.index].id}"></a></td>
-                        
-                        <td style="text-align: center;"><a th:text="${reportCommunityVO.rdate.substring(0, 16)}"></a></td>
-                        <td style="text-align: center;"><a th:text="${#strings.length(reportCommunityVO.contents) > 20 ? #strings.substring(reportCommunityVO.contents, 0, 20)+'...' : reportCommunityVO.contents}"></a></td>
-                        
-                        <!--
-                        <td >
-                        <a th:href="@{|./read?singono=${singoVO.singono}|}"><img src='/singo/images/update.png' title='수정' class="icon"></a>
-                        <a th:href="@{|./delete?singono=${singoVO.singono}|}"><img src='/singo/images/delete.png' title='삭제' class="icon"></a>
-                        </td>
-                        -->
-                        
-                    </tr>
-                </table>
-            </div>
+            
             <br>
 
             <div class="content_body_bottom" style="text-align: right;">

@@ -1,11 +1,13 @@
 package dev.mvc.bookmark;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import dev.mvc.community.CommunityVO;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -81,7 +84,7 @@ public class BookmarkCont {
     
     if (session.getAttribute("id") != null) {
       int memberno = (int) session.getAttribute("memberno");
-      System.out.println("-> memberno: " + memberno);
+      // System.out.println("-> memberno: " + memberno);
       vo.setMemberno(memberno);
       
       int cnt = this.bookmarkProc.delete_community(vo);
@@ -100,14 +103,14 @@ public class BookmarkCont {
   @ResponseBody
   public String create_trash(HttpSession session, 
                           @RequestBody BookmarkVO bookmarkVO) {
-    System.out.println("-> 수신 데이터: " + bookmarkVO.toString());
+    // System.out.println("-> 수신 데이터: " + bookmarkVO.toString());
     
     if (session.getAttribute("id") != null) {
       int memberno = (int)session.getAttribute("memberno");
       bookmarkVO.setMemberno(memberno);
       
       int cnt = this.bookmarkProc.create_trash(bookmarkVO);
-      System.out.println("-> cnt: " + cnt);
+      // System.out.println("-> cnt: " + cnt);
       
       JSONObject json = new JSONObject();
       json.put("res", cnt);
@@ -149,11 +152,11 @@ public class BookmarkCont {
     
     if (session.getAttribute("id") != null) {
       int memberno = (int) session.getAttribute("memberno");
-      System.out.println("-> memberno: " + memberno);
+      // System.out.println("-> memberno: " + memberno);
       vo.setMemberno(memberno);
       
       int cnt = this.bookmarkProc.delete_trash(vo);
-      System.out.println("-> cnt: " + cnt);
+      // System.out.println("-> cnt: " + cnt);
 
       JSONObject json = new JSONObject();
       json.put("res", cnt);
@@ -163,6 +166,22 @@ public class BookmarkCont {
 
     return "";
   }
+  
+  @GetMapping("/list")
+  public String main(HttpSession session, Model model) {
+    if (session.getAttribute("id") != null) {
+      int memberno = (int) session.getAttribute("memberno");
+      // System.out.println("-> memberno: " + memberno);
+      
+      ArrayList<BookmarkListVO> list = this.bookmarkProc.list_all(memberno);
+      model.addAttribute("list", list);
+      
+      return "bookmark/list";
+    }
+      
+    return "redirect:/member/login";
+  }
+  
   
   
 }

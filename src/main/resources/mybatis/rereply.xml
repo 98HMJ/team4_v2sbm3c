@@ -58,4 +58,10 @@
       SET likecnt = likecnt + 1
       WHERE rereplyno = #{rereplyno}
   </update>
+
+  <update id="admin_delete" parameterType="int">
+        UPDATE rereply
+        SET title="[관리자에 의해 삭제 되었습니다.]", contents="[관리자에 의해 삭제 되었습니다.]", photo=null, photo1saved=null, thumb1=null, filesize=0
+        WHERE rereplyno=#{rereplyno}
+  </update>
 </mapper>
