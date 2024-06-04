@@ -1,6 +1,7 @@
 package dev.mvc.log.memberlog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public interface MemberlogDAOInter {
@@ -30,4 +31,18 @@ public interface MemberlogDAOInter {
    */
   public ArrayList<MemberlogVO> list_memberno(int memberno);
 
+
+  /**
+   * 로그인 내역 페이징
+   * @param map
+   * @return
+   */
+  public ArrayList<MemberlogVO> list_paging(HashMap<String,Object> map);
+
+  /**
+   * 검색 레코드 수
+   * @param word
+   * @return
+   */
+  public int list_cnt(HashMap<String,Object> map);
 }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html layout:decorate="~{admin/layout}">
+<head>
+    <script>
+        function redirectToSelectedPage() {
+            var selectedOption = document.getElementById("word").value;
+            window.location.href = "admin?word=" + selectedOption;
+        }
+
+        window.onload = function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var selectedOption = urlParams.get('word');
+            if (selectedOption) {
+                document.getElementById("word").value = selectedOption;
+            }
+        };
+    </script>
+</head>
+<div layout:fragment="content">
+    <link href="/css/list.css" rel="Stylesheet" type="text/css"> 
+    <div>관리자 전용</div>
+    <div style="margin-bottom: 40px;">
+        
+        <div style="display: flex; justify-content: center;">
+            <select id="word" onchange="redirectToSelectedPage()">
+                <option value="all">전체</option>
+                <option value="today">오늘</option>
+                <option value="this_week">최근 1주</option>
+                <option value="this_month">최근 1달</option>
+                <option value="this_year">최근 1년</option>
+            </select>
+        </div>
+    </div>
+
+    <table style='width: 100%;'>
+        <colgroup>
+            <col style='width: 10%;'/>
+            <col style='width: 40%;'/>
+            <col style='width: 40%;'/>
+            <col style='width: 10%;'/>
+        </colgroup>
+        <tr>
+            <th class='th_bs'>번호</th>
+            <th class='th_bs'>로그인 ip</th>
+            <th class='th_bs'>로그인 시간</th>
+            <th class='th_bs'></th>
+        </tr>
+        
+        <tr th:each="adminlogVO, status:${list}">
+            <td class="td"> [[${no+status.index+1}]]</td>
+            <td class="td">[[${adminlogVO.ip}]]</td>
+            <td class="td">[[${adminlogVO.rdate}]]</td>
+            <td></td>
+        </tr>
+    </table>
+    <!-- 페이지 버튼 목록 출력 시작 -->
+    <div class="Bottom_menu" th:utext="${paging}"></div>
+    <!-- 페이지 버튼 목록 출력 종료 --> 
+
+</div>
+</html>
