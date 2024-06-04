@@ -12,15 +12,18 @@ public class BookmarkListVO {
     
     String category_name="";
     
+    /** 북마크한 시각 */
+    String rdate;
+
     /** 북마크 url */
     String url="";
     
-    /** 북마크한 시각 */
-    String rdate;
-    
-    /** 쓰레기 or 카테고리 참조 번호 */
+    /** 쓰레기 or 커뮤니티 참조 번호 */
     int ref_no;
     
     int memberno;
+    
+    /** 쓰레기 or 커뮤니티 표시 */
+    String board="";
     
 }

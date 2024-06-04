@@ -1,8 +1,17 @@
 package dev.mvc.bookmark;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface BookmarkProcInter {
+  
+  /**
+   * 모든 북마크 목록
+   * @param memberno
+   * @return
+   */
+  public ArrayList<BookmarkListVO> list_all(int memberno);
+  
   /**
    * 커뮤니티 북마크 생성
    * @param bookmarkVO
