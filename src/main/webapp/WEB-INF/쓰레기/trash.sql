@@ -155,8 +155,8 @@ WHERE trash=12 AND trash <= 41;
 
 -- 수정
 UPDATE trash
-SET file1saved="박스_2.jpeg",thumb1="박스_2_t.jpg"
-WHERE trashno = 26;
+SET file1saved='페트병.jpeg'
+WHERE trashno = 17;
 
 UPDATE trash
 SET trashno = 6
