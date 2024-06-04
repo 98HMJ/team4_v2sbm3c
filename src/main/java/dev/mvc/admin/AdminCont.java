@@ -49,7 +49,7 @@ public class AdminCont {
   private Mail mail;
 
   public AdminCont() {
-    System.out.println("-> AdminCont created!");
+    
   }
 
   /**

@@ -50,7 +50,7 @@
       <td class="td">[[${singoVO.rdate.substring(0, 10)}]]</td>
       
       <td class="td">
-        <a th:href="@{|./delete?singono=${singoVO.singono}|}"><img src='/admin/images/delete.png' title='삭제' class="icon"></a>
+        <a th:href="@{|./delete?singono=${singoVO.singono}&word=${word}&now_page=${now_page}|}"><img src='/admin/images/delete.png' title='삭제' class="icon"></a>
       </td>
       
     </tr>
