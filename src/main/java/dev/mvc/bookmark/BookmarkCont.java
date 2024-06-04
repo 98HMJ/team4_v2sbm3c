@@ -84,7 +84,7 @@ public class BookmarkCont {
     
     if (session.getAttribute("id") != null) {
       int memberno = (int) session.getAttribute("memberno");
-      System.out.println("-> memberno: " + memberno);
+      // System.out.println("-> memberno: " + memberno);
       vo.setMemberno(memberno);
       
       int cnt = this.bookmarkProc.delete_community(vo);
@@ -103,14 +103,14 @@ public class BookmarkCont {
   @ResponseBody
   public String create_trash(HttpSession session, 
                           @RequestBody BookmarkVO bookmarkVO) {
-    System.out.println("-> 수신 데이터: " + bookmarkVO.toString());
+    // System.out.println("-> 수신 데이터: " + bookmarkVO.toString());
     
     if (session.getAttribute("id") != null) {
       int memberno = (int)session.getAttribute("memberno");
       bookmarkVO.setMemberno(memberno);
       
       int cnt = this.bookmarkProc.create_trash(bookmarkVO);
-      System.out.println("-> cnt: " + cnt);
+      // System.out.println("-> cnt: " + cnt);
       
       JSONObject json = new JSONObject();
       json.put("res", cnt);
@@ -152,11 +152,11 @@ public class BookmarkCont {
     
     if (session.getAttribute("id") != null) {
       int memberno = (int) session.getAttribute("memberno");
-      System.out.println("-> memberno: " + memberno);
+      // System.out.println("-> memberno: " + memberno);
       vo.setMemberno(memberno);
       
       int cnt = this.bookmarkProc.delete_trash(vo);
-      System.out.println("-> cnt: " + cnt);
+      // System.out.println("-> cnt: " + cnt);
 
       JSONObject json = new JSONObject();
       json.put("res", cnt);
@@ -171,7 +171,7 @@ public class BookmarkCont {
   public String main(HttpSession session, Model model) {
     if (session.getAttribute("id") != null) {
       int memberno = (int) session.getAttribute("memberno");
-      System.out.println("-> memberno: " + memberno);
+      // System.out.println("-> memberno: " + memberno);
       
       ArrayList<BookmarkListVO> list = this.bookmarkProc.list_all(memberno);
       model.addAttribute("list", list);
