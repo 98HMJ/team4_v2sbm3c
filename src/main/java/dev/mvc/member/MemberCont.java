@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.mvc.log.memberlog.MemberlogProcInter;
 import dev.mvc.log.memberlog.MemberlogVO;
-import dev.mvc.report.community.ReportCommunityProc;
 import dev.mvc.report.community.ReportCommunityProcInter;
 import dev.mvc.report.community.ReportCommunityVO;
 import dev.mvc.report.reply.ReportReplyProcInter;
