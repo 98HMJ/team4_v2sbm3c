@@ -3,19 +3,19 @@
     const dropdown = document.querySelector('.dropdown-content');
     const dropdownRect = dropdown.getBoundingClientRect();
     const windowWidth = window.innerWidth;
-    
+
     if (dropdownRect.right > windowWidth) {
       dropdown.style.right = '0';
       dropdown.style.transform = 'translateX(0)';
     }
-    
+
     // 드롭다운 토글 함수
     function toggleDropdown() {
       document.getElementById("myDropdown").classList.toggle("show");
     }
-    
+
     // 드롭다운이 열려 있을 때, 사용자가 다른 곳을 클릭하면 닫히도록 설정
-    window.onclick = function(event) {
+    window.onclick = function (event) {
       if (!event.target.matches('.dropbtn')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
         var i;
@@ -56,16 +56,16 @@
 
       <!-- 메뉴 시작 -->
       <div class="navbar_menu">
-      
+
         <!-- main.html 일때 -->
         <div>
           <a href="/community/main">커뮤니티</a>
         </div>
-        
+
         <div>
           <a href="/nephron/nephron_list_all">네프론</a>
         </div>
-        
+
         <!-- 로그인 했을 때 -->
         <div th:if="${session.memberno != null}">
           <div class="dropdown">
@@ -78,17 +78,19 @@
             </div>
           </div>
         </div>
-        
+
         <!-- 로그인 하지 않았을 때 -->
         <div th:if="${session.memberno == null && session.adminno==null}">
           <a href="/member/login">로그인</a>
         </div>
-        </div>
-
       </div>
 
     </div>
 
-  </nav>
+
+</div>
+
+
+</nav>
 
 </div>
