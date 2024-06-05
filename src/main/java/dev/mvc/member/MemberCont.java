@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.mvc.log.memberlog.MemberlogProcInter;
 import dev.mvc.log.memberlog.MemberlogVO;
-import dev.mvc.report.community.ReportCommunityProc;
 import dev.mvc.report.community.ReportCommunityProcInter;
 import dev.mvc.report.community.ReportCommunityVO;
 import dev.mvc.report.reply.ReportReplyProcInter;
@@ -273,12 +272,12 @@ public class MemberCont {
         map.put("name", name);
         map.put("tel", tel);
         int cnt;
-        try {
-            MemberVO memberVO = this.memberProc.findid(map);
+        MemberVO memberVO = this.memberProc.findid(map);
+        if(memberVO != null) {
             model.addAttribute("memberVO", memberVO);
             model.addAttribute("code", "findid");
             cnt = 1;
-        } catch (Exception e) {
+        } else {
             model.addAttribute("code", "findidfail");
             cnt = 0;
         }

@@ -1,6 +1,7 @@
 <!-- 확인용 파일 지울 예정 -->
 <!DOCTYPE html>
-
+<html layout:decorate="~{admin/layout}">
+<div layout:fragment="content">
 
   <div style="font-weight: bold; width: 70%; border: none;
   margin: 30px auto;
@@ -11,89 +12,75 @@
       <ul>
         <li th:switch="${code}" class="li_none">
           <div th:case="signup_success">
-            <span style="font-weight: bold;
-            background: url('/css/images/url5.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; " th:text="|${name}(${id})님 회원 가입을 축하합니다.|"></span><br>
+            <span class="span_success" th:text="|${name}(${id})님 회원 가입을 축하합니다.|"></span><br>
             <button type='button'
             onclick="location.href='/admin'"
                          class="btn btn-primary btn-sm">확인</button>
           </div>
           <div th:case="create_fail">
-            <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; ">회원 가입에 실패했습니다. 계속 문제가 발생하면 02-111-1111로 문의해주세요</span><br>
+            <span class="span_fail">회원 가입에 실패하였습니다. 계속 문제가 발생하면 02-111-1111로 문의해주세요</span><br>
           </div>
           
           <div th:case="duplicate_fail">
-            <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; ">중복된 가입입니다.</span><br>
-            수정된 회원 정보: <span th:text="${name}"></span>
+            <span class="span_fail">중복된 가입입니다.</span><br>
           </div>
 
           <div th:case="permission_error">
-            <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; ">권한이 없습니다.</span><br>
-            <button type="button" onclick="location.href='/admin'" class="btn btn-secondary btn-sm">닫기</button>
+            <span class="span_fail">권한이 없습니다.</span><br>
+            <button type="button" onclick="history.back()" class="btn btn-secondary btn-sm">닫기</button>
           </div>
 
           <div th:case="adminlog_fail">
-            <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; ">로그 기록 실패</span><br>
+            <span class="span_fail">로그 기록 실패하였습니다.</span><br>
           </div>
 
           <div th:case="login_fail">
-            <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; ">아이디 또는 비밀번호가 틀렸습니다.</span><br>
-          </div>
-          <div th:case="chagepasswordfail">
-            <span class="span_fail">패스워드 변경을 실패했습니다.</span><br>
+            <span class="span_fail">아이디 또는 비밀번호가 틀렸습니다.</span><br>
           </div>
 
-          <div th:case="chagepassword_success">
-            <span class="span_success">패스워드를 수정했습니다.</span><br>
+          <div th:case="password_not_equal">
+            <span class="span_fail">현재 비밀번호가 일치하지 않습니다.</span><br>
+          </div>
+
+          <div th:case="password_change_success">
+            <span class="span_success">비밀번호를 변경하였습니다.</span><br>
+          </div>
+
+          <div th:case="password_change_fail">
+            <span class="span_fail">비밀번호 변경에 실패하였습니다.</span><br>
           </div>
 
           <div th:case="findid">
             <span class="span_success">아이디 찾기 성공</span><br>
             <span >[[|${adminVO.name}의 id 는 ${adminVO.id} 입니다.|]]</span>
+            <button type="button" onclick="location.href='/admin/login'" class="btn btn-secondary btn-sm">로그인</button>
+            <button type="button" onclick="location.href='/admin/findpassword'" class="btn btn-secondary btn-sm">비밀번호 찾기</button>
+
           </div>
           
           <div th:case="findidfail">
             <span class="span_fail">아이디 찾기 실패</span><br>
           </div>
 
-          <div th:case="findpasswordsuccess">
+          <div th:case="find_password_success">
             <span class="span_success" th:text="${email}"></span><span>로 임시 패스워드를 전송했습니다.</span><br>
           </div>
 
+          <div th:case="find_password_success">
+            <span class="span_fail">비밀번호 찾기 실패하였습니다.</span><br>
+          </div>
+
+
           <div th:case="update_success">
-            <span class="span_success">회원 정보를 수정했습니다.</span><br>
+            <span class="span_success">정보를 변경하였습니다.</span><br>
           </div>
 
           <div th:case="update_fail">
-            <span class="span_fail">회원 정보 수정을 실패했습니다.</span><br>
+            <span class="span_fail">정보 수정에 실패하였습니다.</span><br>
+          </div>
+
+          <div th:case="delete_fail">
+            <span class="span_fail">관리자 삭제에 실패하였습니다.</span><br>
           </div>
 
           <li class="li_none">

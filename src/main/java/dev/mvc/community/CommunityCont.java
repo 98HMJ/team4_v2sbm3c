@@ -91,11 +91,11 @@ public class CommunityCont {
             int reply_cnt = this.replyProc.count_by_communityno(communityno);
             model.addAttribute("reply_cnt", reply_cnt);
             
-            int memberno = (int) session.getAttribute("memberno");
-            model.addAttribute("memberno", memberno);
+            int session_memberno = (int) session.getAttribute("memberno");
+            model.addAttribute("memberno", session_memberno);
 
             CommunityVO communityVO = this.communityProc.read(communityno);
-            if (communityVO.getMemberno() == (int) session.getAttribute("memberno")) {
+            if (communityVO.getMemberno() == session_memberno) {
                 model.addAttribute("bool", true);
             } else {
                 model.addAttribute("bool", false);

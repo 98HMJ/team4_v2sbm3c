@@ -13,12 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import dev.mvc.admin.AdminProcInter;
 import dev.mvc.community.CommunityProcInter;
 import dev.mvc.community.CommunityVO;
 import dev.mvc.search.SearchProcInter;
 import dev.mvc.search.SearchVO;
 import dev.mvc.trash.TrashProcInter;
 import dev.mvc.trash.TrashVO;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeCont {
@@ -33,6 +35,10 @@ public class HomeCont {
     @Autowired
     @Qualifier("dev.mvc.trash.TrashProc")
     private TrashProcInter trashProc;
+
+    @Autowired
+    @Qualifier("dev.mvc.admin.AdminProc")
+    private AdminProcInter adminProc;
     
     //http://localhost:9093
     //main.html 이동
@@ -68,7 +74,10 @@ public class HomeCont {
     //http://localhost:9093/admin
     //main.html 이동
     @GetMapping("/admin")
-    public String home_admin(Model model) {
+    public String home_admin(HttpSession session, Model model) {
+      if(!this.adminProc.isAdmin(session)){
+        return "admin/login";
+      }
       ArrayList<CommunityVO> community_list = this.communityProc.list();
       List<CommunityVO> limitedList = community_list.stream().limit(5).collect(Collectors.toList());
       model.addAttribute("limitedList", limitedList);
