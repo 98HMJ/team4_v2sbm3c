@@ -41,7 +41,7 @@ public class AdminCont {
   @Autowired
   @Qualifier("dev.mvc.community.CommunityProc")
   private CommunityProcInter communityProc;
-  
+
   @Autowired
   Security security;
 
@@ -49,7 +49,7 @@ public class AdminCont {
   private Mail mail;
 
   public AdminCont() {
-    
+
   }
 
   /**
@@ -75,8 +75,8 @@ public class AdminCont {
    * @return 로그인 폼 html
    */
   @GetMapping(value = "/login")
-  public String login(Model model, 
-  @RequestParam(name = "change", defaultValue = "0") int change, HttpServletRequest request) {
+  public String login(Model model,
+      @RequestParam(name = "change", defaultValue = "0") int change, HttpServletRequest request) {
     // 쿠키 관련 코드
     Cookie[] cookies = request.getCookies();
     Cookie cookie = null;
@@ -194,9 +194,9 @@ public class AdminCont {
       adminlogVO.setIp(request.getRemoteAddr());
       int log_cnt = this.adminlogProc.create(adminlogVO);
       if (log_cnt == 1) {
-        if(change == 1){
+        if (change == 1) {
           return "admin/changepassword";
-        } else{
+        } else {
           if (prev_url != null && !prev_url.isEmpty()) {
             return "redirect:" + prev_url;
           } else {
@@ -204,11 +204,13 @@ public class AdminCont {
           }
         }
       } else {
+        model.addAttribute("cnt", 0);
         model.addAttribute("code", "adminlog_fail");
         return "admin/msg";
       }
     } else {
       model.addAttribute("code", "login_fail");
+      model.addAttribute("cnt", 0);
       return "admin/msg";
     }
   }
@@ -230,9 +232,7 @@ public class AdminCont {
   public String signup(Model model,
       HttpSession session,
       AdminVO adminVO) {
-    if (!this.adminProc.isAdmin(session)) {
-      return "redirect:/admin/login";
-    } else if (this.adminProc.isPermission(session)) {
+    if (this.adminProc.isPermission(session)) {
       return "admin/signup";
     } else {
       model.addAttribute("code", "permission_error");
@@ -277,6 +277,7 @@ public class AdminCont {
    */
   @GetMapping(value = "/read")
   public String read(HttpSession session, Model model, int adminno) {
+    // 통합관리자 권한 확인
     boolean isPermission = this.adminProc.isPermission(session);
     if (adminno == (int) session.getAttribute("adminno") || isPermission) {
       AdminVO adminVO = this.adminProc.read(adminno);
@@ -341,7 +342,7 @@ public class AdminCont {
       model.addAttribute("adminVO", adminVO);
       return "admin/password_update";
     } else {
-      model.addAttribute("code", "matching_error");
+      model.addAttribute("code", "permission_error");
       return "admin/msg";
     }
   }
@@ -384,7 +385,7 @@ public class AdminCont {
 
       int cnt = this.adminProc.password_check(hm);
       if (cnt == 0) { // 현재 비밀번호 불일치
-        model.addAttribute("code", "pasword_not_equal");
+        model.addAttribute("code", "password_not_equal");
         model.addAttribute("cnt", 0);
       } else { // 현재 비밀번호 일치
         HashMap<String, Object> hm_new_password = new HashMap<>();
@@ -395,10 +396,10 @@ public class AdminCont {
 
         if (change_password_cnt == 1) { // 비밀번호 변경 성공
           model.addAttribute("code", "password_change_success");
-          model.addAttribute("cnt", 1);
+          model.addAttribute("cnt", change_password_cnt);
         } else { // 비밀번호 변경 실패
           model.addAttribute("code", "password_change_fail");
-          model.addAttribute("cnt", 0);
+          model.addAttribute("cnt", change_password_cnt);
         }
       }
       return "admin/msg";
@@ -417,13 +418,14 @@ public class AdminCont {
    */
   @GetMapping(value = "/delete")
   public String delete(HttpSession session, Model model, int adminno) {
+    //통합관리자 확인
     boolean isPermission = this.adminProc.isPermission(session);
-    if (adminno == (int) session.getAttribute("adminno") || isPermission) {
+    if (isPermission) {
       AdminVO adminVO = this.adminProc.read(adminno);
       model.addAttribute("adminVO", adminVO);
       return "admin/delete";
     } else {
-      model.addAttribute("code", "update_fail");
+      model.addAttribute("code", "permission_error");
     }
     return "admin/msg";
   }
@@ -435,6 +437,7 @@ public class AdminCont {
       return "redirect:/admin/list";
     } else {
       model.addAttribute("code", "delete_fail");
+      model.addAttribute("cnt", cnt);
       return "admin/msg";
     }
   }
@@ -462,17 +465,15 @@ public class AdminCont {
     HashMap<String, String> map = new HashMap<String, String>();
     map.put("name", name);
     map.put("email", email);
-    int cnt;
+    int cnt = 0;
     try {
       AdminVO adminVO = this.adminProc.findid(map);
       model.addAttribute("adminVO", adminVO);
       model.addAttribute("code", "findid");
-      cnt = 1;
     } catch (Exception e) {
       model.addAttribute("code", "findidfail");
-      cnt = 0;
+      model.addAttribute("cnt", cnt);
     }
-    model.addAttribute("cnt", cnt);
     return "admin/msg";
   }
 
@@ -516,7 +517,7 @@ public class AdminCont {
           </div>
           """;
 
-      mail.send(adminVO.getEmail(), "mjhon1998@gmail.com", "패스워드 변경 안내", content);
+      mail.send(adminVO.getEmail(), "mjhon1998@gmail.com", "비밀번호 변경 안내", content);
       model.addAttribute("email", adminVO.getEmail());
 
       map.put("adminno", adminVO.getAdminno());
@@ -524,15 +525,15 @@ public class AdminCont {
 
       int cnt = this.adminProc.password_update(map);
       if (cnt != 1) {
-        model.addAttribute("code", "findpasswordwrong");
+        model.addAttribute("code", "find_password_fail");
         model.addAttribute("cnt", cnt);
       } else {
-        model.addAttribute("code", "findpasswordsuccess");
+        model.addAttribute("code", "find_password_success");
         model.addAttribute("cnt", 2);
       }
       return "admin/msg";
     } catch (Exception e) {
-      model.addAttribute("code", "findpasswordfail");
+      model.addAttribute("code", "find_password_fail");
       model.addAttribute("cnt", 0);
       return "admin/msg";
     }
@@ -540,6 +541,7 @@ public class AdminCont {
 
   /**
    * 비밀번호 변경
+   * 
    * @param session
    * @param password
    * @param model
@@ -557,9 +559,9 @@ public class AdminCont {
     model.addAttribute("cnt", cnt);
     if (cnt == 1) {
       session.setAttribute("password", adminVO.getPassword());
-      model.addAttribute("code", "chagepassword_success");
+      model.addAttribute("code", "password_change_success");
     } else {
-      model.addAttribute("code", "chagepasswordfail");
+      model.addAttribute("code", "password_change_fail");
     }
     return "admin/msg";
   }
@@ -568,13 +570,12 @@ public class AdminCont {
   public String community(HttpSession session, Model model) {
     ArrayList<CommunityVO> list = this.communityProc.list();
     model.addAttribute("list", list);
-    if(this.adminProc.isAdmin(session)){
+    if (this.adminProc.isAdmin(session)) {
       return "admin/community_main";
-    } else{
-      model.addAttribute("code", "no_login");
+    } else {
+      model.addAttribute("code", "permission_error");
       return "admin/msg";
     }
   }
-  
 
 }
