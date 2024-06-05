@@ -8,6 +8,7 @@ import dev.mvc.community.Community;
 import dev.mvc.reply.Reply;
 import dev.mvc.singo.Singo;
 import dev.mvc.trash.Trash;
+import dev.mvc.trash_exploration.Exploration;
 
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer{
@@ -28,6 +29,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer{
         registry.addResourceHandler("/i/Desktop/teamfile/**").addResourceLocations("file:///" +  Community.getUploadDir());
         
         registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" +  Singo.getUploadDir());
+
+        registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" +  Exploration.getUploadDir());
         // JSP 인식되는 경로: http://localhost:9091/attachfile/storage";
         // registry.addResourceHandler("/contents/storage/**").addResourceLocations("file:///" +  Tool.getOSPath() + "/attachfile/storage/");
         

@@ -53,19 +53,22 @@ SELECT COUNT(bookmarkno) as cnt
 FROM bookmark
 WHERE trashno = 35 and memberno = 10;
 
--- 모든 북마크 목록
-SELECT b.bookmarkno, tc.name AS category_name, b.rdate, b.url, b.trashno AS ref_no, b.memberno
-FROM trash t
-JOIN bookmark b ON b.trashno = t.trashno
-JOIN trashcate tc ON tc.trashcateno = t.trashcateno
-WHERE b.memberno = 10
-
-UNION ALL
-
-SELECT b.bookmarkno, cc.name AS category_name, b.rdate, b.url, b.communityno AS ref_no, b.memberno
-FROM community c
-JOIN bookmark b ON b.communityno = c.communityno
-JOIN communitycate cc ON cc.communitycateno = c.communitycateno
+-- 멤버의 모든 북마크 목록
+SELECT b.bookmarkno, 
+       COALESCE(tc.name, cc.name) AS category_name, 
+       b.rdate, 
+       b.url, 
+       COALESCE(b.trashno, b.communityno) AS ref_no, 
+       b.memberno,
+       CASE 
+           WHEN b.trashno IS NOT NULL THEN 'trash' 
+           ELSE 'community' 
+       END AS board
+FROM bookmark b
+LEFT JOIN trash t ON b.trashno = t.trashno
+LEFT JOIN trashcate tc ON t.trashcateno = tc.trashcateno
+LEFT JOIN community c ON b.communityno = c.communityno
+LEFT JOIN communitycate cc ON c.communitycateno = cc.communitycateno
 WHERE b.memberno = 10;
     
 -- 목록: 커뮤니티 북마크

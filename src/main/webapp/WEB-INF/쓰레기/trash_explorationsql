@@ -1,0 +1,77 @@
+/**********************************/
+/* Table Name: 쓰레기 탐구  */
+/**********************************/
+DROP TABLE TRASH_EXPLORATION;
+CREATE TABLE TRASH_EXPLORATION(
+		EXPNO                         		NUMBER(10)		    NOT NULL		 PRIMARY KEY,
+		EXPONAME                      		VARCHAR2(10)		NOT NULL ,
+		T_IMG                         		VARCHAR2(1000)	    NOT NULL,
+		T_THUMB                       		VARCHAR2(100)		NULL ,
+		T_SAVED                       		VARCHAR2(100)		NULL ,
+		T_SIZE                        		NUMBER(10)		    NULL ,
+        
+		C1_IMG                         		VARCHAR2(1000)		NOT NULL,
+		C1_SAVED                       		VARCHAR2(100)		NULL ,
+		C1_SIZE                        		NUMBER(10)		    NULL,
+        
+        C2_IMG                         		VARCHAR2(1000)		NULL,
+		C2_SAVED                       		VARCHAR2(100)		NULL ,
+		C2_SIZE                        		NUMBER(10)		    NULL,
+        
+        C3_IMG                         		VARCHAR2(1000)		NULL,
+		C3_SAVED                       		VARCHAR2(100)		NULL ,
+		C3_SIZE                        		NUMBER(10)		    NULL,
+        
+        C4_IMG                         		VARCHAR2(1000)		NULL,
+		C4_SAVED                       		VARCHAR2(100)		NULL ,
+		C4_SIZE                        		NUMBER(10)		    NULL,
+        
+        C5_IMG                         		VARCHAR2(1000)		NULL,
+		C5_SAVED                       		VARCHAR2(100)		NULL ,
+		C5_SIZE                        		NUMBER(10)		    NULL,
+        
+        C6_IMG                         		VARCHAR2(1000)		NULL,
+		C6_SAVED                       		VARCHAR2(100)		NULL ,
+		C6_SIZE                        		NUMBER(10)		    NULL
+);
+
+COMMENT ON TABLE TRASH_EXPLORATION is '쓰레기 탐구 ';
+COMMENT ON COLUMN TRASH_EXPLORATION.EXPNO is '탐구번호';
+COMMENT ON COLUMN TRASH_EXPLORATION.EXPONAME is '탐구이름';
+COMMENT ON COLUMN TRASH_EXPLORATION.T_IMG is '메인이미지';
+COMMENT ON COLUMN TRASH_EXPLORATION.T_THUMB is '메인썸네일';
+COMMENT ON COLUMN TRASH_EXPLORATION.T_SAVED is '메인파일저장경로';
+COMMENT ON COLUMN TRASH_EXPLORATION.T_SIZE is '메인파일 사이즈';
+COMMENT ON COLUMN TRASH_EXPLORATION.C1_IMG is '내용1이미지';
+COMMENT ON COLUMN TRASH_EXPLORATION.C1_SAVED is '내용1이미지저장경로';
+COMMENT ON COLUMN TRASH_EXPLORATION.C1_SIZE is '내용1사이즈';
+
+
+DROP SEQUENCE exploration_seq;
+
+CREATE SEQUENCE exploration_seq
+  START WITH 1                -- 시작 번호
+  INCREMENT BY 1            -- 증가값
+  MAXVALUE 9999999999  -- 최대값: 9999999999 --> NUMBER(10) 대응
+  CACHE 2                        -- 2번은 메모리에서만 계산
+  NOCYCLE; 
+
+-- insert 
+INSERT INTO trash_exploration(expno, exponame, t_img, t_thumb, t_saved, t_size, 
+                        c1_img, c1_saved, c1_size,
+                        c2_img, c2_saved, c2_size,
+                        c3_img, c3_saved, c3_size,
+                        c4_img, c4_saved, c4_size,
+                        c5_img, c5_saved, c5_size,
+                        c6_img, c6_saved, c6_size)
+VALUES(exploration_seq.nextval, '탐구1', 'space.jpg', 'space_1.jpg', 'space_t.jpg', 1000, 
+                                'space.jpg', 'space_1.jpg', 1000,
+                                null, null, null,
+                                null, null, null,
+                                null, null, null,
+                                null, null, null,
+                                null, null, null);
+
+commit;
+
+
