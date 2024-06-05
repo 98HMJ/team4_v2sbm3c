@@ -12,21 +12,21 @@
     <!-- 글 전체 조회 -->
     <select id="list" resultType="dev.mvc.singo.SingoVO" parameterType="int">
         SELECT singono, contents, rdate, memberno, trashno, files, filesaved, thumb, filesize, nickname, name , r
-FROM (
-    SELECT singono, contents, rdate, memberno, trashno, files, filesaved, thumb, filesize, nickname, name, rownum as r
-    FROM (
-        SELECT singo.singono, singo.contents, singo.rdate, singo.memberno, singo.trashno, singo.files, singo.filesaved, singo.thumb, singo.filesize, member.nickname, trash.name
-        FROM singo
-        INNER JOIN member ON singo.memberno = member.memberno
-        INNER JOIN trash ON singo.trashno = trash.trashno
-        <if test="word!=null and word!=''">
-        WHERE (UPPER(singo.contents) LIKE '%'||UPPER(#{word})||'%' OR UPPER(member.nickname) LIKE '%' ||UPPER(#{word})||'%' OR UPPER(trash.name) LIKE '%' ||UPPER(#{word})||'%')
-        </if>
-        ORDER BY singo.rdate DESC
-    )
-)
-WHERE r &gt;= #{start_num} AND r &lt;= #{end_num}
-ORDER BY rdate DESC
+        FROM (
+            SELECT singono, contents, rdate, memberno, trashno, files, filesaved, thumb, filesize, nickname, name, rownum as r
+            FROM (
+                SELECT singo.singono, singo.contents, singo.rdate, singo.memberno, singo.trashno, singo.files, singo.filesaved, singo.thumb, singo.filesize, member.nickname, trash.name
+                FROM singo
+                INNER JOIN member ON singo.memberno = member.memberno
+                INNER JOIN trash ON singo.trashno = trash.trashno
+                <if test="word!=null and word!=''">
+                WHERE (UPPER(singo.contents) LIKE '%'||UPPER(#{word})||'%' OR UPPER(member.nickname) LIKE '%' ||UPPER(#{word})||'%' OR UPPER(trash.name) LIKE '%' ||UPPER(#{word})||'%')
+                </if>
+                ORDER BY singo.rdate DESC
+            )
+        )
+        WHERE r &gt;= #{start_num} AND r &lt;= #{end_num}
+        ORDER BY rdate DESC
     </select>
 
     <select id="list_cnt" resultType="int" parameterType="String">

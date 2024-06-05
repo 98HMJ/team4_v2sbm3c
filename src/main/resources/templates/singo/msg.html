@@ -16,18 +16,46 @@
             background-size: 10px;
             padding-top: 0px;
             padding-left: 20px;
-            margin-top: 2px; ">신고완료</span><br>
+            margin-top: 2px; ">수정요청 완료</span><br>
             <button type='button'
-            onclick="location.href='/admin'"
+            th:attr="onclick=|location.href='/trash/trash_read?trashno=${trashno}'|"
                          class="btn btn-primary btn-sm">확인</button>
           </div>
+
+          <div th:case="singo_fail">
+            <span style="font-weight: bold;
+            background: url('/css/images/url8.png') left center no-repeat;
+            background-size: 10px;
+            padding-top: 0px;
+            padding-left: 20px;
+            margin-top: 2px; ">수정요청에 실패하였습니다.</span><br>
+          </div>
+
           <div th:case="update_fail">
             <span style="font-weight: bold;
             background: url('/css/images/url8.png') left center no-repeat;
             background-size: 10px;
             padding-top: 0px;
             padding-left: 20px;
-            margin-top: 2px; ">수정에 실패했습니다. 계속 문제가 발생하면 02-111-1111로 문의해주세요</span><br>
+            margin-top: 2px; ">수정에 실패했습니다.</span><br>
+          </div>
+
+          <div th:case="delete_fail">
+            <span style="font-weight: bold;
+            background: url('/css/images/url8.png') left center no-repeat;
+            background-size: 10px;
+            padding-top: 0px;
+            padding-left: 20px;
+            margin-top: 2px; ">삭제에 실패했습니다.</span><br>
+          </div>
+
+          <div th:case="check_upload_file_fail">
+            <span style="font-weight: bold;
+            background: url('/css/images/url8.png') left center no-repeat;
+            background-size: 10px;
+            padding-top: 0px;
+            padding-left: 20px;
+            margin-top: 2px; ">잘못된 파일 형식입니다.</span><br>
           </div>
           
           <div th:case="member_login_need">
@@ -47,7 +75,7 @@
             padding-top: 0px;
             padding-left: 20px;
             margin-top: 2px; ">권한이 없습니다.</span><br>
-            <button type="button" onclick="location.href='/admin/login'" class="btn btn-secondary btn-sm">닫기</button>
+            <button type="button" onclick="history.back()" class="btn btn-secondary btn-sm">닫기</button>
           </div>
 
           <li class="li_none">
