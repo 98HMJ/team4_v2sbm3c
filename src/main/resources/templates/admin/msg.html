@@ -12,41 +12,21 @@
       <ul>
         <li th:switch="${code}" class="li_none">
           <div th:case="signup_success">
-            <span style="font-weight: bold;
-            background: url('/css/images/url5.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; " th:text="|${name}(${id})님 회원 가입을 축하합니다.|"></span><br>
+            <span class="span_success" th:text="|${name}(${id})님 회원 가입을 축하합니다.|"></span><br>
             <button type='button'
             onclick="location.href='/admin'"
                          class="btn btn-primary btn-sm">확인</button>
           </div>
           <div th:case="create_fail">
-            <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; ">회원 가입에 실패하였습니다. 계속 문제가 발생하면 02-111-1111로 문의해주세요</span><br>
+            <span class="span_fail">회원 가입에 실패하였습니다. 계속 문제가 발생하면 02-111-1111로 문의해주세요</span><br>
           </div>
           
           <div th:case="duplicate_fail">
-            <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; ">중복된 가입입니다.</span><br>
+            <span class="span_fail">중복된 가입입니다.</span><br>
           </div>
 
           <div th:case="permission_error">
-            <span style="font-weight: bold;
-            background: url('/css/images/url8.png') left center no-repeat;
-            background-size: 10px;
-            padding-top: 0px;
-            padding-left: 20px;
-            margin-top: 2px; ">권한이 없습니다.</span><br>
+            <span class="span_fail">권한이 없습니다.</span><br>
             <button type="button" onclick="history.back()" class="btn btn-secondary btn-sm">닫기</button>
           </div>
 

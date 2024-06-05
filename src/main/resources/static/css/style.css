@@ -1444,3 +1444,35 @@
   /* 상단으로 버튼 설정 끝 */
 }
 
+.span_success {
+  font-weight: bold;
+  background: url('/css/images/url5.png') left center no-repeat;
+  background-size: 10px;
+  padding-top: 0px;
+  padding-left: 20px;
+  margin-top: 2px;
+}
+
+.span_fail {
+  font-weight: bold;
+  background: url('/css/images/url8.png') left center no-repeat;
+  background-size: 10px;
+  padding-top: 0px;
+  padding-left: 20px;
+  margin-top: 2px;
+}
+
+.fieldset_basic {
+  width:90%;
+  margin: 10px auto;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+  padding: 10px;
+}
+
+.li_none {
+  list-style: none;
+  margin: 15px 10px;
+}
