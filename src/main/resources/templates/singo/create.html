@@ -16,7 +16,9 @@
     </div> 
     <div class="content_body_bottom">
       <button type="submit" class="btn btn-secondary btn-sm">등록</button>
-      <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
+      <button type='button'
+            th:attr="onclick=|location.href='/trash/trash_read?trashno=${trashno}'|"
+                         class="btn btn-primary btn-sm">취소</button>
     </div>
   
   </form>

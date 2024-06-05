@@ -578,4 +578,12 @@ public class AdminCont {
     }
   }
 
+  @PostMapping("search")
+    public String search(String word, Model model) {
+        ArrayList<CommunityVO> list = this.communityProc.search(word);
+        model.addAttribute("list", list);
+        model.addAttribute("word", word);
+        return "admin/community_main";
+    }
+
 }
