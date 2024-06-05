@@ -272,12 +272,12 @@ public class MemberCont {
         map.put("name", name);
         map.put("tel", tel);
         int cnt;
-        try {
-            MemberVO memberVO = this.memberProc.findid(map);
+        MemberVO memberVO = this.memberProc.findid(map);
+        if(memberVO != null) {
             model.addAttribute("memberVO", memberVO);
             model.addAttribute("code", "findid");
             cnt = 1;
-        } catch (Exception e) {
+        } else {
             model.addAttribute("code", "findidfail");
             cnt = 0;
         }
