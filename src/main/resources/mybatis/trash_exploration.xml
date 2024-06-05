@@ -22,7 +22,7 @@
                                     #{c6_img}, #{c6_saved}, #{c6_size}) 
   </insert>
   
-  <!-- 쓰레기 목록 -->
+  <!-- 목록: 쓰레기 탐구 -->
   <select id="list_all" resultType="dev.mvc.trash_exploration.ExplorationVO">
       SELECT expno, exponame, t_img, t_thumb, t_saved, t_size, 
                         c1_img, c1_saved, c1_size,
@@ -35,6 +35,7 @@
       ORDER BY expno
   </select>  
   
+  <!--  조회: 쓰레기 탐구 항목-->
   <select id="read" resultType="dev.mvc.trash_exploration.ExplorationVO" parameterType="int">
     SELECT expno, exponame, t_img, t_thumb, t_saved, t_size, 
                             c1_img, c1_saved, c1_size,
@@ -45,7 +46,27 @@
                             c6_img, c6_saved, c6_size 
     FROM trash_exploration
     WHERE expno=#{expno}
-    ORDER BY expno;
+    ORDER BY expno
   </select>
-
+  
+  <!-- 수정: 쓰레기 탐구 목록 -->
+  <update id="update" parameterType="dev.mvc.trash_exploration.ExplorationVO">
+    UPDATE trash_exploration
+    SET exponame=#{exponame}, 
+      t_img=#{t_img}, t_thumb=#{t_thumb}, t_saved=#{t_saved},  t_size=#{t_size}, 
+      c1_img=#{c1_img}, c1_saved=#{c1_saved}, c1_size=#{c1_size},
+      c2_img=#{c2_img}, c2_saved=#{c2_saved}, c2_size=#{c2_size},
+      c3_img=#{c3_img}, c3_saved=#{c3_saved}, c3_size=#{c3_size},
+      c4_img=#{c4_img}, c4_saved=#{c4_saved}, c4_size=#{c4_size},
+      c5_img=#{c5_img}, c5_saved=#{c5_saved}, c5_size=#{c5_size},
+      c6_img=#{c6_img}, c6_saved=#{c6_saved}, c6_size=#{c6_size}
+    WHERE expno = #{expno}
+  </update>
+  
+   <!-- 삭제: 쓰레기 탐구 항목 -->  
+  <delete id="delete" parameterType="int">
+    DELETE trash_exploration
+    WHERE expno = #{expno}
+  </delete>
+  
 </mapper> 

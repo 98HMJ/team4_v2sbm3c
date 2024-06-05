@@ -85,7 +85,7 @@ SELECT expno, exponame, t_img, t_thumb, t_saved, t_size,
 FROM trash_exploration
 ORDER BY expno;
 
--- title 이미지 만 조회
+-- 항목 1개 조회
 SELECT expno, exponame, t_img, t_thumb, t_saved, t_size, 
                         c1_img, c1_saved, c1_size,
                         c2_img, c2_saved, c2_size,
@@ -97,5 +97,19 @@ FROM trash_exploration
 WHERE expno=1
 ORDER BY expno;
 
+UPDATE trash_exploration
+SET exponame='탐구3', t_img='space.jpg', t_thumb='space_1.jpg', t_saved='space_t.jpg', t_size=1000, 
+                                c1_img='space.jpg', c1_saved='space_1.jpg', c1_size=1000,
+                                c2_img=null, c2_saved=null, c2_size=null,
+                                c3_img=null, c3_saved=null, c3_size=null,
+                                c4_img=null, c4_saved=null, c4_size=null,
+                                c5_img=null, c5_saved=null, c5_size=null,
+                                c6_img=null, c6_saved=null, c6_size=null
+WHERE expno = 3;    
+
+DELETE trash_exploration
+WHERE expno = 3;
+
+commit;
 
 

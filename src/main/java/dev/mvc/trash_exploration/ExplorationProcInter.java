@@ -24,4 +24,18 @@ public interface ExplorationProcInter {
    * @return
    */
   public ExplorationVO read(int expno);
+  
+  /**
+   * 쓰레기 탐구 항목 업데이트
+   * @param explorationVO
+   * @return
+   */
+  public int update(ExplorationVO explorationVO);
+  
+  /**
+   * 쓰레기 탐구 항목 삭제
+   * @param expno
+   * @return
+   */
+  public int delete(int expno);
 }

@@ -16,8 +16,8 @@ public class Exploration {
         String path = "";
         if (File.separator.equals("\\")) { // windows, 개발 환경의 파일 업로드 폴더
             // path = "C:/kd/deploy/resort_v2sbm3c/contents/storage/";
-            path="C:\\kd\\deploy\\team4_v2sbm3c\\trash_exploration\\storage\\";
-            // System.out.println("Windows 10: " + path);
+            path="C:\\kd\\ws_java\\team4_v2sbm3c\\src\\main\\resources\\static\\images\\trash_exploration\\storage\\";
+            // System.out.println("Windows 10: " + path);ㄴ
             
         } else { // Linux, AWS, 서비스용 배치 폴더 
             // System.out.println("Linux");

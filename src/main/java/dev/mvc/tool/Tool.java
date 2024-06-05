@@ -320,7 +320,8 @@ public class Tool {
     try {
       if (folder != null && fileName != null) { // 값이 있는지 확인
         File file = new File(folder + fileName); 
-        //System.out.println(file.getAbsolutePath() + " 삭제");
+        System.out.println(file.getAbsolutePath() + " 삭제");
+        System.out.println("-> 파일명: " + fileName);
         
         if (file.exists() && file.isFile()) { // 존재하는 파일인지 검사
           sw = file.delete();  // 파일 삭제

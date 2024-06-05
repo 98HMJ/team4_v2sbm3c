@@ -12,7 +12,7 @@
     <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
     <a th:if="${session.admin == 'admin'}" th:href="@{|./list_all|}">목록</a>
     <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
-    <a th:href="@{|./delete?trashno=${explorationVO.expno}|}" th:if="${session.admin == 'admin'}">삭제</a>
+    <a th:href="@{|./delete?expno=${explorationVO.expno}|}" th:if="${session.admin == 'admin'}">삭제</a>
     <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
     <a href="javascript:location.reload();">새로고침</a>
   </aside>
@@ -22,6 +22,8 @@
   <div class="container">
 
     <div style="width: 100%; word-break: break-all;">
+      <h2 style="font-size: 1.5em; font-weight: bold;" th:text="${explorationVO.exponame}"></h2><br><br>
+      <hr>
       <div
         th:if="${explorationVO.t_img.endsWith('jpg') or explorationVO.t_img.endsWith('png') or explorationVO.t_img.endsWith('gif') or explorationVO.t_img.endsWith('jpeg')}">
         <img th:src="@{|/images/trash_exploration/storage/${explorationVO.t_img}|}" style='width: 100%; margin-bottom: 1rem;'>
@@ -52,11 +54,6 @@
           <img th:src="@{|/images/trash_exploration/storage/${explorationVO.c6_img}|}" style='width: 100%; margin-bottom: 1rem;'>
       </div>
       
-    </div>
-
-    <div style="width: 100%; word-break: break-all;">
-      <hr>
-      <span style="font-size: 1.5em; font-weight: bold;" th:text="${explorationVO.exponame}"></span><br><br>
     </div>
     <br><br>
   </div>

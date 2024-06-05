@@ -6,15 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mvc.admin.AdminProcInter;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
+import dev.mvc.trash.Trash;
 import dev.mvc.trash.TrashVO;
 import dev.mvc.trashcate.TrashcateVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -120,7 +123,7 @@ public class ExplorationCont {
             // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg, spring_2.jpg...
             fileSaveds[i] = Upload.saveFileSpring(mf[i], upDir);
 
-            if (Tool.isImage(fileSaveds[i])) { // 이미지인지 검사
+            if (i == 0 &&Tool.isImage(fileSaveds[i])) { // 이미지인지 검사
               // thumb 이미지 생성후 파일명 리턴됨, width: 200, height: 150
               thumb[i] = Tool.preview(upDir, fileSaveds[i], 200, 150);
             }
@@ -213,19 +216,158 @@ public class ExplorationCont {
     ExplorationVO explorationVO = this.explorationProc.read(expno);
     model.addAttribute("explorationVO", explorationVO);
     
-    String searh_word = explorationVO.getExponame();
+//    String searh_word = explorationVO.getExponame();
     
 //    if(explorationVO.getExpno()>15) {
 //    this.explorationProc.search_create(searh_word);
 //    model.addAttribute("searh_word", searh_word);
 //    }
     
-    if(this.adminProc.isAdmin(session))
-      return "trash/trash_read_admin";
-    return "trash/trash_read";
+    if(this.adminProc.isAdmin(session)) {
+      return "trash_exploration/read";
+    }else {
+      return "redirect:/admin/login";
+    }
     
   }
   
+  /**
+   * 쓰레기 탐구 항목 업데이트 폼
+   * @param session
+   * @param model
+   * @param expno
+   * @return
+   */
+  @GetMapping(value = "/update")
+  public String update(HttpSession session, Model model, int expno) {
+
+    if (this.adminProc.isAdmin(session)) {
+      ExplorationVO explorationVO = this.explorationProc.read(expno);
+      model.addAttribute("explorationVO", explorationVO);
+
+    } else {
+      return "redirect:/admin/login";
+    }
+    return "trash_exploration/update";
+  }
   
+  /**
+   * 쓰레기 탐구 항목 업데이트 처리
+   * @param session
+   * @param model
+   * @param expno
+   * @return
+   */
+  @PostMapping(value = "/update")
+  public String trash_update(RedirectAttributes ra, 
+                                    Model model, 
+                                    HttpSession session, 
+                                    ExplorationVO explorationVO,
+                                    int expno) {
+
+    if (this.adminProc.isAdmin(session)) { 
+      explorationVO.setExpno(expno);
+      int cnt = this.explorationProc.update(explorationVO);
+      System.out.println("->update cnt:" + cnt);
+
+      if (cnt == 1) {
+        ra.addAttribute("expno", explorationVO.getExpno());
+        return "redirect:/trash_exploration/read";
+
+      } else {
+        ra.addFlashAttribute("code", "update_fail");
+        ra.addFlashAttribute("cnt", 0);
+        ra.addFlashAttribute("name", explorationVO.getExponame());
+        ra.addFlashAttribute("url", "/trash/msg");
+
+        return "redirect:/trash_exploration/msg";
+      }
+    } else {
+      return "redirect:/admin/login";
+    }
+  }
+  
+  @GetMapping(value = "/delete")
+  public String trash_delete(HttpSession session, Model model, 
+                                  @RequestParam(value = "expno") int expno) {
+
+    if (this.adminProc.isAdmin(session)) {
+      ExplorationVO explorationVO = this.explorationProc.read(expno);
+      model.addAttribute("explorationVO", explorationVO);
+      model.addAttribute("expno", expno);
+
+      return "trash_exploration/delete";
+    } else {
+      return "redirect:/admin/login";
+    }
+
+  }
+  
+  @PostMapping(value = "/delete")
+  public String trash_delete(HttpSession session,
+                                    Model model, 
+                                    RedirectAttributes ra,
+                                    @RequestParam(value = "expno") int expno) {
+
+    if (this.adminProc.isAdmin(session)) {
+      // -------------------------------------------------------------------
+      // 파일 삭제 시작
+      // -------------------------------------------------------------------
+      // 삭제할 파일 정보를 읽어옴.
+      ExplorationVO explorationVO = this.explorationProc.read(expno);
+
+      int fileNum = 7;
+      String[] filesSaved = new String[fileNum];
+      String[] thumb = new String[fileNum];
+      
+      String uploadDir = Exploration.getUploadDir();
+      
+      // for 문을 사용하여 배열 초기화
+      for (int i = 0; i < filesSaved.length; i++) {
+        switch (i) {
+            case 0:
+                filesSaved[i] = explorationVO.getT_saved(); // 순수 원본 파일명
+                thumb[i] = explorationVO.getT_thumb(); // Thumb 파일명
+                Tool.deleteFile(uploadDir, thumb[i]); // preview 이미지 삭제
+                break;
+            case 1:
+                filesSaved[i] = explorationVO.getC1_saved(); 
+                break;
+            case 2:
+                filesSaved[i] = explorationVO.getC2_saved(); 
+                break;
+            case 3:
+                filesSaved[i] = explorationVO.getC3_saved(); 
+                break;
+            case 4:
+                filesSaved[i] = explorationVO.getC4_saved();
+                break;
+            case 5:
+                filesSaved[i] = explorationVO.getC5_saved();
+                break;
+            case 6:
+                filesSaved[i] = explorationVO.getC6_saved();
+                break;
+            default:
+                break;
+        }
+        Tool.deleteFile(uploadDir, filesSaved[i]); // 실제 저장된 파일삭제
+//        System.out.println("-> files: " +filesSaved[i] + thumb[i] + "삭제함" );
+      }
+      
+
+      // -------------------------------------------------------------------
+      // 파일 삭제 종료
+      // -------------------------------------------------------------------
+      int cnt = this.explorationProc.delete(expno);
+      System.out.println("-> cnt: " + cnt);
+      model.addAttribute("expno", expno);
+      ra.addAttribute("expno", expno);
+      
+    } else {
+      return "redirect:/admin/login";
+    }
+    return "redirect:/trash_exploration/list_all";
+  }
   
 }

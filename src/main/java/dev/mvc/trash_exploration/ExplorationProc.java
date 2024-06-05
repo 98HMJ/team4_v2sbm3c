@@ -32,6 +32,18 @@ public class ExplorationProc implements ExplorationProcInter{
     ExplorationVO explorationVO = this.explorationDAOInter.read(expno);
     return explorationVO;
   }
+
+  @Override
+  public int update(ExplorationVO explorationVO) {
+    int cnt = this.explorationDAOInter.update(explorationVO);
+    return cnt;
+  }
+
+  @Override
+  public int delete(int expno) {
+    int cnt = this.explorationDAOInter.delete(expno);
+    return cnt;
+  }
   
   
 }
