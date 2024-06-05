@@ -4,7 +4,7 @@
 DROP TABLE TRASH_EXPLORATION;
 CREATE TABLE TRASH_EXPLORATION(
 		EXPNO                         		NUMBER(10)		    NOT NULL		 PRIMARY KEY,
-		EXPONAME                      		VARCHAR2(10)		NOT NULL ,
+		EXPONAME                      		VARCHAR2(30)		NOT NULL ,
 		T_IMG                         		VARCHAR2(1000)	    NOT NULL,
 		T_THUMB                       		VARCHAR2(100)		NULL ,
 		T_SAVED                       		VARCHAR2(100)		NULL ,
@@ -73,5 +73,29 @@ VALUES(exploration_seq.nextval, '탐구1', 'space.jpg', 'space_1.jpg', 'space_t.
                                 null, null, null);
 
 commit;
+
+-- 모든 이미지 가져오기
+SELECT expno, exponame, t_img, t_thumb, t_saved, t_size, 
+                        c1_img, c1_saved, c1_size,
+                        c2_img, c2_saved, c2_size,
+                        c3_img, c3_saved, c3_size,
+                        c4_img, c4_saved, c4_size,
+                        c5_img, c5_saved, c5_size,
+                        c6_img, c6_saved, c6_size 
+FROM trash_exploration
+ORDER BY expno;
+
+-- title 이미지 만 조회
+SELECT expno, exponame, t_img, t_thumb, t_saved, t_size, 
+                        c1_img, c1_saved, c1_size,
+                        c2_img, c2_saved, c2_size,
+                        c3_img, c3_saved, c3_size,
+                        c4_img, c4_saved, c4_size,
+                        c5_img, c5_saved, c5_size,
+                        c6_img, c6_saved, c6_size 
+FROM trash_exploration
+WHERE expno=1
+ORDER BY expno;
+
 
 

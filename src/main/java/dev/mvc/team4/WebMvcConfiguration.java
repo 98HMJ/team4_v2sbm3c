@@ -1,6 +1,7 @@
 package dev.mvc.team4;
 
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -23,7 +24,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         
         registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" + Singo.getUploadDir());
 
-        registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" +  Exploration.getUploadDir());
+        // registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" +  Exploration.getUploadDir());
 
     }
 }

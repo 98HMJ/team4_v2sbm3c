@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{admin/layout}"> <!-- layout.html 상속-->
+
+
+<div layout:fragment="content">
+
+  <aside class="aside_right" style="float: right;">
+    <a th:href="@{|./create|}" th:if="${session.admin == 'admin'}">등록</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a th:href="@{|./update?expno=${explorationVO.expno}|}" th:if="${session.admin == 'admin'}">수정</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a th:if="${session.admin == 'admin'}" th:href="@{|./list_all|}">목록</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a th:href="@{|./delete?trashno=${explorationVO.expno}|}" th:if="${session.admin == 'admin'}">삭제</a>
+    <span class='menu_divide' th:if="${session.admin == 'admin'}">│</span>
+    <a href="javascript:location.reload();">새로고침</a>
+  </aside>
+
+  <div class='menu_line'></div>
+
+  <div class="container">
+
+    <div style="width: 100%; word-break: break-all;">
+      <div
+        th:if="${explorationVO.t_img.endsWith('jpg') or explorationVO.t_img.endsWith('png') or explorationVO.t_img.endsWith('gif') or explorationVO.t_img.endsWith('jpeg')}">
+        <img th:src="@{|/images/trash_exploration/storage/${explorationVO.t_img}|}" style='width: 100%; margin-bottom: 1rem;'>
+      </div>
+      
+      <div
+        th:if="${explorationVO.c1_img.endsWith('jpg') or explorationVO.c1_img.endsWith('png') or explorationVO.c1_img.endsWith('gif') or explorationVO.c1_img.endsWith('jpeg')}">
+        <img th:src="@{|/images/trash_exploration/storage/${explorationVO.c1_img}|}" style='width: 100%; margin-bottom: 1rem;'>
+      </div>
+      
+      <div th:if="${explorationVO.c2_img.endsWith('jpg') or explorationVO.c2_img.endsWith('png') or explorationVO.c2_img.endsWith('gif') or explorationVO.c2_img.endsWith('jpeg')}">
+          <img th:src="@{|/images/trash_exploration/storage/${explorationVO.c2_img}|}" style='width: 100%; margin-bottom: 1rem;'>
+      </div>
+      
+      <div th:if="${explorationVO.c3_img.endsWith('jpg') or explorationVO.c3_img.endsWith('png') or explorationVO.c3_img.endsWith('gif') or explorationVO.c3_img.endsWith('jpeg')}">
+          <img th:src="@{|/images/trash_exploration/storage/${explorationVO.c3_img}|}" style='width: 100%; margin-bottom: 1rem;'>
+      </div>
+      
+      <div th:if="${explorationVO.c4_img.endsWith('jpg') or explorationVO.c4_img.endsWith('png') or explorationVO.c4_img.endsWith('gif') or explorationVO.c4_img.endsWith('jpeg')}">
+          <img th:src="@{|/images/trash_exploration/storage/${explorationVO.c4_img}|}" style='width: 100%; margin-bottom: 1rem;'>
+      </div>
+      
+      <div th:if="${explorationVO.c5_img.endsWith('jpg') or explorationVO.c5_img.endsWith('png') or explorationVO.c5_img.endsWith('gif') or explorationVO.c5_img.endsWith('jpeg')}">
+          <img th:src="@{|/images/trash_exploration/storage/${explorationVO.c5_img}|}" style='width: 100%; margin-bottom: 1rem;'>
+      </div>
+      
+      <div th:if="${explorationVO.c6_img.endsWith('jpg') or explorationVO.c6_img.endsWith('png') or explorationVO.c6_img.endsWith('gif') or explorationVO.c6_img.endsWith('jpeg')}">
+          <img th:src="@{|/images/trash_exploration/storage/${explorationVO.c6_img}|}" style='width: 100%; margin-bottom: 1rem;'>
+      </div>
+      
+    </div>
+
+    <div style="width: 100%; word-break: break-all;">
+      <hr>
+      <span style="font-size: 1.5em; font-weight: bold;" th:text="${explorationVO.exponame}"></span><br><br>
+    </div>
+    <br><br>
+  </div>
+</div>
+
+</html>

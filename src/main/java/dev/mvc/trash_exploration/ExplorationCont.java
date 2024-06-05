@@ -1,12 +1,11 @@
 package dev.mvc.trash_exploration;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +16,7 @@ import dev.mvc.admin.AdminProcInter;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 import dev.mvc.trash.TrashVO;
+import dev.mvc.trashcate.TrashcateVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -100,17 +100,19 @@ public class ExplorationCont {
       
       int posted = 0;
       for (int i = 0; i < files.length; i++) {
-        if (mf[i] != null && !mf[i].isEmpty()) {
+        if (mf[i] != null ) {
           files[i] = mf[i].getOriginalFilename(); // 원본 파일명 산출
           System.out.println("-> 원본 파일명 산출 file " + i + ":" + files[i]);
           size[i] = mf[i].getSize();
           posted++;
         } else {
           System.out.println("-> mf[" + i + "] is null or empty");
-          files[i] = null;
+          files[i] = "";
           size[i] = 0;
         }
       }
+      
+      System.out.println("-> posted: " + posted);
 
       for (int i = 0; i < files.length; i++) {
         if (size[i] > 0) { // 파일 크기 체크, 파일을 올리는 경우
@@ -168,7 +170,7 @@ public class ExplorationCont {
             ra.addFlashAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
             ra.addFlashAttribute("cnt", 0); // 업로드 실패
             ra.addFlashAttribute("url", "/trash/msg"); // msg.html, redirect parameter 적용
-            return "redirect:/trash/msg"; // Post -> Get - param...
+            return "redirect:/trash_exploration/msg"; // Post -> Get - param...
           }
         }
       }
@@ -188,9 +190,40 @@ public class ExplorationCont {
       ra.addFlashAttribute("cnt", 0);
       ra.addFlashAttribute("url", "/trash/msg");
 
-      return "redirect:/trash/msg";
+      return "redirect:/trash_exploration/msg";
     }
 
+  }
+  
+  @GetMapping(value = "/list_all")
+  public String trash_list_all(HttpSession session, Model model) {
+    if (this.adminProc.isAdmin(session)) {    
+      ArrayList<ExplorationVO> list = this.explorationProc.list_all();
+      model.addAttribute("list", list);
+      
+      return "trash_exploration/list_all";
+    } else {
+      return "redirect:/admin/login";
+    }
+
+  }
+  
+  @GetMapping(value = "/read")
+  public String trash_read(HttpSession session, Model model, int expno) {
+    ExplorationVO explorationVO = this.explorationProc.read(expno);
+    model.addAttribute("explorationVO", explorationVO);
+    
+    String searh_word = explorationVO.getExponame();
+    
+//    if(explorationVO.getExpno()>15) {
+//    this.explorationProc.search_create(searh_word);
+//    model.addAttribute("searh_word", searh_word);
+//    }
+    
+    if(this.adminProc.isAdmin(session))
+      return "trash/trash_read_admin";
+    return "trash/trash_read";
+    
   }
   
   
