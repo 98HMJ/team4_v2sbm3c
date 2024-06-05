@@ -1,27 +1,30 @@
 package dev.mvc.trash_exploration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mvc.admin.AdminProcInter;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
-import dev.mvc.trash.Trash;
-import dev.mvc.trash.TrashVO;
-import dev.mvc.trashcate.TrashcateVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import java.lang.reflect.Field;
+
 
 @RequestMapping(value = "/trash_exploration")
 @Controller
@@ -216,12 +219,6 @@ public class ExplorationCont {
     ExplorationVO explorationVO = this.explorationProc.read(expno);
     model.addAttribute("explorationVO", explorationVO);
     
-//    String searh_word = explorationVO.getExponame();
-    
-//    if(explorationVO.getExpno()>15) {
-//    this.explorationProc.search_create(searh_word);
-//    model.addAttribute("searh_word", searh_word);
-//    }
     
     if(this.adminProc.isAdmin(session)) {
       return "trash_exploration/read";
@@ -229,6 +226,40 @@ public class ExplorationCont {
       return "redirect:/admin/login";
     }
     
+  }
+  
+  @PostMapping("/read")
+  @ResponseBody
+  public Map<String, Object> read(@RequestParam int expno) {
+      ExplorationVO explorationVO = this.explorationProc.read(expno);
+      System.out.println("-> expno: " + expno);
+      // 탐구 내용에 대한 처리
+      // ExplorationVO 객체의 필드 중 이미지 관련 필드를 탐색하여 이미지 경로를 리스트에 추가합니다.
+      ArrayList<String> images = new ArrayList<>();
+      if (explorationVO != null) {
+          // 메인 이미지 추가
+          if (!explorationVO.getT_saved().isEmpty()) {
+              images.add("/images/trash_exploration/storage/" + explorationVO.getT_saved());
+          }
+          // 추가 이미지들 추가
+          for (int i = 1; i <= 6; i++) {
+              String fieldName = "c" + i + "_saved";
+              
+              String savedImage = (String) explorationVO.getSavedImage(fieldName);
+              if (!savedImage.isEmpty()) {
+                  images.add("/images/trash_exploration/storage/" + savedImage);
+              }
+          }
+      }
+      
+
+      Map<String, Object> response = new HashMap<>();
+      response.put("res", images.isEmpty() ? 0 : 1);
+      response.put("images", images);
+      
+      System.out.println("-> response: " + response);
+      
+      return response;
   }
   
   /**
@@ -369,5 +400,7 @@ public class ExplorationCont {
     }
     return "redirect:/trash_exploration/list_all";
   }
+  
+  
   
 }

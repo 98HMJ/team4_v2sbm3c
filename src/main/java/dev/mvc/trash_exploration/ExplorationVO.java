@@ -1,5 +1,7 @@
 package dev.mvc.trash_exploration;
 
+import java.lang.reflect.Field;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
@@ -54,5 +56,21 @@ public class ExplorationVO {
   
   // --------------- 이미지 처리 ----------------
   
+  
+  public String getSavedImage(String fieldName) {
+    try {
+        // ExplorationVO 클래스에서 fieldName에 해당하는 필드를 찾습니다.
+        Field field = ExplorationVO.class.getDeclaredField(fieldName);
+        // 필드가 private일 경우 접근 권한을 설정합니다.
+        field.setAccessible(true);
+        // explorationVO 객체에서 해당 필드의 값을 가져옵니다.
+        String savedImage = (String) field.get(this);
+        return savedImage;
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+        // 필드가 존재하지 않거나 접근할 수 없는 경우 에러가 발생할 수 있습니다.
+        e.printStackTrace();
+        return null;
+    }
+  }
   
 }

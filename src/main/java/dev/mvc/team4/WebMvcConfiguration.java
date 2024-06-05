@@ -20,7 +20,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         
         registry.addResourceHandler("/replys/storage/**").addResourceLocations("file:///" + Reply.getUploadDir());
         
-        registry.addResourceHandler("/i/Desktop/teamfile/**").addResourceLocations("file:///" + Community.getUploadDir());
+        // registry.addResourceHandler("/i/Desktop/teamfile/**").addResourceLocations("file:///" + Community.getUploadDir());
         
         registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" + Singo.getUploadDir());
 

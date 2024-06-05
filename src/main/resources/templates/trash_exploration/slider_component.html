@@ -5,15 +5,14 @@
     <div class="swiper-wrapper">
       <!-- 실제 이미지나 컨텐츠가 들어갈 slide들 -->
       <!-- 실제로는 이미지마다 div 의 id 가 매핑 되야함 -->
-      <div th:each="trashVO, status:${limit_trash_list}" class="swiper-slide">
-        <a href="#" class="modal_open"><img th:src="@{|/images/trash/storage/${trashVO.thumb1}|}"></a>
+      <div th:each="explorationVO, status:${limit_expr_list}" class="swiper-slide">
+        <a href="#" class="modal_open" th:data-expno="${explorationVO.expno}">
+          <img th:src="@{|/images/trash_exploration/storage/${explorationVO.t_saved}|}">
+        </a>
       </div>
-
     </div>
-    <!-- pagination 필요할 경우 추가 -->
-    <div class="swiper-pagination"></div>
   </div>
   
-  <script src="/js/modal.js"></script>
+  <script th:inline="javascript" src="/js/modal.js"></script>
   <script src="/js/swiper.js"></script>
 </div>

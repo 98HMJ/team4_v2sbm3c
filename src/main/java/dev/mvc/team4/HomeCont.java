@@ -20,6 +20,8 @@ import dev.mvc.search.SearchProcInter;
 import dev.mvc.search.SearchVO;
 import dev.mvc.trash.TrashProcInter;
 import dev.mvc.trash.TrashVO;
+import dev.mvc.trash_exploration.ExplorationProcInter;
+import dev.mvc.trash_exploration.ExplorationVO;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -40,6 +42,9 @@ public class HomeCont {
     @Qualifier("dev.mvc.admin.AdminProc")
     private AdminProcInter adminProc;
     
+    @Autowired
+    @Qualifier("dev.mvc.trash.exploration.ExplorationProc")
+    private ExplorationProcInter explorationProc;
     //http://localhost:9093
     //main.html 이동
     @GetMapping("/")
@@ -53,13 +58,17 @@ public class HomeCont {
         
         List<HashMap<String, Object>> dir_list = new ArrayList<>();
         
+        ArrayList<ExplorationVO> expr_list = this.explorationProc.list_all();
+        Collections.shuffle(expr_list);
+        List<ExplorationVO> limit_expr_list = expr_list.stream().limit(5).collect(Collectors.toList());
+        model.addAttribute("limit_expr_list", limit_expr_list);
+        
         for (int i=0; i<popular_list.size();i++) {
           String name = popular_list.get(i).getSearch_word();
           dir_list.add(this.trashProc.trash_read_by_name(name));
         }
         
         model.addAttribute("dir_list", dir_list);
-        
 
         ArrayList<TrashVO> trash_list = this.trashProc.trash_list_all();
         
