@@ -124,7 +124,6 @@ public class SingoCont {
     int cnt = this.singoProc.create(singoVO);
     if(cnt==1) {
       model.addAttribute("code", "singo_success");
-      model.addAttribute("cnt", 2);
       return "singo/msg";
     } else{
       model.addAttribute("code", "singo_fail");
@@ -304,7 +303,6 @@ public class SingoCont {
                             @RequestParam(name="now_page", defaultValue = "1") int now_page) {
     int cnt = this.singoProc.delete(singono);         
     if(cnt == 1){
-      model.addAttribute("cnt", cnt);
       // ----------------------------------------------------------------------------------------------------------
     // 마지막 페이지에서 모든 레코드가 삭제되면 페이지수를 1 감소 시켜야함.
     int search_cnt = this.singoProc.list_cnt(word);
@@ -314,6 +312,7 @@ public class SingoCont {
         now_page = 1; // 최소 시작 페이지
       }
     }
+    System.out.println("-> now_page" + now_page);
     // ----------------------------------------------------------------------------------------------------------
       return "redirect:/singo/list?word=" + Tool.encode(word) + "&now_page=" + now_page;
     } else{

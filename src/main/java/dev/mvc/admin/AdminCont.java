@@ -418,7 +418,7 @@ public class AdminCont {
    */
   @GetMapping(value = "/delete")
   public String delete(HttpSession session, Model model, int adminno) {
-    //통합관리자 확인
+    // 통합관리자 확인
     boolean isPermission = this.adminProc.isPermission(session);
     if (isPermission) {
       AdminVO adminVO = this.adminProc.read(adminno);
@@ -466,11 +466,11 @@ public class AdminCont {
     map.put("name", name);
     map.put("email", email);
     int cnt = 0;
-    try {
-      AdminVO adminVO = this.adminProc.findid(map);
+    AdminVO adminVO = this.adminProc.findid(map);
+    if (adminVO != null) {
       model.addAttribute("adminVO", adminVO);
       model.addAttribute("code", "findid");
-    } catch (Exception e) {
+    } else {
       model.addAttribute("code", "findidfail");
       model.addAttribute("cnt", cnt);
     }

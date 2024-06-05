@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, minimum-scale=1.0, maximum-scale=10.0, width=device-width" />
+<html layout:decorate="~{admin/layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
 
-<div>
-  <div >회원 정보 조회 및 수정(*: 필수) > <span th:text="@{|${adminVO.name} (${adminVO.id})|}"></span></div>
-  
-
-  <div class='menu_line'></div>
-  
-  <div style="width: 60%; margin: 0px auto ">
+  <div style="width: 60%; margin: 0px auto; margin-top: 5%;">
     <form name="frm" id="frm" th:object="${adminVO}" method="post" action="/admin/delete">
       <input type="hidden" name="adminno" th:value="${adminVO.adminno}">
       
       <div class="msg_warning">회원 정보는 삭제하면 복구 할 수 없습니다.<br>그래도 삭제하시겠습니까?</div>
-      <div style='text-align: center;'>회원 이름: <span th:text="${adminVO.name}"></span></div>
+      <br>
+      <div>관리자 이름: <span th:text="${adminVO.name}"></span></div>
+      <div>관리자 아이디: <span th:text="${adminVO.id}"></span></div>
+      <div>관리자 이메일: <span th:text="${adminVO.email}"></span></div>
       
       <div class="content_body_bottom">
         <button type="submit" class="btn btn-secondary btn-sm">삭제</button>
@@ -21,7 +19,6 @@
 
     </form>
   </div>
-    
 </div>
 </html>
 
