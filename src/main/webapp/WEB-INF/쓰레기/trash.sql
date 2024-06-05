@@ -196,3 +196,5 @@ commit;
 
 delete from trash
 where trashno between 6 and 14;
+
+commit;

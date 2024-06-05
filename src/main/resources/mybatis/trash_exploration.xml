@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="dev.mvc.trash_exploration.ExplorationDAOInter">
+
+  <!-- 등록: 쓰레기 탐구 이미지 -->
+  <insert id="create" parameterType="dev.mvc.trash_exploration.ExplorationVO">
+    INSERT INTO trash_exploration(expno, exponame, t_img, t_thumb, t_saved, t_size, 
+                            c1_img, c1_saved, c1_size,
+                            c2_img, c2_saved, c2_size,
+                            c3_img, c3_saved, c3_size,
+                            c4_img, c4_saved, c4_size,
+                            c5_img, c5_saved, c5_size,
+                            c6_img, c6_saved, c6_size)
+    VALUES(exploration_seq.nextval, exponame, #{t_img}, #{t_thumb}, #{t_saved}, #{t_size}, 
+                                    #{c1_img}, #{c1_saved}, #{c_size},
+                                    #{c1_img}, #{c1_saved}, #{c1_size},
+                                    #{c2_img}, #{c2_saved}, #{c2_size},
+                                    #{c3_img}, #{c3_saved}, #{c3_size},
+                                    #{c4_img}, #{c4_saved}, #{c4_size},
+                                    #{c5_img}, #{c5_saved}, #{c5_size},
+                                    #{c6_img}, #{c6_saved}, #{c6_size}) 
+  </insert>
+  
+  
+
+</mapper> 

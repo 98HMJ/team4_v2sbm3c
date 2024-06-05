@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html layout:decorate="~{admin/layout}"> <!-- layout.html 상속-->
+<div layout:fragment="content">
+  <div class='title_line'>
+     탐구 글 등록
+  </div> 
+  <div class='menu_line'></div>
+  
+  <form name='frm' method='post' action='./create' enctype="multipart/form-data">
+    <div>
+       <label>탐구 제목</label>
+       <input type='text' name='name' value='' required="required" 
+                 autofocus="autofocus" class="form-control" style='width: 50%;'>
+    </div>
+    
+    <div>
+       <label>탐구 타이틀 이미지</label>
+       <input type='file' class="form-control" required="required" name='file0MF' id='file0MF' value='' placeholder="파일 선택">
+    </div>   
+    
+    <div>
+       <label>탐구 컨텐츠 이미지1</label>
+       <input type='file' class="form-control" required="required" name='file1MF' id='file1MF' value='' placeholder="파일 선택">         
+    </div>   
+    
+    <div>
+       <label>탐구 컨텐츠 이미지2</label>
+       <input type='file' class="form-control" name='file2MF' id='file2MF' value='' placeholder="파일 선택">         
+    </div>   
+    
+    <div>
+       <label>탐구 컨텐츠 이미지3</label>
+       <input type='file' class="form-control" name='file3MF' id='file3MF' value='' placeholder="파일 선택">         
+    </div>   
+    
+    <div>
+       <label>탐구 컨텐츠 이미지4</label>
+       <input type='file' class="form-control" name='file4MF' id='file4MF' value='' placeholder="파일 선택">         
+    </div>   
+    
+    <div>
+       <label>탐구 컨텐츠 이미지5</label>
+       <input type='file' class="form-control" name='file4MF' id='file4MF' value='' placeholder="파일 선택">         
+    </div>   
+    
+    <div>
+       <label>탐구 컨텐츠 이미지6</label>
+       <input type='file' class="form-control" name='file5MF' id='file5MF' value='' placeholder="파일 선택">         
+    </div>
+
+    <div class="content_body_bottom" style="float: right; margin: 5px;">
+      <button type="submit" class="btn btn-secondary btn-sm">등록</button>
+      <button type="button" th:attr="onclick=|location.href='./trash_exploration/list_all'|" class="btn btn-secondary btn-sm">목록</button>
+    </div>
+  
+  </form>
+
+</div>
+
+
+  
