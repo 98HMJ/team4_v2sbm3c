@@ -36,7 +36,6 @@ public class ReportReplyProc implements ReportReplyProcInter{
   public ArrayList<ReportReplyVO> list_by_member(int memberno) {
     ArrayList<ReportReplyVO> list = this.reportReplyDAOInter.list_by_member(memberno);
     return list;
-  }
-  
+  }  
   
 }

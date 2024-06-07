@@ -28,5 +28,5 @@ public interface ReportReplyProcInter {
    * @return 신고한 글
    */
   public ReportReplyVO read(int reportno);
-  
+ 
 }

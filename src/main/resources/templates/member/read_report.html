@@ -36,15 +36,12 @@
             <th class='th_bs'>신고 시간</th>
         </tr>
         
-        <tr th:each="reportCommunityVO, status:${reportCommunitylist}" th:attr="onclick=|location.href='/report_community/read?reportno=${reportCommunityVO.reportno}'|">
-            <td style="text-align: center;"><a th:text="${reportCommunityVO.reportno}"></a></td>
-            <td style="text-align: center;"><a th:text="${#strings.length(reportCommunityVO.contents) > 20 ? #strings.substring(reportCommunityVO.contents, 0, 20)+'...' : reportCommunityVO.contents}"></a></td>
-            <td style="text-align: center;"><a th:text="${reportCommunityVO.rdate.substring(0, 16)}"></a></td>
+        <!-- th:attr="onclick=|location.href='/report_community/read?reportno=${reportReadAllVO.reportno}'|" -->
+        <tr th:each="reportReadAllVO, status:${reportList}" >
+            <td style="text-align: center;"><a th:text="${reportReadAllVO.reportno_m}"></a></td>
+            <td style="text-align: center;"><a th:text="${#strings.length(reportReadAllVO.contents) > 20 ? #strings.substring(reportReadAllVO.contents, 0, 20)+'...' : reportReadAllVO.contents}"></a></td>
+            <td style="text-align: center;"><a th:text="${reportReadAllVO.rdate.substring(0, 16)}"></a></td>
         </tr>
-        <tr th:each="reportReplyVO, status:${reportReplylist}" th:attr="onclick=|location.href='/report_reply/read?reportno=${reportReplyVO.reportno}'|">
-          <td style="text-align: center;"><a th:text="${reportReplyVO.reportno}"></a></td>
-          <td style="text-align: center;"><a th:text="${#strings.length(reportReplyVO.contents) > 20 ? #strings.substring(reportReplyVO.contents, 0, 20)+'...' : reportReplyVO.contents}"></a></td>
-          <td style="text-align: center;"><a th:text="${reportReplyVO.rdate.substring(0, 16)}"></a></td>
         </tr>
     </table>
 </div> <!-- container_main 종료 -->   
