@@ -55,4 +55,18 @@ public interface BookmarkDAOInter {
    */
   public int delete_trash(BookmarkCheckTrashVO vo);
   
+  /**
+   * 북마크 검색 목록
+   * @param hashMap
+   * @return
+   */
+  public ArrayList<BookmarkListVO> list_by_memberno_search_paging(HashMap<String, Object> hashMap);
+  
+  /**
+   * 북마크 검색(카테고리) 개수 조회
+   * @param word
+   * @return 검색 된 레코드 수
+   */
+  public int list_by_memberno_search_cnt(HashMap<String, Object> map);
+  
 }
