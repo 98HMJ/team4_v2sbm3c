@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dev.mvc.report.ReportDAOInter">
+
+    <!--  조회: 신고(댓글, 커뮤니티, 쓰레기) 목록 -->
+    <select id="list_all_reply_community_signo" resultType="dev.mvc.report.ReportVO" parameterType="int">
+      SELECT ROW_NUMBER() OVER (ORDER BY RDATE) AS reportno_m, category_name, SINGONO, REPORTNO, CONTENTS, RDATE, MEMBERNO, TRASHNO, REPLYNO, COMMUNITYNO
+        FROM (
+            SELECT
+                'SINGO' AS category_name,
+                s.SINGONO,
+                NULL AS REPORTNO,
+                s.CONTENTS,
+                s.RDATE,
+                s.MEMBERNO,
+                s.TRASHNO,
+                NULL AS REPLYNO,
+                NULL AS COMMUNITYNO
+            FROM SINGO s
+        
+            UNION ALL
+        
+            SELECT
+                'REPLY' AS category_name,
+                NULL AS SINGONO,
+                rr.REPORTNO,
+                rr.CONTENTS,
+                rr.RDATE,
+                rr.MEMBERNO,
+                NULL AS TRASHNO,
+                rr.REPLYNO,
+                NULL AS COMMUNITYNO
+            FROM REPORT_REPLY rr
+        
+            UNION ALL
+        
+            SELECT
+                'COMMUNITY' AS category_name,
+                NULL AS SINGONO,
+                rc.REPORTNO,
+                rc.CONTENTS,
+                rc.RDATE,
+                rc.MEMBERNO,
+                NULL AS TRASHNO,
+                NULL AS REPLYNO,
+                rc.COMMUNITYNO
+            FROM REPORT_COMMUNITY rc
+        )
+        WHERE memberno = #{memberno}
+        ORDER BY RDATE DESC
+    </select>
+    
+</mapper> 

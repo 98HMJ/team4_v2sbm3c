@@ -1,6 +1,7 @@
 package dev.mvc.member;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import dev.mvc.log.memberlog.MemberlogProcInter;
 import dev.mvc.log.memberlog.MemberlogVO;
+import dev.mvc.report.ReportProcInter;
+import dev.mvc.report.ReportVO;
 import dev.mvc.report.community.ReportCommunityProcInter;
 import dev.mvc.report.community.ReportCommunityVO;
 import dev.mvc.report.reply.ReportReplyProcInter;
@@ -42,12 +45,8 @@ public class MemberCont {
     private MemberlogProcInter memberlogProc;
     
     @Autowired
-    @Qualifier("dev.mvc.report.community.ReportCommunityProc")
-    private ReportCommunityProcInter reportCommunityProc;
-    
-    @Autowired
-    @Qualifier("dev.mvc.report.reply.ReportReplyProc")
-    private ReportReplyProcInter reportReplyProc;
+    @Qualifier("dev.mvc.report.ReportProc")
+    private ReportProcInter reportProc;
 
     @Autowired
     private Security security;
@@ -243,23 +242,6 @@ public class MemberCont {
         return "member/msg";
     }
     
-    @GetMapping("read_report")
-    public String read_report(HttpSession session, Model model) {
-        if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
-            MemberVO memberVO = this.memberProc.read((int) session.getAttribute("memberno"));
-            
-            int memberno = memberVO.getMemberno();
-            ArrayList<ReportCommunityVO> reportCommunitylist = this.reportCommunityProc.list_by_member(memberno);
-            model.addAttribute("reportCommunitylist", reportCommunitylist);
-            
-            ArrayList<ReportReplyVO> reportReplylist = this.reportReplyProc.list_by_member(memberno);
-            model.addAttribute("reportReplylist", reportReplylist);
-            
-            return "member/read_report";
-        } else {
-            return "redirect:/member/login";
-        }
-    }
 
     @GetMapping("/findid")
     public String findid() {
@@ -351,6 +333,20 @@ public class MemberCont {
             model.addAttribute("code", "chagepasswordfail");
         }
         return "member/msg";
+    }
+    
+    @GetMapping("read_report")
+    public String read_report(HttpSession session, Model model) {
+        if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
+            int memberno = (int) session.getAttribute("memberno");
+            
+            ArrayList<ReportVO> reportList = this.reportProc.list_all_reply_community_signo(memberno);
+            model.addAttribute("reportList", reportList);            
+            
+            return "member/read_report";
+        } else {
+            return "redirect:/member/login";
+        }
     }
 
 }
