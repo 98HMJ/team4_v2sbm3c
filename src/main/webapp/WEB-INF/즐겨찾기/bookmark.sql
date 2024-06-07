@@ -81,7 +81,7 @@ WHERE b.communityno = c.communityno and cc.communitycateno = c.communitycateno
 SELECT b.bookmarkno, cc.name, b.rdate, b.url, b.communityno, b.memberno
 FROM community c, bookmark b, communitycate cc, member m
 WHERE b.communityno = c.communityno and cc.communitycateno = c.communitycateno
-    and b.memberno = m.memberno and b.memberno = 10 and cc.communitycateno = 3;
+    and b.memberno = m.memberno and b.memberno = 10 and cc.communitycateno = 1;
 
 
 -- 목록: 쓰레기 북마크 
@@ -116,3 +116,60 @@ AND bookmarkno = (SELECT b.bookmarkno
                   AND b.trashno = 17
                   AND ROWNUM = 1);
                   
+-- ① bookmar검색(카테고리명) 목록
+SELECT b.bookmarkno, 
+       COALESCE(tc.name, cc.name) AS category_name, 
+       b.rdate, 
+       b.url, 
+       COALESCE(b.trashno, b.communityno) AS ref_no, 
+       b.memberno,
+       CASE 
+           WHEN b.trashno IS NOT NULL THEN 'trash' 
+           ELSE 'community' 
+       END AS board
+FROM bookmark b
+LEFT JOIN trash t ON b.trashno = t.trashno
+LEFT JOIN trashcate tc ON t.trashcateno = tc.trashcateno
+LEFT JOIN community c ON b.communityno = c.communityno
+LEFT JOIN communitycate cc ON c.communitycateno = cc.communitycateno
+WHERE b.memberno = 10
+  AND (UPPER(COALESCE(tc.name, cc.name))) LIKE UPPER('%질문%')
+ORDER BY b.bookmarkno DESC;
+
+-- ② 검색 레코드 갯수
+-- 전체 레코드 갯수, 집계 함수
+SELECT COUNT(*) as cnt
+FROM bookmark b
+LEFT JOIN trash t ON b.trashno = t.trashno
+LEFT JOIN trashcate tc ON t.trashcateno = tc.trashcateno
+LEFT JOIN community c ON b.communityno = c.communityno
+LEFT JOIN communitycate cc ON c.communitycateno = cc.communitycateno
+WHERE b.memberno = 10
+  AND (UPPER(COALESCE(tc.name, cc.name))) LIKE UPPER('%질문%')
+ORDER BY b.bookmarkno DESC;
+
+-- 3. bookmar검색(카테고리명) 목록 + 페이징
+SELECT *
+FROM (
+    SELECT b.bookmarkno, 
+           COALESCE(tc.name, cc.name) AS category_name, 
+           b.rdate, 
+           b.url, 
+           COALESCE(b.trashno, b.communityno) AS ref_no, 
+           b.memberno,
+           CASE 
+               WHEN b.trashno IS NOT NULL THEN 'trash' 
+               ELSE 'community' 
+           END AS board,
+           ROW_NUMBER() OVER (ORDER BY b.rdate DESC) AS r
+    FROM bookmark b
+    LEFT JOIN trash t ON b.trashno = t.trashno
+    LEFT JOIN trashcate tc ON t.trashcateno = tc.trashcateno
+    LEFT JOIN community c ON b.communityno = c.communityno
+    LEFT JOIN communitycate cc ON c.communitycateno = cc.communitycateno
+    WHERE b.memberno = 10
+      AND UPPER(COALESCE(tc.name, cc.name)) LIKE UPPER('%질문%')
+)
+WHERE r BETWEEN 4 AND 6;
+
+
