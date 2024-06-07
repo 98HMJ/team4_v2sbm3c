@@ -1,23 +1,25 @@
-<!-- modal 영역 -->
+<!-- Modal -->
 <div th:fragment="modal_slider_fragment">
-  <div id = "modal_image" class="modal_overlay">
-    <div class="modal_window">
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-      <div class="swiper modalSwiper">
-        <!-- wrapper 추가 필수 -->
-        <div class="modal-swiper-wrapper">
-          <!-- 실제 이미지나 컨텐츠가 들어갈 slide들 -->
-          <!-- 실제로는 이미지마다 div 의 id 가 매핑 되야함 -->
-          <div th:each="explorationVO, status:${limit_expr_list}" class="swiper-slide">
-            <a href="#" class="modal_open"><img th:src="@{|/images/trash_exploration/storage/${explorationVO.t_img}|}"></a>
+  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body" style="overflow: hidden;">
+          <!-- Swiper -->
+          <div id="popupGallery" class="swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">Slide 1</div>
+              <div class="swiper-slide">Slide 2</div>
+              <div class="swiper-slide">Slide 3</div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Navigation -->
+            <div class="swiper-button-next popupGalleryNext"></div>
+            <div class="swiper-button-prev popupGalleryPrev"></div>
           </div>
-        <!-- pagination 필요할 경우 추가 -->
-        <div class="swiper-pagination"></div>
+        </div>
+      </div>
     </div>
   </div>
-  
-  <script src="/js/modal_swiper.js"></script>
-  
+  <script th:inline="javascript" src="/js/modal.js"></script>
 </div>
-<!-- modal 영역 -->
