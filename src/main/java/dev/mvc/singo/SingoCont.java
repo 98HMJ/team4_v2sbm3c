@@ -67,6 +67,18 @@ public class SingoCont {
     }
     
   }
+
+  /**
+   * 신고 폼 테스트
+   * @param session
+   * @param model
+   * @return
+   */
+  @GetMapping(value="/create_test")
+  public String create_test() {
+    return "singo/create_test";
+  }
+
   /**
    * 신고 처리
    * @param session

@@ -1,0 +1,26 @@
+<form name='frm' method='post' th:object="${singoVO}" action='./create' enctype="multipart/form-data">
+  <input type="hidden" name="trashno" th:value="${trashno}" />
+  <input type="hidden" name="memberno" th:value="${memberno}" />
+  <div>
+    <label>내용</label>
+    <textarea name='contents' required="required" class="form-control" rows="12" style='width: 100%;'></textarea>
+  </div>
+  <div>
+    <label>이미지</label>
+    <input type='file' class="form-control" name='file1MF' id='file1MF' value='' placeholder="파일 선택">
+  </div>
+  <div class="content_body_bottom">
+    <button type="submit" class="btn btn-secondary btn-sm">등록</button>
+    <button type='button' id="cancel_button" class="btn btn-secondary btn-sm">취소</button>
+  </div>
+  <script>
+    const cancel_button = document.getElementById('cancel_button');
+    const form_cont = document.getElementById('form-container')
+    cancel_button.addEventListener('click', (event) => {
+      // 폼이 표시되어 있을 때 폼을 숨기기
+      form_cont.innerHTML = ''; // 폼 내용 비우기
+      form_cont.style.display = 'none';
+      loadFormButton.textContent = '수정 요청';
+    })
+  </script>
+</form>
