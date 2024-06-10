@@ -52,4 +52,121 @@
         ORDER BY RDATE DESC
     </select>
     
+    <!--  신고 검색(카테고리, 신고 내용) + 페이징-->
+    <select id="list_by_memberno_serach_paging" resultType="dev.mvc.report.ReportVO" parameterType="HashMap">
+      SELECT *
+      FROM (
+          SELECT ROW_NUMBER() OVER (ORDER BY rdate DESC) AS r, category_name, SINGONO, REPORTNO, CONTENTS, RDATE, MEMBERNO, TRASHNO, REPLYNO, COMMUNITYNO
+          FROM (
+              SELECT
+                  'SINGO' AS category_name,
+                  s.SINGONO,
+                  NULL AS REPORTNO,
+                  s.CONTENTS,
+                  s.RDATE,
+                  s.MEMBERNO,
+                  s.TRASHNO,
+                  NULL AS REPLYNO,
+                  NULL AS COMMUNITYNO
+              FROM SINGO s
+          
+              UNION ALL
+          
+              SELECT
+                  'REPLY' AS category_name,
+                  NULL AS SINGONO,
+                  rr.REPORTNO,
+                  rr.CONTENTS,
+                  rr.RDATE,
+                  rr.MEMBERNO,
+                  NULL AS TRASHNO,
+                  rr.REPLYNO,
+                  NULL AS COMMUNITYNO
+              FROM REPORT_REPLY rr
+          
+              UNION ALL
+          
+              SELECT
+                  'COMMUNITY' AS category_name,
+                  NULL AS SINGONO,
+                  rc.REPORTNO,
+                  rc.CONTENTS,
+                  rc.RDATE,
+                  rc.MEMBERNO,
+                  NULL AS TRASHNO,
+                  NULL AS REPLYNO,
+                  rc.COMMUNITYNO
+              FROM REPORT_COMMUNITY rc
+          )
+        <choose>
+          <when test="word!=null and word!=''">
+            WHERE memberno = #{memberno}
+            AND ((UPPER(CONTENTS)) LIKE '%' || UPPER(#{word}) || '%'
+            OR (UPPER(category_name) )LIKE '%' || UPPER(#{word}) || '%')
+          </when>
+          <otherwise>
+            WHERE memberno = #{memberno}
+          </otherwise>
+        </choose>
+      )
+      WHERE r BETWEEN #{start_num} AND #{end_num}
+      ORDER BY RDATE DESC
+    </select>
+    
+    <!-- 신고 검색(카테고리, 신고 내용) 개수 조회-->
+    <select id="list_by_memberno_search_cnt" resultType="int" parameterType="HashMap">
+      SELECT COUNT(*) as cnt
+      FROM (
+          SELECT
+              'SINGO' AS category_name,
+              s.SINGONO,
+              NULL AS REPORTNO,
+              s.CONTENTS,
+              s.RDATE,
+              s.MEMBERNO,
+              s.TRASHNO,
+              NULL AS REPLYNO,
+              NULL AS COMMUNITYNO
+          FROM SINGO s
+      
+          UNION ALL
+      
+          SELECT
+              'REPLY' AS category_name,
+              NULL AS SINGONO,
+              rr.REPORTNO,
+              rr.CONTENTS,
+              rr.RDATE,
+              rr.MEMBERNO,
+              NULL AS TRASHNO,
+              rr.REPLYNO,
+              NULL AS COMMUNITYNO
+          FROM REPORT_REPLY rr
+      
+          UNION ALL
+      
+          SELECT
+              'COMMUNITY' AS category_name,
+              NULL AS SINGONO,
+              rc.REPORTNO,
+              rc.CONTENTS,
+              rc.RDATE,
+              rc.MEMBERNO,
+              NULL AS TRASHNO,
+              NULL AS REPLYNO,
+              rc.COMMUNITYNO
+          FROM REPORT_COMMUNITY rc
+      )
+      <choose>
+          <when test="word!=null and word!=''">
+            WHERE memberno = #{memberno}
+            AND ((UPPER(CONTENTS)) LIKE '%' || UPPER(#{word}) || '%'
+            OR (UPPER(category_name)) LIKE '%' || UPPER(#{word}) || '%')
+          </when>
+          <otherwise>
+            WHERE memberno = #{memberno}
+          </otherwise>
+        </choose>
+      ORDER BY RDATE DESC
+    </select>
 </mapper> 

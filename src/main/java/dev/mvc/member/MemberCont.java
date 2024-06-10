@@ -335,18 +335,5 @@ public class MemberCont {
         return "member/msg";
     }
     
-    @GetMapping("read_report")
-    public String read_report(HttpSession session, Model model) {
-        if (session.getAttribute("id") != null || session.getAttribute("adminno") != null) {
-            int memberno = (int) session.getAttribute("memberno");
-            
-            ArrayList<ReportVO> reportList = this.reportProc.list_all_reply_community_signo(memberno);
-            model.addAttribute("reportList", reportList);            
-            
-            return "member/read_report";
-        } else {
-            return "redirect:/member/login";
-        }
-    }
 
 }

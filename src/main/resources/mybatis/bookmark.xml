@@ -109,7 +109,7 @@
       LEFT JOIN community c ON b.communityno = c.communityno
       LEFT JOIN communitycate cc ON c.communitycateno = cc.communitycateno
       <choose>
-        <when test="word!=null and word!=''">
+        <when test="word != null and word != ''">
           WHERE b.memberno = #{memberno}
           AND (UPPER(COALESCE(tc.name, cc.name))) LIKE '%' || UPPER(#{word}) || '%'
         </when>
