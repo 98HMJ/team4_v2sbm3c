@@ -2,7 +2,7 @@
 <html layout:decorate="~{layout}"> <!-- layout.html 상속-->
 
 <div layout:fragment="content">
-  
+
   <header style="margin-top: 25px; padding-left: 5%; padding-right: 5%; ">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/style.css" rel="Stylesheet" type="text/css"> <!-- /static 기준 -->
@@ -37,97 +37,97 @@
         const years = days / 365;
         return `${Math.floor(years)}년 전`;
       }
-      
+
       document.addEventListener('DOMContentLoaded', () => {
         const uptimeElement = document.getElementById('uptime');
         uptimeElement.textContent = showTime(uptimeElement.textContent);
       });
-      
-      
-  
+
+
+
       document.addEventListener('DOMContentLoaded', () => {
         const communityNo = "[[${communityVO.communityno}]]";
         let bookmarkIcon = document.getElementById('bookmark-icon');
-    
+
         // 북마크 상태를 확인하는 함수
         function checkBookmark() {
-            const communityNo = "[[${communityVO.communityno}]]";
-            const goUrl = '/bookmark/check_community';
-        
-            fetch(goUrl, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({communityno: communityNo}),
-            })
+          const communityNo = "[[${communityVO.communityno}]]";
+          const goUrl = '/bookmark/check_community';
+
+          fetch(goUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ communityno: communityNo }),
+          })
             .then(response => response.json())
             .then(data => {
-                const bookmarkImg = document.getElementById('bookmarkImg');
-                if (data.res == 1) {
-                    bookmarkIcon.src = '/images/bookmark_enable.svg';
-                } else {
-                    bookmarkIcon.src = '/images/bookmark_unable.svg';
-                }
+              const bookmarkImg = document.getElementById('bookmarkImg');
+              if (data.res == 1) {
+                bookmarkIcon.src = '/images/bookmark_enable.svg';
+              } else {
+                bookmarkIcon.src = '/images/bookmark_unable.svg';
+              }
             })
             .catch(error => console.error('Error:', error));
         }
 
         checkBookmark();
-              
+
         document.getElementById('bookmark-btn').addEventListener('click', () => {
 
-            let bookmarkBtn = document.getElementById('bookmark-btn');
-            let bookmarkIcon = document.getElementById('bookmark-icon');
+          let bookmarkBtn = document.getElementById('bookmark-btn');
+          let bookmarkIcon = document.getElementById('bookmark-icon');
 
-            let url = '/community/read?communityno=' + communityNo;
-            const data = {url: url, communityno: communityNo};
+          let url = '/community/read?communityno=' + communityNo;
+          const data = { url: url, communityno: communityNo };
 
-            // 2. bookmark 버튼 누르면
-            // - 2. 북마크에 추가 안되 있다면 // 이미지 비활성화시
+          // 2. bookmark 버튼 누르면
+          // - 2. 북마크에 추가 안되 있다면 // 이미지 비활성화시
+          //  - a. 북마크에 추가후
+          //  - b. 이미지 변경
+          // Check the current state of the bookmark icon
+          if (bookmarkIcon.src.includes('/images/bookmark_unable.svg')) {
+            goUrl = '/bookmark/create_community?communityno=' + communityNo;
+            fetch(goUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+            })
+              .then(response => response.json())
+              .then(data => {
+                if (data.res >= 1) {
+                  // Update the bookmark icon to the enabled state
+                  bookmarkIcon.src = '/images/bookmark_enable.svg';
+                } else {
+                }
+              })
+              .catch(error => {
+              });
+          } else {
+            // - 1. 북마크에 추가되어있지 않았다면
             //  - a. 북마크에 추가후
-            //  - b. 이미지 변경
-            // Check the current state of the bookmark icon
-            if (bookmarkIcon.src.includes('/images/bookmark_unable.svg')) {
-              goUrl = '/bookmark/create_community?communityno=' + communityNo;
-              fetch(goUrl, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data),
+            //  - b. 이미지 변경                
+            goUrl = '/bookmark/delete_community';
+            fetch(goUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ communityno: communityNo }),
+            })
+              .then(response => response.json())
+              .then(data => {
+                if (data.res >= 1) {
+                  bookmarkIcon.src = '/images/bookmark_unable.svg';
+                } else {
+                }
               })
-                .then(response => response.json())
-                .then(data => {
-                  if (data.res >= 1) {
-                    // Update the bookmark icon to the enabled state
-                    bookmarkIcon.src = '/images/bookmark_enable.svg';
-                  } else {
-                  }
-                })
-                .catch(error => {
-                });
-            } else {
-              // - 1. 북마크에 추가되어있지 않았다면
-              //  - a. 북마크에 추가후
-              //  - b. 이미지 변경                
-                goUrl = '/bookmark/delete_community';
-              fetch(goUrl, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({communityno: communityNo}),
-              })
-                .then(response => response.json())
-                .then(data => {
-                  if (data.res >= 1) {
-                    bookmarkIcon.src = '/images/bookmark_unable.svg';
-                  } else {
-                  }
-                })
-                .catch(error => {
-                });
-            }
-          });
+              .catch(error => {
+              });
+          }
+        });
 
       })
 
-      
+
     </script>
   </header>
 
@@ -135,9 +135,9 @@
   <div>
     <div class="community_read_header_title">
       <span th:text="${communityVO.title}"> </span>
-      
+
     </div>
-    
+
     <!-- 반응형 UI 구성 필요 -->
     <!-- 카테고리, 작성자, 작성일 정보 -->
     <div class="community_read_header_box" style="height: 5px;">
@@ -154,7 +154,7 @@
         <div id="uptime" style="display: flex; float: left;" th:text="${communityVO.rdate}"></div>
       </div>
     </div>
-    
+
     <!-- 본문 contents 영역 -->
     <div class="community_read_contents" style="margin-top: 3%;">
       <p th:text="${communityVO.contents}"></p>
@@ -179,9 +179,133 @@
       style="text-align: right; display: flex; justify-content: space-between; margin: 3% 10px;">
       <!-- 신고 버튼 -->
       <div>
-        <button type="button" class="btn btn-outline-danger btn-sm"
-          th:onclick="|location.href='@{/report_community/create?(communityno=${communityVO.communityno})}'|">신고</button>
+        <button id="singo_btn" type="button" class="btn btn-outline-danger btn-sm">신고</button>
       </div>
+
+      <style>
+        /* 모달 기본 스타일 */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 1;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          background-color: rgba(0, 0, 0, 0.4);
+        }
+      
+        /* 모달 콘텐츠 스타일 */
+        .modal-content {
+          background-color: #fefefe;
+          margin: 15% auto;
+          padding: 20px;
+          border: 1px solid #888;
+          width: 50%;
+          position: relative;
+        }
+      
+        /* 텍스트 에어리어 스타일 */
+        textarea {
+          width: 100%;
+          margin-bottom: 20px;
+        }
+      
+        /* 폼 하단 버튼 스타일 */
+        .content_body_bottom {
+          text-align: right;
+          margin-top: 20px;
+        }
+      </style>
+      
+
+      <!-- 모달 구조 -->
+      <div id="singo_modal" class="modal">
+        <div class="modal-content">
+          <form name='frm' method='post' th:object="${reportCommunityVO}" action='/report_community/create'>
+            <input type="hidden" name="communityno" th:value="${communityno}" />
+            <input type="hidden" name="memberno" th:value="${memberno}" />
+            <div>
+              <label>내용</label>
+              <textarea name='contents' id="contents" required="required" class="form-control" rows="12"
+                style='width: 100%;'></textarea>
+            </div>
+            <div class="content_body_bottom">
+              <button type="button" id="submit_btn" class="btn btn-secondary btn-sm">등록</button>
+              <button type='button' id="cancel_btn" class="btn btn-secondary btn-sm">취소</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <script>
+        window.onload = () => {
+          const singo_btn = document.getElementById('singo_btn');
+          const singo_modal = document.getElementById('singo_modal');
+          const cancel_btn = document.getElementById('cancel_btn');
+          const submit_btn = document.getElementById('submit_btn');
+          const contents = document.getElementById('contents');
+
+          // 수정 요청 버튼 클릭 시
+          singo_btn.addEventListener('click', () => {
+            let id = '[[${session.memberno}]]';
+            if (id == '') {
+              alert('신고는 회원만 가능합니다.');
+              location.href = "/member/login";
+            } else {
+              singo_modal.style.display = 'block';
+
+            }
+          });
+
+          // 폼 취소 버튼 클릭 시
+          cancel_btn.addEventListener('click', () => {
+            singo_modal.style.display = 'none';
+            contents.value = '';
+          });
+
+          // 모달 외부 클릭 시 모달 닫기
+          window.addEventListener('click', (event) => {
+            if (event.target == singo_modal) {
+              singo_modal.style.display = 'none';
+              contents.value = '';
+            }
+          });
+
+          // 등록 버튼 클릭 시
+          submit_btn.addEventListener('click', async () => {
+            // FormData 객체 생성
+            const formData = new FormData();
+            // 폼 데이터 추가
+            formData.append('communityno', '[[${communityVO.communityno}]]');
+            formData.append('memberno', '[[${session.memberno}]]');
+            formData.append('contents', contents.value);
+
+            // fetch 함수를 사용하여 서버에 POST 요청 전송
+            await fetch('/report_community/create', {
+              method: 'POST',
+              body: formData
+            })
+              .then((response) => response.json()) //응답 문자열  추출)
+              .then((data) => {
+                // 서버 응답 처리 
+                alert('성공');
+                // 성공적으로 처리되었을 경우, 모달 닫기
+                singo_modal.style.display = 'none';
+                contents.value = '';
+                // 성공 메시지 등을 처리할 수 있음
+              })
+              .catch(error => {
+                // 오류 처리
+                console.error('There has been a problem with your fetch operation:', error);
+              });
+          });
+
+
+        };
+      </script>
+
       <div>
         <button type="button" class="btn btn-secondary btn-sm"
           th:onclick="|location.href='@{/community/delete(communityno=${communityVO.communityno})}'|">삭제</button>
@@ -217,7 +341,7 @@
     </form>
 
     <div th:replace="~{reply/list_all_component::list_all_fragment}"></div>
-    
+
   </div>
 
 </div>
