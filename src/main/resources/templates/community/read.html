@@ -159,7 +159,7 @@
     <div class="community_read_contents" style="margin-top: 3%;">
       <p th:text="${communityVO.contents}"></p>
       <div style="text-align: center;">
-        <img th:if="${communityVO.files != ''}" th:src="@{|/i/Desktop/teamfile/${communityVO.thumb}|}">
+        <img th:if="${communityVO.files != ''}" th:src="@{|/images/test/${communityVO.thumb}|}">
       </div>
       <div th:if="${communityVO.youtube != ''}" style="text-align: center;">
         <iframe width="560" height="315"
@@ -169,7 +169,7 @@
       </div>
       <div th:if="${communityVO.mp4 != ''}" style="text-align: center;">
         <video controls>
-          <source th:src='@{|/i/Desktop/teamfile/${communityVO.mp4}|}' type="video/webm">
+          <source th:src='@{|/images/test/${communityVO.mp4}|}' type="video/webm">
           </source>
         </video>
       </div>
