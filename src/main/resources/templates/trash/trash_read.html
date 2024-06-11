@@ -263,20 +263,20 @@
               method: 'POST',
               body: formData
             })
-            .then((response) => response.json()) //응답 문자열  추출)
-            .then((data) => {
-              // 서버 응답 처리 
-              alert('성공');
-              // 성공적으로 처리되었을 경우, 모달 닫기
-              singo_modal.style.display = 'none';
-              file1MF.value = '';
-              contents.value = '';
-              // 성공 메시지 등을 처리할 수 있음
-            })
-            .catch(error => {
-              // 오류 처리
-              console.error('There has been a problem with your fetch operation:', error);
-            });
+              .then((response) => response.json()) //응답 문자열  추출)
+              .then((data) => {
+                // 서버 응답 처리 
+                alert('성공');
+                // 성공적으로 처리되었을 경우, 모달 닫기
+                singo_modal.style.display = 'none';
+                file1MF.value = '';
+                contents.value = '';
+                // 성공 메시지 등을 처리할 수 있음
+              })
+              .catch(error => {
+                // 오류 처리
+                console.error('There has been a problem with your fetch operation:', error);
+              });
           });
 
 

@@ -50,85 +50,6 @@ public class SingoCont {
   }
 
   /**
-   * 신고 폼 테스트
-   * 
-   * @param session
-   * @param model
-   * @return
-   */
-  // @GetMapping(value="/create_test")
-  // public String create_test() {
-  // return "singo/create_test";
-  // }
-
-  // /**
-  // * 신고 처리
-  // * @param session
-  // * @param model
-  // * @param singoVO
-  // * @param trashno
-  // * @return
-  // */
-  // @PostMapping(value="/create")
-  // public String create(HttpSession session,
-  // Model model,
-  // SingoVO singoVO,
-  // @RequestParam int trashno) {
-  // //
-  // ------------------------------------------------------------------------------
-  // // 파일 전송 코드 시작
-  // //
-  // ------------------------------------------------------------------------------
-  // String file = ""; // 원본 파일명 image
-  // String filesaved = ""; // 저장된 파일명, image
-  // String thumb = ""; // preview image
-
-  // String upDir = Singo.getUploadDir(); // 파일을 업로드할 폴더 준비
-
-  // // 전송 파일이 없어도 file1MF 객체가 생성됨.
-  // // <input type='file' class="form-control" name='file1MF' id='file1MF'
-  // // value='' placeholder="파일 선택">
-  // ArrayList<MultipartFile> mf_list = new ArrayList<MultipartFile>();
-  // mf_list.add(singoVO.getFile1MF());
-
-  // for (MultipartFile mf : mf_list) {
-  // file = mf.getOriginalFilename(); // 원본 파일명 산출, 01.jpg
-  // long size = mf.getSize(); // 파일 크기
-  // if (size > 0 && file != null) { // 파일 크기 체크
-  // if (Tool.checkUploadFile(file) == true) { // 업로드 가능한 파일인지 검사
-  // // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg...
-  // filesaved = Upload.saveFileSpring(mf, upDir);
-
-  // if (Tool.isImage(filesaved)) { // 이미지인지 검사
-  // // thumb 이미지 생성후 파일명 리턴됨, width: 200, height: 150
-  // thumb = Tool.preview(upDir, filesaved, 200, 150);
-  // singoVO.setFiles(file); // 순수 원본 파일명
-  // singoVO.setFilesaved(filesaved); // 저장된 파일명(파일명 중복 처리)
-  // singoVO.setThumb(thumb); // 원본이미지 축소판
-  // singoVO.setSize1(size); // 파일 크기
-  // }
-  // } else { // 전송 못하는 파일 형식
-  // model.addAttribute("code", "check_upload_file_fail"); // 업로드 할 수 없는 파일
-  // model.addAttribute("cnt", 0);
-  // return "singo/msg"; // Post -> Get - param...
-  // }
-  // }
-  // }
-  // int memberno = (int)session.getAttribute("memberno");
-  // model.addAttribute("memberno", memberno);
-  // model.addAttribute("trashno", trashno);
-  // int cnt = this.singoProc.create(singoVO);
-  // if(cnt==1) {
-  // model.addAttribute("code", "singo_success");
-  // return "singo/msg";
-  // } else{
-  // model.addAttribute("code", "singo_fail");
-  // model.addAttribute("cnt", cnt);
-  // return "singo/msg";
-  // }
-  // }
-
-  /**
    * 신고 처리
    * 
    * @param session
@@ -139,7 +60,7 @@ public class SingoCont {
   @PostMapping(value = "/create")
   @ResponseBody
   public String create(HttpSession session, SingoVO singoVO, int trashno) {
-    int memberno =(int) session.getAttribute("memberno");
+    int memberno = (int) session.getAttribute("memberno");
     singoVO.setMemberno(memberno);
     JSONObject json = new JSONObject();
     // 파일 전송 코드 시작
@@ -167,14 +88,14 @@ public class SingoCont {
             singoVO.setSize1(size); // 파일 크기
           }
         } else { // 전송할 수 없는 파일 형식
-          json.put("res",0);
+          json.put("res", 0);
         }
       }
     }
     singoVO.setTrashno(trashno);
 
     int cnt = this.singoProc.create(singoVO);
-    json.put("res",cnt);
+    json.put("res", cnt);
 
     return json.toString();
   }
