@@ -97,21 +97,25 @@
       const top3 = prediction.slice(0, 3);
 
       // Create result message with the top 3 predictions
-      let resultMessage = "상위 3개의 예측 결과:<br>";
-      top3.forEach(pred => {
-        resultMessage += `${pred.className}: ${(pred.probability * 100).toFixed(2)}%<br>`;
-      });
+      //top3.forEach(pred => {
+      //  resultMessage += `${pred.className}: ${(pred.probability * 100).toFixed(2)}%<br>`;
+      //});
 
       // Get the top prediction
       const topPrediction = top3[0];
       const predictedLabel = topPrediction.className;
       const maxProbability = topPrediction.probability;
 
+      let resultMessage = "예측 결과: "+ (maxProbability * 100).toFixed(2) +"%<br>";
+
       // Add detailed prediction result
       if (predictedLabel.includes("이물질")) {
+        resultMessage += '이물질 검출!<br>';
         resultMessage += `이물질을 잘 세척해서 분리수거 하거나 일반 쓰레기로 버려주세요.<br>정확도가 낮을 경우 다시 시도해주세요.`;
+      } else if(predictedLabel.includes("유리")) {
+        resultMessage += `깨진 유리라면 마대 자루에 모아 불연성 쓰레기로 배출해주세요.<br>정확도가 낮을 경우 다시 시도해주세요.`;
       } else {
-        resultMessage += `재활용 쓰레기로 분리 배출하세요.<br>정확도가 낮을 경우 다시 시도해주세요.`;
+        resultMessage += `재활용 쓰레기로 분리배출 해주세요.<br>정확도가 낮을 경우 다시 시도해주세요.`;
       }
 
       // Display the result message
