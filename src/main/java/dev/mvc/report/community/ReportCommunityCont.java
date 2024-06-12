@@ -3,7 +3,7 @@ package dev.mvc.report.community;
 
 import java.util.ArrayList;
 
-
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,12 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mvc.admin.AdminProcInter;
 import dev.mvc.member.MemberProcInter;
 import dev.mvc.member.MemberVO;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RequestMapping("/report_community")
 @Controller
@@ -37,64 +40,77 @@ public class ReportCommunityCont {
     // System.out.println("->ReportCommunityCont created");
   }
 
-  /**
-   * http://localhost:9093/report_community/create
-   * 신고 폼
-   * @param session
-   * @param model
-   * @return
-   */
-  @GetMapping(value="/create")
-  public String create(HttpSession session, 
-                            Model model, 
-                            ReportCommunityVO reportCommunityVO,
-                            int communityno) {
-    // 로그인 되어있을 때
-    if (session.getAttribute("id") != null) {
-      model.addAttribute("memberno", session.getAttribute("memberno"));
-      model.addAttribute("communityno", communityno);
-      model.addAttribute(reportCommunityVO);
+  // /**
+  //  * http://localhost:9093/report_community/create
+  //  * 신고 폼
+  //  * @param session
+  //  * @param model
+  //  * @return
+  //  */
+  // @GetMapping(value="/create")
+  // public String create(HttpSession session, 
+  //                           Model model, 
+  //                           ReportCommunityVO reportCommunityVO,
+  //                           int communityno) {
+  //   // 로그인 되어있을 때
+  //   if (session.getAttribute("id") != null) {
+  //     model.addAttribute("memberno", session.getAttribute("memberno"));
+  //     model.addAttribute("communityno", communityno);
+  //     model.addAttribute(reportCommunityVO);
       
-    }
+  //   }
     
-    return "report_community/create";
+  //   return "report_community/create";
     
-  }
+  // }
   
-  // http://localhost:9093/report_community/create
-  /**
-   * 신고 처리
-   * @param ra
-   * @param session
-   * @param model
-   * @param communityno
-   * @param memberno
-   * @param reportCommunityVO
-   * @return
-   */
-  @PostMapping(value = "/create")
-  public String create(RedirectAttributes ra, 
-                            HttpSession session, 
-                            Model model, 
-                            int communityno,
-                            int memberno,
-                            ReportCommunityVO reportCommunityVO) {
+  // // http://localhost:9093/report_community/create
+  // /**
+  //  * 신고 처리
+  //  * @param ra
+  //  * @param session
+  //  * @param model
+  //  * @param communityno
+  //  * @param memberno
+  //  * @param reportCommunityVO
+  //  * @return
+  //  */
+  // @PostMapping(value = "/create")
+  // public String create(RedirectAttributes ra, 
+  //                           HttpSession session, 
+  //                           Model model, 
+  //                           int communityno,
+  //                           int memberno,
+  //                           ReportCommunityVO reportCommunityVO) {
     
-    if (session.getAttribute("id") != null) {
+  //   if (session.getAttribute("id") != null) {
       
-      reportCommunityVO.setCommunityno(communityno);
-      reportCommunityVO.setMemberno(memberno);
+  //     reportCommunityVO.setCommunityno(communityno);
+  //     reportCommunityVO.setMemberno(memberno);
       
       
 
-      this.reportCommunityProc.create(reportCommunityVO);
+  //     this.reportCommunityProc.create(reportCommunityVO);
       
-    }else {
-      model.addAttribute("code", "no_login");
-      return "report_community/msg";
-    }
+  //   }else {
+  //     model.addAttribute("code", "no_login");
+  //     return "report_community/msg";
+  //   }
     
-    return "redirect:/community/read?communityno=" + communityno;
+  //   return "redirect:/community/read?communityno=" + communityno;
+  // }
+
+  @PostMapping("/create")
+  @ResponseBody
+  public String create(HttpSession session, ReportCommunityVO reportCommunityVO, int communityno){
+    int memberno = (int) session.getAttribute("memberno");
+    reportCommunityVO.setMemberno(memberno);
+    reportCommunityVO.setCommunityno(communityno);
+    JSONObject json = new JSONObject();
+    int cnt = this.reportCommunityProc.create(reportCommunityVO);
+    json.put("res",cnt);
+    return json.toString();
+
   }
   
   /**

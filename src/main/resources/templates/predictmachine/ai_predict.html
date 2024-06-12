@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+
+<head>
+  <style>
+    /* 화면 중앙 정렬 스타일 */
+    .centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      /* 화면 전체 높이로 설정 */
+    }
+
+    button {
+      padding: 10px;
+      background-color: rgb(136, 195, 111);
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 10px;
+      border-radius: 15px;
+      margin-top: 10px;
+    }
+
+    /* label-container 스타일 */
+    #label-container {
+      background-color: rgb(136, 195, 111);
+      color: white;
+      padding: 10px;
+      text-align: center;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<div layout:fragment="content">
+  <div class="centered">
+    <div id="image-container"></div>
+    <input type="file" accept="image/*" id="imageUpload" style="display: none;">
+    <label for="imageUpload" style="cursor: pointer;">
+      <button type="button" onclick="initImageUpload()" style="text-align: center;">이미지 업로드</button>
+    </label>
+    <div id="label-container"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+  <script>
+    const URL = "/models/";
+
+    let model, labelContainer, maxPredictions, webcamContainer;
+
+    // Load the image model
+    async function init() {
+      const modelURL = URL + "model.json";
+      const metadataURL = URL + "metadata.json";
+
+      // Load the model and metadata
+      model = await tmImage.load(modelURL, metadataURL);
+      maxPredictions = model.getTotalClasses();
+      labelContainer = document.getElementById("label-container"); // labelContainer 정의
+      imageContainer = document.getElementById('image-container');
+    }
+
+    // Predict the uploaded image
+    async function predictImage() {
+      const input = document.getElementById('imageUpload');
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const img = document.createElement("img");
+        img.src = webkitURL.createObjectURL(file);
+        img.onload = async () => {
+          // Resize the image to fit the model's input size and predict
+          const prediction = await model.predict(img);
+          displayPrediction(prediction);
+
+          // Display the uploaded image
+          const uploadedImage = document.createElement('img');
+          uploadedImage.src = img.src;
+          uploadedImage.style.maxWidth = '100%';
+          uploadedImage.style.maxHeight = '300px'; // 이미지의 최대 높이 설정
+          imageContainer.innerHTML = ''; // 이미지를 표시하기 전에 이전 내용을 지움
+          imageContainer.appendChild(uploadedImage);
+        };
+      }
+    }
+
+
+    // Display the prediction result
+    function displayPrediction(prediction) {
+      // Sort the predictions by probability in descending order
+      prediction.sort((a, b) => b.probability - a.probability);
+
+      // Get the top 3 predictions
+      const top3 = prediction.slice(0, 3);
+
+      // Create result message with the top 3 predictions
+      let resultMessage = "상위 3개의 예측 결과:<br>";
+      top3.forEach(pred => {
+        resultMessage += `${pred.className}: ${(pred.probability * 100).toFixed(2)}%<br>`;
+      });
+
+      // Get the top prediction
+      const topPrediction = top3[0];
+      const predictedLabel = topPrediction.className;
+      const maxProbability = topPrediction.probability;
+
+      // Add detailed prediction result
+      if (predictedLabel.includes("이물질")) {
+        resultMessage += `이물질을 잘 세척해서 분리수거 하거나 일반 쓰레기로 버려주세요.<br>정확도가 낮을 경우 다시 시도해주세요.`;
+      } else {
+        resultMessage += `재활용 쓰레기로 분리 배출하세요.<br>정확도가 낮을 경우 다시 시도해주세요.`;
+      }
+
+      // Display the result message
+      labelContainer.innerHTML = resultMessage;
+    }
+
+
+    // Initialize the model when the page loads
+    init();
+
+    // Trigger predictImage function when a file is selected
+    document.getElementById('imageUpload').addEventListener('change', predictImage);
+
+    // Function to initialize image upload
+    function initImageUpload() {
+      document.getElementById('imageUpload').click();
+    }
+
+  </script>
+</div>
+
+</html>
