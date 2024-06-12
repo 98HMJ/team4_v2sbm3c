@@ -128,7 +128,8 @@ public class CommunityCont {
         String filesaved = ""; // 저장된 파일명, image
         String thumb = ""; // preview image
 
-        String upDir = Community.getUploadDir(); // 파일을 업로드할 폴더 준비
+        //String upDir = Community.getUploadDir(); // 파일을 업로드할 폴더 준비
+        String upDir = "src/main/resources/static/images/test/";
 
         // 전송 파일이 없어도 file1MF 객체가 생성됨.
         // <input type='file' class="form-control" name='file1MF' id='file1MF'
