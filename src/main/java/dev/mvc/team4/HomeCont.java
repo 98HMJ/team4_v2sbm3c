@@ -104,4 +104,9 @@ public class HomeCont {
       model.addAttribute("dir_list", dir_list);
       return "admin/main";
     }
+    
+    @GetMapping(value = "/ai_predict")
+    public String ai_predict() {
+      return "/predictmachine/ai_predict";
+    }
 }
