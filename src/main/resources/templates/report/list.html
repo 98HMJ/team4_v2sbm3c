@@ -6,6 +6,7 @@
         <img src="/images/ic_report.png" alt="Image" class="inline-block">
         <h2 style="display: inline-block; vertical-align: middle;">신고 내역</h2>
       </div>
+      
       <!-- 메뉴 선택 영역 -->
       <div style="display: flex; align-items: center; justify-content: space-between;">
           <div style="display: flex; align-items: center;">
@@ -26,7 +27,7 @@
     
     <!-- 검색창 -->
     <div style="display: flex; justify-content: center; margin-top: 30px; margin-bottom: 30px;">
-        <form name="frm" method="get" action="list">
+        <form name="frm" method="get" action="./list">
           <input type="hidden" name="memberno" th:value="${memberno}">
           <input type="hidden" name="now_page" th:value="${now_page}">
           <div class="search">
