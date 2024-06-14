@@ -254,8 +254,8 @@
             formData.append('trashno', '[[${trashVO.trashno}]]');
             formData.append('memberno', '[[${session.memberno}]]');
             formData.append('contents', contents.value);
-            for (var x = 0; x < cnt; x++) {
-              formData.append('file1MF', file1MF.files[x]); // 파일 첨부
+            if(cnt>0){
+              formData.append('file1MF', file1MF.files[0]); // 파일 첨부
             }
 
             // fetch 함수를 사용하여 서버에 POST 요청 전송

@@ -71,6 +71,14 @@ public class SingoCont {
     String upDir = Singo.getUploadDir(); // 파일을 업로드할 폴더 준비
 
     ArrayList<MultipartFile> mf_list = new ArrayList<>();
+    if (singoVO.getFile1MF() == null) {
+      singoVO.setTrashno(trashno);
+
+      int cnt = this.singoProc.create(singoVO);
+      json.put("res", cnt);
+
+      return json.toString();
+    }
     mf_list.add(singoVO.getFile1MF());
 
     for (MultipartFile mf : mf_list) {
