@@ -4,6 +4,34 @@
     max-width: 80%; /* 모달 창의 최대 너비 지정 */
   }
   
+  /* 기본 네비게이션 버튼 숨기기 */
+  .swiper-button-next, .swiper-button-prev {
+      display: none;
+  }
+  
+  /* 네비게이션 버튼에 커스텀 이미지 적용 */
+  .custom-swiper-button-next, .custom-swiper-button-prev {
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 44px;
+      height: 44px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      cursor: pointer;
+  }
+
+  .custom-swiper-button-next {
+    background-image: url('/images/main/next_btn.svg');
+    right: 10px; /* 우측에 위치 */
+  }
+  
+  .custom-swiper-button-prev {  
+    background-image: url('/images/main/prev_btn.svg');
+    left: 10px;
+  }
+  
   .modal {
     display: flex;
     align-items: center; /* 수직 가운데 정렬 */
@@ -1084,27 +1112,27 @@
     height: auto; /* 이미지의 세로 높이를 자동으로 조정하여 비율 유지 */
   }
   
-  .second_header{
-    font-size: 16px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* 네비게이션 버튼에 커스텀 이미지 적용 */
+  .custom-swiper-button-next, .custom-swiper-button-prev{
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 44px;
+      height: 44px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      cursor: pointer;
   }
   
-  .nefhorne_block{
-    display: flex; 
-    align-items: start;
-    justify-content: flex-start;
-    padding-top: 10px;
-    padding-left: 10px;
-    height: 170px;
-    font-size: 13px;
-    font-weight: 700;
-    background-image: url(/images/back_nefhorne.png);
-    background-repeat: inherit;
-    background-position: center center; /* 배경 이미지 중앙 정렬 */
-    background-size: contain;           /* 배경 이미지가 요소의 크기에 맞게 조정됨 */
+  .custom-swiper-button-next {
+    background-image: url('/images/main/next_btn.svg');
+    right: 10px; /* 우측에 위치 */
+  }
+  
+  .custom-swiper-button-prev {  
+    background-image: url('/images/main/prev_btn.svg');
+    left: 10px;
   }
   
   .modal_overlay {
@@ -1135,6 +1163,29 @@
     padding: 10px;
   }
   /* swiper 관련 스타일 끝*/
+  
+  .second_header{
+    font-size: 16px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .nefhorne_block{
+    display: flex; 
+    align-items: start;
+    justify-content: flex-start;
+    padding-top: 10px;
+    padding-left: 10px;
+    height: 170px;
+    font-size: 13px;
+    font-weight: 700;
+    background-image: url(/images/back_nefhorne.png);
+    background-repeat: inherit;
+    background-position: center center; /* 배경 이미지 중앙 정렬 */
+    background-size: contain;           /* 배경 이미지가 요소의 크기에 맞게 조정됨 */
+  }
   
   /* 커뮤니티 & 댓글 태그 설정 */
   .btn_more > span{
