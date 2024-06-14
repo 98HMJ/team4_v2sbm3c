@@ -36,7 +36,7 @@
     <tbody id="communityList">
       <tr th:each="communityVO:${limitedList}">
         <td class="td_bs"><a style="display: block;">
-            <img th:if="${communityVO.files != ''}" th:src="@{|/i/Desktop/teamfile/${communityVO.files}|}">
+            <img th:if="${communityVO.files != ''}" th:src="@{|/images/test/${communityVO.files}|}">
           </a></td>
         <td th:if="${session.adminno ==null}" class="td_bs" th:onclick="|location.href='@{community/read(communityno=${communityVO.communityno})}'|">
           <!-- 유저 ID --> <!-- 현재 시간 - 게시글 upload time -->

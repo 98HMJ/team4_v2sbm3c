@@ -8,19 +8,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import dev.mvc.community.Community;
 import dev.mvc.reply.Reply;
 import dev.mvc.singo.Singo;
-import dev.mvc.trash.Trash;
-import dev.mvc.trash_exploration.Exploration;
+
 
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-        // registry.addResourceHandler("/trash/storage/**").addResourceLocations("classpath:/static/images/trash/storage");
         
         registry.addResourceHandler("/replys/storage/**").addResourceLocations("file:///" + Reply.getUploadDir());
         
-        // registry.addResourceHandler("/i/Desktop/teamfile/**").addResourceLocations("file:///" + Community.getUploadDir());
+        registry.addResourceHandler("/i/Desktop/teamfile/**").addResourceLocations("classpath:/images/test/");
         
         registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" + Singo.getUploadDir());
 

@@ -11,12 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(data => {
 
-        console.log(data.images);
+        // console.log(data.images);
         var modalSwiperWrapper = document.getElementById('popupGallery').querySelector('.swiper-wrapper');
         modalSwiperWrapper.innerHTML = ''; // 기존 슬라이드 제거
 
         data.images.forEach(imageUrl => {
-          console.log(imageUrl);
+          // console.log(imageUrl);
           var slideDiv = document.createElement('div');
           slideDiv.className = 'swiper-slide';
           slideDiv.innerHTML = `<img src="${imageUrl}">`;
@@ -56,6 +56,18 @@ document.addEventListener('DOMContentLoaded', function() {
   modalOpenButtons.forEach(function(button) {
     button.addEventListener('click', function(event) {
       event.preventDefault();
+      
+      popupGallery = new Swiper('#popupGallery', {
+        slidesPerView: 1, // 한 번에 표시할 슬라이드 수 1개
+        spaceBetween: 30, // 슬라이드 간의 간격 (30px)
+        centeredSlides: true, // 슬라이드 중앙 정렬
+        watchOverflow : true, // 슬라이드가 1개 일 때 pager, button 숨김 여부 설정
+        direction: 'horizontal', // 슬라이드 방향 (수평)
+        watchOverflow: true, // 슬라이드가 화면을 넘어갈 때의 처리 설정
+    
+        observer: true,
+        observeParents: true,
+      });
 
       const expno = button.getAttribute('data-expno'); // expno 값을 가져옴
 

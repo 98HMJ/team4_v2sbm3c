@@ -38,7 +38,7 @@ public class ExplorationCont {
   private AdminProcInter adminProc;
   
   public ExplorationCont() {
-    System.out.println("-> ExplorationCont created");
+    // System.out.println("-> ExplorationCont created");
   }
   
   /**
@@ -77,7 +77,7 @@ public class ExplorationCont {
       long[] size = new long[fileNum];
       
       // for 문을 사용하여 배열 초기화
-      System.out.println("-> files.length: " + files.length);
+      // System.out.println("-> files.length: " + files.length);
       for (int i = 0; i < files.length; i++) {
         files[i] = "" + (i + 1);
         fileSaveds[i] = "" + (i + 1);
@@ -108,17 +108,17 @@ public class ExplorationCont {
       for (int i = 0; i < files.length; i++) {
         if (mf[i] != null ) {
           files[i] = mf[i].getOriginalFilename(); // 원본 파일명 산출
-          System.out.println("-> 원본 파일명 산출 file " + i + ":" + files[i]);
+          // System.out.println("-> 원본 파일명 산출 file " + i + ":" + files[i]);
           size[i] = mf[i].getSize();
           posted++;
         } else {
-          System.out.println("-> mf[" + i + "] is null or empty");
+          // System.out.println("-> mf[" + i + "] is null or empty");
           files[i] = "";
           size[i] = 0;
         }
       }
       
-      System.out.println("-> posted: " + posted);
+      // System.out.println("-> posted: " + posted);
 
       for (int i = 0; i < files.length; i++) {
         if (size[i] > 0) { // 파일 크기 체크, 파일을 올리는 경우
@@ -185,7 +185,7 @@ public class ExplorationCont {
     }
     
     int cnt = this.explorationProc.create(explorationVO);
-    System.out.println("-> cnt: " + cnt);
+    // System.out.println("-> cnt: " + cnt);
     
     if (cnt == 1) {
       model.addAttribute("code", "create_success");
@@ -232,7 +232,7 @@ public class ExplorationCont {
   @ResponseBody
   public Map<String, Object> read(@RequestParam int expno) {
       ExplorationVO explorationVO = this.explorationProc.read(expno);
-      System.out.println("-> expno: " + expno);
+      // System.out.println("-> expno: " + expno);
       // 탐구 내용에 대한 처리
       // ExplorationVO 객체의 필드 중 이미지 관련 필드를 탐색하여 이미지 경로를 리스트에 추가합니다.
       ArrayList<String> images = new ArrayList<>();
@@ -257,7 +257,7 @@ public class ExplorationCont {
       response.put("res", images.isEmpty() ? 0 : 1);
       response.put("images", images);
       
-      System.out.println("-> response: " + response);
+      // System.out.println("-> response: " + response);
       
       return response;
   }
@@ -299,7 +299,7 @@ public class ExplorationCont {
     if (this.adminProc.isAdmin(session)) { 
       explorationVO.setExpno(expno);
       int cnt = this.explorationProc.update(explorationVO);
-      System.out.println("->update cnt:" + cnt);
+      // System.out.println("->update cnt:" + cnt);
 
       if (cnt == 1) {
         ra.addAttribute("expno", explorationVO.getExpno());
@@ -383,7 +383,7 @@ public class ExplorationCont {
                 break;
         }
         Tool.deleteFile(uploadDir, filesSaved[i]); // 실제 저장된 파일삭제
-//        System.out.println("-> files: " +filesSaved[i] + thumb[i] + "삭제함" );
+//        // System.out.println("-> files: " +filesSaved[i] + thumb[i] + "삭제함" );
       }
       
 
@@ -391,7 +391,7 @@ public class ExplorationCont {
       // 파일 삭제 종료
       // -------------------------------------------------------------------
       int cnt = this.explorationProc.delete(expno);
-      System.out.println("-> cnt: " + cnt);
+      // System.out.println("-> cnt: " + cnt);
       model.addAttribute("expno", expno);
       ra.addAttribute("expno", expno);
       
