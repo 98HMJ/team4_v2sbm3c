@@ -17,8 +17,13 @@ import dev.mvc.community.CommunityProcInter;
 import dev.mvc.community.CommunityVO;
 import dev.mvc.log.adminlog.AdminlogProcInter;
 import dev.mvc.log.adminlog.AdminlogVO;
+import dev.mvc.member.MemberProcInter;
+import dev.mvc.member.MemberVO;
+import dev.mvc.singo.Singo;
+import dev.mvc.singo.SingoVO;
 import dev.mvc.tool.Mail;
 import dev.mvc.tool.Security;
+import dev.mvc.tool.Tool;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,6 +40,10 @@ public class AdminCont {
   private AdminProcInter adminProc;
 
   @Autowired
+  @Qualifier("dev.mvc.member.MemberProc")
+  private MemberProcInter memberProc;
+
+  @Autowired
   @Qualifier("dev.mvc.log.adminlog.AdminlogProc")
   private AdminlogProcInter adminlogProc;
 
@@ -47,6 +56,11 @@ public class AdminCont {
 
   @Autowired
   private Mail mail;
+
+  /** 페이지당 출력할 레코드 갯수 */
+  private static int RECORD_PER_PAGE = 3;
+  /** 블럭당 페이지 수, 하나의 블럭은 10개의 페이지로 구성됨 */
+  private static int PAGE_PER_BLOCK = 10;
 
   public AdminCont() {
 
@@ -302,6 +316,99 @@ public class AdminCont {
       return "admin/msg";
     }
 
+  }
+
+  @GetMapping("/member")
+  public String member(HttpSession session, Model model,
+      @RequestParam(name = "now_page", defaultValue = "1") int now_page,
+      String word) {
+    if (this.adminProc.isAdmin(session)) {
+      word = Tool.checkNull(word).trim();
+      ArrayList<MemberVO> list = this.memberProc.list(word, now_page, RECORD_PER_PAGE);
+      model.addAttribute("list", list);
+
+      // 페이징 버튼 목록
+      int search_count = this.memberProc.list_cnt(word);
+      String paging = this.memberProc.pagingBox(now_page,
+          word, "/admin/member", search_count, RECORD_PER_PAGE, PAGE_PER_BLOCK);
+      model.addAttribute("paging", paging);
+      model.addAttribute("now_page", now_page);
+
+      model.addAttribute("word", word);
+
+      // 일련 변호 생성: 레코드 갯수 - ((현재 페이지수 -1) * 페이지당 레코드 수)
+      int no = ((now_page - 1) * RECORD_PER_PAGE);
+      model.addAttribute("no", no);
+    } else{
+      model.addAttribute("code", "permission_error");
+      return "admin/msg";
+    }
+
+    return "admin/member";
+  }
+
+  /**
+   * 관리자 권한 회원 삭제
+   * @param session
+   * @param model
+   * @param singono
+   * @param word
+   * @param now_page
+   * @return
+   */
+  @GetMapping(value = "/member/delete")
+  public String member_delete(HttpSession session, Model model, int memberno,
+      @RequestParam(name = "word", defaultValue = "") String word,
+      @RequestParam(name = "now_page", defaultValue = "1") int now_page) {
+    MemberVO memberVO = this.memberProc.read(memberno);
+    if (this.adminProc.isAdmin(session)) {
+      model.addAttribute("memberVO", memberVO);
+      word = Tool.checkNull(word).trim();
+      ArrayList<MemberVO> list = this.memberProc.list(word, now_page, RECORD_PER_PAGE);
+      model.addAttribute("list", list);
+
+      // 페이징 버튼 목록
+      int search_count = this.memberProc.list_cnt(word);
+      String paging = this.memberProc.pagingBox(now_page,
+          word, "/admin/member", search_count, RECORD_PER_PAGE, PAGE_PER_BLOCK);
+      model.addAttribute("paging", paging);
+      model.addAttribute("now_page", now_page);
+
+      model.addAttribute("word", word);
+
+      int no = ((now_page - 1) * RECORD_PER_PAGE);
+      model.addAttribute("no", no);
+
+      return "admin/member_delete";
+    } else {
+      model.addAttribute("code", "permission_error");
+      return "admin/msg";
+    }
+  }
+
+  @PostMapping("/member/delete")
+  public String member_delete_proc(HttpSession session, Model model, int memberno,
+      @RequestParam(name = "word", defaultValue = "") String word,
+      @RequestParam(name = "now_page", defaultValue = "1") int now_page) {
+    int cnt = this.memberProc.delete(memberno);
+    if (cnt == 1) {
+      // ----------------------------------------------------------------------------------------------------------
+      // 마지막 페이지에서 모든 레코드가 삭제되면 페이지수를 1 감소 시켜야함.
+      int search_cnt = this.memberProc.list_cnt(word);
+      if (search_cnt % RECORD_PER_PAGE == 0) {
+        now_page = now_page - 1;
+        if (now_page < 1) {
+          now_page = 1; // 최소 시작 페이지
+        }
+      }
+      System.out.println("-> now_page" + now_page);
+      // ----------------------------------------------------------------------------------------------------------
+      return "redirect:/admin/member?word=" + Tool.encode(word) + "&now_page=" + now_page;
+    } else {
+      model.addAttribute("cnt", cnt);
+      model.addAttribute("code", "delete_fail");
+      return "admin/msg";
+    }
   }
 
   /**
@@ -579,11 +686,11 @@ public class AdminCont {
   }
 
   @PostMapping("search")
-    public String search(String word, Model model) {
-        ArrayList<CommunityVO> list = this.communityProc.search(word);
-        model.addAttribute("list", list);
-        model.addAttribute("word", word);
-        return "admin/community_main";
-    }
+  public String search(String word, Model model) {
+    ArrayList<CommunityVO> list = this.communityProc.search(word);
+    model.addAttribute("list", list);
+    model.addAttribute("word", word);
+    return "admin/community_main";
+  }
 
 }

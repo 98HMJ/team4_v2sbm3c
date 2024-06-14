@@ -276,7 +276,7 @@ public class SingoCont {
     }
   }
 
-  @PostMapping("delete")
+  @PostMapping("/delete")
   public String delete_proc(HttpSession session, Model model, int singono,
       @RequestParam(name = "word", defaultValue = "") String word,
       @RequestParam(name = "now_page", defaultValue = "1") int now_page) {

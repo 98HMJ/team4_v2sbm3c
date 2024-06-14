@@ -1,0 +1,84 @@
+<!-- TEST HTML -->
+<!DOCTYPE html>
+<html layout:decorate="~{admin/layout}">
+<div layout:fragment="content">
+<link href="/css/list.css" rel="Stylesheet" type="text/css"> 
+  <div>관리자 전용</div>
+  <div style="margin-bottom: 40px;">
+    
+    <div style="display: flex; justify-content: center;">
+      <form name="frm" method="get" action="member">
+        <input type="hidden" name="now_page" th:value="${now_page}">
+        <div class="search">
+          <img src="/images/ic_search.svg">
+          <!-- 메인 placeholder : 예) 형광등, 고추장 -->
+          <!-- 커뮤니티 placeholder : 예) 재활용, 일반쓰레기 -->
+          <input type="text" name="word" th:value="${word}">
+          <span th:if="${word != null and word!=''}">
+            <button type='button' class='btn btn-secondary btn-sm' 
+                         style="padding: 2px 8px 3px 8px; margin: 0px 0px 2px 0px;"
+                         th:onclick="location.href='/admin/member'">검색 취소</button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div style="width: 60%; margin: 0px auto ">
+    <form name="frm" id="frm" th:object="${memberVO}" method="post" action="/admin/member/delete">
+      <input type="hidden" name="memberno" th:value="${memberVO.memberno}">
+      <input type="hidden" name="word" th:value="${word}">
+      <input type="hidden" name="now_page" th:value="${now_page}">
+      
+      <div class="msg_warning">신고내용은 삭제하면 복구 할 수 없습니다.<br>그래도 삭제하시겠습니까?</div>
+      
+      <div class="content_body_bottom">
+        <button type="submit" class="btn btn-secondary btn-sm">삭제</button>
+        <button type="button" onclick="history.back();" class="btn btn-secondary btn-sm">취소</button>
+      </div>
+
+    </form>
+  </div>
+
+  <table style='width: 100%;'>
+    <colgroup>
+      <col style='width: 5%;'/>
+      <col style='width: 15%;'/>
+      <col style='width: 15%;'/>
+      <col style='width: 15%;'/>
+      <col style='width: 20%;'/>
+      <col style='width: 20%;'/>
+      <col style='width: 10%;'/>
+    </colgroup>
+    <tr>
+      <th class='th_bs'>번호</TH>
+      <th class='th_bs'>이름</th>
+      <th class='th_bs'>닉네임</th>
+      <th class='th_bs'>아이디</th>
+      <th class='th_bs'>전화번호</th>
+      <th class='th_bs'>이메일 </th>
+      <th class='th_bs'></th>
+    </tr>
+   
+    <tr class="list_hover" th:each="memberVO, status:${list}" >
+      <td class="td"> [[${no+status.index+1}]]</td>
+      <td class="td">[[${memberVO.name}]]</td>
+      <td class="td">[[${memberVO.nickname}]]</td>
+      <td class="td">[[${memberVO.id}]]</td>
+      <td class="td">[[${memberVO.tel}]]</td>
+      <td class="td">[[${memberVO.email}]]</td>
+      
+      <td class="td">
+        <a th:href="@{|./delete?memberno=${memberVO.memberno}&word=${word}&now_page=${now_page}|}"><img src='/admin/images/delete.png' title='삭제' class="icon"></a>
+      </td>
+      
+    </tr>
+  </table>
+   <!-- 페이지 버튼 목록 출력 시작 -->
+  <div class="Bottom_menu" th:utext="${paging}"></div>
+  <!-- 페이지 버튼 목록 출력 종료 --> 
+
+</div>
+</html>
+
+
