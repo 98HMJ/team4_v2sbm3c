@@ -21,7 +21,8 @@
 
   <div class="container">
 
-    <div style="width: 100%; word-break: break-all;">
+    <div th:with="explorationVO=${explorationVO}" style="width: 100%; word-break: break-all;">
+
       <h2 style="font-size: 1.5em; font-weight: bold;" th:text="${explorationVO.exponame}"></h2><br><br>
       <hr>
       <div

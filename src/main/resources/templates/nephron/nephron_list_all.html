@@ -4,7 +4,11 @@
 <div layout:fragment="content">
   <div id="mapwrap">
     <!-- 지도가 표시될 div -->
-    <div id="map" style="width:100%; height: 700px; margin-top: 5px; margin-bottom: 5px;"></div>
+    <div id="map" style="width:100%; height: 700px; margin-top: 5px; margin-bottom: 5px;">
+      <div id="loading-screen">
+        <img src="/images/nephron/loading.gif" style="width: 30%; height: 30%'" alt="Loading...">
+      </div>
+    </div>
     <!-- 지도 위에 표시될 마커 카테고리 -->
     <div class="category" style="width: 160px; height: 10%;">
       <div id="plasticMenu" onclick="changeMarker('plastic')">
@@ -25,6 +29,12 @@
   <script type="text/javascript"
     th:src="@{//dapi.kakao.com/v2/maps/sdk.js?appkey=}+${map_key}+@{&libraries=services}"></script>
   <script>
+    var loadingScreen = document.getElementById('loading-screen');
+    
+    function hideLoadingScreen() {
+      loadingScreen.style.display = 'none';
+    }
+    
     // 지도를 생성합니다
     var mapContainer = document.getElementById('map');
     var mapOption = {
@@ -125,6 +135,7 @@
         createMarkers(plasticPositions, 0, function (markers) {
           plasticMarkers = markers;
           changeMarker('plastic'); // 플라스틱 마커가 모두 생성된 후 호출
+          hideLoadingScreen(); // 모든 마커가 생성된 후 로딩 화면 숨김
         });
         createMarkers(canPositions, 33, function (markers) {
           canMarkers = markers;

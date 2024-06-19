@@ -219,7 +219,6 @@ public class ExplorationCont {
     ExplorationVO explorationVO = this.explorationProc.read(expno);
     model.addAttribute("explorationVO", explorationVO);
     
-    
     if(this.adminProc.isAdmin(session)) {
       return "trash_exploration/read";
     }else {

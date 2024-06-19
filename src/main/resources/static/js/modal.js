@@ -109,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 모달이 닫힐 때 이벤트
   myModal.addEventListener('hidden.bs.modal', function () {
-    myModal.hide();
     document.body.style.overflowY = ""; // 스크롤 복원
   });
 
