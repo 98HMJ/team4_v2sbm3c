@@ -32,3 +32,6 @@ out/
 ### VS Code ###
 .vscode/
 application-secret.properties
+.gradle/8.7/fileHashes/fileHashes.bin
+.gradle/8.7/fileHashes/fileHashes.bin
+.gradle/8.7/fileHashes/fileHashes.lock

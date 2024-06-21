@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import dev.mvc.community.Community;
 import dev.mvc.reply.Reply;
 import dev.mvc.singo.Singo;
+import dev.mvc.trash_exploration.Exploration;
 
 
 @Configuration
@@ -21,7 +22,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         
         registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" + Singo.getUploadDir());
 
-//         registry.addResourceHandler("/Desktop/teamfile/**").addResourceLocations("file:///" +  Exploration.getUploadDir());
-
+        // Exploration 이미지 디렉토리 핸들러
+        registry.addResourceHandler("/images/trash_exploration/storage/**")
+                .addResourceLocations("file:///" + Exploration.getUploadDir());
     }
 }

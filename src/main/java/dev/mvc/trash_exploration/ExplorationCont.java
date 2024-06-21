@@ -68,7 +68,7 @@ public class ExplorationCont {
       // 파일 전송 코드 시작
       // ------------------------------------------------------------------------------
       
-      // 제목0번과 컨텐츠 1번 파일은 필수 등록해야 합니다.
+      // 제목0번과 컨텐츠 1번 파일은 필수 등록해야 합니다
       int fileNum = 7;
       String[] files = new String[fileNum];
       String[] fileSaveds = new String[fileNum];
@@ -296,9 +296,94 @@ public class ExplorationCont {
                                     int expno) {
 
     if (this.adminProc.isAdmin(session)) { 
+      // 삭제할 파일 정보를 읽어옴, 기존에 등록된 레코드
+      ExplorationVO explorationVO_old = this.explorationProc.read(expno);
+
+      // -------------------------------------------------------------------
+      // 파일 삭제 시작
+      // -------------------------------------------------------------------
+      ArrayList<String> file1Saveds = new ArrayList<>(); // 실제 저장된 파일명들
+      // 추가 이미지들 추가
+      for (int i = 0; i < 7; i++) {
+        String fieldName = new String();
+        if(i == 0) {
+          fieldName = "t_saved";
+        } else {
+          fieldName = "c" + i + "_saved";
+        }
+        String savedImage = (String) explorationVO.getSavedImage(fieldName);
+        file1Saveds.add(savedImage);
+      }
+      String thumb1 = explorationVO_old.getT_thumb(); // 실제 저장된 타이틀 preview 이미지 파일명
+      
+      String upDir = Exploration.getUploadDir(); // C:/kd/deploy/resort_v4sbm3c/contents/storage/
+
+      for (int i = 0; i< 7; i++) {
+        Tool.deleteFile(upDir, file1Saveds.get(i)); // 실제 저장된 파일삭제
+      }
+      Tool.deleteFile(upDir, thumb1); // preview 이미지 삭제
+      // -------------------------------------------------------------------
+      // 파일 삭제 종료
+      // -------------------------------------------------------------------
+
+      // -------------------------------------------------------------------
+      // 파일 전송 시작
+      // -------------------------------------------------------------------
+      // 제목0번과 컨텐츠 1번 파일은 필수 등록해야 합니다
+      int fileNum = 7;
+      String[] files = new String[fileNum]; // 원본 파일명 images
+      
+      // 원본 파일명 
+      // 파일 크기 mf 에서 가져오기 
+      long[] size = new long[fileNum];
+
+      // 전송 파일이 없어도 file1MF 객체가 생성됨.
+      // <input type='file' class="form-control" name='file1MF' id='file1MF'
+      // value='' placeholder="파일 선택">
+      MultipartFile[] mf = new MultipartFile[fileNum];
+      for (int i = 0; i < fileNum; i++) {
+        String fieldName = "file" + i + "MF";
+        mf[i] = explorationVO.getFileMF(fieldName);
+        files[i] = mf[i].getOriginalFilename();
+        size[i] = mf[i].getSize();
+      }
+      
+      // VO 에 파일 경로 저장
+      for (int i = 0; i < files.length; i++) {
+        if (size[i] > 0) {
+          if(Tool.checkUploadFile(files[i])){
+            file1Saveds.set(i, Upload.saveFileSpring(mf[i], upDir));
+      
+            if (i == 0 && Tool.isImage(file1Saveds.get(i))) { // 이미지인지 검사
+              thumb1 = Tool.preview(upDir, file1Saveds.get(i), 200, 150);
+              explorationVO.setT_thumb(thumb1); // 원본이미지 축소판
+            }
+
+          } else { // 전송 못하는 파일 형식
+            ra.addFlashAttribute("code", "check_upload_file_fail");
+            ra.addFlashAttribute("cnt", 0);
+            ra.addFlashAttribute("name", explorationVO.getExponame());
+            ra.addFlashAttribute("url", "/trash_exploration/msg");
+            return "redirect:/trash_exploration/msg";
+          } 
+        }else{
+          files[i] = "";
+          file1Saveds.set(i, "");
+          size[i] = 0;
+          if (i == 0) {
+            thumb1 = "";
+          }
+        }
+        // system.out.println("img: " + files[i]);
+        explorationVO.setImageData(i, files[i], file1Saveds.get(i), size[i]);
+      }
+      // -------------------------------------------------------------------
+      // 파일 전송 코드 종료
+      // -------------------------------------------------------------------
+
       explorationVO.setExpno(expno);
       int cnt = this.explorationProc.update(explorationVO);
-      // System.out.println("->update cnt:" + cnt);
+      // system.out.println("->update cnt:" + cnt);
 
       if (cnt == 1) {
         ra.addAttribute("expno", explorationVO.getExpno());
@@ -308,7 +393,7 @@ public class ExplorationCont {
         ra.addFlashAttribute("code", "update_fail");
         ra.addFlashAttribute("cnt", 0);
         ra.addFlashAttribute("name", explorationVO.getExponame());
-        ra.addFlashAttribute("url", "/trash/msg");
+        ra.addFlashAttribute("url", "/trash_exploration/msg");
 
         return "redirect:/trash_exploration/msg";
       }

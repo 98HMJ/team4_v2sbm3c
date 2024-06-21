@@ -22,84 +22,49 @@
   
   <div class='menu_line'></div>
   
-  <form name='frm' method='post' th:object="${explorationVO}" action='./update'>
+  <form name='frm' method='post' th:object="${explorationVO}" action='./update' enctype="multipart/form-data">
     <input type="hidden" name="expno" th:value="${explorationVO.expno}">
     
     <div>
-       <label>탐구 항목 이름:</label>
-       <input type='text' name='exponame' th:value='${explorationVO.exponame}' required="required" 
-                 class="form-control" style='width: 30%;'>
-    </div>
-    
-    <div>
-       <label>타이틀 이미지:</label>
-       <input type='text' name='t_img' th:value='${explorationVO.t_img}' required="required" 
-                 class="form-control" style='width: 30%;'>
-    </div>
-    <div>
-       <label>저장된 타이틀 이미지:</label>
-       <input type='text' name='t_saved' th:value='${explorationVO.t_saved}' required="required" 
-                 class="form-control" style='width: 30%;'>
-    </div>
-    <div>
-       <label>썸네일 이미지:</label>
-       <input type='text' name='t_thumb' th:value='${explorationVO.t_thumb}' required="required" 
-                 class="form-control" style='width: 30%;'>
+        <label>탐구 항목 이름:</label>
+        <input type='text' name='exponame' th:value='${explorationVO.exponame}' required="required" 
+                class="form-control" style='width: 40%;'>
     </div>
 
     <div>
-        <label>c1_img:</label>
-        <input type='text' name='c1_img' th:value='${explorationVO.c1_img}' class="form-control" style='width: 30%;'>
+        <label>탐구 타이틀 이미지</label>
+        <input type='file' class="form-control" required="required" name='file0MF' id='file0MF' value='' placeholder="파일 선택">
     </div>
+
     <div>
-        <label>c1_saved:</label>
-        <input type='text' name='c1_saved' th:value='${explorationVO.c1_saved}' class="form-control" style='width: 30%;'>
-    </div>
-    
-    <div>
-        <label>c2_img:</label>
-        <input type='text' name='c2_img' th:value='${explorationVO.c2_img}' class="form-control" style='width: 30%;'>
-    </div>
-    <div>
-        <label>c2_saved:</label>
-        <input type='text' name='c2_saved' th:value='${explorationVO.c2_saved}' class="form-control" style='width: 30%;'>
-    </div>
-    
-    <div>
-        <label>c3_img:</label>
-        <input type='text' name='c3_img' th:value='${explorationVO.c3_img}' class="form-control" style='width: 30%;'>
-    </div>
-    <div>
-        <label>c3_saved:</label>
-        <input type='text' name='c3_saved' th:value='${explorationVO.c3_saved}' class="form-control" style='width: 30%;'>
-    </div>
-    
-    <div>
-        <label>c4_img:</label>
-        <input type='text' name='c4_img' th:value='${explorationVO.c4_img}' class="form-control" style='width: 30%;'>
-    </div>
-    <div>
-        <label>c4_saved:</label>
-        <input type='text' name='c4_saved' th:value='${explorationVO.c4_saved}' class="form-control" style='width: 30%;'>
-    </div>
-    
-    <div>
-        <label>c5_img:</label>
-        <input type='text' name='c5_img' th:value='${explorationVO.c5_img}' class="form-control" style='width: 30%;'>
-    </div>
-    <div>
-        <label>c5_saved:</label>
-        <input type='text' name='c5_saved' th:value='${explorationVO.c5_saved}' class="form-control" style='width: 30%;'>
-    </div>
-    
-    <div>
-        <label>c6_img:</label>
-        <input type='text' name='c6_img' th:value='${explorationVO.c6_img}' class="form-control" style='width: 30%;'>
-    </div>
-    <div>
-        <label>c6_saved:</label>
-        <input type='text' name='c6_saved' th:value='${explorationVO.c6_saved}' class="form-control" style='width: 30%;'>
-    </div>
+        <label>탐구 컨텐츠 이미지1</label>
+        <input type='file' class="form-control" required="required" name='file1MF' id='file1MF' value='' placeholder="파일 선택">         
+     </div>   
+     
+     <div>
+        <label>탐구 컨텐츠 이미지2</label>
+        <input type='file' class="form-control" name='file2MF' id='file2MF' value='' placeholder="파일 선택">         
+     </div>   
+     
+     <div>
+        <label>탐구 컨텐츠 이미지3</label>
+        <input type='file' class="form-control" name='file3MF' id='file3MF' value='' placeholder="파일 선택">         
+     </div>   
+     
+     <div>
+        <label>탐구 컨텐츠 이미지4</label>
+        <input type='file' class="form-control" name='file4MF' id='file4MF' value='' placeholder="파일 선택">         
+     </div>   
+     
+     <div>
+        <label>탐구 컨텐츠 이미지5</label>
+        <input type='file' class="form-control" name='file5MF' id='file5MF' value='' placeholder="파일 선택">         
+     </div>
+     
+     <div>
+        <label>탐구 컨텐츠 이미지6</label>
+        <input type='file' class="form-control" name='file6MF' id='file6MF' value='' placeholder="파일 선택">         
+     </div>
     
     
     <div class="content_body_bottom">
