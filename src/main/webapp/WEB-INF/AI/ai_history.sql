@@ -8,7 +8,7 @@ CREATE TABLE AI_HISTORY(
 		historyno                     		NUMBER(10)		  NOT NULL		 PRIMARY KEY,
     explaination                     	VARCHAR2(3000)  NOT NULL,
 		sortno                        		NUMBER(10)		  NOT NULL,
-    rdate                             DATE            NOT NULL,
+    rdate                             VARCHAR2(15)            NOT NULL,
 		memberno                      		NUMBER(10)		  NOT NULL ,
   FOREIGN KEY (sortno) REFERENCES AI_SORT (sortno),
   FOREIGN KEY (memberno) REFERENCES MEMBER (memberno)
@@ -32,6 +32,20 @@ CREATE SEQUENCE aiHistory_seq
   
   --삽입--  
 INSERT INTO ai_history(historyno, explaination, sortno, rdate, memberno) 
-VALUES (aiHistory_seq.nextval, '이 쓰레기는 유리 입니다.', 1, sysdate, 1);
+VALUES (aiHistory_seq.nextval, '이 쓰레기는 유리 입니다.', 2, sysdate, 1);
+
+-- 페이징
+SELECT historyno, explaination, sortno, rdate, memberno, r
+FROM (
+      SELECT historyno, explaination, sortno, rdate, memberno, rownum as r
+      FROM (
+            SELECT historyno, explaination, sortno, rdate, memberno
+            FROM ai_history     
+            ORDER BY rdate DESC
+      )
+)
+WHERE r <= 500;
+
+DELETE FROM ai_history;
 
 commit;

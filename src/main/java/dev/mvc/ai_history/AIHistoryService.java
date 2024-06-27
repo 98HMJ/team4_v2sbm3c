@@ -1,17 +1,16 @@
 package dev.mvc.ai_history;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import dev.mvc.ai_sort.AISort;
 import dev.mvc.ai_sort.AISortRepository;
 import dev.mvc.member.MemberDAOInter;
-import dev.mvc.member.MemberProcInter;
-import dev.mvc.trash.TrashProcInter;
+import dev.mvc.tool.Tool;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class AIHistoryService {
@@ -30,7 +29,7 @@ public class AIHistoryService {
   public void saveAIHistory(HttpSession session, AIHIistoryVO aiHistoryVO) {
     AIHistory aiHistory = new AIHistory();
     aiHistory.setExplaination(aiHistoryVO.getExplaination());
-    aiHistory.setRdate(new Date()); // 현재 날짜로 설정
+    aiHistory.setRdate(Tool.formatDate(new Date())); // 현재 날짜로 설정
     int memberno = (int) session.getAttribute("memberno");
     if (memberno == 0) {
         throw new RuntimeException("User is not logged in or session has expired");
@@ -46,4 +45,16 @@ public class AIHistoryService {
 
     historyRepository.save(aiHistory);
   }
+
+  // 분석 결과 조회 메서드
+  public List<AIHistory> read(int memberno) {
+    return historyRepository.findByMemberno(memberno);
+  }
+
+  // 최근 500건의 데이터 조회 메서드
+  public List<AIHistory> getRecent500AnalysisResults(int memberno) {
+    return historyRepository.findTop500ByMembernoOrderByRdateDesc(memberno);
+}
+
+
 }

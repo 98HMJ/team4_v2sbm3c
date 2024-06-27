@@ -1,130 +1,6 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}">
 
-<head>
-  <style>
-    .file-upload-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 2%;
-      margin-bottom: 2%;
-    }
-
-    .file-upload {
-      /* 업로드 박스 크기 및 정렬 설정 */
-      width: 90%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 500px;
-      /* 업로드 박스 크기 및 정렬 설정 */
-      
-      /* 업로드 박스 색상 및 스타일 설정 */
-      background: rgba(217, 217, 217, 0.24); 
-      border-radius: 10px; 
-      border: 4px dashed rgba(217, 217, 217, 0.5); /* 점선 스타일 및 색상 설정 */
-      /* 업로드 박스 색상 및 스타일 설정 */
-    }
-    .dragover{
-      border-color: lightgreen;
-      color: lightgreen;
-    }
-
-    button {
-      padding: 10px;
-      background-color: rgb(136, 195, 111);
-      color: white;
-      border: none;
-      cursor: pointer;
-      margin-bottom: 10px;
-      border-radius: 15px;
-      margin-top: 10px;
-    }
-
-    /* label-container 스타일 */
-    #label-container {
-      background-color: rgb(136, 195, 111);
-      color: white;
-      padding: 10px;
-      text-align: center;
-      border-radius: 10px;
-    }
-
-    .ai-analyze-result-history-container{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    h2 {
-      align-self: flex-start; /* 좌상단 정렬 */
-      margin-left: 2%; /* 원하는 좌측 여백 설정 */
-      font-weight: bold;
-    }
-
-    #ai-analyze-result-history{
-      width: 90%;
-      box-sizing: border-box;
-      padding: 2%;
-      border-radius: 10px; 
-      border: 2px solid rgba(217, 217, 217, 0.5); 
-    }
-
-    .results-grid {
-      display: flex;
-      align-self: center;
-      flex-wrap: wrap; /* 2줄로 출력하기 위해 wrap 설정 */
-      justify-content: flex-start space-around; /* 가운데 정렬 */
-      gap: 2%; /* 요소들 사이의 간격 */
-    }
-
-    /* 아이템 버튼 설정 */
-    .history-item {
-      width: 28%;
-      margin: 2%;
-      padding: 2%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-      text-decoration: none; /* 링크의 밑줄 제거 */
-      color: inherit; /* 링크 색상 상속 */
-    }
-
-    .history-item a {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      color: inherit;
-      margin-bottom: 10px;
-    }
-
-    .history-item img {
-      margin-right: 10px;
-    }
-
-    .history-item .description {
-      margin-top: 7%;
-      text-align: left;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      line-height: 1.2em;
-      height: 3.6em; /* 3 lines * line-height */
-      text-overflow: ellipsis;
-    }
-
-    .history-item-container {
-      display: flex;
-      width: 100%;
-    }
-
-  </style>
-</head>
-
 <div layout:fragment="content">
   <div class="file-upload-container">
     <div class="file-upload" id="file-upload">
@@ -141,7 +17,7 @@
     <div id="ai-analyze-result-history">
       <h2><span style="font-size: 20px; font-weight: bold;">AI 분석 이력</span></h2>
       <!-- 1개씩 item을 추가하는 자바스크립트 코드 작성 -->
-      <div class="results-grid">
+      <div id="result-grid" class="results-grid">
         <!-- 여기에 AI 분석 결과 항목을 추가 -->
         <a href="create" class="history-item">
           <div class="history-item-container">
@@ -152,13 +28,20 @@
             깨진 유리라면 마대 자루에 모아 불연성 쓰레기로 배출해주세요.
           </div>
         </a>
-        
-        <div class="history-item">Item 1</div>
-        <div class="history-item">Item 1</div>
-        <div class="history-item">Item 1</div>
-        <div class="history-item">Item 1</div>
       </div>
+
+      <!-- 더보기 버튼과 아래방향 이미지 추가 -->
+      <div class="more-button-container" style="display: flex; justify-content:center; margin-top: 20px;">
+        <button class="more-button" id="loadMoreBtn" style="align-self: center;">
+          <span>더보기</span>
+        </button>
+      </div>
+
     </div>
+  </div>
+
+  <div id="loading-overlay">
+    <div class="loading-spinner"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
@@ -168,12 +51,13 @@
 
     let model, labelContainer, maxPredictions, webcamContainer;
 
-    // Load the image model
+    // 비동기 func: 비동기 방식으로 이미지 모델 로딩
     async function init() {
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
 
       // Load the model and metadata
+      // model을 load 하고 난 후 이후 코드 실행 
       model = await tmImage.load(modelURL, metadataURL);
       maxPredictions = model.getTotalClasses();
       labelContainer = document.getElementById("label-container"); // labelContainer 정의
@@ -184,6 +68,7 @@
     async function predictImage() {
       const input = document.getElementById('imageUpload');
       if (input.files && input.files[0]) {
+        showLoading();
         const file = input.files[0];
         const img = document.createElement("img");
         img.src = webkitURL.createObjectURL(file);
@@ -199,8 +84,18 @@
           uploadedImage.style.maxHeight = '300px'; // 이미지의 최대 높이 설정
           imageContainer.innerHTML = ''; // 이미지를 표시하기 전에 이전 내용을 지움
           imageContainer.appendChild(uploadedImage);
+
+          hideLoading();
         };
       }
+    }
+
+    function showLoading() {
+      document.getElementById('loading-overlay').style.display = 'flex';
+    }
+
+    function hideLoading() {
+      document.getElementById('loading-overlay').style.display = 'none';
     }
 
     // Display the prediction result
@@ -244,10 +139,10 @@
           explaination: getExplanation(predictedLabel),
           sortno: getSortNo(predictedLabel), // sortno를 결정하는 로직 구현 필요
           rdate: new Date(),
-          memberno: 1 // memberno를 결정하는 로직 구현 필요
+          memberno: 0 
       };
   
-      fetch('/ai_history/save', {
+      fetch('/ai_history/create', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -279,43 +174,121 @@
       } else if(predictedLabel.includes("유리")) {
           return 1;
       } else {
-          return 3;
+          return 3; // 3번이면 재활용 이미지
       }
   }
+
+  function getSortIcon(sortNo) {
+    switch (sortNo) {
+        case 1:
+            return 'icon_glass'; // 유리 이미지
+        case 2:
+            return 'icon_wash_waste'; // 이물질 이미지
+        case 3:
+            return 'icon_recycle'; // 재활용 이미지
+        default:
+            return 'icon_default'; // 기본 이미지 (예외 처리)
+    }
+  }
+
+  // 더보기 버튼 클릭 시 동작 함수
+  document.addEventListener('DOMContentLoaded', function () {
+    var page = 0; // 초기 페이지
+    var pageSize = 6; // 페이지당 아이템 수
+
+    // 페이지 로드 시 초기 데이터 로딩
+    loadHistory(page, pageSize);
+
+    // 더 보기 버튼 클릭 시 다음 페이지 아이템 로딩
+    document.getElementById('loadMoreBtn').addEventListener('click', function () {
+        page++; // 다음 페이지로 이동
+        loadHistory(page, pageSize);
+    });
+    
+    // AI History 데이터를 가져오는 함수 (fetch 사용)
+    function loadHistory(page, pageSize) {
+      fetch('/ai_history/read_paging?page=' + page + '&pageSize=' + pageSize)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function (data) {
+          if (data.length > 0) {
+            // 성공적으로 데이터를 가져왔을 때 처리
+            data.forEach(function (item) {
+              var sortIcon = getSortIcon(item.aiSort.sortno);
+              var historyItem = '<div class="history-item">';
+              // 첫 번째 줄: 이미지와 타이틀
+              historyItem += '<div class="history-item-header">';
+              historyItem += '<img src="/images/ai/' + sortIcon + '.svg" alt="Icon" width="30" height="30">';
+              historyItem += '<span>' + item.aiSort.name + '</span>';
+              historyItem += '</div>';
+
+              // 두 번째 줄: 설명
+              historyItem += '<p class="description">' + item.explaination + '</p>';
+
+              // 세 번째 줄: 일시
+              historyItem += '<p class="history-item-date"><strong>일시:</strong> ' + item.rdate + '</p>';
+              historyItem += '</div>';
+              document.getElementById('result-grid').innerHTML += historyItem;
+            });
+
+            // 더 보기 버튼 표시 여부 처리
+            if (data.length < pageSize) {
+                document.getElementById('loadMoreBtn').style.display = 'none'; // 더 이상 데이터가 없으면 버튼 숨김
+            } else {
+                document.getElementById('loadMoreBtn').style.display = 'block'; // 데이터가 있으면 버튼 보임
+            }
+          } else {
+              // 데이터가 없을 경우 처리 (보통 여기에는 메시지 표시 등 추가 가능)
+              document.getElementById('loadMoreBtn').style.display = 'none'; // 데이터가 없으므로 더 보기 버튼 숨김
+          }
+        })
+        .catch(function (error) {
+            console.error('Error loading AI history:', error);
+            // 오류 처리 (보통 에러 메시지 표시 등 추가 가능)
+        });
+    }
+  });
+
   
+  // Function to initialize image upload
+  function initImageUpload() {
+    document.getElementById('imageUpload').click();
+  }
+
+  const dropzone = document.getElementById('file-upload');
+
+  dropzone.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      dropzone.classList.add('dragover');
+  });
+
+  dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('dragover');
+  });
+
+  dropzone.addEventListener('drop', (event) => {
+    event.preventDefault();
+    dropzone.classList.remove('dragover');
+    const files = event.dataTransfer.files;
+    const file = files[0];
+    const input = document.getElementById('imageUpload');
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    input.files = dataTransfer.files;
+    predictImage();
+  });
+
     // Initialize the model when the page loads
     init();
+
 
     // Trigger predictImage function when a file is selected
     document.getElementById('imageUpload').addEventListener('change', predictImage);
 
-    // Function to initialize image upload
-    function initImageUpload() {
-      document.getElementById('imageUpload').click();
-    }
-
-    const dropzone = document.getElementById('file-upload');
-
-    dropzone.addEventListener('dragover', (event) => {
-        event.preventDefault();
-        dropzone.classList.add('dragover');
-    });
-
-    dropzone.addEventListener('dragleave', () => {
-        dropzone.classList.remove('dragover');
-    });
-
-    dropzone.addEventListener('drop', (event) => {
-      event.preventDefault();
-      dropzone.classList.remove('dragover');
-      const files = event.dataTransfer.files;
-      const file = files[0];
-      const input = document.getElementById('imageUpload');
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(file);
-      input.files = dataTransfer.files;
-      predictImage();
-    });
     
   </script>
 

@@ -21,7 +21,7 @@ public class AIHIistoryVO {
   int sortno;
 
   /** 기록 날짜 */
-  Date rdate;
+  String rdate;
 
   /** 기록한 회원 */
   int memberno;

@@ -29,8 +29,8 @@ public class AIHistory {
   @Column(nullable = false, length = 3000)
   private String explaination;
 
-  @Column(nullable = false)
-  private Date rdate;
+  @Column(nullable = false, length = 15)
+  private String rdate;
   
   @Column(nullable = false)
   private Integer memberno;

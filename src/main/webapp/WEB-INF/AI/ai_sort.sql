@@ -32,5 +32,7 @@ VALUES (aisort_seq.nextval, '일반쓰레기');
 INSERT INTO AI_SORT(sortno, name) 
 VALUES (aisort_seq.nextval, '재활용');
 
+commit;
+
 DELETE FROM AI_SORT;
 

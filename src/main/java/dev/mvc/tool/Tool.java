@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -446,6 +447,15 @@ public class Tool {
    */
   public static synchronized String encode(String str) {
     return URLEncoder.encode(str, StandardCharsets.UTF_8);
+  }
+
+  /**
+   * Date 자료형을 '0000-00-00' 형식의 String로 변환하는 함수
+  */ 
+  private static final String DATE_FORMAT = "yyyy-MM-dd";
+  public static String formatDate(Date date) {
+      SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+      return sdf.format(date);
   }
 
 }
