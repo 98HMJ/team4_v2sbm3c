@@ -192,8 +192,7 @@ public class TrashCont {
   }
 
   @PostMapping(value = "/trash_update")
-  public String trash_update(Model model, TrashVO trashVO, HttpSession session, BindingResult bindingResult,
-      RedirectAttributes ra) {
+  public String trash_update(Model model, TrashVO trashVO, HttpSession session, RedirectAttributes ra) {
 
     if (this.adminProc.isAdmin(session)) { 
       int cnt = this.trashProc.trash_update(trashVO);

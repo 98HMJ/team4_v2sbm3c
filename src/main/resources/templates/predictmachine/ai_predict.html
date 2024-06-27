@@ -3,14 +3,32 @@
 
 <head>
   <style>
-    /* 화면 중앙 정렬 스타일 */
-    .centered {
+    .file-upload-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 2%;
+      margin-bottom: 2%;
+    }
+
+    .file-upload {
+      /* 업로드 박스 크기 및 정렬 설정 */
+      width: 90%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      /* 화면 전체 높이로 설정 */
+      height: 500px;
+      /* 업로드 박스 크기 및 정렬 설정 */
+      
+      /* 업로드 박스 색상 및 스타일 설정 */
+      background: rgba(217, 217, 217, 0.24); 
+      border-radius: 10px; 
+      border: 4px dashed rgba(217, 217, 217, 0.5); /* 점선 스타일 및 색상 설정 */
+      /* 업로드 박스 색상 및 스타일 설정 */
+    }
+    .dragover{
+      border-color: lightgreen;
+      color: lightgreen;
     }
 
     button {
@@ -32,17 +50,115 @@
       text-align: center;
       border-radius: 10px;
     }
+
+    .ai-analyze-result-history-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      align-self: flex-start; /* 좌상단 정렬 */
+      margin-left: 2%; /* 원하는 좌측 여백 설정 */
+      font-weight: bold;
+    }
+
+    #ai-analyze-result-history{
+      width: 90%;
+      box-sizing: border-box;
+      padding: 2%;
+      border-radius: 10px; 
+      border: 2px solid rgba(217, 217, 217, 0.5); 
+    }
+
+    .results-grid {
+      display: flex;
+      align-self: center;
+      flex-wrap: wrap; /* 2줄로 출력하기 위해 wrap 설정 */
+      justify-content: flex-start space-around; /* 가운데 정렬 */
+      gap: 2%; /* 요소들 사이의 간격 */
+    }
+
+    /* 아이템 버튼 설정 */
+    .history-item {
+      width: 28%;
+      margin: 2%;
+      padding: 2%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none; /* 링크의 밑줄 제거 */
+      color: inherit; /* 링크 색상 상속 */
+    }
+
+    .history-item a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      margin-bottom: 10px;
+    }
+
+    .history-item img {
+      margin-right: 10px;
+    }
+
+    .history-item .description {
+      margin-top: 7%;
+      text-align: left;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      line-height: 1.2em;
+      height: 3.6em; /* 3 lines * line-height */
+      text-overflow: ellipsis;
+    }
+
+    .history-item-container {
+      display: flex;
+      width: 100%;
+    }
+
   </style>
 </head>
 
 <div layout:fragment="content">
-  <div class="centered">
-    <div id="image-container"></div>
-    <input type="file" accept="image/*" id="imageUpload" style="display: none;">
-    <label for="imageUpload" style="cursor: pointer;">
-      <button type="button" onclick="initImageUpload()" style="text-align: center;">이미지 업로드</button>
-    </label>
-    <div id="label-container"></div>
+  <div class="file-upload-container">
+    <div class="file-upload" id="file-upload">
+      <div id="image-container"></div>
+      <input type="file" accept="image/*" id="imageUpload" style="display: none; width: 100%">
+      <label for="imageUpload" style="cursor: pointer;">
+        <button type="button" onclick="initImageUpload()" style="text-align: center;">이미지 업로드</button>
+      </label>
+      <div id="label-container"></div>
+    </div>
+  </div>
+
+  <div class="ai-analyze-result-history-container">
+    <div id="ai-analyze-result-history">
+      <h2><span style="font-size: 20px; font-weight: bold;">AI 분석 이력</span></h2>
+      <!-- 1개씩 item을 추가하는 자바스크립트 코드 작성 -->
+      <div class="results-grid">
+        <!-- 여기에 AI 분석 결과 항목을 추가 -->
+        <a href="create" class="history-item">
+          <div class="history-item-container">
+            <img src="/images/ai/icon_glass.svg" alt="Icon" width="30" height="30">
+            <span>유리</span>
+          </div>
+          <div class="description">
+            깨진 유리라면 마대 자루에 모아 불연성 쓰레기로 배출해주세요.
+          </div>
+        </a>
+        
+        <div class="history-item">Item 1</div>
+        <div class="history-item">Item 1</div>
+        <div class="history-item">Item 1</div>
+        <div class="history-item">Item 1</div>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
@@ -87,7 +203,6 @@
       }
     }
 
-
     // Display the prediction result
     function displayPrediction(prediction) {
       // Sort the predictions by probability in descending order
@@ -106,6 +221,8 @@
       const predictedLabel = topPrediction.className;
       const maxProbability = topPrediction.probability;
 
+      // 서버로 결과 전송
+      sendResultToServer(predictedLabel);
       let resultMessage = "예측 결과: "+ (maxProbability * 100).toFixed(2) +"%<br>";
 
       // Add detailed prediction result
@@ -122,7 +239,50 @@
       labelContainer.innerHTML = resultMessage;
     }
 
+    function sendResultToServer(predictedLabel) {
+      const data = {
+          explaination: getExplanation(predictedLabel),
+          sortno: getSortNo(predictedLabel), // sortno를 결정하는 로직 구현 필요
+          rdate: new Date(),
+          memberno: 1 // memberno를 결정하는 로직 구현 필요
+      };
+  
+      fetch('/ai_history/save', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+      })
+      .then(response => response.text())
+      .then(data => {
+          console.log(data);
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
+    }
 
+    function getExplanation(predictedLabel) {
+      if (predictedLabel.includes("이물질")) {
+          return '이물질을 잘 세척해서 분리수거 하거나 일반 쓰레기로 버려주세요.';
+      } else if(predictedLabel.includes("유리")) {
+          return '깨진 유리라면 마대 자루에 모아 불연성 쓰레기로 배출해주세요.';
+      } else {
+          return '재활용 쓰레기로 분리배출 해주세요.';
+      }
+  }
+  
+  function getSortNo(predictedLabel) {
+      if (predictedLabel.includes("이물질")) {
+          return 2;
+      } else if(predictedLabel.includes("유리")) {
+          return 1;
+      } else {
+          return 3;
+      }
+  }
+  
     // Initialize the model when the page loads
     init();
 
@@ -134,7 +294,32 @@
       document.getElementById('imageUpload').click();
     }
 
+    const dropzone = document.getElementById('file-upload');
+
+    dropzone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('dragover');
+    });
+
+    dropzone.addEventListener('drop', (event) => {
+      event.preventDefault();
+      dropzone.classList.remove('dragover');
+      const files = event.dataTransfer.files;
+      const file = files[0];
+      const input = document.getElementById('imageUpload');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      input.files = dataTransfer.files;
+      predictImage();
+    });
+    
   </script>
+
+
 </div>
 
 </html>
