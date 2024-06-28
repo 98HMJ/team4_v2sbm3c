@@ -26,17 +26,11 @@ public class AIHistoryService {
         this.memberDAO = memberDAO;
     }
 
-  public void saveAIHistory(HttpSession session, AIHIistoryVO aiHistoryVO) {
+  public void saveAIHistory(int memberno, AIHIistoryVO aiHistoryVO) {
     AIHistory aiHistory = new AIHistory();
     aiHistory.setExplaination(aiHistoryVO.getExplaination());
     aiHistory.setRdate(Tool.formatDate(new Date())); // 현재 날짜로 설정
-    int memberno = (int) session.getAttribute("memberno");
-    if (memberno == 0) {
-        throw new RuntimeException("User is not logged in or session has expired");
-    }
-
     aiHistory.setMemberno(memberno);
-
     
     // sortno를 통해 AISort 객체 설정
     AISort aiSort = sortRepository.findById(aiHistoryVO.getSortno())

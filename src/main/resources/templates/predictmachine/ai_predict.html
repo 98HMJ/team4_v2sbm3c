@@ -14,30 +14,28 @@
   </div>
 
   <div class="ai-analyze-result-history-container">
+    <!-- 로그인을 했다면 -->
     <div id="ai-analyze-result-history">
       <h2><span style="font-size: 20px; font-weight: bold;">AI 분석 이력</span></h2>
       <!-- 1개씩 item을 추가하는 자바스크립트 코드 작성 -->
-      <div id="result-grid" class="results-grid">
-        <!-- 여기에 AI 분석 결과 항목을 추가 -->
-        <a href="create" class="history-item">
-          <div class="history-item-container">
-            <img src="/images/ai/icon_glass.svg" alt="Icon" width="30" height="30">
-            <span>유리</span>
-          </div>
-          <div class="description">
-            깨진 유리라면 마대 자루에 모아 불연성 쓰레기로 배출해주세요.
-          </div>
-        </a>
+      <div th:if="${session.memberno != null || session.adminno != null}" id="result-grid" class="results-grid">
       </div>
 
       <!-- 더보기 버튼과 아래방향 이미지 추가 -->
-      <div class="more-button-container" style="display: flex; justify-content:center; margin-top: 20px;">
+      <div th:if="${session.memberno != null || session.adminno != null}" class="more-button-container" style="display: flex; justify-content:center; margin-top: 20px;">
         <button class="more-button" id="loadMoreBtn" style="align-self: center;">
           <span>더보기</span>
         </button>
       </div>
 
+      <!-- 로그인을 하지 않았을 때 기록창에 로그인 필요 안내 UI 표시-->
+      <div th:if="${session.memberno == null && session.adminno==null}" 
+          style="display: flex; justify-content: center; align-items: center;">
+          <h2><span style="font-size: 20px; font-weight: bold; color: gray;">로그인이 필요한 기능입니다.</span></h2>
+      </div>
     </div>
+
+    
   </div>
 
   <div id="loading-overlay">
@@ -47,15 +45,16 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
   <script>
+
     const URL = "/models/";
 
     let model, labelContainer, maxPredictions, webcamContainer;
+    const pageSize = 6; // 페이지당 아이템 수
 
-    // 비동기 func: 비동기 방식으로 이미지 모델 로딩
+    // 비동기 func: 비동기 방식으로 이미지 모델 초기화
     async function init() {
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
-
       // Load the model and metadata
       // model을 load 하고 난 후 이후 코드 실행 
       model = await tmImage.load(modelURL, metadataURL);
@@ -64,7 +63,7 @@
       imageContainer = document.getElementById('image-container');
     }
 
-    // Predict the uploaded image
+    // 이미지 예측 함수
     async function predictImage() {
       const input = document.getElementById('imageUpload');
       if (input.files && input.files[0]) {
@@ -84,12 +83,13 @@
           uploadedImage.style.maxHeight = '300px'; // 이미지의 최대 높이 설정
           imageContainer.innerHTML = ''; // 이미지를 표시하기 전에 이전 내용을 지움
           imageContainer.appendChild(uploadedImage);
-
+          
           hideLoading();
         };
       }
     }
 
+    // 로딩 표시 함수
     function showLoading() {
       document.getElementById('loading-overlay').style.display = 'flex';
     }
@@ -98,7 +98,7 @@
       document.getElementById('loading-overlay').style.display = 'none';
     }
 
-    // Display the prediction result
+    // 예측 결과 표시 함수
     function displayPrediction(prediction) {
       // Sort the predictions by probability in descending order
       prediction.sort((a, b) => b.probability - a.probability);
@@ -117,7 +117,10 @@
       const maxProbability = topPrediction.probability;
 
       // 서버로 결과 전송
-      sendResultToServer(predictedLabel);
+      if(isLoggedIn){
+        sendResultToServer(predictedLabel);
+        loadHistory(0, pageSize);
+      }
       let resultMessage = "예측 결과: "+ (maxProbability * 100).toFixed(2) +"%<br>";
 
       // Add detailed prediction result
@@ -151,7 +154,6 @@
       })
       .then(response => response.text())
       .then(data => {
-          console.log(data);
       })
       .catch((error) => {
           console.error('Error:', error);
@@ -191,68 +193,58 @@
     }
   }
 
-  // 더보기 버튼 클릭 시 동작 함수
-  document.addEventListener('DOMContentLoaded', function () {
-    var page = 0; // 초기 페이지
-    var pageSize = 6; // 페이지당 아이템 수
-
-    // 페이지 로드 시 초기 데이터 로딩
-    loadHistory(page, pageSize);
-
-    // 더 보기 버튼 클릭 시 다음 페이지 아이템 로딩
-    document.getElementById('loadMoreBtn').addEventListener('click', function () {
-        page++; // 다음 페이지로 이동
-        loadHistory(page, pageSize);
-    });
-    
-    // AI History 데이터를 가져오는 함수 (fetch 사용)
-    function loadHistory(page, pageSize) {
-      fetch('/ai_history/read_paging?page=' + page + '&pageSize=' + pageSize)
-        .then(function (response) {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(function (data) {
-          if (data.length > 0) {
-            // 성공적으로 데이터를 가져왔을 때 처리
-            data.forEach(function (item) {
-              var sortIcon = getSortIcon(item.aiSort.sortno);
-              var historyItem = '<div class="history-item">';
-              // 첫 번째 줄: 이미지와 타이틀
-              historyItem += '<div class="history-item-header">';
-              historyItem += '<img src="/images/ai/' + sortIcon + '.svg" alt="Icon" width="30" height="30">';
-              historyItem += '<span>' + item.aiSort.name + '</span>';
-              historyItem += '</div>';
-
-              // 두 번째 줄: 설명
-              historyItem += '<p class="description">' + item.explaination + '</p>';
-
-              // 세 번째 줄: 일시
-              historyItem += '<p class="history-item-date"><strong>일시:</strong> ' + item.rdate + '</p>';
-              historyItem += '</div>';
-              document.getElementById('result-grid').innerHTML += historyItem;
-            });
-
-            // 더 보기 버튼 표시 여부 처리
-            if (data.length < pageSize) {
-                document.getElementById('loadMoreBtn').style.display = 'none'; // 더 이상 데이터가 없으면 버튼 숨김
-            } else {
-                document.getElementById('loadMoreBtn').style.display = 'block'; // 데이터가 있으면 버튼 보임
-            }
-          } else {
-              // 데이터가 없을 경우 처리 (보통 여기에는 메시지 표시 등 추가 가능)
-              document.getElementById('loadMoreBtn').style.display = 'none'; // 데이터가 없으므로 더 보기 버튼 숨김
+  // AI History 데이터를 가져오는 함수 (fetch 사용)
+  function loadHistory(page, pageSize) {
+    fetch('/ai_history/read_paging?page=' + page + '&pageSize=' + pageSize)
+      .then(function (response) {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
           }
-        })
-        .catch(function (error) {
-            console.error('Error loading AI history:', error);
-            // 오류 처리 (보통 에러 메시지 표시 등 추가 가능)
-        });
-    }
-  });
+          return response.json();
+      })
+      .then(function (data) {
+        if (data.length > 0) {
+          resultItems = document.getElementById('result-grid');
+          if(page === 0){
+            resultItems.innerHTML = '';
+          }
 
+          // 성공적으로 데이터를 가져왔을 때 처리
+          data.forEach(function (item) {
+            var sortIcon = getSortIcon(item.aiSort.sortno);
+            var historyItem = '<div class="history-item">';
+            // 첫 번째 줄: 이미지와 타이틀
+            historyItem += '<div class="history-item-header">';
+            historyItem += '<img src="/images/ai/' + sortIcon + '.svg" alt="Icon" width="30" height="30">';
+            historyItem += '<span>' + item.aiSort.name + '</span>';
+            historyItem += '</div>';
+
+            // 두 번째 줄: 설명
+            historyItem += '<p class="description">' + item.explaination + '</p>';
+
+            // 세 번째 줄: 일시
+            historyItem += '<span class="history-item-date">' + item.rdate + '</span>';
+            historyItem += '</div>';
+            resultItems.innerHTML += historyItem;
+          });
+
+          // 더 보기 버튼 표시 여부 처리
+          if (data.length < pageSize) {
+              document.getElementById('loadMoreBtn').style.display = 'none'; // 더 이상 데이터가 없으면 버튼 숨김
+          } else {
+              document.getElementById('loadMoreBtn').style.display = 'block'; // 데이터가 있으면 버튼 보임
+          }
+        } else {
+            // 데이터가 없을 경우 처리 (보통 여기에는 메시지 표시 등 추가 가능)
+            document.getElementById('loadMoreBtn').style.display = 'none'; // 데이터가 없으므로 더 보기 버튼 숨김
+        }
+      })
+      .catch(function (error) {
+          console.error('Error loading AI history:', error);
+          // 오류 처리 (보통 에러 메시지 표시 등 추가 가능)
+      });
+  }
+  
   
   // Function to initialize image upload
   function initImageUpload() {
@@ -282,12 +274,40 @@
     predictImage();
   });
 
-    // Initialize the model when the page loads
-    init();
+  // 로그인 여부 구분 함수
+  async function checkSessionAndExecute() {
+    try {
+      const response = await fetch('/ai_history/getMemberno');
+      const data = await response.text();
+      return data !== "No session";
+    } catch (error) {
+      console.error('Error:', error);
+      return false;
+    }
+  }
 
+  let isLoggedIn = false;
+  let page = 0;
+  // Initialize the model when the page loads
+  async function initPage() {
+    await init();
 
-    // Trigger predictImage function when a file is selected
-    document.getElementById('imageUpload').addEventListener('change', predictImage);
+    isLoggedIn = await checkSessionAndExecute();
+    if (isLoggedIn) {
+      loadHistory(0, pageSize);
+
+      // 더 보기 버튼 클릭 시 다음 페이지 아이템 로딩
+      document.getElementById('loadMoreBtn').addEventListener('click', function () {
+        page++; // 다음 페이지로 이동
+        loadHistory(page, pageSize);
+      });
+    }
+  }
+
+  initPage();
+
+  // Trigger predictImage function when a file is selected
+  document.getElementById('imageUpload').addEventListener('change', predictImage);
 
     
   </script>

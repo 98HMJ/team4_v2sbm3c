@@ -44,7 +44,7 @@ FROM (
             ORDER BY rdate DESC
       )
 )
-WHERE r <= 500;
+WHERE r <= 500 and memberno = 10;
 
 DELETE FROM ai_history;
 
