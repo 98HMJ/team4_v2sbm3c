@@ -35,6 +35,7 @@
     </colgroup>
     <tbody id="communityList">
       <tr th:each="communityVO:${limitedList}">
+        
         <td class="td_bs"><a style="display: block;">
             <img th:if="${communityVO.files != ''}" th:src="@{|/images/test/${communityVO.files}|}">
           </a></td>
