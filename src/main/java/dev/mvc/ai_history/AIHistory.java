@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
+
 import dev.mvc.ai_sort.AISort;
 
 @Entity

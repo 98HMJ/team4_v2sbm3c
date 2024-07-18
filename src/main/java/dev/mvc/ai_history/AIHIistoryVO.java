@@ -1,5 +1,7 @@
 package dev.mvc.ai_history;
 
+import java.util.Date;
+
 import groovy.transform.ToString;
 import lombok.Getter;
 import lombok.Setter;
