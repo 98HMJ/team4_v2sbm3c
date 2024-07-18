@@ -29,7 +29,7 @@
         
         tr.innerHTML = `
         <td class="td_bs" onclick="location.href='/community/read?communityno=${item.communityno}'">
-          <img ${item.files ? `src="/images/test/${item.files}"` : ''}>
+          <img ${item.files ? `src="/images/test/${item.files}"` : `src='/images/default.png'`} onerror="this.onerror=null; this.src='/images/default.png'">
         </td>
         <td class="td_bs_info" onclick="location.href='/community/read?communityno=${item.communityno}'">
           <div class="sub_info" style="margin-bottom: 5px;">
