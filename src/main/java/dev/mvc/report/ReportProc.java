@@ -6,8 +6,6 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dev.mvc.bookmark.Bookmark;
-import dev.mvc.bookmark.BookmarkListVO;
 
 @Service("dev.mvc.report.ReportProc")
 public class ReportProc implements ReportProcInter{

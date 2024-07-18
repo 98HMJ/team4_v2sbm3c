@@ -13,7 +13,6 @@ import dev.mvc.log.adminlog.AdminlogProcInter;
 import dev.mvc.log.adminlog.AdminlogVO;
 import dev.mvc.log.memberlog.MemberlogProcInter;
 import dev.mvc.log.memberlog.MemberlogVO;
-import dev.mvc.singo.Singo;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;

@@ -2,7 +2,6 @@ package dev.mvc.log.adminlog;
 
 import java.util.ArrayList;
 
-import dev.mvc.singo.SingoVO;
 
 public interface AdminlogProcInter {
   /**

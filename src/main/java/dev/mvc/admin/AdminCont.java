@@ -19,8 +19,6 @@ import dev.mvc.log.adminlog.AdminlogProcInter;
 import dev.mvc.log.adminlog.AdminlogVO;
 import dev.mvc.member.MemberProcInter;
 import dev.mvc.member.MemberVO;
-import dev.mvc.singo.Singo;
-import dev.mvc.singo.SingoVO;
 import dev.mvc.tool.Mail;
 import dev.mvc.tool.Security;
 import dev.mvc.tool.Tool;

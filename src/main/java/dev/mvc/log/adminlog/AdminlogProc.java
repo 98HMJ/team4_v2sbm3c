@@ -2,12 +2,10 @@ package dev.mvc.log.adminlog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dev.mvc.singo.SingoVO;
 
 @Service("dev.mvc.log.adminlog.AdminlogProc")
 public class AdminlogProc implements AdminlogProcInter {

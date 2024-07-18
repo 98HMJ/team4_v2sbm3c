@@ -7,7 +7,6 @@ import dev.mvc.ai_sort.AISort;
 import dev.mvc.ai_sort.AISortRepository;
 import dev.mvc.member.MemberDAOInter;
 import dev.mvc.tool.Tool;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.Date;
 import java.util.List;

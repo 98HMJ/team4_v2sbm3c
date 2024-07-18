@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import dev.mvc.community.Community;
 import dev.mvc.reply.Reply;
 import dev.mvc.singo.Singo;
 import dev.mvc.trash_exploration.Exploration;

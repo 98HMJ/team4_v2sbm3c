@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import dev.mvc.community.CommunityVO;
-
 import dev.mvc.tool.Tool;
 import jakarta.servlet.http.HttpSession;
 
